@@ -20,10 +20,10 @@ function Roadmap() {
                                         "Community",
                                         "White Paper",
                                         "Core contracts",
-                                        "Testnet deployments to Goerli, FUJI, Mumbai",
                                         "App",
-                                        "Audits",
-                                        "Mainnet deployments to Ethereum, Avalanche, Polygon",
+                                        "Testnet deployments",
+                                        "Security audits",
+                                        "Mainnet deployments",
                                     ].map((data, index) => {
                                         return <li key={index}>{data}</li>
                                     })
@@ -42,9 +42,11 @@ function Roadmap() {
                                 {
                                     [
                                         "Liquidity Bootstrapping (IDO)",
-                                        "Formation of Governance",
-                                        "Yield Profit Generator (Minting Farm projects conveyor)",
                                         "Development Matrix",
+                                        "Formation of Governance",
+                                        "Yield Profit Generator (minting farm projects conveyor)",
+                                        "NFT Profit Generator (NFT projects conveyor)",
+                                        "DeX Profit Generator (mechanical trading system, arbitrage protocol)",
                                     ].map((data, index) => {
                                         return <li key={index}>{data}</li>
                                     })
@@ -63,9 +65,10 @@ function Roadmap() {
                                 {
                                     [
                                         "Incubator construction",
-                                        "Building of Generators",
-                                        "Stable cross-chain Profit Generation",
+                                        "Building Generators in accordance with Matrix",
+                                        "Stable cross-chain Generation",
                                         "Stability Fund Development (decentralized Improvement fund)",
+                                        "Chain boilerplate",
                                     ].map((data, index) => {
                                         return <li key={index}>{data}</li>
                                     })
