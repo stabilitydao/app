@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-import { BsGithub, BsFillPeopleFill } from 'react-icons/bs'
+import { BsFillPeopleFill } from 'react-icons/bs'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { AiFillHome } from 'react-icons/ai'
 import { MdEditRoad } from 'react-icons/md'
@@ -41,7 +41,6 @@ function Navbar({ Mode }) {
                     <li className="px-3"><Link href="/ecosystem"><a>Ecosystem</a></Link></li>
                 </ul>
                 <div className="flex flex-row items-center justify-center ml-auto gap-x-6">
-                    <a href="https://github.com/stabilitydao/app" target="_blank"><BsGithub className="text-2xl cursor-pointer" /></a>
                     <Mode_Icon />
                 </div>
             </div>
