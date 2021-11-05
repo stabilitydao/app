@@ -30,17 +30,22 @@ function Navbar({ Mode }) {
     }
     return (
         <nav className="sticky top-0 z-10 bg-white shadow-xl dark:text-white dark:bg-gray-900">
-            <div className="container flex flex-row h-16 px-6 py-2">
+            <div className="container flex flex-row h-16 px-6 py-2.5 ali">
                 <div className="flex flex-row items-center mr-6 md:hidden">
                     <GiHamburgerMenu className="text-2xl cursor-pointer" onClick={() => { setIsside(!Isside) }} />
                 </div>
-                <Link href="/"><img src="/logo_256.png" alt="logo_256" className="cursor-pointer mr-auto justify-self-start " /></Link>
+                <Link href="/">
+                    <div className="flex cursor-pointer">
+                        <img src="/logo_256.png" alt="logo_256" className="mr-auto justify-self-start " />
+                        <span className="hidden md:flex ml-3 font-bold self-center text-xl">STABILITY</span>
+                    </div>
+                </Link>
                 <ul className="flex-row items-center hidden mx-auto text-xl font-medium md:flex">
                     <li className="px-3"><Link href="/"><a>Home</a></Link></li>
                     <li className="px-3"><Link href="/roadmap"><a>Roadmap</a></Link></li>
                     <li className="px-3"><Link href="/ecosystem"><a>Ecosystem</a></Link></li>
                 </ul>
-                <div className="fixed z-50 bg-white rounded-full shadow-lg md:static left-5 bottom-7 md:block dark:text-white dark:bg-gray-900">
+                <div className="fixed z-50 bg-white rounded-full shadow-lg md:shadow-none md:static md:mt-1.5 left-5 bottom-7 md:block dark:text-white dark:bg-gray-900">
                     <Mode_Icon />
                 </div>
             </div>
