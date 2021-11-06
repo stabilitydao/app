@@ -11,12 +11,10 @@ function Home() {
                             <h1 className="text-4xl sm:text-6xl">
                                 Stability
                             </h1>
-                                Self-developing DAO
+                                Profit making DeFi protocol
                         </div>
                         <p className="mt-0 mb-4 text-sm font-medium leading-normal">
-                            Multichain organization with decentralized governance and transparent&nbsp;
-                            <br className="hidden sm:block" />
-                            development model.
+                            Decentralized organization
                         </p>
                         <Link href="/roadmap"><a className="mt-0 mb-2 text-3xl font-normal leading-normal text-indigo-700 sm:text-4xl font-Roboto">
                             Phase 0: Inception
