@@ -11,7 +11,7 @@ function Home() {
                             <h1 className="text-4xl sm:text-6xl">
                                 Stability
                             </h1>
-                                Profit making DeFi protocol
+                                Profit generating DeFi protocol
                         </div>
                         <p className="mt-0 mb-4 text-sm font-medium leading-normal">
                             Decentralized organization
