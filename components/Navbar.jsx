@@ -151,7 +151,7 @@ function Navbar({ Mode }) {
                     {
                         Object.entries(networks).map((network, index) => {
                             if (network[1].chainid == (Noto ? chainId : currentNetwork)) {
-                                return <button key={index} onClick={() => { setIsNetworkOption(true) }} className="flex btn items-center font-semibold dark:text-gray-100 bg-indigo-200 dark:bg-indigo-900 dark:border-indigo-900 rounded-2xl gap-x-1 h-10 w-32 pl-4">
+                                return <button key={index} onClick={() => { setIsNetworkOption(true) }} className="flex btn items-center font-semibold dark:text-gray-100 bg-indigo-200 text-gray-800 border-indigo-300 hover:bg-indigo-300 dark:bg-indigo-900 dark:border-indigo-900 rounded-2xl gap-x-1 h-10 w-32 pl-4">
                                     <span style={{backgroundColor: network[1].color,}} className="w-3 h-3 rounded-full mr-1" />
                                     <span>{network[1].name}</span>
                                 </button >
