@@ -21,6 +21,7 @@ function Navbar({ Mode }) {
         [Noto, setNoto] = useState(false),
         [Ismode, setIsmode] = useState(null),
         [Isside, setIsside] = useState(false),
+        [Isauth, setIsauth] = useState(null),
         [IsModalOptionOpened, setIsModalOptionOpened] = useState(false),
         [IsProfile, setIsProfile] = useState(false),
         [IsNetworkOption, setIsNetworkOption] = useState(false)
@@ -34,11 +35,15 @@ function Navbar({ Mode }) {
     useEffect(() => {
         const mode = localStorage.getItem("mode")
         const auth = JSON.parse(localStorage.getItem("auth"))
+
         if (!mode) {
             setIsmode(true)
         } else {
             setIsmode(JSON.parse(mode))
         }
+
+        setIsauth(auth)
+
         if (auth) {
             setTimeout(() => {
                 activate(injected).then((p) => {
@@ -46,12 +51,22 @@ function Navbar({ Mode }) {
                     console.log(error)
                 })
             });
+
+            setNoto(true)
         }
     }, [])
-
+    useEffect(() => {
+        if (Isauth) {
+            setNoto(true)
+        }
+    }, [chainId])
     useEffect(() => {
         if (currentNetwork == chainId) {
             setNoto(true)
+        }
+
+        if ( chainId  == null) {
+            setNoto(false)
         }
     }, [chainId])
 
