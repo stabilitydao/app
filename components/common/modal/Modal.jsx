@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { X } from 'react-feather';
 import PropTypes from 'prop-types';
 
@@ -6,7 +6,20 @@ const Modal = ({ title, children, onClose, showCloseBtn }) => {
     const modal = useRef();
     const modalBg = useRef();
     const modalContent = useRef();
-    
+
+    useEffect(() => {
+        window.addEventListener("keydown", isKeyPressed)
+        return () => {
+            window.removeEventListener("keydown", isKeyPressed)
+        }
+    }, [])
+
+    function isKeyPressed(event) {
+        if (event.key === "Escape") {
+            onClose()
+        }
+    }
+
     const modalCloseHandler = (e) => {
         e.preventDefault();
         modal.current.style.opacity = 0;
