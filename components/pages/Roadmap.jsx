@@ -14,10 +14,11 @@ const phases = {
 const phaseTasks = [
     {
         "Blockchain developer community <a href=\"https://t.me/chainbuilders\" target=\"_blank\" className=\"pl-1 underline\" >@chainbuilders</a>": true,
+        "User community <a href=\"https://t.me/stabilitydao\" target=\"_blank\" className=\"pl-1 underline\" >@stabilitydao</a>": true,
         "White Paper": false,
-        "Core contracts": false,
+        "Core contracts": true,
         "App": false,
-        "Testnet deployments": false,
+        "Testnet deployments": true,
         "Security audits": false,
         "Mainnet deployments": false,
     },
