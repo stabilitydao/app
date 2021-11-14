@@ -40,7 +40,7 @@ function Ecosystem() {
                                     <div className="w-full lg:w-1/2 mb-4 lg:mb-0">
                                         <div className="flex justify-center text-center mb-2">
                                             <img src="/profit.svg" alt="profit" width="200" className="float-left ml-3 mr-7 my-2" />
-                                            <div className="flex flex-col justify-between pb-3.5">
+                                            <div className="flex flex-col justify-between mt-1.5 pb-4">
                                                 <div>
                                                     {swaps && swaps[currentNetwork] ? (
                                                         <a className="mt-2" href={swaps[currentNetwork]} target="_blank">
@@ -52,7 +52,7 @@ function Ecosystem() {
                                                 </div>
                                                 <div>
                                                     {active &&
-                                                    <button title="Add to wallet" className="btn bg-true-gray-700 border-0 rounded-xl flex text-xs hover:bg-true-gray-800" onClick={handleConnect}>
+                                                    <button title="Add to wallet" className="btn bg-cool-gray-300 text-black dark:text-white dark:bg-true-gray-700 hover:bg-indigo-300 border-0 rounded-xl flex text-xs dark:hover:bg-true-gray-800" onClick={handleConnect}>
                                                         <img src="/wallets/metamask.png" className="h-4 mr-2" alt="Metamask"/>
                                                         Add
                                                     </button>
