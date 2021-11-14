@@ -7,7 +7,7 @@ const Modal = ({ title, children, onClose, showCloseBtn }) => {
     const modalBg = useRef();
     const modalContent = useRef();
 
-    useEffect(() => {
+    useEffect((isKeyPressed) => {
         window.addEventListener("keydown", isKeyPressed)
         return () => {
             window.removeEventListener("keydown", isKeyPressed)
