@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
-import { networks, injected, switchNetwork } from '@/components/wallet/'
+import { injected, walletconnect } from '@/components/wallet/connectors'
+import walletConnectError, { networks, switchNetwork } from '@/components/wallet/'
 import Modal from '@/components/common/modal/Modal'
 import { WalletOption, Profile, NetworkOption } from '@/components/common/modal/submodals/'
 import { BsFillPeopleFill } from 'react-icons/bs'
@@ -25,7 +26,7 @@ function Navbar({ Mode }) {
         [IsModalOptionOpened, setIsModalOptionOpened] = useState(false),
         [IsProfile, setIsProfile] = useState(false),
         [IsNetworkOption, setIsNetworkOption] = useState(false)
-    ;
+        ;
 
     function handleMode() {
         setIsmode(!Ismode)
@@ -46,12 +47,11 @@ function Navbar({ Mode }) {
 
         if (auth) {
             setTimeout(() => {
-                activate(injected).then((p) => {
+                activate(injected || walletconnect, undefined, true).then(() => {
                 }).catch((error) => {
-                    console.log(error)
+                    walletConnectError(error)
                 })
             });
-
             setNoto(true)
         }
     }, [])
@@ -65,7 +65,7 @@ function Navbar({ Mode }) {
             setNoto(true)
         }
 
-        if ( chainId  == null) {
+        if (chainId == null) {
             setNoto(false)
         }
     }, [chainId])
@@ -107,8 +107,8 @@ function Navbar({ Mode }) {
                 </div>
                 <Link href="/">
                     <div className="flex cursor-pointer">
-                        <img src="/logo_256.png" alt="logo_256" className="hidden md:flex mr-auto justify-self-start " />
-                        <span className="hidden md:flex ml-3 font-bold self-center text-xl">STABILITY</span>
+                        <img src="/logo_256.png" alt="logo_256" className="hidden mr-auto md:flex justify-self-start " />
+                        <span className="self-center hidden ml-3 text-xl font-bold md:flex">STABILITY</span>
                     </div>
                 </Link>
                 <ul className="flex-row items-center hidden mx-auto text-xl font-medium lg:flex">
@@ -124,12 +124,12 @@ function Navbar({ Mode }) {
                                 <button
                                     onClick={() => { setIsProfile(true) }}
                                     type="button"
-                                    className="flex flex-row items-center btn dark:bg-indigo-600 rounded-2xl h-10"
+                                    className="flex flex-row items-center h-10 btn dark:bg-indigo-600 rounded-2xl"
                                 >
                                     <User
                                         size={20}
                                         strokeWidth={1.5}
-                                        className="mr-2 hidden md:flex"
+                                        className="hidden mr-2 md:flex"
                                     />
                                     {account.slice(0, -36)}
                                     ...
@@ -140,7 +140,7 @@ function Navbar({ Mode }) {
                             <div className="flex flex-row items-center gap-x-2 md:mx-2">
                                 <button
                                     type="button"
-                                    className="btn w-40 rounded-2xl h-10"
+                                    className="w-40 h-10 btn rounded-2xl"
                                     id="options-menu"
                                     onClick={() => setIsModalOptionOpened(true)}
                                 >
@@ -151,8 +151,8 @@ function Navbar({ Mode }) {
                     {
                         Object.entries(networks).map((network, index) => {
                             if (network[1].chainid == (Noto ? chainId : currentNetwork)) {
-                                return <button key={index} onClick={() => { setIsNetworkOption(true) }} className="flex btn items-center font-semibold dark:text-gray-100 bg-indigo-200 text-gray-800 border-indigo-300 hover:bg-indigo-300 dark:bg-indigo-900 dark:border-indigo-900 rounded-2xl gap-x-1 h-10 w-32 pl-4">
-                                    <span style={{backgroundColor: network[1].color,}} className="w-3 h-3 rounded-full mr-1" />
+                                return <button key={index} onClick={() => { setIsNetworkOption(true) }} className="flex items-center w-32 h-10 pl-4 font-semibold text-gray-800 bg-indigo-200 border-indigo-300 btn dark:text-gray-100 hover:bg-indigo-300 dark:bg-indigo-900 dark:border-indigo-900 rounded-2xl gap-x-1">
+                                    <span style={{ backgroundColor: network[1].color, }} className="w-3 h-3 mr-1 rounded-full" />
                                     <span>{network[1].name}</span>
                                 </button >
                             }

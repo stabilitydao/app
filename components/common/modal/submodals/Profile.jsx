@@ -6,6 +6,8 @@ import { useWeb3React } from '@web3-react/core'
 import { useSelector } from 'react-redux'
 import { updateBalance } from '@/redux/slices/balanceSlice'
 import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
+
 
 function Profile({ onClose }) {
     const dispatch = useDispatch()
@@ -30,7 +32,15 @@ function Profile({ onClose }) {
             localStorage.setItem("auth", JSON.stringify(false))
             onClose()
         } catch (error) {
-            console.log(error)
+            toast.error('Failed.', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
     }
 

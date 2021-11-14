@@ -1,5 +1,6 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
-
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+import { networks } from '@/components/wallet/networks'
 
 const supportedChainIds = [
   1, // mainnet
@@ -28,6 +29,19 @@ const supportedChainIds = [
   11297108109, // palm
   1285, // moonriver
 ]
+
+const RPC = {
+  1: networks[1].rpc,
+  3: networks[3].rpc,
+  4: networks[4].rpc,
+}
+
+export const walletconnect = new WalletConnectConnector({
+  rpc: RPC,
+  bridge: 'https://bridge.walletconnect.org',
+  qrcode: true,
+  supportedChainIds,
+});
 
 export const injected = new InjectedConnector({
   supportedChainIds
