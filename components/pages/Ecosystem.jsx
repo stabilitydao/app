@@ -3,9 +3,29 @@ import addresses from 'addresses'
 import networks from 'addresses/networks'
 import swaps from 'addresses/swaps'
 import {useSelector} from "react-redux";
+import { useWeb3React } from '@web3-react/core'
 
 function Ecosystem() {
-    const currentNetwork = useSelector(state => state.network.value);
+    const { library, active, chainId } = useWeb3React()
+    const currentNetwork = useSelector(state => state.network.value)
+
+    function handleConnect() {
+        library.currentProvider.request({
+            method: "wallet_watchAsset",
+            params: {
+                type: 'ERC20',
+                options: {
+                    address: addresses[chainId].token,
+                    symbol: "PROFIT",
+                    decimals: 18,
+                    image: "https://stabilitydao.org/profit.svg",
+                },
+            }
+        }).then(() => {
+        }).catch((err) => {
+            alert(err.message)
+        });
+    }
 
     return (
         <section className="dark:bg-black dark:text-white h-calc">
@@ -20,13 +40,25 @@ function Ecosystem() {
                                     <div className="w-full lg:w-1/2 mb-4 lg:mb-0">
                                         <div className="flex justify-center text-center mb-2">
                                             <img src="/profit.svg" alt="profit" width="200" className="float-left ml-3 mr-7 my-2" />
-                                            {swaps && swaps[currentNetwork] ? (
-                                                <a className="mt-2" href={swaps[currentNetwork]} target="_blank">
-                                                    <button className="px-6 py-1 mr-2 btn">
-                                                        Buy
+                                            <div className="flex flex-col justify-between pb-3.5">
+                                                <div>
+                                                    {swaps && swaps[currentNetwork] ? (
+                                                        <a className="mt-2" href={swaps[currentNetwork]} target="_blank">
+                                                            <button title="Buy PROFIT token" className="px-6 py-1 mr-2 btn text-xl rounded-md">
+                                                                Buy
+                                                            </button>
+                                                        </a>
+                                                    ) : null}
+                                                </div>
+                                                <div>
+                                                    {active &&
+                                                    <button title="Add to wallet" className="btn bg-true-gray-700 border-0 rounded-xl flex text-xs hover:bg-true-gray-800" onClick={handleConnect}>
+                                                        <img src="/wallets/metamask.png" className="h-4 mr-2" alt="Metamask"/>
+                                                        Add
                                                     </button>
-                                                </a>
-                                            ) : null}
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
                                         <p className="text-sm text-center text-cool-gray-500">
                                             {networks && networks[currentNetwork] ? (
