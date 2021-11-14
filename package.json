@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "repository": "https://github.com/stabilitydao/app.git",
-  "author": "a17 <m@a17.name>",
   "license": "MIT",
   "dependencies": {
     "@headlessui/react": "^1.4.1",
@@ -21,6 +20,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",
+    "eslint": "7.32.0",
+    "eslint-config-next": "12.0.3",
     "postcss": "^8.3.5",
     "tailwindcss": "^2.2.4"
   }
