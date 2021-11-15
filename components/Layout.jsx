@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import Head from 'next/head'
+import { store } from '@/redux/store'
+import Web3 from 'web3'
+import { Web3ReactProvider } from '@web3-react/core'
+import { Provider } from 'react-redux'
 import Navbar from './Navbar'
 import Footer from './Footer'
-import Head from 'next/head'
+import { ToastContainer } from 'react-toastify';
 
 function Layout({ children }) {
     const [Mode, setMode] = useState(null)
+
     useEffect(() => {
         const mode = localStorage.getItem("mode")
         if (!mode) {
@@ -14,22 +20,31 @@ function Layout({ children }) {
             setMode(JSON.parse(mode))
         }
     }, [])
+
     useEffect(() => {
         localStorage.setItem("mode", JSON.stringify(Mode))
     }, [Mode])
+
+    function getLibrary(provider) {
+        return new Web3(provider);
+    }
+
     return (
-        <main className={Mode ? "dark" : ""} >
-            <Head>
-                <title>Stability</title>
-                <meta name="description" content="Self-developing DAO" />
-                <link rel="icon" href="/logo_256.png" />
-                <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css'
-                    rel='stylesheet' />
-            </Head>
-            <Navbar Mode={mode => setMode(mode)} />
-            {children}
-            <Footer />
-        </main>
+        <Provider store={store}>
+            <Web3ReactProvider getLibrary={getLibrary} >
+                <main className={Mode ? "dark" : ""} >
+                    <Head>
+                        <title>Stability</title>
+                        <meta name="description" content="Profit generating DeFi protocol" />
+                        <link rel="icon" href="/logo_256.png" />
+                    </Head>
+                    <Navbar Mode={mode => setMode(mode)} />
+                    {children}
+                    <Footer />
+                    <ToastContainer position="top-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme={"colored"} icon={false} />
+                </main>
+            </Web3ReactProvider>
+        </Provider>
     )
 }
 

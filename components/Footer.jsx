@@ -16,10 +16,10 @@ function Footer() {
                 <div className="w-px bg-gray-400">
                 </div>
                 <div className="self-center">
-                    <a href="https://t.me/chainbuilders" target="_blank" ><BsTelegram className="text-3xl " /></a>
+                    <a href="https://t.me/chainbuilders" target="_blank" rel="noopener noreferrer" ><BsTelegram className="text-3xl " /></a>
                 </div>
                 <div className="self-center">
-                    <a href="https://github.com/stabilitydao" target="_blank"><BsGithub className="text-3xl cursor-pointer" /></a>
+                    <a href="https://github.com/stabilitydao" target="_blank" rel="noopener noreferrer"><BsGithub className="text-3xl cursor-pointer" /></a>
                 </div>
             </div>
         </footer>
