@@ -13,29 +13,30 @@ const phases = {
 
 const phaseTasks = [
     {
-        "Blockchain developer community <a href=\"https://t.me/chainbuilders\" target=\"_blank\" className=\"pl-1 underline\" >@chainbuilders</a>": true,
-        "User community <a href=\"https://t.me/stabilitydao\" target=\"_blank\" className=\"pl-1 underline\" >@stabilitydao</a>": true,
+        "Developer community <a href=\"https://t.me/chainbuilders\" target=\"_blank\" className=\"pl-1\">@chainbuilders</a>": true,
+        "User community <a href=\"https://t.me/stabilitydao\" target=\"_blank\" className=\"pl-1\">@stabilitydao</a>": true,
+        "Stability (PROFIT) token <a href=\"https://etherscan.io/token/0x3fa5F9c876BEbB41B8924633850b1a9922f7E4F9\" target=\"_blank\" className=\"pl-1\">0x3f..F9</a>": true,
         "White Paper": false,
-        "Core contracts": true,
         "App": false,
-        "Testnet deployments": true,
-        "Security audits": false,
-        "Mainnet deployments": false,
     },
     {
         "Liquidity bootstrapping (IDO)": false,
+        "Bridging token to target chains": false,
+        "Governance": false,
+        "Staking pool": false,
         "Development Matrix": false,
-        "Formation of Governance": false,
+        "AMM": false,
         "Yield farm project": false,
-        "NFT marketplace project": false,
+        "NFT minting project": false,
         "DeX trading bot": false,
         "Building projects in accordance with Matrix": false,
     },
     {
         "Incubator construction": false,
-        "Yield Profit Generator (minting farm projects conveyor)": false,
-        "NFT Profit Generator (NFT projects conveyor)": false,
-        "DeX Profit Generator (mechanical trading system, arbitrage protocol)": false,
+        "Minting farm projects conveyor": false,
+        "NFT projects conveyor": false,
+        "DeX mechanical trading system": false,
+        "Arbitrage protocol": false,
         "Building Generators in accordance with Matrix": false,
         "Improvement Fund (decentralized non-profit fund)": false,
         "NFT game project": false,
@@ -77,7 +78,7 @@ function Roadmap() {
                                         <ul className="text-lg font-semibold ">
                                             {
                                                 Object.keys(phaseTasks[index]).map((task, value) => {
-                                                    return phaseTasks[index][task] ? <li className="pl-0.5" key={value}><TiTick className="inline pb-1 text-3xl text-teal-500" /><span dangerouslySetInnerHTML={{__html: task}} /></li> : <li className="pl-8" key={value}><span dangerouslySetInnerHTML={{__html: task}} /></li>
+                                                    return phaseTasks[index][task] ? <li className="pl-8 relative" key={value}><TiTick className="absolute left-2 inline  top-0.5 text-2xl text-teal-500" /><span dangerouslySetInnerHTML={{__html: task}} /></li> : <li className="pl-8" key={value}><span dangerouslySetInnerHTML={{__html: task}} /></li>
                                                 })
                                             }
                                         </ul>
