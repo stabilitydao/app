@@ -33,7 +33,7 @@ function Navbar({ Mode }) {
         Mode(!Ismode)
     }
 
-    useEffect((activate) => {
+    useEffect(() => {
         const mode = localStorage.getItem("mode")
         const auth = JSON.parse(localStorage.getItem("auth"))
 
@@ -55,12 +55,12 @@ function Navbar({ Mode }) {
             setNoto(true)
         }
     }, [])
-    useEffect((Isauth) => {
+    useEffect(() => {
         if (Isauth) {
             setNoto(true)
         }
     }, [chainId])
-    useEffect((currentNetwork) => {
+    useEffect(() => {
         if (currentNetwork == chainId) {
             setNoto(true)
         }

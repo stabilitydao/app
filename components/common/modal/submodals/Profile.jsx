@@ -14,7 +14,7 @@ function Profile({ onClose }) {
     const { account, deactivate, chainId, library } = useWeb3React()
     const balance = useSelector(state => state.balance.value)
     
-    useEffect((dispatch) => {
+    useEffect(() => {
         if (account) {
             library.eth.getBalance(account).then((balance) => {
                 // dispatch(updatenetwork(chainId))

@@ -51,7 +51,7 @@ function Ecosystem() {
                                             <div className="flex flex-col justify-between mt-1.5 pb-4">
                                                 <div>
                                                     {swaps && swaps[chainId ? chainId :currentNetwork] ? (
-                                                        <a className="mt-2" href={swaps[currentNetwork]} target="_blank" rel="noopener noreferrer">
+                                                        <a className="mt-2" href={swaps[chainId ? chainId :currentNetwork]} target="_blank" rel="noopener noreferrer">
                                                             <button title="Buy PROFIT token" className="px-6 py-1 mr-2 text-xl rounded-md btn">
                                                                 Buy
                                                             </button>
