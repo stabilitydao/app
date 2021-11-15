@@ -13,11 +13,11 @@ module.exports = {
       indigo: colors.indigo,
       red: colors.rose,
       yellow: colors.amber,
-      'warn-gray':colors.warmGray,
-      'true-gray':colors.trueGray,
+      'warn-gray': colors.warmGray,
+      'true-gray': colors.trueGray,
       gray: colors.gray,
-      'cool-gray':colors.coolGray,
-      'blue-gray':colors.blueGray,
+      'cool-gray': colors.coolGray,
+      'blue-gray': colors.blueGray,
     },
     extend: {
       fontFamily: {
@@ -28,5 +28,7 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar')
+  ]
 }
