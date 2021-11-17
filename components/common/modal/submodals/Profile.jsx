@@ -47,7 +47,7 @@ function Profile({ onClose }) {
     }
 
     return (
-        <div className="flex flex-col py-3 bg-white dark:bg-blue-gray-900 gap-y-4">
+        <div className="flex flex-col py-3 text-black bg-white dark:text-white dark:bg-blue-gray-900 gap-y-4">
             <div >
                 <h2 className="text-sm text-left font-Roboto">
                     YOUR ADDRESS
