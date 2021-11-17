@@ -1,12 +1,13 @@
 import React from 'react'
 import addresses from 'addresses'
-import networks from '../wallet/networks'
-import {buyLinks, lpv3} from '../wallet/swaps'
-import {useDispatch, useSelector} from "react-redux";
+import { networks } from '../wallet/'
+import { buyLinks, lpv3 } from '../wallet/swaps'
+import { useDispatch, useSelector } from "react-redux";
 import { useWeb3React } from '@web3-react/core'
-import { toast } from 'react-toastify';
-import {updateProfitPrice} from "@/redux/slices/priceSlice";
+import { updateProfitPrice } from "@/redux/slices/priceSlice";
 import univ3prices from '@thanpolas/univ3prices';
+import uniV3PoolAbi from '@/components/abis/uniV3PoolAbi'
+import { showAlert } from '@/components/common/alert';
 
 function Ecosystem() {
     const dispatch = useDispatch()
@@ -17,26 +18,28 @@ function Ecosystem() {
     const network = chainId ? chainId : currentNetwork
 
     async function handleProfitPrice() {
-        if (lpv3[network] !== null) {
+        if (chainId && (lpv3[network] !== null)) {
             try {
-                const uniV3PoolAbi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"int24","name":"tickLower","type":"int24"},{"indexed":true,"internalType":"int24","name":"tickUpper","type":"int24"},{"indexed":false,"internalType":"uint128","name":"amount","type":"uint128"},{"indexed":false,"internalType":"uint256","name":"amount0","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"address","name":"recipient","type":"address"},{"indexed":true,"internalType":"int24","name":"tickLower","type":"int24"},{"indexed":true,"internalType":"int24","name":"tickUpper","type":"int24"},{"indexed":false,"internalType":"uint128","name":"amount0","type":"uint128"},{"indexed":false,"internalType":"uint128","name":"amount1","type":"uint128"}],"name":"Collect","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":true,"internalType":"address","name":"recipient","type":"address"},{"indexed":false,"internalType":"uint128","name":"amount0","type":"uint128"},{"indexed":false,"internalType":"uint128","name":"amount1","type":"uint128"}],"name":"CollectProtocol","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":true,"internalType":"address","name":"recipient","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount0","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"paid0","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"paid1","type":"uint256"}],"name":"Flash","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint16","name":"observationCardinalityNextOld","type":"uint16"},{"indexed":false,"internalType":"uint16","name":"observationCardinalityNextNew","type":"uint16"}],"name":"IncreaseObservationCardinalityNext","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint160","name":"sqrtPriceX96","type":"uint160"},{"indexed":false,"internalType":"int24","name":"tick","type":"int24"}],"name":"Initialize","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"sender","type":"address"},{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"int24","name":"tickLower","type":"int24"},{"indexed":true,"internalType":"int24","name":"tickUpper","type":"int24"},{"indexed":false,"internalType":"uint128","name":"amount","type":"uint128"},{"indexed":false,"internalType":"uint256","name":"amount0","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint8","name":"feeProtocol0Old","type":"uint8"},{"indexed":false,"internalType":"uint8","name":"feeProtocol1Old","type":"uint8"},{"indexed":false,"internalType":"uint8","name":"feeProtocol0New","type":"uint8"},{"indexed":false,"internalType":"uint8","name":"feeProtocol1New","type":"uint8"}],"name":"SetFeeProtocol","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":true,"internalType":"address","name":"recipient","type":"address"},{"indexed":false,"internalType":"int256","name":"amount0","type":"int256"},{"indexed":false,"internalType":"int256","name":"amount1","type":"int256"},{"indexed":false,"internalType":"uint160","name":"sqrtPriceX96","type":"uint160"},{"indexed":false,"internalType":"uint128","name":"liquidity","type":"uint128"},{"indexed":false,"internalType":"int24","name":"tick","type":"int24"}],"name":"Swap","type":"event"},{"inputs":[{"internalType":"int24","name":"tickLower","type":"int24"},{"internalType":"int24","name":"tickUpper","type":"int24"},{"internalType":"uint128","name":"amount","type":"uint128"}],"name":"burn","outputs":[{"internalType":"uint256","name":"amount0","type":"uint256"},{"internalType":"uint256","name":"amount1","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"int24","name":"tickLower","type":"int24"},{"internalType":"int24","name":"tickUpper","type":"int24"},{"internalType":"uint128","name":"amount0Requested","type":"uint128"},{"internalType":"uint128","name":"amount1Requested","type":"uint128"}],"name":"collect","outputs":[{"internalType":"uint128","name":"amount0","type":"uint128"},{"internalType":"uint128","name":"amount1","type":"uint128"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint128","name":"amount0Requested","type":"uint128"},{"internalType":"uint128","name":"amount1Requested","type":"uint128"}],"name":"collectProtocol","outputs":[{"internalType":"uint128","name":"amount0","type":"uint128"},{"internalType":"uint128","name":"amount1","type":"uint128"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"factory","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"fee","outputs":[{"internalType":"uint24","name":"","type":"uint24"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feeGrowthGlobal0X128","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feeGrowthGlobal1X128","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount0","type":"uint256"},{"internalType":"uint256","name":"amount1","type":"uint256"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"flash","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint16","name":"observationCardinalityNext","type":"uint16"}],"name":"increaseObservationCardinalityNext","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint160","name":"sqrtPriceX96","type":"uint160"}],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"liquidity","outputs":[{"internalType":"uint128","name":"","type":"uint128"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"maxLiquidityPerTick","outputs":[{"internalType":"uint128","name":"","type":"uint128"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"int24","name":"tickLower","type":"int24"},{"internalType":"int24","name":"tickUpper","type":"int24"},{"internalType":"uint128","name":"amount","type":"uint128"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"mint","outputs":[{"internalType":"uint256","name":"amount0","type":"uint256"},{"internalType":"uint256","name":"amount1","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"observations","outputs":[{"internalType":"uint32","name":"blockTimestamp","type":"uint32"},{"internalType":"int56","name":"tickCumulative","type":"int56"},{"internalType":"uint160","name":"secondsPerLiquidityCumulativeX128","type":"uint160"},{"internalType":"bool","name":"initialized","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint32[]","name":"secondsAgos","type":"uint32[]"}],"name":"observe","outputs":[{"internalType":"int56[]","name":"tickCumulatives","type":"int56[]"},{"internalType":"uint160[]","name":"secondsPerLiquidityCumulativeX128s","type":"uint160[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"positions","outputs":[{"internalType":"uint128","name":"liquidity","type":"uint128"},{"internalType":"uint256","name":"feeGrowthInside0LastX128","type":"uint256"},{"internalType":"uint256","name":"feeGrowthInside1LastX128","type":"uint256"},{"internalType":"uint128","name":"tokensOwed0","type":"uint128"},{"internalType":"uint128","name":"tokensOwed1","type":"uint128"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"protocolFees","outputs":[{"internalType":"uint128","name":"token0","type":"uint128"},{"internalType":"uint128","name":"token1","type":"uint128"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint8","name":"feeProtocol0","type":"uint8"},{"internalType":"uint8","name":"feeProtocol1","type":"uint8"}],"name":"setFeeProtocol","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"slot0","outputs":[{"internalType":"uint160","name":"sqrtPriceX96","type":"uint160"},{"internalType":"int24","name":"tick","type":"int24"},{"internalType":"uint16","name":"observationIndex","type":"uint16"},{"internalType":"uint16","name":"observationCardinality","type":"uint16"},{"internalType":"uint16","name":"observationCardinalityNext","type":"uint16"},{"internalType":"uint8","name":"feeProtocol","type":"uint8"},{"internalType":"bool","name":"unlocked","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"int24","name":"tickLower","type":"int24"},{"internalType":"int24","name":"tickUpper","type":"int24"}],"name":"snapshotCumulativesInside","outputs":[{"internalType":"int56","name":"tickCumulativeInside","type":"int56"},{"internalType":"uint160","name":"secondsPerLiquidityInsideX128","type":"uint160"},{"internalType":"uint32","name":"secondsInside","type":"uint32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"bool","name":"zeroForOne","type":"bool"},{"internalType":"int256","name":"amountSpecified","type":"int256"},{"internalType":"uint160","name":"sqrtPriceLimitX96","type":"uint160"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"swap","outputs":[{"internalType":"int256","name":"amount0","type":"int256"},{"internalType":"int256","name":"amount1","type":"int256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"int16","name":"","type":"int16"}],"name":"tickBitmap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"tickSpacing","outputs":[{"internalType":"int24","name":"","type":"int24"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"int24","name":"","type":"int24"}],"name":"ticks","outputs":[{"internalType":"uint128","name":"liquidityGross","type":"uint128"},{"internalType":"int128","name":"liquidityNet","type":"int128"},{"internalType":"uint256","name":"feeGrowthOutside0X128","type":"uint256"},{"internalType":"uint256","name":"feeGrowthOutside1X128","type":"uint256"},{"internalType":"int56","name":"tickCumulativeOutside","type":"int56"},{"internalType":"uint160","name":"secondsPerLiquidityOutsideX128","type":"uint160"},{"internalType":"uint32","name":"secondsOutside","type":"uint32"},{"internalType":"bool","name":"initialized","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"token0","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}];
                 let contract = new library.eth.Contract(uniV3PoolAbi, lpv3[network]);
                 const slot0 = await contract.methods.slot0().call();
                 // const token1 = await contract.methods.token1().call();
                 // console.log(slot0[0])
                 dispatch(updateProfitPrice([
-                    univ3prices([18, 18], slot0[0]).toAuto({reverse: true}),
+                    univ3prices([18, 18], slot0[0]).toAuto({ reverse: true }),
                     'ETH' // token1
                 ]))
             } catch (error) {
                 console.log(error)
             }
         }
+        else {
+            dispatch(updateProfitPrice([
+                0, 'ETH'
+            ]))
+        }
     }
 
-    if (chainId && lpv3[chainId]) {
-        handleProfitPrice()
-    }
+    handleProfitPrice()
 
     function handleConnect() {
         library.currentProvider.request({
@@ -52,15 +55,7 @@ function Ecosystem() {
             }
         }).then(() => {
         }).catch((err) => {
-            toast.error('Failed', {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+            showAlert("Failed")
         });
     }
 
@@ -71,7 +66,7 @@ function Ecosystem() {
                 <ul className="p-4 lg:p-8 ">
                     <li>
                         <article className="mb-4">
-                            <a className="p-4 lg:p-6 ">
+                            <div className="p-4 lg:p-6 ">
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Token</h1>
                                 <div className="flex flex-wrap">
                                     <div className="w-full mb-4 lg:w-1/2 lg:mb-0">
@@ -88,14 +83,17 @@ function Ecosystem() {
                                                     ) : null}
                                                 </div>
                                                 <div className="flex justify-center">
-                                                    Price: {profitPrice} {priceIn}
+                                                    {
+                                                        lpv3[network] !== null &&
+                                                        <h1> Price: {profitPrice} {priceIn}</h1>
+                                                    }
                                                 </div>
                                                 <div className="flex justify-center">
                                                     {active &&
-                                                    <button title="Add to wallet" className="flex text-xs text-black border-0 btn bg-cool-gray-300 dark:text-white dark:bg-true-gray-700 hover:bg-indigo-300 rounded-xl dark:hover:bg-true-gray-800" onClick={handleConnect}>
-                                                        <img src="/wallets/metamask.png" className="h-4 mr-2" alt="Metamask"/>
-                                                        Add
-                                                    </button>
+                                                        <button title="Add to wallet" className="flex text-xs text-black border-0 btn bg-cool-gray-300 dark:text-white dark:bg-true-gray-700 hover:bg-indigo-300 rounded-xl dark:hover:bg-true-gray-800" onClick={handleConnect}>
+                                                            <img src="/wallets/metamask.png" className="h-4 mr-2" alt="Metamask" />
+                                                            Add
+                                                        </button>
                                                     }
                                                 </div>
                                             </div>
@@ -112,7 +110,7 @@ function Ecosystem() {
                                         </p>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         </article>
                     </li>
                     <li>
@@ -130,7 +128,7 @@ function Ecosystem() {
                             <a className="p-4 overflow-hidden rounded-xl lg:p-6 ">
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Builders</h1>
                                 <p className="text-lg">
-                                    <i>Stability Builders</i> are skilled individuals who directly contribute to the advancement of the entire ecosystem. These include github contributors (open-source developers), expert researchers from a variety of fields, top public relations & marketing personnel, and cybersecurity specialists.<br/>
+                                    <i>Stability Builders</i> are skilled individuals who directly contribute to the advancement of the entire ecosystem. These include github contributors (open-source developers), expert researchers from a variety of fields, top public relations & marketing personnel, and cybersecurity specialists.<br />
                                     Governance will be tasked with creating the optimal conditions that allow these highly qualified contributors to build and improve upon the protocol at maximum efficiency.
                                 </p>
                             </a>
@@ -156,32 +154,32 @@ function Ecosystem() {
                             </a>
                             <table className="text-sm table-auto bg-blend-darken lg:mx-8 md:text-xl">
                                 <thead>
-                                <tr>
-                                    <th className="w-1/4">Profit Earner</th>
-                                    <th className="w-1/4">Contract</th>
-                                    <th className="w-1/4 text-center">Current share</th>
-                                    <th className="w-1/4 text-right">Limits</th>
-                                </tr>
+                                    <tr>
+                                        <th className="w-1/4">Profit Earner</th>
+                                        <th className="w-1/4">Contract</th>
+                                        <th className="w-1/4 text-center">Current share</th>
+                                        <th className="w-1/4 text-right">Limits</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td className="py-1">Stakers</td>
-                                    <td className="py-1">Pool</td>
-                                    <td className="py-1 font-bold text-center">97%</td>
-                                    <td className="py-1 text-right whitespace-nowrap">50% - 99%</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-1">Builders</td>
-                                    <td className="py-1">Development Fund</td>
-                                    <td className="py-1 font-bold text-center">2.5%</td>
-                                    <td className="py-1 text-right whitespace-nowrap">1% - 50%</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-1">People in need</td>
-                                    <td className="py-1">Non-profit Fund</td>
-                                    <td className="py-1 font-bold text-center">0.5%</td>
-                                    <td className="py-1 text-right whitespace-nowrap">0.5% - 25%</td>
-                                </tr>
+                                    <tr>
+                                        <td className="py-1">Stakers</td>
+                                        <td className="py-1">Pool</td>
+                                        <td className="py-1 font-bold text-center">97%</td>
+                                        <td className="py-1 text-right whitespace-nowrap">50% - 99%</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-1">Builders</td>
+                                        <td className="py-1">Development Fund</td>
+                                        <td className="py-1 font-bold text-center">2.5%</td>
+                                        <td className="py-1 text-right whitespace-nowrap">1% - 50%</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-1">People in need</td>
+                                        <td className="py-1">Non-profit Fund</td>
+                                        <td className="py-1 font-bold text-center">0.5%</td>
+                                        <td className="py-1 text-right whitespace-nowrap">0.5% - 25%</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </article>

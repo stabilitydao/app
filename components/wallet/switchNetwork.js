@@ -1,5 +1,5 @@
 import { updatenetwork } from '@/redux/slices/networkSlice'
-import { toast } from 'react-toastify'
+import { showAlert } from '@/components/common/alert';
 
 async function switchNetwork(network, dispatch, library, onClose) {
     try {
@@ -31,15 +31,7 @@ async function switchNetwork(network, dispatch, library, onClose) {
                 dispatch(updatenetwork(network.chainid))
                 onClose()
             } catch (error) {
-                toast.error('Failed', {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                showAlert("Failed")
             }
         }
     }

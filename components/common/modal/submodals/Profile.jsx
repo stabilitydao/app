@@ -7,8 +7,9 @@ import { useSelector } from 'react-redux'
 import { updateBalance } from '@/redux/slices/balanceSlice'
 import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
 import { useDispatch } from 'react-redux'
-import { toast } from 'react-toastify'
+import tokenBalanceAbi from '@/components/abis/tokenBalanceAbi'
 import addresses from 'addresses'
+import { showAlert } from '@/components/common/alert';
 
 
 function Profile({ onClose }) {
@@ -16,24 +17,6 @@ function Profile({ onClose }) {
     const { account, deactivate, chainId, library } = useWeb3React()
     const balance = useSelector(state => state.balance.value)
     const tokenBalance = useSelector(state => state.tokenBalance.value)
-    let minABI = [
-        // balanceOf
-        {
-            "constant": true,
-            "inputs": [{ "name": "_owner", "type": "address" }],
-            "name": "balanceOf",
-            "outputs": [{ "name": "balance", "type": "uint256" }],
-            "type": "function"
-        },
-        // decimals
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "decimals",
-            "outputs": [{ "name": "", "type": "uint8" }],
-            "type": "function"
-        }
-    ];
     useEffect(() => {
         if (account) {
             library.eth.getBalance(account).then((balance) => {
@@ -42,7 +25,7 @@ function Profile({ onClose }) {
                 dispatch(updateBalance(eths))
             })
 
-            const contract = new library.eth.Contract(minABI, addresses[chainId].token);
+            const contract = new library.eth.Contract(tokenBalanceAbi, addresses[chainId].token);
             contract.methods.balanceOf(account).call().then((result) => {
                 return library.utils.fromWei(result);
             }).then((tokenBalance) => {
@@ -59,15 +42,7 @@ function Profile({ onClose }) {
             localStorage.setItem("auth", JSON.stringify(false))
             onClose()
         } catch (error) {
-            toast.error('Failed.', {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+            showAlert("Failed")
         }
     }
 

@@ -1,18 +1,6 @@
 import { NoEthereumProviderError, UserRejectedRequestError as UserRejectedRequestErrorInjected } from '@web3-react/injected-connector'
 import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@web3-react/walletconnect-connector'
-import { toast } from 'react-toastify'
-
-function showAlert(message) {
-    toast.error(message, {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-    });
-}
+import { showAlert } from '@/components/common/alert';
 
 export default function walletConnectError(error) {
     if (error instanceof NoEthereumProviderError) {
@@ -29,6 +17,6 @@ export default function walletConnectError(error) {
     }
 }
 
-export { injected } from './connectors'
+export { injected,walletconnect } from './connectors'
 export { networks } from './networks'
 export { switchNetwork } from './switchNetwork'

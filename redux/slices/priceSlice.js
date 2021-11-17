@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    value: false,
-    in: false,
+    value: null,
+    in: null,
 }
 
 export const priceSlice = createSlice({
