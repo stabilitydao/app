@@ -20,14 +20,24 @@ function Ecosystem() {
     async function handleProfitPrice() {
         if (chainId && (lpv3[network] !== null)) {
             try {
-                let contract = new library.eth.Contract(uniV3PoolAbi, lpv3[network]);
-                const slot0 = await contract.methods.slot0().call();
-                // const token1 = await contract.methods.token1().call();
-                // console.log(slot0[0])
-                dispatch(updateProfitPrice([
-                    univ3prices([18, 18], slot0[0]).toAuto({ reverse: true }),
-                    'ETH' // token1
-                ]))
+                let token1 = null;
+                if (lpv3[network] instanceof Object) {
+                    if (lpv3[network].DAI) {
+                        token1 = 'DAI'
+                    } else if (lpv3[network].ETH) {
+                        token1 = 'ETH'
+                    }
+                }
+
+                if (token1) {
+                    let contract = new library.eth.Contract(uniV3PoolAbi, lpv3[network][token1]);
+                    const slot0 = await contract.methods.slot0().call();
+
+                    dispatch(updateProfitPrice([
+                        univ3prices([18, 18], slot0[0]).toAuto({ reverse: true, decimalPlaces: 2, }),
+                        token1
+                    ]))
+                }
             } catch (error) {
                 console.log(error)
             }
@@ -76,7 +86,7 @@ function Ecosystem() {
                                                 <div>
                                                     {buyLinks && buyLinks[network] ? (
                                                         <a className="mt-2" href={buyLinks[network]} target="_blank" rel="noopener noreferrer">
-                                                            <button title="Buy PROFIT token" className="px-6 py-1 mr-2 text-xl rounded-md btn">
+                                                            <button title="Buy PROFIT token" className="w-24 py-1 text-xl rounded-md btn">
                                                                 Buy
                                                             </button>
                                                         </a>
@@ -84,11 +94,14 @@ function Ecosystem() {
                                                 </div>
                                                 <div className="flex justify-center">
                                                     {
-                                                        lpv3[network] !== null &&
-                                                        <h1> Price: {profitPrice} {priceIn}</h1>
+                                                        lpv3[network] !== null && profitPrice > 0 &&
+                                                            <div className="flex w-26 flex-col">
+                                                                <span>Price</span>
+                                                                <span>{profitPrice} {priceIn}</span>
+                                                            </div>
                                                     }
                                                 </div>
-                                                <div className="flex justify-center">
+                                                <div className="flex justify-center w-28">
                                                     {active &&
                                                         <button title="Add to wallet" className="flex text-xs text-black border-0 btn bg-cool-gray-300 dark:text-white dark:bg-true-gray-700 hover:bg-indigo-300 rounded-xl dark:hover:bg-true-gray-800" onClick={handleConnect}>
                                                             <img src="/wallets/metamask.png" className="h-4 mr-2" alt="Metamask" />
@@ -99,7 +112,7 @@ function Ecosystem() {
                                             </div>
                                         </div>
                                         <p className="text-sm text-center text-cool-gray-500">
-                                            {networks && networks[network] ? (
+                                            {network ? (
                                                 <a title="View Asset on Etherscan" target="_blank" href={networks[currentNetwork].explorerurl.concat(addresses[currentNetwork].token)} rel="noopener noreferrer">{addresses[currentNetwork].token}</a>
                                             ) : null}
                                         </p>
