@@ -15,6 +15,7 @@
     "@ethersproject/providers": "^5.5.0",
     "@headlessui/react": "^1.4.1",
     "@reduxjs/toolkit": "^1.6.2",
+    "@thanpolas/univ3prices": "^3.0.2",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
     "@web3-react/walletconnect-connector": "^6.2.8",

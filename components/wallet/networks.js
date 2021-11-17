@@ -1,3 +1,11 @@
+const
+    MAINNET = 1,
+    ROPSTEN = 3,
+    RINKEBY = 4,
+    GOERLI = 5,
+    KOVAN = 42
+;
+
 const networks = {
     1: {
         name: "Ethereum",
@@ -30,4 +38,6 @@ const networks = {
         explorerurl: "https://rinkeby.etherscan.io/address/"
     }
 }
-export { networks }
+
+export { networks, MAINNET, ROPSTEN, RINKEBY, GOERLI, KOVAN }
+export default networks
