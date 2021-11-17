@@ -4,6 +4,7 @@ import balanceReducer from './slices/balanceSlice'
 import tokenbalanceReducer from './slices/tokenbalanceSlice'
 import networkReducer from './slices/networkSlice'
 import priceReducer from './slices/priceSlice'
+import modalsReducer from './slices/modalsSlice'
 export const store = configureStore({
   reducer: {
     address: addressReducer,
@@ -11,5 +12,6 @@ export const store = configureStore({
     network: networkReducer,
     tokenBalance: tokenbalanceReducer,
     price: priceReducer,
+    modals: modalsReducer,
   },
 })

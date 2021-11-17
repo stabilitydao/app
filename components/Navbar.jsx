@@ -5,15 +5,13 @@ import { useDispatch } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
 import { injected, walletconnect } from '@/components/wallet/connectors'
 import walletConnectError, { networks, switchNetwork } from '@/components/wallet/'
-import Modal from '@/components/common/modal/Modal'
-import { WalletOption, Profile, NetworkOption } from '@/components/common/modal/submodals/'
 import { BsFillPeopleFill } from 'react-icons/bs'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { AiFillHome } from 'react-icons/ai'
 import { MdEditRoad } from 'react-icons/md'
 import { WiDaySunny, WiNightClear } from 'react-icons/wi'
 import { User, AlertTriangle } from 'react-feather'
-
+import { updateIsNetworkOption, updateIsProfile, updateIsWalletOption } from '@/redux/slices/modalsSlice'
 function Navbar({ Mode }) {
     const
         dispatch = useDispatch(),
@@ -21,10 +19,7 @@ function Navbar({ Mode }) {
         currentNetwork = useSelector(state => state.network.value),
         [NoSwitch, setNoSwitch] = useState(false),
         [Ismode, setIsmode] = useState(null),
-        [Isside, setIsside] = useState(false),
-        [IsModalOptionOpened, setIsModalOptionOpened] = useState(false),
-        [IsProfile, setIsProfile] = useState(false),
-        [IsNetworkOption, setIsNetworkOption] = useState(false)
+        [Isside, setIsside] = useState(false)
         ;
 
     function handleMode() {
@@ -43,9 +38,10 @@ function Navbar({ Mode }) {
 
         if (auth) {
             setTimeout(() => {
-                setNoSwitch(true)
                 activate(injected || walletconnect, undefined, true)
-                    .then(() => { })
+                    .then(() => {
+                        setNoSwitch(true)
+                    })
                     .catch((error) => {
                         walletConnectError(error)
                     })
@@ -68,7 +64,7 @@ function Navbar({ Mode }) {
             return <WiNightClear className="p-1 text-4xl text-black border border-gray-500 rounded-full cursor-pointer" onClick={handleMode} />
         }
     }
-    console.log(Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()))
+    console.log(NoSwitch)
     return (
         <nav className="sticky top-0 z-10 bg-white shadow-xl dark:text-white dark:bg-gray-900">
             {
@@ -111,7 +107,7 @@ function Navbar({ Mode }) {
                             Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()) &&
                             <div className="flex flex-row items-center gap-x-2 md:mx-2">
                                 <button
-                                    onClick={() => { setIsProfile(true) }}
+                                    onClick={() => { dispatch(updateIsProfile(true)) }}
                                     type="button"
                                     className="flex flex-row items-center h-10 btn dark:bg-indigo-600 rounded-2xl"
                                 >
@@ -120,9 +116,7 @@ function Navbar({ Mode }) {
                                         strokeWidth={1.5}
                                         className="hidden mr-2 md:flex"
                                     />
-                                    {account.slice(0, -36)}
-                                    ...
-                                    {account.substring(38)}
+                                    {account.slice(0, -36)}...{account.substring(38)}
                                 </button>
                             </div>
                             :
@@ -131,7 +125,7 @@ function Navbar({ Mode }) {
                                     type="button"
                                     className="w-40 h-10 btn rounded-2xl"
                                     id="options-menu"
-                                    onClick={() => setIsModalOptionOpened(true)}
+                                    onClick={() => dispatch(updateIsWalletOption(true))}
                                 >
                                     Connect Wallet
                                 </button>
@@ -139,15 +133,24 @@ function Navbar({ Mode }) {
                     }
                     {
                         Object.entries(networks).map((network, index) => {
-                            if (network[1].chainid == (NoSwitch ? (chainId ? chainId : currentNetwork) : currentNetwork)) {
-                                return <button key={index} onClick={() => { setIsNetworkOption(true) }} className="flex items-center w-32 h-10 pl-4 font-semibold text-gray-800 bg-indigo-200 border-indigo-300 btn dark:text-gray-100 hover:bg-indigo-300 dark:bg-indigo-900 dark:border-indigo-900 rounded-2xl gap-x-1">
-                                    <span style={{ backgroundColor: network[1].color, }} className="w-3 h-3 mr-1 rounded-full" />
-                                    <span>{network[1].name}</span>
-                                </button >
+                            if (Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString())) {
+                                if (network[1].chainid == (NoSwitch ? (chainId ? chainId : currentNetwork) : currentNetwork)) {
+                                    return <button key={index} onClick={() => { dispatch(updateIsNetworkOption(true)) }} className="flex items-center w-32 h-10 pl-4 font-semibold text-gray-800 bg-indigo-200 border-indigo-300 btn dark:text-gray-100 hover:bg-indigo-300 dark:bg-indigo-900 dark:border-indigo-900 rounded-2xl gap-x-1">
+                                        <span style={{ backgroundColor: network[1].color, }} className="w-3 h-3 mr-1 rounded-full" />
+                                        <span>{network[1].name}</span>
+                                    </button >
+                                }
+                            } else {
+                                if (network[1].chainid ===  currentNetwork) {
+                                    return <button key={index} onClick={() => { dispatch(updateIsNetworkOption(true)) }} className="flex items-center w-32 h-10 pl-4 font-semibold text-gray-800 bg-indigo-200 border-indigo-300 btn dark:text-gray-100 hover:bg-indigo-300 dark:bg-indigo-900 dark:border-indigo-900 rounded-2xl gap-x-1">
+                                        <span style={{ backgroundColor: network[1].color, }} className="w-3 h-3 mr-1 rounded-full" />
+                                        <span>{network[1].name}</span>
+                                    </button >
+                                }
                             }
+
                         })
                     }
-
                 </div>
                 <div className="fixed bg-white rounded-full shadow-lg md:shadow-none md:static md:mt-1 md:ml-5 left-5 bottom-7 md:block dark:text-white dark:bg-gray-900">
                     <Mode_Icon />
@@ -165,24 +168,6 @@ function Navbar({ Mode }) {
                     <li><Link href="/ecosystem"><a className="flex items-center p-4 text-xl gap-x-2 " onClick={() => { setIsside(!Isside) }} ><BsFillPeopleFill />Ecosystem</a></Link></li>
                 </ul>
             </div>
-            {
-                IsNetworkOption &&
-                <Modal title="Select a Network" onClose={() => setIsNetworkOption(false)} showCloseBtn>
-                    <NetworkOption onClose={() => setIsNetworkOption(false)} />
-                </Modal>
-            }
-            {
-                IsProfile &&
-                <Modal title="Account" onClose={() => setIsProfile(false)} showCloseBtn>
-                    <Profile onClose={() => setIsProfile(false)} />
-                </Modal>
-            }
-            {
-                IsModalOptionOpened &&
-                <Modal title="Select a Wallet" onClose={() => setIsModalOptionOpened(false)} showCloseBtn>
-                    <WalletOption onClose={() => setIsModalOptionOpened(false)} />
-                </Modal>
-            }
         </nav>
     )
 }

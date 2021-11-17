@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { ToastContainer } from 'react-toastify';
+import Modals from '@/components/common/modal/Modals'
 
 function Layout({ children }) {
     const [Mode, setMode] = useState(null)
@@ -41,6 +42,7 @@ function Layout({ children }) {
                     <Navbar Mode={mode => setMode(mode)} />
                     {children}
                     <Footer />
+                    <Modals />
                     <ToastContainer position="top-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme={"colored"} icon={false} />
                 </main>
             </Web3ReactProvider>
