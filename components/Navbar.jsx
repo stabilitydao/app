@@ -64,7 +64,7 @@ function Navbar({ Mode }) {
             return <WiNightClear className="p-1 text-4xl text-black border border-gray-500 rounded-full cursor-pointer" onClick={handleMode} />
         }
     }
-    console.log(NoSwitch)
+
     return (
         <nav className="sticky top-0 z-10 bg-white shadow-xl dark:text-white dark:bg-gray-900">
             {
