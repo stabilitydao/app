@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { ToastContainer } from 'react-toastify';
-import Modals from '@/components/common/modal/Modals'
+import Modals from '@/components/common/modal/modals'
 
 function Layout({ children }) {
     const [Mode, setMode] = useState(null)
