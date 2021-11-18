@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
-import { store } from '@/redux/store'
 import Web3 from 'web3'
 import { Web3ReactProvider } from '@web3-react/core'
-import { Provider } from 'react-redux'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { ToastContainer } from 'react-toastify';
@@ -31,7 +29,6 @@ function Layout({ children }) {
     }
 
     return (
-        <Provider store={store}>
             <Web3ReactProvider getLibrary={getLibrary} >
                 <main className={Mode ? "dark" : ""} >
                     <Head>
@@ -46,7 +43,6 @@ function Layout({ children }) {
                     <ToastContainer position="top-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme={"colored"} icon={false} />
                 </main>
             </Web3ReactProvider>
-        </Provider>
     )
 }
 

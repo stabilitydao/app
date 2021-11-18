@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import addresses from 'addresses'
 import { networks } from '../wallet/'
 import { buyLinks, lpv3 } from '../wallet/swaps'
@@ -8,8 +8,9 @@ import { updateProfitPrice } from "@/redux/slices/priceSlice";
 import univ3prices from '@thanpolas/univ3prices';
 import uniV3PoolAbi from '@/components/abis/uniV3PoolAbi'
 import { showAlert } from '@/components/common/alert';
-
+import WEB3 from '@/components/functions/web3'
 function Ecosystem() {
+    const web3 = WEB3()
     const dispatch = useDispatch()
     const { library, active, chainId, } = useWeb3React()
     const profitPrice = useSelector(state => state.price.value)
@@ -17,39 +18,34 @@ function Ecosystem() {
     const currentNetwork = useSelector(state => state.network.value)
     const network = chainId ? chainId : currentNetwork
 
-    async function handleProfitPrice() {
-        if (chainId && (lpv3[network] !== null)) {
-            try {
-                let token1 = null;
-                if (lpv3[network] instanceof Object) {
-                    if (lpv3[network].DAI) {
-                        token1 = 'DAI'
-                    } else if (lpv3[network].ETH) {
-                        token1 = 'ETH'
-                    }
+    useEffect(() => {
+        if (lpv3[network] !== null) {
+            let token1 = null;
+            if (lpv3[network] instanceof Object) {
+                if (lpv3[network].DAI) {
+                    token1 = 'DAI'
+                } else if (lpv3[network].ETH) {
+                    token1 = 'ETH'
                 }
-
-                if (token1) {
-                    let contract = new library.eth.Contract(uniV3PoolAbi, lpv3[network][token1]);
-                    const slot0 = await contract.methods.slot0().call();
-
+            }
+            if (token1) {
+                let contract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network][token1]);
+                contract.methods.slot0().call().then((slot0) => {
                     dispatch(updateProfitPrice([
                         univ3prices([18, 18], slot0[0]).toAuto({ reverse: true, decimalPlaces: 2, }),
                         token1
                     ]))
-                }
-            } catch (error) {
-                console.log(error)
+                }).catch((err) => {
+                    console.log(err)
+                })
             }
         }
         else {
             dispatch(updateProfitPrice([
-                0, 'ETH'
+                0, ''
             ]))
         }
-    }
-
-    handleProfitPrice()
+    }, [network])
 
     function handleConnect() {
         library.currentProvider.request({
@@ -95,10 +91,10 @@ function Ecosystem() {
                                                 <div className="flex justify-center">
                                                     {
                                                         lpv3[network] !== null && profitPrice > 0 &&
-                                                            <div className="flex w-26 flex-col">
-                                                                <span>Price</span>
-                                                                <span>{profitPrice} {priceIn}</span>
-                                                            </div>
+                                                        <div className="flex flex-col w-26">
+                                                            <span>Price</span>
+                                                            <span>{profitPrice} {priceIn}</span>
+                                                        </div>
                                                     }
                                                 </div>
                                                 <div className="flex justify-center w-28">

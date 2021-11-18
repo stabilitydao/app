@@ -12,12 +12,14 @@ import { MdEditRoad } from 'react-icons/md'
 import { WiDaySunny, WiNightClear } from 'react-icons/wi'
 import { User, AlertTriangle } from 'react-feather'
 import { updateIsNetworkOption, updateIsProfile, updateIsWalletOption } from '@/redux/slices/modalsSlice'
+import { updateSync } from '@/redux/slices/syncSlice'
 function Navbar({ Mode }) {
+
     const
         dispatch = useDispatch(),
+        Sync = useSelector(state => state.sync.value),
         { account, chainId, library, activate } = useWeb3React(),
         currentNetwork = useSelector(state => state.network.value),
-        [NoSwitch, setNoSwitch] = useState(false),
         [Ismode, setIsmode] = useState(null),
         [Isside, setIsside] = useState(false)
         ;
@@ -35,14 +37,11 @@ function Navbar({ Mode }) {
             setIsmode(JSON.parse(mode))
         }
         const auth = JSON.parse(localStorage.getItem("auth"))
-
         if (auth) {
             setTimeout(() => {
                 activate(injected || walletconnect, undefined, true)
                     .then(() => {
-                        if (currentNetwork === chainId) {
-                            setNoSwitch(true)
-                        }
+                        dispatch(updateSync(true))
                     })
                     .catch((error) => {
                         walletConnectError(error)
@@ -52,10 +51,10 @@ function Navbar({ Mode }) {
     }, [])
     useEffect(() => {
         if (currentNetwork === chainId) {
-            setNoSwitch(true)
+            dispatch(updateSync(true))
         }
-        if (chainId == null) {
-            setNoSwitch(false)
+        if (chainId === null) {
+            dispatch(updateSync(false))
         }
     }, [chainId])
 
@@ -70,7 +69,7 @@ function Navbar({ Mode }) {
     return (
         <nav className="sticky top-0 z-10 bg-white shadow-xl dark:text-white dark:bg-gray-900">
             {
-                (Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()) ? !NoSwitch : true)
+                (Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()) ? !Sync : true)
                 && account && (chainId != currentNetwork) &&
                 <div className="text-white bg-red-500 ">
                     <div className="container flex flex-col justify-between px-2 py-2 text-white gap-y-2 sm:items-center sm:flex-row sm:px-6">
@@ -136,7 +135,7 @@ function Navbar({ Mode }) {
                     {
                         Object.entries(networks).map((network, index) => {
                             if (Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString())) {
-                                if (network[1].chainid == (NoSwitch ? (chainId ? chainId : currentNetwork) : currentNetwork)) {
+                                if (network[1].chainid == (Sync ? (chainId ? chainId : currentNetwork) : currentNetwork)) {
                                     return <button key={index} onClick={() => { dispatch(updateIsNetworkOption(true)) }} className="flex items-center w-32 h-10 pl-4 font-semibold text-gray-800 bg-indigo-200 border-indigo-300 btn dark:text-gray-100 hover:bg-indigo-300 dark:bg-indigo-900 dark:border-indigo-900 rounded-2xl gap-x-1">
                                         <span style={{ backgroundColor: network[1].color, }} className="w-3 h-3 mr-1 rounded-full" />
                                         <span>{network[1].name}</span>
