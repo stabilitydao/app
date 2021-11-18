@@ -40,7 +40,9 @@ function Navbar({ Mode }) {
             setTimeout(() => {
                 activate(injected || walletconnect, undefined, true)
                     .then(() => {
-                        setNoSwitch(true)
+                        if (currentNetwork === chainId) {
+                            setNoSwitch(true)
+                        }
                     })
                     .catch((error) => {
                         walletConnectError(error)
@@ -141,7 +143,7 @@ function Navbar({ Mode }) {
                                     </button >
                                 }
                             } else {
-                                if (network[1].chainid ===  currentNetwork) {
+                                if (network[1].chainid === currentNetwork) {
                                     return <button key={index} onClick={() => { dispatch(updateIsNetworkOption(true)) }} className="flex items-center w-32 h-10 pl-4 font-semibold text-gray-800 bg-indigo-200 border-indigo-300 btn dark:text-gray-100 hover:bg-indigo-300 dark:bg-indigo-900 dark:border-indigo-900 rounded-2xl gap-x-1">
                                         <span style={{ backgroundColor: network[1].color, }} className="w-3 h-3 mr-1 rounded-full" />
                                         <span>{network[1].name}</span>
