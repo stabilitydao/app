@@ -37,7 +37,7 @@ function Layout({ children }) {
                     <Head>
                         <title>Stability</title>
                         <meta name="description" content="Profit generating DeFi protocol" />
-                        <link rel="icon" href="/logo_256.png" />
+                        <link rel="icon" href="/logo_nolines_256.png" />
                     </Head>
                     <Navbar Mode={mode => setMode(mode)} />
                     {children}
