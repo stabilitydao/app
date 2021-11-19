@@ -91,7 +91,7 @@ function Navbar({ Mode }) {
                 </div>
                 <Link href="/">
                     <div className="flex cursor-pointer">
-                        <img src="/logo_256.png" alt="logo_256" className="hidden mr-auto md:flex justify-self-start " />
+                        <img src="/logo_nolines.png" alt="logo_256" className="hidden mr-auto md:flex justify-self-start " />
                         <span className="self-center hidden ml-3 text-xl font-bold md:flex">STABILITY</span>
                     </div>
                 </Link>
