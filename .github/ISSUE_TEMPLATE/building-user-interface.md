@@ -18,5 +18,5 @@ These hint tags need to be removed.]
 **Alternatives**
 [A clear and concise description of any alternative solutions or features you've considered.]
 
-**More
+**More**
 [Screebshots, documentation links, more infofrmation, advices and any other additional context.]
