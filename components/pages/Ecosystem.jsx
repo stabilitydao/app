@@ -49,7 +49,7 @@ function Ecosystem() {
             ]))
         }
 
-        if (addresses[network].token) {
+        if (web3.eth.net.isListening() && addresses[network].token) {
             // ABI is ERC-20 API as a JSON
             let contract;
             contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
@@ -138,7 +138,7 @@ function Ecosystem() {
                                                 <tr>
                                                     <td className="py-1">Contract</td>
                                                     <td className="py-1 text-right text-xs">{network ? (
-                                                        <a title="View Asset on Etherscan" target="_blank" href={networks[currentNetwork].explorerurl.concat(addresses[currentNetwork].token)} rel="noopener noreferrer"><span style={{color: networks[currentNetwork].color}}>{networks[currentNetwork].name}</span> {addresses[currentNetwork].token}</a>
+                                                        <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].token)} rel="noopener noreferrer"><span style={{color: networks[network].color}}>{networks[network].name}</span> {addresses[network].token}</a>
                                                     ) : null}</td>
                                                 </tr>
                                                 <tr>

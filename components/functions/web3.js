@@ -3,13 +3,10 @@ import { useWeb3React } from '@web3-react/core'
 import { useSelector } from 'react-redux'
 import { networks } from '../wallet'
 function WEB3() {
-    const { account, chainId } = useWeb3React()
-    const Sync = useSelector(state => state.sync.value)
+    const { chainId } = useWeb3React()
     const currentNetwork = useSelector(state => state.network.value)
-    if (account && Sync && Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString())) {
-        return new Web3(new Web3.providers.HttpProvider(networks[chainId].rpc));
-    } else {
-        return new Web3(new Web3.providers.HttpProvider(networks[currentNetwork].rpc));
-    }
+    const network = chainId ? chainId.toString() : currentNetwork.toString()
+
+    return new Web3(new Web3.providers.HttpProvider(networks[network].rpc));
 }
 export default WEB3
