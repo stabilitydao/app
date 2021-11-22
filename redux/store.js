@@ -5,6 +5,7 @@ import tokenbalanceReducer from './slices/tokenbalanceSlice'
 import networkReducer from './slices/networkSlice'
 import syncReducer from './slices/syncSlice'
 import priceReducer from './slices/priceSlice'
+import tokenReducer from './slices/tokenSlice'
 import modalsReducer from './slices/modalsSlice'
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     sync: syncReducer,
     tokenBalance: tokenbalanceReducer,
     price: priceReducer,
+    token: tokenReducer,
     modals: modalsReducer,
   },
 })

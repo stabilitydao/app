@@ -7,8 +7,11 @@ import { useWeb3React } from '@web3-react/core'
 import { updateProfitPrice } from "@/redux/slices/priceSlice";
 import univ3prices from '@thanpolas/univ3prices';
 import uniV3PoolAbi from '@/components/abis/uniV3PoolAbi'
+import tokenAbi from '@/components/abis/tokenAbi'
 import { showAlert } from '@/components/common/alert';
 import WEB3 from '@/components/functions/web3'
+import {symbol, name, totalSupply} from "@/redux/slices/tokenSlice";
+
 function Ecosystem() {
     const web3 = WEB3()
     const dispatch = useDispatch()
@@ -16,6 +19,7 @@ function Ecosystem() {
     const profitPrice = useSelector(state => state.price.value)
     const priceIn = useSelector(state => state.price.in)
     const currentNetwork = useSelector(state => state.network.value)
+    const token = useSelector(state => state.token)
     const network = chainId ? chainId : currentNetwork
 
     useEffect(() => {
@@ -39,12 +43,29 @@ function Ecosystem() {
                     console.log(err)
                 })
             }
-        }
-        else {
+        } else {
             dispatch(updateProfitPrice([
                 0, ''
             ]))
         }
+
+        if (addresses[network].token) {
+            // ABI is ERC-20 API as a JSON
+            let contract;
+            contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+            contract.methods.symbol().call().then((r) => {
+                dispatch(symbol(r))
+            })
+            contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+            contract.methods.name().call().then((r) => {
+                dispatch(name(r))
+            })
+            contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+            contract.methods.totalSupply().call().then((r) => {
+                dispatch(totalSupply(web3.utils.fromWei(r, "ether")))
+            })
+        }
+
     }, [network])
 
     function handleConnect() {
@@ -72,12 +93,12 @@ function Ecosystem() {
                 <ul className="p-4 lg:p-8 ">
                     <li>
                         <article className="mb-4">
-                            <div className="p-4 lg:p-6 ">
+                            <div>
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Token</h1>
                                 <div className="flex flex-wrap">
                                     <div className="w-full mb-4 lg:w-1/2 lg:mb-0">
                                         <div className="flex justify-center mb-2 text-center">
-                                            <img src="/profit.svg" alt="profit" width="200" className="float-left my-2 ml-3 mr-7" />
+                                            <img src="/profit.svg" alt="profit" width="150" className="float-left my-2 ml-3 mr-7" />
                                             <div className="flex flex-col justify-between mt-1.5 pb-4">
                                                 <div>
                                                     {buyLinks && buyLinks[network] ? (
@@ -86,16 +107,15 @@ function Ecosystem() {
                                                                 Buy
                                                             </button>
                                                         </a>
-                                                    ) : null}
+                                                    ) : (
+                                                        <div className="mt-1">
+                                                            <button disabled={true} title="Buy PROFIT token" className="disabled:bg-gray-500 disabled:border-0 disabled:cursor-default w-24 py-1 text-xl rounded-md btn">
+                                                                Buy
+                                                            </button>
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div className="flex justify-center">
-                                                    {
-                                                        lpv3[network] !== null && profitPrice > 0 &&
-                                                        <div className="flex flex-col w-26">
-                                                            <span>Price</span>
-                                                            <span>{profitPrice} {priceIn}</span>
-                                                        </div>
-                                                    }
                                                 </div>
                                                 <div className="flex justify-center w-28">
                                                     {active &&
@@ -107,16 +127,58 @@ function Ecosystem() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <p className="text-sm text-center text-cool-gray-500">
-                                            {network ? (
-                                                <a title="View Asset on Etherscan" target="_blank" href={networks[currentNetwork].explorerurl.concat(addresses[currentNetwork].token)} rel="noopener noreferrer">{addresses[currentNetwork].token}</a>
-                                            ) : null}
-                                        </p>
-                                    </div>
-                                    <div className="sm:w-full lg:w-1/2">
                                         <p className="p-0 text-lg">
                                             The native token PROFIT&apos;s primary purpose is to represent ownership shares of the Stability protocol. Given PROFIT holders are effectively owners of Stability, they will be entitled to a share of any additional profits generated by the protocol. Holding the token also allows investors to manage the Stability protocol collectively. Token entire supply was minted in Phase 0 and will be distributed in Phase 1.
                                         </p>
+                                    </div>
+                                    <div className="flex-row lg:w-1/2">
+                                        <div className="flex justify-end">
+                                            <table className="text-sm table-auto bg-blend-darken lg:mx-8 md:text-xl w-full" style={{maxWidth: '450px'}}>
+                                                <tbody>
+                                                <tr>
+                                                    <td className="py-1">Contract</td>
+                                                    <td className="py-1 text-right text-xs">{network ? (
+                                                        <a title="View Asset on Etherscan" target="_blank" href={networks[currentNetwork].explorerurl.concat(addresses[currentNetwork].token)} rel="noopener noreferrer"><span style={{color: networks[currentNetwork].color}}>{networks[currentNetwork].name}</span> {addresses[currentNetwork].token}</a>
+                                                    ) : null}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="py-1">Token name</td>
+                                                    <td className="py-1 text-right">{token ? token.name : ''}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="py-1">Symbol</td>
+                                                    <td className="py-1 text-right">{token ? token.symbol : ''}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="py-1">Price</td>
+                                                    <td className="py-1 text-right">{lpv3[network] !== null && profitPrice > 0 ? (
+                                                        <span>{profitPrice} {priceIn}</span>
+                                                    ) : (
+                                                        <span>-</span>
+                                                    )}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="py-1">Market cap</td>
+                                                    <td className="py-1 text-right">{lpv3[network] !== null && profitPrice > 0 ? (
+                                                        <span>{(profitPrice * (token ? token.totalSupply : 0)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')} {priceIn}</span>
+                                                    ) : '-'}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="py-1 whitespace-nowrap">Total supply</td>
+                                                    <td className="py-1 text-right">{token ? (token.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : ''}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="py-1">Model</td>
+                                                    <td className="py-1 text-right">deflationary</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="py-1">Distribution</td>
+                                                    <td className="py-1 text-right">liquidity bootrstrapping</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div />
                                     </div>
                                 </div>
                             </div>
