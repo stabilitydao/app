@@ -11,6 +11,12 @@
 <b>Open source UI for Stability protocol</b>
 </p>
 
+## Platform repositories
+
+- [stabilitydao/core](https://github.com/stabilitydao/core) - smart contracts
+- **stabilitydao/app** - frontend application
+- [stabilitydao/addresses](https://github.com/stabilitydao/addresses) - deployment addresses
+
 ## Front-end development
 
 ### Stack
