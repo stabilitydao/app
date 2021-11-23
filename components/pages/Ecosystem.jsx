@@ -10,8 +10,14 @@ import uniV3PoolAbi from '@/components/abis/uniV3PoolAbi'
 import tokenAbi from '@/components/abis/tokenAbi'
 import { showAlert } from '@/components/common/alert';
 import WEB3 from '@/components/functions/web3'
-import {symbol, name, totalSupply} from "@/redux/slices/tokenSlice";
-
+import { symbol, name, totalSupply } from "@/redux/slices/tokenSlice";
+import { useGetContributorsQuery } from "@/redux/slices/contributorsApi";
+import contributors from '@/components/constants/contributors'
+import { User } from 'react-feather';
+function UserData(name) {
+    const { data } = useGetContributorsQuery(name)
+    return data
+}
 function Ecosystem() {
     const web3 = WEB3()
     const dispatch = useDispatch()
@@ -22,6 +28,10 @@ function Ecosystem() {
     const token = useSelector(state => state.token)
     const network = chainId ? chainId : currentNetwork
 
+    const contributorsData = contributors.map((name) => {
+        return UserData(name)
+    })
+    console.log(contributorsData)
     useEffect(() => {
         if (lpv3[network] !== null) {
             let token1 = null;
@@ -109,7 +119,7 @@ function Ecosystem() {
                                                         </a>
                                                     ) : (
                                                         <div className="mt-1">
-                                                            <button disabled={true} title="Buy PROFIT token" className="disabled:bg-gray-500 disabled:border-0 disabled:cursor-default w-24 py-1 text-xl rounded-md btn">
+                                                            <button disabled={true} title="Buy PROFIT token" className="w-24 py-1 text-xl rounded-md disabled:bg-gray-500 disabled:border-0 disabled:cursor-default btn">
                                                                 Buy
                                                             </button>
                                                         </div>
@@ -133,48 +143,48 @@ function Ecosystem() {
                                     </div>
                                     <div className="flex-row lg:w-1/2">
                                         <div className="flex justify-end">
-                                            <table className="text-sm table-auto bg-blend-darken lg:mx-8 md:text-xl w-full" style={{maxWidth: '450px'}}>
+                                            <table className="w-full text-sm table-auto bg-blend-darken lg:mx-8 md:text-xl" style={{ maxWidth: '450px' }}>
                                                 <tbody>
-                                                <tr>
-                                                    <td className="py-1">Contract</td>
-                                                    <td className="py-1 text-right text-xs">{network ? (
-                                                        <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].token)} rel="noopener noreferrer"><span style={{color: networks[network].color}}>{networks[network].name}</span> {addresses[network].token}</a>
-                                                    ) : null}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1">Token name</td>
-                                                    <td className="py-1 text-right">{token ? token.name : ''}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1">Symbol</td>
-                                                    <td className="py-1 text-right">{token ? token.symbol : ''}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1">Price</td>
-                                                    <td className="py-1 text-right">{lpv3[network] !== null && profitPrice > 0 ? (
-                                                        <span>{profitPrice} {priceIn}</span>
-                                                    ) : (
-                                                        <span>-</span>
-                                                    )}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1">Market cap</td>
-                                                    <td className="py-1 text-right">{lpv3[network] !== null && profitPrice > 0 ? (
-                                                        <span>{(profitPrice * (token ? token.totalSupply : 0)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')} {priceIn}</span>
-                                                    ) : '-'}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1 whitespace-nowrap">Total supply</td>
-                                                    <td className="py-1 text-right">{token ? (token.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : ''}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1">Model</td>
-                                                    <td className="py-1 text-right">deflationary</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1">Distribution</td>
-                                                    <td className="py-1 text-right">liquidity bootrstrapping</td>
-                                                </tr>
+                                                    <tr>
+                                                        <td className="py-1">Contract</td>
+                                                        <td className="py-1 text-xs text-right">{network ? (
+                                                            <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].token)} rel="noopener noreferrer"><span style={{ color: networks[network].color }}>{networks[network].name}</span> {addresses[network].token}</a>
+                                                        ) : null}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1">Token name</td>
+                                                        <td className="py-1 text-right">{token ? token.name : ''}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1">Symbol</td>
+                                                        <td className="py-1 text-right">{token ? token.symbol : ''}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1">Price</td>
+                                                        <td className="py-1 text-right">{lpv3[network] !== null && profitPrice > 0 ? (
+                                                            <span>{profitPrice} {priceIn}</span>
+                                                        ) : (
+                                                            <span>-</span>
+                                                        )}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1">Market cap</td>
+                                                        <td className="py-1 text-right">{lpv3[network] !== null && profitPrice > 0 ? (
+                                                            <span>{(profitPrice * (token ? token.totalSupply : 0)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')} {priceIn}</span>
+                                                        ) : '-'}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1 whitespace-nowrap">Total supply</td>
+                                                        <td className="py-1 text-right">{token ? (token.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : ''}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1">Model</td>
+                                                        <td className="py-1 text-right">deflationary</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1">Distribution</td>
+                                                        <td className="py-1 text-right">liquidity bootrstrapping</td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -186,7 +196,7 @@ function Ecosystem() {
                     </li>
                     <li>
                         <article className="mb-2">
-                            <a className="p-4 overflow-hidden rounded-xl lg:p-6 ">
+                            <a className="py-4 overflow-hidden rounded-xl lg:p-6 ">
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Governance</h1>
                                 <p className="text-lg">
                                     PROFIT token holders with sufficient voting power can directly participate in the governance of the Stability protocol. These will be the only investors who can collectively change the organization’s resource distribution (mentioned below) and participate in critical decision-making processes involving the direction of the entire ecosystem.
@@ -196,18 +206,83 @@ function Ecosystem() {
                     </li>
                     <li>
                         <article className="mb-2">
-                            <a className="p-4 overflow-hidden rounded-xl lg:p-6 ">
+                            <div className="py-4 overflow-hidden rounded-xl">
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Builders</h1>
                                 <p className="text-lg">
                                     <i>Stability Builders</i> are skilled individuals who directly contribute to the advancement of the entire ecosystem. These include github contributors (open-source developers), expert researchers from a variety of fields, top public relations & marketing personnel, and cybersecurity specialists.<br />
                                     Governance will be tasked with creating the optimal conditions that allow these highly qualified contributors to build and improve upon the protocol at maximum efficiency.
                                 </p>
-                            </a>
+                                <div className="container max-w-3xl px-4 mx-auto ">
+                                    <div className="py-8">
+                                        <div className="py-4 -mx-4 overflow-x-auto sm:-mx-8 ">
+                                            <div className="inline-block min-w-full overflow-hidden rounded-lg shadow">
+                                                <table className="min-w-full leading-normal">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
+                                                                Name
+                                                            </th>
+                                                            <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
+                                                                Location
+                                                            </th>
+                                                            <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
+                                                                BIO
+                                                            </th>
+                                                            <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
+                                                                Github
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            contributorsData.map((data, index) => {
+                                                                return <tr key={index}>
+                                                                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                                                        <div className="flex items-center">
+                                                                            <div className="flex-shrink-0">
+                                                                                <a href="#" className="relative block">
+                                                                                    <img alt="profil" src={data.avatar_url} className="object-cover w-10 h-10 mx-auto rounded-full " />
+                                                                                </a>
+                                                                            </div>
+                                                                            <div className="ml-3">
+                                                                                <p className="text-gray-900 whitespace-no-wrap">
+                                                                                    {data.name}
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                                                        <p className="text-gray-900 whitespace-no-wrap">
+                                                                            {data.location ? data.location : "Not present"}
+                                                                        </p>
+                                                                    </td>
+                                                                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                                                        <p className="text-gray-900 whitespace-no-wrap">
+                                                                            {data.bio}
+                                                                        </p>
+                                                                    </td>
+                                                                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                                                        <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
+                                                                            <a href={data.html_url} rel="noreferrer" target="_blank" className="relative p-1 text-white bg-indigo-600 rounded-lg cursor-pointer ">
+                                                                                Github
+                                                                            </a>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            })
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </article>
                     </li>
                     <li>
                         <article className="mb-2">
-                            <a className="p-4 overflow-hidden rounded-xl lg:p-6 ">
+                            <a className="py-4 overflow-hidden rounded-xl lg:p-6 ">
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Generation</h1>
                                 <p className="text-lg">
                                     <i>Profit Generation</i> is a broad term that encapsulates the process of delivering through developments a high level of value that’s necessary to earn profits. The process involves <i>Stability Builders</i> creating work units (smart contracts and decentralized applications) that become property of the Stability protocol and will essentially work for it. Clusters of work units (e.g. yield farms with a variety of features, AMMs, NFTs, etc.) being utilized in the same area are called <i>Profit Generators</i>.
@@ -217,7 +292,7 @@ function Ecosystem() {
                     </li>
                     <li>
                         <article>
-                            <a className="p-4 overflow-hidden rounded-xl lg:p-6 ">
+                            <a className="py-4 overflow-hidden rounded-xl lg:p-6 ">
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Resource distribution</h1>
                                 <p className="text-lg">
                                     All profits generated by the organization through <i>Profit Generation</i> are divided between the token stakers, the development fund, and non-profit activities. Governance can change this allocation by following the criteria below:
