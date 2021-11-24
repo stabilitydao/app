@@ -210,7 +210,7 @@ function Ecosystem() {
                             <div className="py-4 overflow-hidden rounded-xl">
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Team</h1>
                                 <div className="text-lg mb-6 flex flex-wrap">
-                                    <div className=" w-full lg:w-1/3">
+                                    <div className=" w-full lg:w-1/3 mb-5">
                                         <div className="flex w-full justify-center h-52 self-center text-center">
                                             <div className="text-5xl flex justify-center flex-col w-32 h-32 rounded-full bg-indigo-200 border-2 dark:border-indigo-500 dark:bg-indigo-800 relative self-center">
                                                 {contributorsData ? contributorsData.length : null}
@@ -222,7 +222,7 @@ function Ecosystem() {
                                             Governance will be tasked with creating the optimal conditions that allow these highly qualified contributors to build and improve upon the protocol at maximum efficiency.
                                         </div>
                                     </div>
-                                    <div className="flex w-full lg:w-2/3">
+                                    <div className="flex w-full lg:w-2/3 lg:pl-5">
                                         <div className="flex flex-wrap justify-center">
                                             {contributorsData.map((data, index) => {
                                                 return data ? (
@@ -232,7 +232,7 @@ function Ecosystem() {
                                                         rel="noreferrer"
                                                         target="_blank"
                                                         key={index}
-                                                        className="w-1/2 md:w-1/4 lg:w-1/5 xl:w-1/4 dark:hover:bg-gray-800 rounded-2xl"
+                                                        className="w-1/2 md:w-1/4 lg:w-1/3 xl:w-1/4 dark:hover:bg-gray-800 rounded-2xl"
                                                     >
                                                         <div className="w-100 px-5 pt-5 text-sm ">
                                                             <div className="flex-shrink-0">
