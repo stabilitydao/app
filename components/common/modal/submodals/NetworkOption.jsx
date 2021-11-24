@@ -7,6 +7,7 @@ import { useWeb3React } from '@web3-react/core'
 function NetworkOption({ onClose }) {
     const dispatch = useDispatch()
     const { account, library, chainId } = useWeb3React()
+    const Sync = useSelector(state => state.sync.value)
     const currentNetwork = useSelector(state => state.network.value)
 
     function setNetwork(networkId) {
@@ -19,7 +20,7 @@ function NetworkOption({ onClose }) {
         <div className="flex flex-col pt-2 bg-white gap-y-2 dark:bg-blue-gray-900">
             {
                 Object.entries(networks).map((network, index) => {
-                    if (account && Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString())) {
+                    if (account && Sync &&Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString())) {
                         if (network[1].chainid === chainId) {
                             return <button onClick={() => { switchNetwork(network[1], dispatch, library, onClose()) }} key={index} className="block px-4 py-3 text-gray-900 bg-gray-300 rounded-xl text-md dark:text-white dark:bg-blue-gray-700">
                                 <span className="flex items-center font-Roboto">

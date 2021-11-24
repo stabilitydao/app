@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {BsGithub, BsTelegram, BsTwitter} from 'react-icons/bs'
+import {BsGithub, BsTelegram, BsTwitter, BsDiscord} from 'react-icons/bs'
 
 function Footer() {
     return (
@@ -23,6 +23,9 @@ function Footer() {
                 </div>
                 <div className="self-center">
                     <a href="https://t.me/stabilitydao" target="_blank" rel="noopener noreferrer" ><BsTelegram className="text-3xl " /></a>
+                </div>
+                <div className="self-center">
+                    <a href="https://discord.gg/R3nnetWzC9" target="_blank" rel="noopener noreferrer" ><BsDiscord className="text-3xl " /></a>
                 </div>
             </div>
         </footer>

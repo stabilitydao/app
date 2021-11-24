@@ -2,16 +2,16 @@ import React from 'react'
 import { BiCircle } from 'react-icons/bi'
 import { TiTick } from 'react-icons/ti'
 
-const currentPhase = "Inception";
+export const currentPhase = "Inception";
 
-const phases = {
+export const phases = {
     "Inception": "Q4 2021",
     "Bootstrapping": "2022",
     "Generation": "2023",
     "Improvement": "2024",
 };
 
-const phaseTasks = [
+export const phaseTasks = [
     {
         "Developer community <a href=\"https://t.me/chainbuilders\" target=\"_blank\" className=\"pl-1\">@chainbuilders</a>": true,
         "User community <a href=\"https://t.me/stabilitydao\" target=\"_blank\" className=\"pl-1\">@stabilitydao</a>": true,
