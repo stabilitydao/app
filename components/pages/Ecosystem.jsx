@@ -210,7 +210,8 @@ function Ecosystem() {
                     </li>
                     <li>
                         <article className="mb-10">
-                            <div className="py-4 overflow-hidden rounded-xl">
+                            <div className="py-4 overflow-hidden rounded-xl relative">
+                                <div className="absolute" id="team" style={{top: '-60px'}} />
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Team</h1>
                                 <div className="text-lg mb-6 flex flex-wrap">
                                     <div className=" w-full lg:w-1/3 mb-5">
