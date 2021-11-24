@@ -13,7 +13,8 @@ import WEB3 from '@/components/functions/web3'
 import { symbol, name, totalSupply } from "@/redux/slices/tokenSlice";
 import { useGetContributorsQuery } from "@/redux/slices/contributorsApi";
 import contributors from '@/components/constants/contributors'
-import { User } from 'react-feather';
+import { GoLocation } from 'react-icons/go'
+
 function UserData(name) {
     const { data } = useGetContributorsQuery(name)
     return data
@@ -31,7 +32,7 @@ function Ecosystem() {
     const contributorsData = contributors.map((name) => {
         return UserData(name)
     })
-    console.log(contributorsData)
+
     useEffect(() => {
         if (lpv3[network] !== null) {
             let token1 = null;
@@ -208,74 +209,51 @@ function Ecosystem() {
                         <article className="mb-2">
                             <div className="py-4 overflow-hidden rounded-xl">
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Builders</h1>
-                                <p className="text-lg">
+                                <p className="text-lg mb-6">
                                     <i>Stability Builders</i> are skilled individuals who directly contribute to the advancement of the entire ecosystem. These include github contributors (open-source developers), expert researchers from a variety of fields, top public relations & marketing personnel, and cybersecurity specialists.<br />
                                     Governance will be tasked with creating the optimal conditions that allow these highly qualified contributors to build and improve upon the protocol at maximum efficiency.
                                 </p>
-                                <div className="container max-w-3xl px-4 mx-auto ">
-                                    <div className="py-8">
-                                        <div className="py-4 -mx-4 overflow-x-auto sm:-mx-8 ">
-                                            <div className="inline-block min-w-full overflow-hidden rounded-lg shadow">
-                                                <table className="min-w-full leading-normal">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
-                                                                Name
-                                                            </th>
-                                                            <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
-                                                                Location
-                                                            </th>
-                                                            <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
-                                                                BIO
-                                                            </th>
-                                                            <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
-                                                                Github
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {
-                                                            contributorsData.map((data, index) => {
-                                                                return <tr key={index}>
-                                                                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                                                        <div className="flex items-center">
-                                                                            <div className="flex-shrink-0">
-                                                                                <a href="#" className="relative block">
-                                                                                    <img alt="profil" src={data.avatar_url} className="object-cover w-10 h-10 mx-auto rounded-full " />
-                                                                                </a>
-                                                                            </div>
-                                                                            <div className="ml-3">
-                                                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                                                    {data.name}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                                                        <p className="text-gray-900 whitespace-no-wrap">
-                                                                            {data.location ? data.location : "Not present"}
-                                                                        </p>
-                                                                    </td>
-                                                                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                                                        <p className="text-gray-900 whitespace-no-wrap">
-                                                                            {data.bio}
-                                                                        </p>
-                                                                    </td>
-                                                                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                                                        <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                                                                            <a href={data.html_url} rel="noreferrer" target="_blank" className="relative p-1 text-white bg-indigo-600 rounded-lg cursor-pointer ">
-                                                                                Github
-                                                                            </a>
-                                                                        </span>
-                                                                    </td>
-                                                                </tr>
-                                                            })
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div className="flex flex-wrap">
+                                    {contributorsData.map((data, index) => {
+                                        return data ? (
+                                            <a
+                                                title={`Go to ${data.name}'s GitHub profile`}
+                                                href={data.html_url}
+                                                rel="noreferrer"
+                                                target="_blank"
+                                                key={index}
+                                                className="w-1/2 md:w-1/4 lg:w-1/5 xl:w-1/6 dark:hover:bg-gray-800 rounded-2xl"
+                                            >
+                                                <div className="w-100 px-5 pt-5 text-sm ">
+                                                    <div className="flex-shrink-0">
+                                                        <div  className="relative block">
+                                                            <img alt="profil"
+                                                                 src={data.avatar_url}
+                                                                 className="object-cover w-24 h-24 mx-auto rounded-full "/>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex mt-5 flex-col justify-center">
+                                                        <p className="text-xl text-center font-bold">
+                                                            {data.name}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex pl-5 text-sm my-1 flex-col justify-center">
+                                                    {data.location ? (
+                                                            <div className="flex align-middle">
+                                                                <GoLocation className="mt-1"/>
+                                                                <div className="ml-1.5 text-md line flex flex-wrap">{data.location}</div>
+                                                            </div>
+                                                        ) : null}
+                                                </div>
+                                                <div className="px-5 mt-1 mb-5 text-xs ">
+                                                    <p className="overflow-hidden">
+                                                        {data.bio ? data.bio.substring(0,80) : null}
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        ) : null;
+                                    })}
                                 </div>
                             </div>
                         </article>
