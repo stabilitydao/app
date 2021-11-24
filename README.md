@@ -3,8 +3,8 @@
 <h1>Stability App</h1>
 </div>
 <p align="center">
-<a href="https://stabilitydao.org"><img alt="GitHub deployments" src="https://img.shields.io/github/deployments/stabilitydao/app/production?label=main%20deployment"></a>
-<a href="https://dev.stabilitydao.org"><img alt="GitHub deployments" src="https://img.shields.io/github/deployments/stabilitydao/app/Preview?label=develop%20deployment"></a>
+<a href="https://stabilitydao.org"><img alt="GitHub deployments" src="https://img.shields.io/github/deployments/stabilitydao/app/production?label=Production%20deployment"></a>
+<a href="https://dev.stabilitydao.org"><img alt="GitHub deployments" src="https://img.shields.io/github/deployments/stabilitydao/app/Preview?label=Preview%20deployment"></a>
 <a href="https://github.com/stabilitydao/app/blob/main/LICENSE"><img src="https://img.shields.io/github/license/stabilitydao/app?style=flat" /></a>
 </p>
 <p align="center">
