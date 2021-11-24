@@ -208,52 +208,64 @@ function Ecosystem() {
                     <li>
                         <article className="mb-2">
                             <div className="py-4 overflow-hidden rounded-xl">
-                                <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Builders</h1>
-                                <p className="text-lg mb-6">
-                                    <i>Stability Builders</i> are skilled individuals who directly contribute to the advancement of the entire ecosystem. These include github contributors (open-source developers), expert researchers from a variety of fields, top public relations & marketing personnel, and cybersecurity specialists.<br />
-                                    Governance will be tasked with creating the optimal conditions that allow these highly qualified contributors to build and improve upon the protocol at maximum efficiency.
-                                </p>
-                                <div className="flex flex-wrap">
-                                    {contributorsData.map((data, index) => {
-                                        return data ? (
-                                            <a
-                                                title={`Go to ${data.name}'s GitHub profile`}
-                                                href={data.html_url}
-                                                rel="noreferrer"
-                                                target="_blank"
-                                                key={index}
-                                                className="w-1/2 md:w-1/4 lg:w-1/5 xl:w-1/6 dark:hover:bg-gray-800 rounded-2xl"
-                                            >
-                                                <div className="w-100 px-5 pt-5 text-sm ">
-                                                    <div className="flex-shrink-0">
-                                                        <div  className="relative block">
-                                                            <img alt="profil"
-                                                                 src={data.avatar_url}
-                                                                 className="object-cover w-24 h-24 mx-auto rounded-full "/>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex mt-5 flex-col justify-center">
-                                                        <p className="text-xl text-center font-bold">
-                                                            {data.name}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div className="flex pl-5 text-sm my-1 flex-col justify-center">
-                                                    {data.location ? (
-                                                            <div className="flex align-middle">
-                                                                <GoLocation className="mt-1"/>
-                                                                <div className="ml-1.5 text-md line flex flex-wrap">{data.location}</div>
+                                <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Team</h1>
+                                <div className="text-lg mb-6 flex flex-wrap">
+                                    <div className=" w-full lg:w-1/3">
+                                        <div className="flex w-full justify-center h-52 self-center text-center">
+                                            <div className="text-5xl flex justify-center flex-col w-32 h-32 rounded-full bg-indigo-200 border-2 dark:border-indigo-500 dark:bg-indigo-800 relative self-center">
+                                                {contributorsData ? contributorsData.length : null}
+                                                <span className="text-xs font-bold mt-1" >builders</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <i>Stability Builders</i> are skilled individuals who directly contribute to the advancement of the entire ecosystem. These include github contributors (open-source developers), expert researchers from a variety of fields, top public relations & marketing personnel, and cybersecurity specialists.<br />
+                                            Governance will be tasked with creating the optimal conditions that allow these highly qualified contributors to build and improve upon the protocol at maximum efficiency.
+                                        </div>
+                                    </div>
+                                    <div className="flex w-full lg:w-2/3">
+                                        <div className="flex flex-wrap justify-center">
+                                            {contributorsData.map((data, index) => {
+                                                return data ? (
+                                                    <a
+                                                        title={`Go to ${data.name}'s GitHub profile`}
+                                                        href={data.html_url}
+                                                        rel="noreferrer"
+                                                        target="_blank"
+                                                        key={index}
+                                                        className="w-1/2 md:w-1/4 lg:w-1/5 xl:w-1/4 dark:hover:bg-gray-800 rounded-2xl"
+                                                    >
+                                                        <div className="w-100 px-5 pt-5 text-sm ">
+                                                            <div className="flex-shrink-0">
+                                                                <div  className="relative block">
+                                                                    <img alt="profil"
+                                                                         src={data.avatar_url}
+                                                                         className="object-cover w-24 h-24 mx-auto rounded-full "/>
+                                                                </div>
                                                             </div>
-                                                        ) : null}
-                                                </div>
-                                                <div className="px-5 mt-1 mb-5 text-xs ">
-                                                    <p className="overflow-hidden">
-                                                        {data.bio ? data.bio.substring(0,80) : null}
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        ) : null;
-                                    })}
+                                                            <div className="flex mt-5 flex-col justify-center">
+                                                                <p className="text-xl text-center font-bold">
+                                                                    {data.name}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex pl-5 text-sm my-1 flex-col justify-center">
+                                                            {data.location ? (
+                                                                <div className="flex align-middle">
+                                                                    <GoLocation className="mt-1"/>
+                                                                    <div className="ml-1.5 text-md line flex flex-wrap">{data.location}</div>
+                                                                </div>
+                                                            ) : null}
+                                                        </div>
+                                                        <div className="px-5 mt-1 mb-5 text-xs ">
+                                                            <p className="overflow-hidden">
+                                                                {data.bio ? data.bio.substring(0,80) : null}
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                ) : null;
+                                            })}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </article>
