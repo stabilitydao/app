@@ -31,10 +31,10 @@ function Navbar({ Mode }) {
 
     useEffect(() => {
         const mode = localStorage.getItem("mode")
-        if (!mode) {
+        if (mode) {
             setIsmode(true)
         } else {
-            setIsmode(JSON.parse(mode))
+            setIsmode(false)
         }
         const auth = JSON.parse(localStorage.getItem("auth"))
         if (auth) {
