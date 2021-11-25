@@ -20,22 +20,25 @@ function Navbar({ Mode }) {
         Sync = useSelector(state => state.sync.value),
         { account, chainId, library, activate } = useWeb3React(),
         currentNetwork = useSelector(state => state.network.value),
-        [Ismode, setIsmode] = useState(null),
+        [Ismode, setIsmode] = useState(true),
         [Isside, setIsside] = useState(false)
         ;
 
     function handleMode() {
         setIsmode(!Ismode)
-        Mode(!Ismode)
+        Mode(!Ismode)  
     }
 
     useEffect(() => {
-        const mode = localStorage.getItem("mode")
-        if (mode) {
-            setIsmode(true)
-        } else {
-            setIsmode(false)
-        }
+        setTimeout(() => {
+            const mode = JSON.parse(localStorage.getItem("mode"))
+            if (mode == null) {
+                setIsmode(true)
+            }
+            else {
+                setIsmode(mode)
+            }
+        });
         const auth = JSON.parse(localStorage.getItem("auth"))
         if (auth) {
             setTimeout(() => {
@@ -59,7 +62,7 @@ function Navbar({ Mode }) {
     }, [chainId])
 
     const Mode_Icon = () => {
-        if (Ismode) {
+        if (Ismode === true ) {
             return <WiDaySunny className="p-1 text-4xl text-white border border-gray-500 rounded-full cursor-pointer" onClick={handleMode} />
         } else {
             return <WiNightClear className="p-1 text-4xl text-black border border-gray-500 rounded-full cursor-pointer" onClick={handleMode} />

@@ -13,11 +13,11 @@ function Layout({ children }) {
     useEffect(() => {
         setMounted(true)
         const mode = localStorage.getItem("mode")
-        if (mode) {
+        if (!mode) {
             setMode(true)
         }
         else {
-            setMode(false)
+            setMode(JSON.parse(mode))
         }
     }, [])
 
@@ -30,7 +30,7 @@ function Layout({ children }) {
     }
 
     if (!mounted) return null;
-    
+
     return (
         <Web3ReactProvider getLibrary={getLibrary} >
             <main className={Mode ? "dark" : ""} >
