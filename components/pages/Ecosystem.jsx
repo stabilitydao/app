@@ -144,7 +144,7 @@ function Ecosystem() {
                                     </div>
                                     <div className="flex-row w-full lg:w-2/3">
                                         <div className="flex justify-center">
-                                            <table className="w-full text-sm table-auto bg-blend-darken mx-auto md:text-xl" style={{ maxWidth: '540px' }}>
+                                            <table className="w-full text-sm table-auto bg-blend-darken md:text-xl" style={{ maxWidth: '540px' }}>
                                                 <tbody>
                                                     <tr>
                                                         <td className="py-1">Contract</td>
@@ -210,15 +210,15 @@ function Ecosystem() {
                     </li>
                     <li>
                         <article className="mb-10">
-                            <div className="py-4 overflow-hidden rounded-xl relative">
+                            <div className="relative py-4 overflow-hidden rounded-xl">
                                 <div className="absolute" id="team" style={{top: '-60px'}} />
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Team</h1>
-                                <div className="text-lg mb-6 flex flex-wrap">
-                                    <div className=" w-full lg:w-1/3 mb-5">
-                                        <div className="flex w-full justify-center h-52 self-center text-center">
-                                            <div className="text-5xl flex justify-center flex-col w-32 h-32 rounded-full bg-indigo-200 border-2 dark:border-indigo-500 dark:bg-indigo-800 relative self-center">
+                                <div className="flex flex-wrap mb-6 text-lg">
+                                    <div className="w-full mb-5  lg:w-1/3">
+                                        <div className="flex self-center justify-center w-full text-center h-52">
+                                            <div className="relative flex flex-col self-center justify-center w-32 h-32 text-5xl bg-indigo-200 border-2 rounded-full dark:border-indigo-500 dark:bg-indigo-800">
                                                 {contributorsData ? contributorsData.length : null}
-                                                <span className="text-xs font-bold mt-1" >builders</span>
+                                                <span className="mt-1 text-xs font-bold" >builders</span>
                                             </div>
                                         </div>
                                         <div>
@@ -238,7 +238,7 @@ function Ecosystem() {
                                                         key={index}
                                                         className="w-1/2 md:w-1/4 lg:w-1/3 xl:w-1/4 dark:hover:bg-gray-800 rounded-2xl"
                                                     >
-                                                        <div className="w-100 px-5 pt-5 text-sm ">
+                                                        <div className="px-5 pt-5 text-sm w-100 ">
                                                             <div className="flex-shrink-0">
                                                                 <div  className="relative block">
                                                                     <img alt="profil"
@@ -246,13 +246,13 @@ function Ecosystem() {
                                                                          className="object-cover w-24 h-24 mx-auto rounded-full "/>
                                                                 </div>
                                                             </div>
-                                                            <div className="flex mt-5 flex-col justify-center">
-                                                                <p className="text-xl text-center font-bold">
+                                                            <div className="flex flex-col justify-center mt-5">
+                                                                <p className="text-xl font-bold text-center">
                                                                     {data.name}
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        <div className="flex pl-5 text-sm my-1 flex-col justify-center">
+                                                        <div className="flex flex-col justify-center pl-5 my-1 text-sm">
                                                             {data.location ? (
                                                                 <div className="flex align-middle">
                                                                     <GoLocation className="mt-1"/>
