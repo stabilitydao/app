@@ -5,28 +5,25 @@ import { useDispatch } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
 import { injected, walletconnect } from '@/components/wallet/connectors'
 import walletConnectError, { networks, switchNetwork } from '@/components/wallet/'
-import { BsFillPeopleFill } from 'react-icons/bs'
 import { GiHamburgerMenu } from 'react-icons/gi'
-import { AiFillHome } from 'react-icons/ai'
-import { MdEditRoad } from 'react-icons/md'
 import { WiDaySunny, WiNightClear } from 'react-icons/wi'
 import { User, AlertTriangle } from 'react-feather'
 import { updateIsNetworkOption, updateIsProfile, updateIsWalletOption } from '@/redux/slices/modalsSlice'
 import { updateSync } from '@/redux/slices/syncSlice'
+import { updateSidebar } from '@/redux/slices/sidebarSlice'
 function Navbar({ Mode }) {
-
     const
         dispatch = useDispatch(),
         Sync = useSelector(state => state.sync.value),
+        sidebar = useSelector(state => state.sidebar.value),
         { account, chainId, library, activate } = useWeb3React(),
         currentNetwork = useSelector(state => state.network.value),
-        [Ismode, setIsmode] = useState(true),
-        [Isside, setIsside] = useState(false)
+        [Ismode, setIsmode] = useState(true)
         ;
 
     function handleMode() {
         setIsmode(!Ismode)
-        Mode(!Ismode)  
+        Mode(!Ismode)
     }
 
     useEffect(() => {
@@ -62,7 +59,7 @@ function Navbar({ Mode }) {
     }, [chainId])
 
     const Mode_Icon = () => {
-        if (Ismode === true ) {
+        if (Ismode === true) {
             return <WiDaySunny className="p-1 text-4xl text-white border border-gray-500 rounded-full cursor-pointer" onClick={handleMode} />
         } else {
             return <WiNightClear className="p-1 text-4xl text-black border border-gray-500 rounded-full cursor-pointer" onClick={handleMode} />
@@ -70,7 +67,7 @@ function Navbar({ Mode }) {
     }
 
     return (
-        <nav className="sticky top-0 z-10 bg-white shadow-xl dark:text-white dark:bg-gray-900">
+        <nav className="sticky top-0 z-10 bg-white shadow dark:text-white dark:bg-gray-900">
             {
                 (Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()) ? !Sync : true)
                 && account && (chainId != currentNetwork) &&
@@ -91,21 +88,9 @@ function Navbar({ Mode }) {
             }
             <div className="container flex flex-row h-16 px-6 py-2.5">
                 <div className="flex flex-row items-center mr-6 lg:hidden">
-                    <GiHamburgerMenu className="text-2xl cursor-pointer" onClick={() => { setIsside(!Isside) }} />
+                    <GiHamburgerMenu className="text-2xl cursor-pointer" onClick={() => { dispatch(updateSidebar(!sidebar)) }} />
                 </div>
-                <Link href="/">
-                    <div className="flex cursor-pointer">
-                        <img src="/logo_nolines_256.png" alt="Stability" className="hidden mr-auto md:flex justify-self-start " />
-                        <span className="self-center hidden ml-3 text-xl font-bold md:flex">STABILITY</span>
-                    </div>
-                </Link>
-                <ul className="flex-row items-center hidden mx-auto text-xl font-medium lg:flex">
-                    <li className="px-3"><Link href="/"><a>Home</a></Link></li>
-                    <li className="px-3"><Link href="/roadmap"><a>Roadmap</a></Link></li>
-                    <li className="px-3"><Link href="/ecosystem"><a>Ecosystem</a></Link></li>
-                </ul>
-                <div className="mx-auto lg:hidden" />
-                <div className="flex flex-row items-center gap-x-2">
+                <div className="flex flex-row items-center ml-auto gap-x-2">
                     {
                         account ?
                             Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()) &&
@@ -156,22 +141,11 @@ function Navbar({ Mode }) {
                         })
                     }
                 </div>
-                <div className="fixed bg-white rounded-full shadow-lg md:shadow-none md:static md:mt-1 md:ml-5 left-5 bottom-7 md:block dark:text-white dark:bg-gray-900">
+                <div className="fixed bg-white rounded-full shadow-lg md:shadow-none md:static md:mt-1 md:ml-5 right-5 bottom-7 md:block dark:text-white dark:bg-gray-900">
                     <Mode_Icon />
                 </div>
             </div>
-            {
-                Isside
-                &&
-                <div className={`fixed inset-0 w-screen h-screen bg-black opacity-20 `} onClick={() => { setIsside(!Isside) }} />
-            }
-            <div className={`fixed bottom-0 shadow-2xl left-0 w-64 transition-inset dark:bg-gray-800 top-16 bg-white duration-300 py-4 lg:-left-72 ${Isside ? "left-0" : "-left-72"}`}>
-                <ul>
-                    <li><Link href="/"><a className="flex items-center p-4 mb-px text-xl gap-x-2" onClick={() => { setIsside(!Isside) }} ><AiFillHome />Home</a></Link></li>
-                    <li><Link href="/roadmap"><a className="flex items-center p-4 mb-px text-xl gap-x-2 " onClick={() => { setIsside(!Isside) }} ><MdEditRoad />Roadmap</a></Link></li>
-                    <li><Link href="/ecosystem"><a className="flex items-center p-4 text-xl gap-x-2 " onClick={() => { setIsside(!Isside) }} ><BsFillPeopleFill />Ecosystem</a></Link></li>
-                </ul>
-            </div>
+            {sidebar && <div className={`fixed inset-0 w-screen h-screen bg-black opacity-20 `} onClick={() => { dispatch(updateSidebar(false))}} />}
         </nav>
     )
 }

@@ -5,6 +5,8 @@ import { Web3ReactProvider } from '@web3-react/core'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { ToastContainer } from 'react-toastify';
+import Sidebar from './Sidebar'
+
 import Modals from '@/components/common/modal/modals'
 function Layout({ children }) {
     const [Mode, setMode] = useState(null)
@@ -33,15 +35,20 @@ function Layout({ children }) {
 
     return (
         <Web3ReactProvider getLibrary={getLibrary} >
-            <main className={Mode ? "dark" : ""} >
+            <main className={Mode ? "dark" : "" + "overflow-y-hidden h-screen"} >
                 <Head>
                     <title>Stability</title>
                     <meta name="description" content="Profit generating DeFi protocol" />
                     <link rel="icon" href="/logo_nolines_256.png" />
                 </Head>
-                <Navbar Mode={mode => setMode(mode)} />
-                {children}
-                <Footer />
+                <div className="flex flex-row">
+                    <Sidebar />
+                    <div className="w-full h-screen overflow-y-auto">
+                        <Navbar Mode={mode => setMode(mode)} />
+                        {children}
+                        <Footer />
+                    </div>
+                </div>
                 <Modals />
                 <ToastContainer position="top-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme={"colored"} icon={false} />
             </main>

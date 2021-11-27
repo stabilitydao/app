@@ -7,6 +7,7 @@ import syncReducer from './slices/syncSlice'
 import priceReducer from './slices/priceSlice'
 import tokenReducer from './slices/tokenSlice'
 import modalsReducer from './slices/modalsSlice'
+import sidebarReducer from './slices/sidebarSlice'
 import { contributorsApi } from './slices/contributorsApi'
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     price: priceReducer,
     token: tokenReducer,
     modals: modalsReducer,
+    sidebar: sidebarReducer,
     [contributorsApi.reducerPath]: contributorsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(contributorsApi.middleware)

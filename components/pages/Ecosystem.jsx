@@ -214,7 +214,7 @@ function Ecosystem() {
                                 <div className="absolute" id="team" style={{top: '-60px'}} />
                                 <h1 className="mb-4 text-4xl sm:text-5xl font-Roboto ">Team</h1>
                                 <div className="flex flex-wrap mb-6 text-lg">
-                                    <div className="w-full mb-5  lg:w-1/3">
+                                    <div className="w-full mb-5 lg:w-1/3">
                                         <div className="flex self-center justify-center w-full text-center h-52">
                                             <div className="relative flex flex-col self-center justify-center w-32 h-32 text-5xl bg-indigo-200 border-2 rounded-full dark:border-indigo-500 dark:bg-indigo-800">
                                                 {contributorsData ? contributorsData.length : null}
