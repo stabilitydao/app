@@ -3,7 +3,6 @@ import Head from 'next/head'
 import Web3 from 'web3'
 import { Web3ReactProvider } from '@web3-react/core'
 import Navbar from './Navbar'
-import Footer from './Footer'
 import { ToastContainer } from 'react-toastify';
 import Sidebar from './Sidebar'
 
@@ -46,7 +45,6 @@ function Layout({ children }) {
                     <div className="w-full h-screen overflow-y-auto">
                         <Navbar Mode={mode => setMode(mode)} />
                         {children}
-                        <Footer />
                     </div>
                 </div>
                 <Modals />

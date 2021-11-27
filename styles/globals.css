@@ -14,7 +14,7 @@
     @apply active:transform active:translate-y-px ;
   }
   .h-calc {
-    min-height: calc(100vh - 178px);
+    min-height: calc(100vh - 64px);
   }
 }
 
