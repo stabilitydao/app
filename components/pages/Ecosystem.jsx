@@ -99,7 +99,7 @@ function Ecosystem() {
 
     return (
         <section className="dark:bg-black dark:text-white h-calc">
-            <div className="container w-11/12 py-8">
+            <div className="container p-4">
                 <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Ecosystem</h1>
                 <ul className="p-4 lg:p-8 ">
                     <li>
