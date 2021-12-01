@@ -7,6 +7,7 @@ import { showAlert } from '@/components/common/alert'
 import {useSelector} from "react-redux";
 import {updateIsWalletOption} from "@/redux/slices/modalsSlice";
 import { useDispatch } from 'react-redux'
+import {networks} from "../wallet/networks";
 
 function Pools() {
     const dispatch = useDispatch()
@@ -104,6 +105,18 @@ function Pools() {
                                         <div className="flex flex-col bg-white shadow-2xl w-full md:w-2/3 lg:w-1/2 xl:w-2/5 rounded-3xl overflow-hidden dark:bg-gray-900">
                                             <div className="dark:bg-gray-800 text-3xl p-3 text-center">{name}</div>
                                             <div className="p-5">Stake {pool.stake} to earn {pool.earn}</div>
+                                            <div className="px-5">
+                                                <table className="w-full text-sm table-auto bg-blend-darken">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td className="py-1 text-lg">Contract</td>
+                                                        <td className="py-1 text-xs text-right">{network ? (
+                                                            <a title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(pool.contract)} rel="noopener noreferrer"><span style={{ color: networks[network].color }}>{networks[network].name}</span> {pool.contract}</a>
+                                                        ) : null}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             {!account ? (
                                                 <div className="text-center p-5">
                                                     <button
