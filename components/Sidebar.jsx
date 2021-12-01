@@ -21,7 +21,7 @@ function Sidebar() {
                 <li><Link href="/"><a className="flex items-center p-4 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome />Home</a></Link></li>
                 <li><Link href="/roadmap"><a className="flex items-center p-4 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad />Roadmap</a></Link></li>
                 <li><Link href="/ecosystem"><a className="flex items-center p-4 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BsFillPeopleFill />Ecosystem</a></Link></li>
-                <li><Link href="/pools"><a className="flex items-center p-4 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer />Staking</a></Link></li>
+                <li><Link href="/pools"><a className="flex items-center p-4 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer />Pools</a></Link></li>
             </ul>
             <div className="absolute flex flex-col items-center w-60 bottom-2 gap-y-2">
                 <ul className="flex justify-center w-full gap-x-5">
