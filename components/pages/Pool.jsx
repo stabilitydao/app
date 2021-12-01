@@ -6,7 +6,7 @@ import addresses from 'addresses'
 import { networks } from "../wallet/networks";
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
 import { useDispatch } from 'react-redux'
-function Pool({ poolAddress, pool, network }) {
+function Pool({ name, pool, network }) {
     const dispatch = useDispatch()
     const { account, chainId, library } = useWeb3React()
     const [stakedBalance, setstakedBalance] = useState(0)
@@ -18,13 +18,13 @@ function Pool({ poolAddress, pool, network }) {
         if (stakeNow !== '') {
             try {
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
-                await tokenContract.methods.approve(poolAddress, library.utils.toWei(`${1 / 2.32925 * stakeNow}`, 'ether')).send({ from: account })
-                const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(poolAddress));
-                await poolContract.methods.stake(library.utils.toWei(`${1 / 2.32925 * stakeNow}`, 'ether')).send({ from: account })
+                await tokenContract.methods.approve(pool.contract, library.utils.toWei(`${stakeNow}`, 'ether')).send({ from: account })
+                const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
+                await poolContract.methods.stake(library.utils.toWei(`${stakeNow}`, 'ether')).send({ from: account })
                 const staked = await poolContract.methods.userInfo(account).call()
                 setstakedBalance(library.utils.fromWei(staked[0], 'ether'))
-                tokenContract.methods.balanceOf(poolAddress).call().then((TVL) => {
-                    setTVL(library.utils.fromWei(TVL, 'ether') * 2.32925)
+                tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
+                    setTVL(library.utils.fromWei(TVL, 'ether'))
                 })
             } catch (err) {
                 console.log(err)
@@ -36,13 +36,13 @@ function Pool({ poolAddress, pool, network }) {
     async function unStake() {
         if (unStakeNow !== '') {
             try {
-                const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(poolAddress));
-                await poolContract.methods.unstake(library.utils.toWei(`${1 / 2.32925 * unStakeNow}`, 'ether')).send({ from: account })
+                const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
+                await poolContract.methods.unstake(library.utils.toWei(`${unStakeNow}`, 'ether')).send({ from: account })
                 const staked = await poolContract.methods.userInfo(account).call()
                 setstakedBalance(library.utils.fromWei(staked[0], 'ether'))
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
-                tokenContract.methods.balanceOf(poolAddress).call().then((TVL) => {
-                    setTVL(library.utils.fromWei(TVL, 'ether') * 2.32925)
+                tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
+                    setTVL(library.utils.fromWei(TVL, 'ether'))
                 })
             } catch (err) {
                 console.log(err)
@@ -53,7 +53,7 @@ function Pool({ poolAddress, pool, network }) {
     }
     async function harvest() {
         try {
-            const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(poolAddress));
+            const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             await poolContract.methods.harvest().send({ from: account })
             const value = await poolContract.methods.pendingWETH(account).call()
             const reward = library.utils.fromWei(value, 'ether')
@@ -63,12 +63,12 @@ function Pool({ poolAddress, pool, network }) {
         }
     }
     useEffect(() => {
-        if (account && poolAddress) {
+        if (account && pool.contract) {
             const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
-            tokenContract.methods.balanceOf(poolAddress).call().then((TVL) => {
-                setTVL(library.utils.fromWei(TVL, 'ether') * 2.32925)
+            tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
+                setTVL(library.utils.fromWei(TVL, 'ether'))
             })
-            const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(poolAddress));
+            const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             poolContract.methods.userInfo(account).call().then((staked) => {
                 return library.utils.fromWei(staked[0], 'ether')
             }).then((stakedBalance) => {
@@ -82,7 +82,7 @@ function Pool({ poolAddress, pool, network }) {
         }
     }, [chainId])
     return (
-        <div className="flex flex-col flex-1 w-full m-1 overflow-hidden bg-white shadow-2xl md:w-2/3 lg:w-1/2 xl:w-2/5 rounded-3xl dark:bg-gray-900">
+        <div className="flex flex-col flex-1 w-full m-5 overflow-hidden bg-white shadow-2xl md:w-2/3 lg:w-1/2 rounded-3xl dark:bg-gray-900">
             <div className="p-3 text-3xl text-center dark:bg-gray-800">{name}</div>
             <div className="p-5">Stake {pool.stake} to earn {pool.earn}</div>
             <div className="px-5">
@@ -90,8 +90,8 @@ function Pool({ poolAddress, pool, network }) {
                     <tbody>
                         <tr>
                             <td className="py-1 text-lg">Contract</td>
-                            <td className="py-1 text-xs text-right">{network ? (
-                                <a title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(pool.contract)} rel="noopener noreferrer"><span style={{ color: networks[network].color }}>{networks[network].name}</span> {pool.contract}</a>
+                            <td className="py-1 pl-6 text-xs text-right">{network ? (
+                                <a className="relative" title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(pool.contract)} rel="noopener noreferrer"><span className="absolute right-0 bottom-3" style={{ color: networks[network].color }}>{networks[network].name}</span> {pool.contract}</a>
                             ) : null}</td>
                         </tr>
                     </tbody>
@@ -109,7 +109,7 @@ function Pool({ poolAddress, pool, network }) {
                     </button>
                 </div>
             ) :
-                <div div className="p-5" >
+                <div className="p-5" >
                     <h1 className=" font-Roboto">TVL: {Math.floor(TVL * 100000) / 100000} PROFIT</h1>
                     <h1 className=" font-Roboto">Staking: {Math.floor(stakedBalance * 100000) / 100000} PROFIT</h1>
                     <div className="flex flex-row items-center justify-between mb-2">
