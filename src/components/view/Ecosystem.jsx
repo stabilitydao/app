@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react'
 import addresses from 'addresses'
-import { networks } from '../wallet/'
-import { buyLinks, lpv3 } from '../wallet/swaps'
+import { networks } from '../../wallet'
+import { buyLinks, lpv3 } from '../../wallet/swaps'
 import { useDispatch, useSelector } from "react-redux";
 import { useWeb3React } from '@web3-react/core'
 import { updateProfitPrice } from "@/redux/slices/priceSlice";
 import univ3prices from '@thanpolas/univ3prices';
-import uniV3PoolAbi from '@/components/abis/uniV3PoolAbi'
-import tokenAbi from '@/components/abis/tokenAbi'
-import { showAlert } from '@/components/common/alert';
-import WEB3 from '@/components/functions/web3'
+import uniV3PoolAbi from '@/src/abis/uniV3PoolAbi'
+import tokenAbi from '@/src/abis/tokenAbi'
+import { showAlert } from '@/src/components/alert';
+import WEB3 from '@/src/functions/web3'
 import { symbol, name, totalSupply } from "@/redux/slices/tokenSlice";
 import { useGetContributorsQuery } from "@/redux/slices/contributorsApi";
-import contributors from '@/components/constants/contributors'
+import contributors from '@/src/constants/contributors'
 import { GoLocation } from 'react-icons/go'
 
 function UserData(name) {

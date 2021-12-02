@@ -1,5 +1,5 @@
 import React from 'react'
-import { networks, switchNetwork } from '@/components/wallet/'
+import { networks, switchNetwork } from '@/src/wallet'
 import { useSelector, useDispatch } from 'react-redux'
 import { updatenetwork } from '@/redux/slices/networkSlice'
 import { useWeb3React } from '@web3-react/core'

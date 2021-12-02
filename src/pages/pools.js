@@ -1,4 +1,4 @@
-import { Pools } from '../components/pages'
+import { Pools } from '../components/view'
 
 function pools() {
     return <Pools />

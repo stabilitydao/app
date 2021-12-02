@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
 import { Copy, ExternalLink } from 'react-feather';
-import { injected } from '@/components/wallet/connectors'
-import { networks } from '@/components/wallet/networks';
+import { injected } from '@/src/wallet/connectors'
+import { networks } from '@/src/wallet/networks';
 import { useWeb3React } from '@web3-react/core'
 import { useSelector } from 'react-redux'
 import { updateBalance } from '@/redux/slices/balanceSlice'
 import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
 import { useDispatch } from 'react-redux'
-import tokenBalanceAbi from '@/components/abis/tokenBalanceAbi'
+import tokenAbi from '@/src/abis/tokenAbi'
 import addresses from 'addresses'
-import { showAlert } from '@/components/common/alert';
+import { showAlert } from '@/src/components/alert';
 
 
 function Profile({ onClose }) {
@@ -25,7 +25,7 @@ function Profile({ onClose }) {
                 dispatch(updateBalance(eths))
             })
 
-            const contract = new library.eth.Contract(tokenBalanceAbi, addresses[chainId].token);
+            const contract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
             contract.methods.balanceOf(account).call().then((result) => {
                 return library.utils.fromWei(result);
             }).then((tokenBalance) => {

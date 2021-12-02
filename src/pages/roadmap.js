@@ -1,4 +1,4 @@
-import {Roadmap } from '../components/pages'
+import {Roadmap } from '../components/view'
 
 function roadmap() {
     return <Roadmap/>

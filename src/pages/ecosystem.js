@@ -1,4 +1,4 @@
-import {Ecosystem } from '../components/pages'
+import {Ecosystem } from '../components/view'
 function ecosystem() {
     return <Ecosystem/>
 }

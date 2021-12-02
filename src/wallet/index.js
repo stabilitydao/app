@@ -1,6 +1,6 @@
 import { NoEthereumProviderError, UserRejectedRequestError as UserRejectedRequestErrorInjected } from '@web3-react/injected-connector'
 import { UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@web3-react/walletconnect-connector'
-import { showAlert } from '@/components/common/alert';
+import { showAlert } from '@/src/components/alert';
 
 export default function walletConnectError(error) {
     if (error instanceof NoEthereumProviderError) {

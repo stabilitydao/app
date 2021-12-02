@@ -6,7 +6,7 @@ import Navbar from './Navbar'
 import { ToastContainer } from 'react-toastify';
 import Sidebar from './Sidebar'
 
-import Modals from '@/components/common/modal/modals'
+import Modals from '@/src/components/modal/modals'
 function Layout({ children }) {
     const [Mode, setMode] = useState(null)
     const [mounted, setMounted] = useState(false);

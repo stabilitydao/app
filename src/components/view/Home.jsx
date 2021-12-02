@@ -1,8 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
-import {currentPhase, phaseTasks} from "@/components/pages/Roadmap";
+import {currentPhase, phaseTasks} from "@/src/components/view/Roadmap";
 import {TiTick} from "react-icons/ti";
-import contributors from "@/components/constants/contributors.json";
+import contributors from "@/src/constants/contributors.json";
 import {useGetContributorsQuery} from "@/redux/slices/contributorsApi";
 
 function UserData(name) {

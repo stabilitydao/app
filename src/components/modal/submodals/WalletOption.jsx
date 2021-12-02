@@ -1,6 +1,6 @@
 import React from 'react'
-import { injected, walletconnect } from '@/components/wallet/connectors'
-import walletConnectError from '@/components/wallet/'
+import { injected, walletconnect } from '@/src/wallet/connectors'
+import walletConnectError from '@/src/wallet'
 import { useWeb3React } from '@web3-react/core'
 
 function WalletOption({ onClose }) {

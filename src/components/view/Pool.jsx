@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import poolAbi from '@/components/abis/poolAbi'
+import poolAbi from '@/src/abis/poolAbi'
 import { useWeb3React } from '@web3-react/core'
-import tokenAbi from '@/components/abis/tokenAbi'
+import tokenAbi from '@/src/abis/tokenAbi'
 import addresses from 'addresses'
-import { networks } from "../wallet/networks";
+import { networks } from "../../wallet/networks";
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+
 function Pool({ name, pool, network }) {
     const dispatch = useDispatch()
     const { account, chainId, library } = useWeb3React()
@@ -14,6 +15,7 @@ function Pool({ name, pool, network }) {
     const [stakeNow, setstakeNow] = useState("")
     const [unStakeNow, setunStakeNow] = useState("")
     const [TVL, setTVL] = useState("")
+    const tokenBalance = useSelector(state => state.tokenBalance.value)
     async function stake() {
         if (stakeNow !== '') {
             try {
@@ -26,6 +28,7 @@ function Pool({ name, pool, network }) {
                 tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
                     setTVL(library.utils.fromWei(TVL, 'ether'))
                 })
+                setstakeNow('')
             } catch (err) {
                 console.log(err)
             }
@@ -44,6 +47,7 @@ function Pool({ name, pool, network }) {
                 tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
                     setTVL(library.utils.fromWei(TVL, 'ether'))
                 })
+                setunStakeNow('')
             } catch (err) {
                 console.log(err)
             }
@@ -117,11 +121,17 @@ function Pool({ name, pool, network }) {
                         <button className="btn" onClick={harvest}>Harvest</button>
                     </div>
                     <div className="flex flex-row items-center justify-between mb-2">
-                        <input type="number" onChange={(e) => { setstakeNow(e.target.value) }} value={stakeNow} className="px-4 py-1 text-base text-gray-700 placeholder-gray-400 bg-white border border-transparent border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" min="0" />
+                        <div className="flex border border-indigo-400 rounded-sm">
+                            <input type="number" onChange={(e) => { setstakeNow(e.target.value) }} value={stakeNow} className="py-1 pl-2 text-base text-gray-700 placeholder-gray-400 bg-white rounded-lg appearance-none focus:outline-none focus:border-transparent" min="0" />
+                            <h1 className="px-2 font-semibold cursor-pointer" onClick={() => { setstakeNow(Math.floor(tokenBalance * 100) / 100) }}>{Math.floor(tokenBalance * 100) / 100}</h1>
+                        </div>
                         <button className="btn" onClick={stake}>Stake</button>
                     </div>
                     <div className="flex flex-row items-center justify-between mb-2">
-                        <input type="number" onChange={(e) => { setunStakeNow(e.target.value) }} value={unStakeNow} className="px-4 py-1 text-base text-gray-700 placeholder-gray-400 bg-white border border-transparent border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" min="0" />
+                        <div className="flex border border-indigo-400 rounded-sm">
+                            <input type="number" onChange={(e) => { setunStakeNow(e.target.value) }} value={unStakeNow} className="py-1 pl-2 text-base text-gray-700 placeholder-gray-400 bg-white rounded-lg appearance-none focus:outline-none focus:border-transparent" min="0" />
+                            <h1 className="px-2 font-semibold cursor-pointer" onClick={() => { setunStakeNow(Math.floor(stakedBalance * 100) / 100) }}>{Math.floor(stakedBalance * 100) / 100}</h1>
+                        </div>
                         <button className="btn" onClick={unStake}>UnStake</button>
                     </div>
                 </div >

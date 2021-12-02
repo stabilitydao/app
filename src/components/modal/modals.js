@@ -1,6 +1,6 @@
 import React from 'react'
-import Modal from '@/components/common/modal/Modal'
-import { WalletOption, Profile, NetworkOption } from '@/components/common/modal/submodals/'
+import Modal from '@/src/components/modal/Modal'
+import { WalletOption, Profile, NetworkOption } from '@/src/components/modal/submodals'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateIsNetworkOption, updateIsProfile, updateIsWalletOption } from '@/redux/slices/modalsSlice'
 

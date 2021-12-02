@@ -1,5 +1,5 @@
 import { updatenetwork } from '@/redux/slices/networkSlice'
-import { showAlert } from '@/components/common/alert';
+import { showAlert } from '@/src/components/alert';
 
 async function switchNetwork(network, dispatch, library, onClose) {
     try {
