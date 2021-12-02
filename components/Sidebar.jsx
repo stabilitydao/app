@@ -1,11 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
-import { BsFillPeopleFill, BsGithub, BsTelegram, BsTwitter, BsDiscord } from 'react-icons/bs'
+import { BsGithub, BsTelegram, BsTwitter, BsDiscord } from 'react-icons/bs'
 import { AiFillHome } from 'react-icons/ai'
-import { BiServer } from 'react-icons/bi'
+import {BiCoin, BiGroup, BiServer} from 'react-icons/bi'
+import {RiGovernmentFill,} from 'react-icons/ri'
 import { MdEditRoad } from 'react-icons/md'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateSidebar } from '@/redux/slices/sidebarSlice'
+import {GiRegeneration} from "react-icons/all";
 function Sidebar() {
     const dispatch = useDispatch()
     const sidebar = useSelector(state => state.sidebar.value)
@@ -20,8 +22,11 @@ function Sidebar() {
             <ul className="mt-3">
                 <li><Link href="/"><a className="flex items-center py-4 pl-7 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
                 <li><Link href="/roadmap"><a className="flex items-center py-4 pl-7 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Roadmap</a></Link></li>
-                <li><Link href="/ecosystem"><a className="flex items-center py-4 pl-7 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BsFillPeopleFill className="mr-2" />Ecosystem</a></Link></li>
                 <li><Link href="/pools"><a className="flex items-center py-4 pl-7 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer className="mr-2" />Pools</a></Link></li>
+                <li><Link href="/tokens"><a className="flex items-center py-4 pl-7 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
+                <li><Link href="/governance"><a className="flex items-center py-4 pl-7 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><RiGovernmentFill className="mr-2" />Governance</a></Link></li>
+                <li><Link href="/team"><a className="flex items-center py-4 pl-7 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Team</a></Link></li>
+                <li><Link href="/generation"><a className="flex items-center py-4 pl-7 text-xl gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
             </ul>
             <div className="absolute flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-2">
                 <ul className="flex justify-center text-center gap-x-5">

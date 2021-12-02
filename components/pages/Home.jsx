@@ -54,7 +54,7 @@ function Home() {
                             </div>
                         </div>
                     </Link>
-                    <Link href="/ecosystem">
+                    <Link href="/tokens">
                         <div className="flex flex-col w-full mb-4 cursor-pointer sm:w1/2 md:w-1/3 rounded-3xl dark:hover:bg-gray-900">
                             <div className="flex justify-center mt-6 mb-3 text-4xl text-center">Tokenomics</div>
                             <div className="flex items-center justify-center pb-10 text-center text-indigo-700 sm:text-4xl font-Roboto">
@@ -62,7 +62,7 @@ function Home() {
                             </div>
                         </div>
                     </Link>
-                    <Link href="/ecosystem#team">
+                    <Link href="/team">
                         <div className="flex flex-col w-full mb-4 cursor-pointer sm:w1/2 md:w-1/3 rounded-3xl dark:hover:bg-gray-900">
                             <div className="flex justify-center mt-6 mb-4 text-4xl text-center">Team</div>
                             <div className="flex items-center justify-center pb-10 text-center text-indigo-700 sm:text-4xl font-Roboto">

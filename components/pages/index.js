@@ -1,4 +1,7 @@
 export {default as Home} from './Home'
 export {default as Roadmap} from './Roadmap'
-export {default as Ecosystem} from './Ecosystem'
 export {default as Pools} from './Pools'
+export {default as Tokens} from './Tokens'
+export {default as Governance} from './Governance'
+export {default as Team} from './Team'
+export {default as Generation} from './Generation'
