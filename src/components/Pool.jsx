@@ -3,7 +3,7 @@ import poolAbi from '@/src/abis/poolAbi'
 import { useWeb3React } from '@web3-react/core'
 import tokenAbi from '@/src/abis/tokenAbi'
 import addresses from 'addresses'
-import { networks } from "../../wallet/networks";
+import { networks } from "../wallet/networks";
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
 import { useDispatch, useSelector } from 'react-redux'
 

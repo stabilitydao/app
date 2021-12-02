@@ -5,7 +5,6 @@ import { Web3ReactProvider } from '@web3-react/core'
 import Navbar from './Navbar'
 import { ToastContainer } from 'react-toastify';
 import Sidebar from './Sidebar'
-
 import Modals from '@/src/components/modal/modals'
 function Layout({ children }) {
     const [Mode, setMode] = useState(null)

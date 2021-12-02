@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import addresses, { MAINNET, ROPSTEN, RINKEBY } from 'addresses'
 import { useSelector } from "react-redux";
-import Pool from './Pool'
+import Pool from '../Pool'
 
 function Pools() {
     const { chainId } = useWeb3React()
