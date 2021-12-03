@@ -19,7 +19,7 @@ function Sidebar() {
                     <span className="ml-4 text-2xl font-bold">STABILITY</span>
                 </div>
             </Link>
-            <ul className="mt-3" className="overflow-y-auto" style={{height:"calc(100vh - 160px)"}}>
+            <ul className="mt-3 overflow-y-auto"  style={{height:"calc(100vh - 160px)"}}>
                 <li><Link href="/"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
                 <li><Link href="/roadmap"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Roadmap</a></Link></li>
                 <li><Link href="/pools"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer className="mr-2" />Pools</a></Link></li>
