@@ -6,6 +6,7 @@ import addresses from 'addresses'
 import { networks } from "../wallet/networks";
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
 import { useDispatch, useSelector } from 'react-redux'
+import {showAlert} from '@/src/components/alert'
 
 function Pool({ name, pool, network }) {
     const dispatch = useDispatch()
@@ -59,7 +60,7 @@ function Pool({ name, pool, network }) {
         try {
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             await poolContract.methods.harvest().send({ from: account })
-            const value = await poolContract.methods.pendingWETH(account).call()
+            const value = await poolContract.methods.pending(account).call()
             const reward = library.utils.fromWei(value, 'ether')
             setReward(reward)
         } catch (err) {
@@ -78,7 +79,7 @@ function Pool({ name, pool, network }) {
             }).then((stakedBalance) => {
                 setstakedBalance(stakedBalance)
             })
-            poolContract.methods.pendingWETH(account).call().then((value) => {
+            poolContract.methods.pending(account).call().then((value) => {
                 return library.utils.fromWei(value, 'ether')
             }).then((reward) => {
                 setReward(reward)
@@ -114,10 +115,10 @@ function Pool({ name, pool, network }) {
                 </div>
             ) :
                 <div className="p-5" >
-                    <h1 className=" font-Roboto">TVL: {Math.floor(TVL * 100000) / 100000} PROFIT</h1>
-                    <h1 className=" font-Roboto">Staking: {Math.floor(stakedBalance * 100000) / 100000} PROFIT</h1>
+                    <h1 className=" font-Roboto">TVL: {Math.floor(TVL * 100000) / 100000} {pool.stake}</h1>
+                    <h1 className=" font-Roboto">Staking: {Math.floor(stakedBalance * 100000) / 100000} {pool.stake}</h1>
                     <div className="flex flex-row items-center justify-between mb-2">
-                        <h1 className=" font-Roboto">Earned: {Math.floor(Reward * 100000) / 100000} ETH</h1>
+                        <h1 className=" font-Roboto">Earned: {Math.floor(Reward * 100000) / 100000} {pool.earn}</h1>
                         <button className="btn" onClick={harvest}>Harvest</button>
                     </div>
                     <div className="flex flex-row items-center justify-between mb-2">

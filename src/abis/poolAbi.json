@@ -1,19 +1,40 @@
 [
     {
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
         "inputs": [
             {
-                "internalType": "contract IERC20",
-                "name": "_wETH",
+                "indexed": false,
+                "internalType": "address",
+                "name": "previousAdmin",
                 "type": "address"
             },
             {
-                "internalType": "contract IERC20",
-                "name": "_profitToken",
+                "indexed": false,
+                "internalType": "address",
+                "name": "newAdmin",
                 "type": "address"
             }
         ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
+        "name": "AdminChanged",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "beacon",
+                "type": "address"
+            }
+        ],
+        "name": "BeaconUpgraded",
+        "type": "event"
     },
     {
         "anonymous": false,
@@ -58,18 +79,87 @@
         "inputs": [
             {
                 "indexed": true,
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "previousAdminRole",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "newAdminRole",
+                "type": "bytes32"
+            }
+        ],
+        "name": "RoleAdminChanged",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
                 "internalType": "address",
-                "name": "previousOwner",
+                "name": "account",
                 "type": "address"
             },
             {
                 "indexed": true,
                 "internalType": "address",
-                "name": "newOwner",
+                "name": "sender",
                 "type": "address"
             }
         ],
-        "name": "OwnershipTransferred",
+        "name": "RoleGranted",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+            }
+        ],
+        "name": "RoleRevoked",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "implementation",
+                "type": "address"
+            }
+        ],
+        "name": "Upgraded",
         "type": "event"
     },
     {
@@ -93,7 +183,61 @@
     },
     {
         "inputs": [],
-        "name": "divisor",
+        "name": "DEFAULT_ADMIN_ROLE",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "UPGRADER_ROLE",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IERC20Upgradeable",
+                "name": "_stakeToken",
+                "type": "address"
+            },
+            {
+                "internalType": "contract IERC20MintableUpgradeable",
+                "name": "_rewardToken",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_rewardTokensPerBlock",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_startBlock",
+                "type": "uint256"
+            }
+        ],
+        "name": "__MintingPool_init",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "accRewardTokensPerShare",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -112,6 +256,67 @@
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_from",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_to",
+                "type": "uint256"
+            }
+        ],
+        "name": "getMultiplier",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+            }
+        ],
+        "name": "getRoleAdmin",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "grantRole",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "harvest",
         "outputs": [],
@@ -119,13 +324,70 @@
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+            },
             {
                 "internalType": "address",
-                "name": "",
+                "name": "account",
                 "type": "address"
+            }
+        ],
+        "name": "hasRole",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IERC20Upgradeable",
+                "name": "_profitToken",
+                "type": "address"
+            },
+            {
+                "internalType": "contract DividendToken",
+                "name": "_dividendToken",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_rewardTokensPerBlock",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_startBlock",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "upgrader",
+                "type": "address"
+            }
+        ],
+        "name": "initialize",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "lastRewardBlock",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -139,7 +401,7 @@
                 "type": "address"
             }
         ],
-        "name": "pendingWETH",
+        "name": "pending",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -151,11 +413,47 @@
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "renounceRole",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "revokeRole",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "inputs": [],
-        "name": "profitToken",
+        "name": "rewardToken",
         "outputs": [
             {
-                "internalType": "contract IERC20",
+                "internalType": "contract IERC20MintableUpgradeable",
                 "name": "",
                 "type": "address"
             }
@@ -165,22 +463,15 @@
     },
     {
         "inputs": [],
-        "name": "renounceOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
+        "name": "rewardTokensPerBlock",
+        "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_divisor",
+                "name": "",
                 "type": "uint256"
             }
         ],
-        "name": "setDivisor",
-        "outputs": [],
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -197,16 +488,48 @@
         "type": "function"
     },
     {
-        "inputs": [
+        "inputs": [],
+        "name": "stakeToken",
+        "outputs": [
             {
-                "internalType": "address",
-                "name": "newOwner",
+                "internalType": "contract IERC20Upgradeable",
+                "name": "",
                 "type": "address"
             }
         ],
-        "name": "transferOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "startBlock",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes4",
+                "name": "interfaceId",
+                "type": "bytes4"
+            }
+        ],
+        "name": "supportsInterface",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -233,6 +556,37 @@
         "inputs": [
             {
                 "internalType": "address",
+                "name": "newImplementation",
+                "type": "address"
+            }
+        ],
+        "name": "upgradeTo",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "newImplementation",
+                "type": "address"
+            },
+            {
+                "internalType": "bytes",
+                "name": "data",
+                "type": "bytes"
+            }
+        ],
+        "name": "upgradeToAndCall",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
                 "name": "",
                 "type": "address"
             }
@@ -248,19 +602,6 @@
                 "internalType": "uint256",
                 "name": "rewardDebt",
                 "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "wETH",
-        "outputs": [
-            {
-                "internalType": "contract IERC20",
-                "name": "",
-                "type": "address"
             }
         ],
         "stateMutability": "view",

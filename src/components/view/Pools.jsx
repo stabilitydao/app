@@ -13,8 +13,8 @@ function Pools() {
         [ROPSTEN]: {
             PoolV0: {
                 stake: 'PROFIT',
-                earn: 'WETH',
-                contract: "0xF88f5591beE2C9F05b2D894FC86e86c37F7e869f",
+                earn: 'SDIV',
+                contract: "0x164A980F555bcdFa1F4FDca50b8798f401DdCA8A",
             },
         },
     };
