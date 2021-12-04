@@ -15,11 +15,11 @@ function Sidebar() {
         <aside className={`fixed z-20 top-0 bottom-0 h-screen text-black bg-white shadow dark:bg-gray-900 dark:text-white w-72 xl:w-80 lg:static  duration-300  ${sidebar ? "left-0" : " -left-96"}`}>
             <Link href="/">
                 <div className="flex items-center px-4 py-2 cursor-pointer" onClick={() => { dispatch(updateSidebar(false)) }}>
-                    <img src="/logo_nolines_256.png" alt="Stability" className="h-12" />
+                    <img src="/logo_nolines_256.png" alt="Stability" className="h-10" />
                     <span className="ml-4 text-2xl font-bold">STABILITY</span>
                 </div>
             </Link>
-            <ul className="mt-3 overflow-y-auto"  style={{height:"calc(100vh - 160px)"}}>
+            <ul className="mt-1 overflow-y-auto"  style={{height:"calc(100vh - 160px)"}}>
                 <li><Link href="/"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
                 <li><Link href="/roadmap"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Roadmap</a></Link></li>
                 <li><Link href="/tokens"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>

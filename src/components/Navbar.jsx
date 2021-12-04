@@ -67,7 +67,7 @@ function Navbar({ Mode }) {
     }
 
     return (
-        <nav className="sticky top-0 z-10 bg-white shadow dark:text-white dark:bg-gray-900">
+        <nav className="sticky top-0 z-10 bg-white shadow dark:text-white dark:bg-gray-900 py-0.5">
             {
                 (Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()) ? !Sync : true)
                 && account && (chainId != currentNetwork) &&
