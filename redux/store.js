@@ -6,6 +6,7 @@ import networkReducer from './slices/networkSlice'
 import syncReducer from './slices/syncSlice'
 import priceReducer from './slices/priceSlice'
 import tokenReducer from './slices/tokenSlice'
+import dTokenReducer from './slices/dTokenSlice'
 import modalsReducer from './slices/modalsSlice'
 import sidebarReducer from './slices/sidebarSlice'
 import { contributorsApi } from './slices/contributorsApi'
@@ -18,6 +19,7 @@ export const store = configureStore({
     tokenBalance: tokenbalanceReducer,
     price: priceReducer,
     token: tokenReducer,
+    dToken: dTokenReducer,
     modals: modalsReducer,
     sidebar: sidebarReducer,
     [contributorsApi.reducerPath]: contributorsApi.reducer,
