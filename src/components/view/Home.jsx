@@ -32,7 +32,7 @@ function Home() {
                         </p>
                     </div>
                 </div>
-                <div className="flex flex-wrap w-full">
+                <div className="flex flex-wrap w-full te justify-center">
                     <Link href="/roadmap">
                         <div className="flex flex-col w-full mb-4 cursor-pointer sm:w1/2 md:w-1/3 rounded-3xl dark:hover:bg-gray-900">
                             <div className="flex justify-center mt-6 mb-4 text-4xl text-center">Roadmap</div>
@@ -54,15 +54,24 @@ function Home() {
                             </div>
                         </div>
                     </Link>
-                    <Link href="/ecosystem">
+                    <Link href="/tokens">
                         <div className="flex flex-col w-full mb-4 cursor-pointer sm:w1/2 md:w-1/3 rounded-3xl dark:hover:bg-gray-900">
                             <div className="flex justify-center mt-6 mb-3 text-4xl text-center">Tokenomics</div>
                             <div className="flex items-center justify-center pb-10 text-center text-indigo-700 sm:text-4xl font-Roboto">
-                                <img src="/profit.svg" alt="profit" width="100" className="self-center float-left mt-12" />
+                                <img src="/profit.svg" alt="profit" width="100" className="self-center float-left mt-12 mx-4" />
+                                <img src="/SDIV.svg" alt="SDIV" width="100" className="self-center float-left mt-12 mx-4" />
                             </div>
                         </div>
                     </Link>
-                    <Link href="/ecosystem#team">
+                    <Link href="/pools">
+                        <div className="flex flex-col w-full mb-4 cursor-pointer sm:w1/2 md:w-1/3 rounded-3xl dark:hover:bg-gray-900">
+                            <div className="flex justify-center mt-6 mb-3 text-4xl text-center">Pools</div>
+                            <div className="flex flex-col h-full items-center justify-center pb-10 text-center text-teal-700 sm:text-4xl font-Roboto">
+                                <div className="self-center">Dividend Minter</div>
+                            </div>
+                        </div>
+                    </Link>
+                    <Link href="/team">
                         <div className="flex flex-col w-full mb-4 cursor-pointer sm:w1/2 md:w-1/3 rounded-3xl dark:hover:bg-gray-900">
                             <div className="flex justify-center mt-6 mb-4 text-4xl text-center">Team</div>
                             <div className="flex items-center justify-center pb-10 text-center text-indigo-700 sm:text-4xl font-Roboto">
