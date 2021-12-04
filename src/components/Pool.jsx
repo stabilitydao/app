@@ -99,6 +99,12 @@ function Pool({ name, pool, network }) {
                                 <a className="relative" title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(pool.contract)} rel="noopener noreferrer"><span className="absolute right-0 bottom-3" style={{ color: networks[network].color }}>{networks[network].name}</span> {pool.contract}</a>
                             ) : null}</td>
                         </tr>
+                        <tr>
+                            <td className="py-1 text-lg">TVL</td>
+                            <td className="py-1 text-lg text-right">
+                                {Math.floor(TVL * 100000) / 100000} {pool.stake}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -115,13 +121,29 @@ function Pool({ name, pool, network }) {
                 </div>
             ) :
                 <div className="p-5" >
-                    <h1 className=" font-Roboto">TVL: {Math.floor(TVL * 100000) / 100000} {pool.stake}</h1>
-                    <h1 className=" font-Roboto">Staking: {Math.floor(stakedBalance * 100000) / 100000} {pool.stake}</h1>
-                    <div className="flex flex-row items-center justify-between mb-2">
-                        <h1 className=" font-Roboto">Earned: {Math.floor(Reward * 100000) / 100000} {pool.earn}</h1>
-                        <button className="btn" onClick={harvest}>Harvest</button>
-                    </div>
-                    <div className="flex flex-row items-center justify-between mb-2">
+                    <table className="w-full text-sm table-auto bg-blend-darken">
+                        <tbody>
+                        <tr>
+                            <td className="py-1 text-lg">Staked</td>
+                            <td className="py-1 text-lg text-right">
+                                {Math.floor(stakedBalance * 100000) / 100000} {pool.stake}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="py-1 text-lg">Earned</td>
+                            <td className="py-1 text-lg text-right">
+                                {Reward > 0 ? (
+                                    <div>
+                                        <button className="btn text-sm rounded-2xl mr-2" onClick={harvest}>Harvest</button> {Math.floor(Reward * 100000000) / 100000000} {pool.earn}
+                                    </div>
+                                ) : (
+                                    <div>-</div>
+                                )}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div className="mt-5 flex flex-row items-center justify-between mb-2">
                         <div className="flex border border-indigo-400 rounded-sm">
                             <input type="number" onChange={(e) => { setstakeNow(e.target.value) }} value={stakeNow} className="py-1 pl-2 text-base text-gray-700 placeholder-gray-400 bg-white rounded-lg appearance-none focus:outline-none focus:border-transparent" min="0" />
                             <h1 className="px-2 font-semibold cursor-pointer" onClick={() => { setstakeNow(Math.floor(tokenBalance * 100) / 100) }}>{Math.floor(tokenBalance * 100) / 100}</h1>
