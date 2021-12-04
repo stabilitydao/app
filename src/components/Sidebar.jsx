@@ -22,8 +22,8 @@ function Sidebar() {
             <ul className="mt-3 overflow-y-auto"  style={{height:"calc(100vh - 160px)"}}>
                 <li><Link href="/"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
                 <li><Link href="/roadmap"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Roadmap</a></Link></li>
-                <li><Link href="/pools"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer className="mr-2" />Pools</a></Link></li>
                 <li><Link href="/tokens"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
+                <li><Link href="/pools"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer className="mr-2" />Pools</a></Link></li>
                 <li><Link href="/governance"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><RiGovernmentFill className="mr-2" />Governance</a></Link></li>
                 <li><Link href="/team"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Team</a></Link></li>
                 <li><Link href="/generation"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
