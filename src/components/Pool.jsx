@@ -126,7 +126,7 @@ function Pool({ name, pool, network }) {
 
     return (
         <div className="flex flex-col flex-1 w-full m-5 overflow-hidden bg-white shadow-2xl md:w-2/3 lg:w-1/2 rounded-3xl dark:bg-gray-900">
-            <div className="p-3 text-3xl text-center dark:bg-gray-800">{name}</div>
+            <div className="p-3 text-3xl text-center dark:bg-gray-800 font-bold">{name}</div>
             <div className="p-5">Stake {pool.stake} to earn {pool.earn}</div>
             <div className="px-5 ">
                 <table className="w-full text-sm table-auto bg-blend-darken">
@@ -159,34 +159,34 @@ function Pool({ name, pool, network }) {
                 </div>
             ) :
                 <div className="p-5" >
-                    {/* {
-                        Approve &&
-                    } */}
                     {
                         Approve ?
                             <div>
-                                <table className="w-full text-sm table-auto bg-blend-darken">
-                                    <tbody>
-                                        <tr>
-                                            <td className="py-1 text-lg">Staked</td>
-                                            <td className="py-1 text-lg text-right">
-                                                {Math.floor(stakedBalance * 100000) / 100000} {pool.stake}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 text-lg">Earned</td>
-                                            <td className="py-1 text-lg text-right">
-                                                {Reward > 0 ? (
-                                                    <div>
-                                                        <button className="btn text-sm rounded-2xl mr-2" onClick={harvest}>Harvest</button> {Math.floor(Reward * 100000000) / 100000000} {pool.earn}
+                                <div className="flex dark:bg-teal-900 rounded-2xl" style={{/*{backgroundColor: '#fffeee'}*/}}>
+                                    <div className="flex flex-col w-1/2 p-4">
+                                        <div className="flex dark:text-teal-100">Earned</div>
+                                        <div className="flex dark:text-teal-100 font-bold">
+                                            {Reward > 0 ? (
+                                                <div>
+                                                    <div className="mb-4 text-xl">
+                                                        {Math.floor(Reward * 100000) / 100000} {pool.earn}
                                                     </div>
-                                                ) : (
-                                                    <div>-</div>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                                    <button className="btn w-full dark:bg-teal-600 border-none outline-none text-sm rounded-2xl mr-2" onClick={harvest}>Harvest</button>
+                                                </div>
+                                            ) : (
+                                                <div>-</div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col w-1/2 p-4">
+                                        <div className="flex dark:text-teal-100">Staked</div>
+                                        <div className="flex dark:text-teal-100 font-bold">
+                                            <div className="text-xl">
+                                                {Math.floor(stakedBalance * 100000) / 100000} {pool.stake}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="my-4">
                                     <div className="flex">
                                         <button className={`p-4 text-2xl font-bold ${wantTOStake ? "" : "text-gray-500"}`} onClick={() => { setwantTOStake(true) }}>Stake {pool.stake}</button>
@@ -236,7 +236,7 @@ function Pool({ name, pool, network }) {
                                 </div>
                             </div>
                             :
-                            <button className="btn w-full rounded-xl h-12" onClick={upprove}>Approve {pool.stake}</button>
+                            <button className="btn w-full rounded-xl h-12" onClick={upprove}>Enable</button>
                     }
                 </div >
             }
