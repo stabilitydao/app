@@ -123,8 +123,8 @@ function Pool({ name, pool, network }) {
                 setReward(reward)
             })
         }
-
     }, [account, chainId])
+
     return (
         <div className="flex flex-col flex-1 w-full m-5 overflow-hidden bg-white shadow-2xl md:w-2/3 lg:w-1/2 rounded-3xl dark:bg-gray-900">
             <div className="p-3 text-3xl text-center dark:bg-gray-800">{name}</div>
@@ -160,79 +160,85 @@ function Pool({ name, pool, network }) {
                 </div>
             ) :
                 <div className="p-5" >
-                    <table className="w-full text-sm table-auto bg-blend-darken">
-                        <tbody>
-                            <tr>
-                                <td className="py-1 text-lg">Staked</td>
-                                <td className="py-1 text-lg text-right">
-                                    {Math.floor(stakedBalance * 100000) / 100000} {pool.stake}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="py-1 text-lg">Earned</td>
-                                <td className="py-1 text-lg text-right">
-                                    {Reward > 0 ? (
-                                        <div>
-                                            <button className="btn text-sm rounded-2xl mr-2" onClick={harvest}>Harvest</button> {Math.floor(Reward * 100000000) / 100000000} {pool.earn}
-                                        </div>
-                                    ) : (
-                                        <div>-</div>
-                                    )}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div className="my-4">
-                        <div className="flex">
-                            <button className={`p-4 text-2xl font-bold ${wantTOStake ? "" : "text-gray-500"}`} onClick={() => { setwantTOStake(true) }}>Stake {pool.stake}</button>
-                            <button className={`p-4 text-2xl font-bold ${wantTOStake ? "text-gray-500" : ""}`} onClick={() => { setwantTOStake(false) }}>Unstake</button>
-                        </div>
-                        {
-                            wantTOStake ?
-                                <div>
-                                    <div className="flex justify-between mb-1 pr-1">
-                                        <span>Balance</span>
-                                        <span>{tokenBalance > 0 ? Math.floor(tokenBalance * 100) / 100 : 0}</span>
+                    {/* {
+                        Approve &&
+                    } */}
+                    {
+                        Approve ?
+                            <div>
+                                <table className="w-full text-sm table-auto bg-blend-darken">
+                                    <tbody>
+                                        <tr>
+                                            <td className="py-1 text-lg">Staked</td>
+                                            <td className="py-1 text-lg text-right">
+                                                {Math.floor(stakedBalance * 100000) / 100000} {pool.stake}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className="py-1 text-lg">Earned</td>
+                                            <td className="py-1 text-lg text-right">
+                                                {Reward > 0 ? (
+                                                    <div>
+                                                        <button className="btn text-sm rounded-2xl mr-2" onClick={harvest}>Harvest</button> {Math.floor(Reward * 100000000) / 100000000} {pool.earn}
+                                                    </div>
+                                                ) : (
+                                                    <div>-</div>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div className="my-4">
+                                    <div className="flex">
+                                        <button className={`p-4 text-2xl font-bold ${wantTOStake ? "" : "text-gray-500"}`} onClick={() => { setwantTOStake(true) }}>Stake {pool.stake}</button>
+                                        <button className={`p-4 text-2xl font-bold ${wantTOStake ? "text-gray-500" : ""}`} onClick={() => { setwantTOStake(false) }}>Unstake</button>
                                     </div>
-                                    <div className="flex text-gray-900 relative">
-                                        <input type="text" onChange={(e) => { setstakeNow(e.target.value) }} value={stakeNow} className="w-full px-5 py-3 rounded-xl bg-gray-100 border-2 border-indigo-500 outline-none dark:bg-black dark:text-white" min="0" placeholder="0.0" />
-                                        <div className="absolute right-4 top-3.5">
-                                            <span onClick={() => { setstakeNow(Math.floor(tokenBalance * 100) / 100) }} className="cursor-pointer px-3 py-1 bg-indigo-200 border-indigo-500 rounded-2xl dark:bg-indigo-900 dark:text-white">
-                                                MAX
-                                            </span>
-                                            <span className="mx-2 text-indigo-500">|</span>
-                                            <span className="font-bold dark:text-white">{pool.stake}</span>
-                                        </div>
-                                    </div>
+                                    {
+                                        wantTOStake ?
+                                            <div>
+                                                <div className="flex justify-between mb-1 pr-1">
+                                                    <span>Balance</span>
+                                                    <span>{tokenBalance > 0 ? Math.floor(tokenBalance * 100) / 100 : 0}</span>
+                                                </div>
+                                                <div className="flex text-gray-900 relative">
+                                                    <input type="text" onChange={(e) => { setstakeNow(e.target.value) }} value={stakeNow} className="w-full px-5 py-3 rounded-xl bg-gray-100 border-2 border-indigo-500 outline-none dark:bg-black dark:text-white" min="0" placeholder="0.0" />
+                                                    <div className="absolute right-4 top-3.5">
+                                                        <span onClick={() => { setstakeNow(Math.floor(tokenBalance * 100) / 100) }} className="cursor-pointer px-3 py-1 bg-indigo-200 border-indigo-500 rounded-2xl dark:bg-indigo-900 dark:text-white">
+                                                            MAX
+                                                        </span>
+                                                        <span className="mx-2 text-indigo-500">|</span>
+                                                        <span className="font-bold dark:text-white">{pool.stake}</span>
+                                                    </div>
+                                                </div>
 
-                                    <div className="flex my-5">
-                                        {!Approve ? (
-                                            <button className="btn w-full rounded-xl h-12" onClick={upprove}>Approve {pool.stake}</button>
-                                        ) : (
-                                            <button className="btn w-full rounded-xl h-12" onClick={stake}>Stake</button>
-                                        )}
-                                    </div>
+                                                <div className="flex my-5">
+                                                    <button className="btn w-full rounded-xl h-12" onClick={stake}>Stake</button>
+                                                </div>
+                                            </div>
+                                            :
+                                            <div>
+                                                <div className="flex justify-between mb-1 pr-1">
+                                                    <span>Staked</span>
+                                                    <span>{Math.floor(stakedBalance * 100) / 100}</span>
+                                                </div>
+                                                <div className="flex relative">
+                                                    <input type="text" onChange={(e) => { setunStakeNow(e.target.value) }} value={unStakeNow} className="w-full px-5 py-3 rounded-xl bg-gray-100 border-2 border-indigo-500 outline-none dark:bg-black dark:text-white" min="0" placeholder="0.0" />
+                                                    <div className="absolute right-4 top-3.5 ">
+                                                        <span onClick={() => { setunStakeNow(stakedBalance) }} className="cursor-pointer px-3 py-1 bg-indigo-200 border-indigo-500 rounded-2xl dark:bg-indigo-900 dark:text-white">
+                                                            MAX
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="flex my-5">
+                                                    <button className="btn w-full rounded-xl h-12" onClick={unStake}>Unstake</button>
+                                                </div>
+                                            </div>
+                                    }
                                 </div>
-                                :
-                                <div>
-                                    <div className="flex justify-between mb-1 pr-1">
-                                        <span>Staked</span>
-                                        <span>{Math.floor(stakedBalance * 100) / 100}</span>
-                                    </div>
-                                    <div className="flex relative">
-                                        <input type="text" onChange={(e) => { setunStakeNow(e.target.value) }} value={unStakeNow} className="w-full px-5 py-3 rounded-xl bg-gray-100 border-2 border-indigo-500 outline-none dark:bg-black dark:text-white" min="0" placeholder="0.0" />
-                                        <div className="absolute right-4 top-3.5 ">
-                                            <span onClick={() => { setunStakeNow(stakedBalance) }} className="cursor-pointer px-3 py-1 bg-indigo-200 border-indigo-500 rounded-2xl dark:bg-indigo-900 dark:text-white">
-                                                MAX
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="flex my-5">
-                                        <button className="btn w-full rounded-xl h-12" onClick={unStake}>Unstake</button>
-                                    </div>
-                                </div>
-                        }
-                    </div>
+                            </div>
+                            :
+                            <button className="btn w-full rounded-xl h-12" onClick={upprove}>Approve {pool.stake}</button>
+                    }
                 </div >
             }
         </div>
