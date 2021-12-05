@@ -20,7 +20,6 @@ function Layout({ children }) {
             setMode(JSON.parse(mode))
         }
     }, [])
-
     useEffect(() => {
         localStorage.setItem("mode", JSON.stringify(Mode))
     }, [Mode])

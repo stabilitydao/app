@@ -11,6 +11,10 @@ import { User, AlertTriangle } from 'react-feather'
 import { updateIsNetworkOption, updateIsProfile, updateIsWalletOption } from '@/redux/slices/modalsSlice'
 import { updateSync } from '@/redux/slices/syncSlice'
 import { updateSidebar } from '@/redux/slices/sidebarSlice'
+import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
+import tokenAbi from '@/src/abis/tokenAbi'
+import addresses from 'addresses'
+import { updateBalance } from '@/redux/slices/balanceSlice'
 function Navbar({ Mode }) {
     const
         dispatch = useDispatch(),
@@ -49,6 +53,21 @@ function Navbar({ Mode }) {
             });
         }
     }, [])
+    useEffect(() => {
+        if (account && Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString())) {
+            library.eth.getBalance(account).then((balance) => {
+                return library.utils.fromWei(balance, "ether")
+            }).then((eths) => {
+                dispatch(updateBalance(eths))
+            })
+            const contract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
+            contract.methods.balanceOf(account).call().then((result) => {
+                return library.utils.fromWei(result);
+            }).then((tokenBalance) => {
+                dispatch(updateTokenbalance(tokenBalance))
+            })
+        }
+    }, [account, chainId])
     useEffect(() => {
         if (currentNetwork === chainId) {
             dispatch(updateSync(true))
@@ -145,7 +164,7 @@ function Navbar({ Mode }) {
                     <Mode_Icon />
                 </div>
             </div>
-            {sidebar && <div className={`fixed inset-0 w-screen h-screen bg-black opacity-20 `} onClick={() => { dispatch(updateSidebar(false))}} />}
+            {sidebar && <div className={`fixed inset-0 w-screen h-screen bg-black opacity-20 `} onClick={() => { dispatch(updateSidebar(false)) }} />}
         </nav>
     )
 }
