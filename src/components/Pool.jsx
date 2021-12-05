@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import poolAbi from '@/src/abis/poolAbi'
 import { useWeb3React } from '@web3-react/core'
+import { ethers } from 'ethers'
 import tokenAbi from '@/src/abis/tokenAbi'
 import addresses from 'addresses'
 import { networks } from "../wallet/networks";
@@ -46,7 +47,7 @@ function Pool({ name, pool, network }) {
         if (!Approve) {
             try {
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
-                await tokenContract.methods.approve(pool.contract, 115792089237316195423570985008687907853269984665640564039457584007913129639935).send({ from: account })
+                await tokenContract.methods.approve(pool.contract, ethers.constants.MaxUint256).send({ from: account })
                 setApprove(true)
             } catch (err) {
                 console.log(err)
