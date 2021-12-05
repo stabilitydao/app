@@ -7,7 +7,8 @@ import { networks } from "../wallet/networks";
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
 import { useDispatch, useSelector } from 'react-redux'
 import { showAlert } from '@/src/components/alert'
-
+import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
+import { updateBalance } from '@/redux/slices/balanceSlice'
 function Pool({ name, pool, network }) {
     const [Approve, setApprove] = useState(false)
     const [ApproveAmount, setApproveAmount] = useState(0)
@@ -21,16 +22,20 @@ function Pool({ name, pool, network }) {
     const [TVL, setTVL] = useState("")
     const tokenBalance = useSelector(state => state.tokenBalance.value)
     async function stake() {
-        if (stakeNow !== '' && !(stakeNow <= 0) && Approve && ApproveAmount < stakeNow && !(stakeNow > tokenBalance)) {
+        if (stakeNow !== '' && !(stakeNow <= 0) && Approve && stakeNow <= ApproveAmount && !(stakeNow > tokenBalance)) {
             try {
                 const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
                 await poolContract.methods.stake(library.utils.toWei(`${stakeNow}`, 'ether')).send({ from: account })
                 const staked = await poolContract.methods.userInfo(account).call()
                 setstakedBalance(library.utils.fromWei(staked[0], 'ether'))
-                tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
-                    setTVL(library.utils.fromWei(TVL, 'ether'))
-                })
-                setstakeNow('')
+                const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
+                const tokenBalance = await tokenContract.methods.balanceOf(account).call()
+                dispatch(updateTokenbalance(library.utils.fromWei(tokenBalance)))
+                const tvl = await tokenContract.methods.balanceOf(pool.contract).call()
+                const tvlInEther = library.utils.fromWei(tvl, 'ether')
+                setTVL(tvlInEther)
+                setApprove(false)
+                setstakeNow("")
             } catch (err) {
                 console.log(err)
             }
@@ -60,9 +65,10 @@ function Pool({ name, pool, network }) {
                 const staked = await poolContract.methods.userInfo(account).call()
                 setstakedBalance(library.utils.fromWei(staked[0], 'ether'))
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
-                tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
-                    setTVL(library.utils.fromWei(TVL, 'ether'))
-                })
+                const tokenBalance = await tokenContract.methods.balanceOf(account).call()
+                dispatch(updateTokenbalance(library.utils.fromWei(tokenBalance)))
+                const TVL = await tokenContract.methods.balanceOf(pool.contract).call()
+                setTVL(library.utils.fromWei(TVL, 'ether'))
                 setunStakeNow('')
             } catch (err) {
                 console.log(err)
@@ -83,6 +89,19 @@ function Pool({ name, pool, network }) {
         }
     }
     useEffect(() => {
+        if (account && Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString())) {
+            library.eth.getBalance(account).then((balance) => {
+                return library.utils.fromWei(balance, "ether")
+            }).then((eths) => {
+                dispatch(updateBalance(eths))
+            })
+            const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
+            tokenContract.methods.balanceOf(account).call().then((result) => {
+                return library.utils.fromWei(result);
+            }).then((tokenBalance) => {
+                dispatch(updateTokenbalance(tokenBalance))
+            })
+        }
         if (account && pool.contract) {
             const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
             tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
@@ -100,7 +119,7 @@ function Pool({ name, pool, network }) {
                 setReward(reward)
             })
         }
-    }, [chainId])
+    }, [account, chainId])
     return (
         <div className="flex flex-col flex-1 w-full m-5 overflow-hidden bg-white shadow-2xl md:w-2/3 lg:w-1/2 rounded-3xl dark:bg-gray-900">
             <div className="p-3 text-3xl text-center dark:bg-gray-800">{name}</div>
@@ -196,7 +215,7 @@ function Pool({ name, pool, network }) {
                                         <span>{Math.floor(stakedBalance * 100) / 100}</span>
                                     </div>
                                     <div className="flex relative">
-                                        <input type="text" onChange={(e) => { setunStakeNow(e.target.value) }} value={unStakeNow} className="w-full px-5 py-3 rounded-xl bg-gray-100 border-2 border-indigo-500 outline-none dark:bg-black dark:text-white" min="0" placeholder="0.0"  />
+                                        <input type="text" onChange={(e) => { setunStakeNow(e.target.value) }} value={unStakeNow} className="w-full px-5 py-3 rounded-xl bg-gray-100 border-2 border-indigo-500 outline-none dark:bg-black dark:text-white" min="0" placeholder="0.0" />
                                         <div className="absolute right-4 top-3.5 ">
                                             <span onClick={() => { setunStakeNow(stakedBalance) }} className="cursor-pointer px-3 py-1 bg-indigo-200 border-indigo-500 rounded-2xl dark:bg-indigo-900 dark:text-white">
                                                 MAX
