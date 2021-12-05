@@ -34,7 +34,6 @@ function Pool({ name, pool, network }) {
                 const tvl = await tokenContract.methods.balanceOf(pool.contract).call()
                 const tvlInEther = library.utils.fromWei(tvl, 'ether')
                 setTVL(tvlInEther)
-                setApprove(false)
                 setstakeNow("")
             } catch (err) {
                 console.log(err)
