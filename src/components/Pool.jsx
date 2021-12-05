@@ -184,8 +184,8 @@ function Pool({ name, pool, network }) {
                     </table>
                     <div className="my-4">
                         <div className="flex">
-                            <button className={`p-4 text-2xl font-bold ${wantTOStake ? "" : "text-gray-500"}`} onClick={() => { setwantTOStake(!wantTOStake) }}>Stake {pool.stake}</button>
-                            <button className={`p-4 text-2xl font-bold ${wantTOStake ? "text-gray-500" : ""}`} onClick={() => { setwantTOStake(!wantTOStake) }}>Unstake</button>
+                            <button className={`p-4 text-2xl font-bold ${wantTOStake ? "" : "text-gray-500"}`} onClick={() => { setwantTOStake(true) }}>Stake {pool.stake}</button>
+                            <button className={`p-4 text-2xl font-bold ${wantTOStake ? "text-gray-500" : ""}`} onClick={() => { setwantTOStake(false) }}>Unstake</button>
                         </div>
                         {
                             wantTOStake ?
