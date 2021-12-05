@@ -126,25 +126,27 @@ function Pool({ name, pool, network }) {
     }, [account, chainId])
 
     return (
-        <div className="flex flex-col flex-1 w-full m-5 overflow-hidden bg-white shadow-2xl md:w-2/3 lg:w-1/2 rounded-3xl dark:bg-gray-900">
+        <div className="flex flex-col w-full m-5 overflow-hidden bg-white shadow-2xl rounded-3xl dark:bg-gray-900 min-w-full">
             <div className="p-3 text-3xl text-center dark:bg-teal-900 dark:text-teal-100 font-bold">{name}</div>
-            <div className="p-5 flex">
-                <div className="flex self-center w-1/2">
+            <div className="w-full text-sm dark:bg-gray-800">
+                {network ? (
+                    <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(pool.contract)} rel="noopener noreferrer">
+                        <span className="hidden justify-center text-xs md:text-sm self-center" style={{ color: networks[network].color }}>{networks[network].name}</span>
+                        <span className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{pool.contract}</span>
+                    </a>
+                ) : null}
+            </div>
+            <div className="px-7 py-4 flex">
+                <div className="flex self-center w-1/3">
                     <img src="/profit.svg" alt="profit" width="100" className="w-8 mx-2" />
                     <MdGeneratingTokens className="self-center "/>
                     <img src="/SDIV.svg" alt="profit" width="100" className="w-8 mx-2" />
                 </div>
-                <div className="flex self-center">Stake {pool.stake} to earn {pool.earn}</div>
+                <div className="flex self-center w-2/3 justify-center">Stake {pool.stake} to earn {pool.earn}</div>
             </div>
-            <div className="px-5 ">
+            <div className="px-7 ">
                 <table className="w-full text-sm table-auto bg-blend-darken">
                     <tbody>
-                        <tr>
-                            <td className="py-1 text-lg">Contract</td>
-                            <td className="py-1 pl-6 text-xs text-right">{network ? (
-                                <a className="relative" title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(pool.contract)} rel="noopener noreferrer"><span className="absolute right-0 bottom-3" style={{ color: networks[network].color }}>{networks[network].name}</span> {pool.contract}</a>
-                            ) : null}</td>
-                        </tr>
                         <tr>
                             <td className="py-1 text-lg">TVL</td>
                             <td className="py-1 text-lg text-right">
@@ -155,7 +157,7 @@ function Pool({ name, pool, network }) {
                 </table>
             </div>
             {!account ? (
-                <div className="p-5 text-center">
+                <div className="p-7 text-center">
                     <button
                         type="button"
                         className="w-40 h-10 btn rounded-2xl"
@@ -166,7 +168,7 @@ function Pool({ name, pool, network }) {
                     </button>
                 </div>
             ) :
-                <div className="p-5" >
+                <div className="p-7" >
                     {
                         Approve ?
                             <div>
@@ -176,10 +178,10 @@ function Pool({ name, pool, network }) {
                                         <div className="flex dark:text-teal-100 font-bold">
                                             {Reward > 0 ? (
                                                 <div>
-                                                    <div className="mb-4 text-xl">
-                                                        {Math.floor(Reward * 100000) / 100000} {pool.earn}
+                                                    <div className="mb-4 text-xl whitespace-nowrap">
+                                                        {Math.floor(Reward * 10000) / 10000} {pool.earn}
                                                     </div>
-                                                    <button className="btn w-full dark:bg-teal-600 border-none outline-none text-sm rounded-2xl mr-2" onClick={harvest}>Harvest</button>
+                                                    <button className="btn w-full dark:bg-teal-600 border-none outline-none text-sm rounded-2xl" onClick={harvest}>Harvest</button>
                                                 </div>
                                             ) : (
                                                 <div>-</div>
@@ -197,8 +199,8 @@ function Pool({ name, pool, network }) {
                                 </div>
                                 <div className="my-4">
                                     <div className="flex">
-                                        <button className={`w-1/2 p-4 text-2xl font-bold ${wantTOStake ? "" : "text-gray-500"}`} onClick={() => { setwantTOStake(true) }}>Stake {pool.stake}</button>
-                                        <button className={`w-1/2 p-4 text-2xl font-bold ${wantTOStake ? "text-gray-500" : ""}`} onClick={() => { setwantTOStake(false) }}>Unstake</button>
+                                        <button className={`w-1/2 p-4 text-xl font-bold ${wantTOStake ? "" : "text-gray-500"}`} onClick={() => { setwantTOStake(true) }}>Stake</button>
+                                        <button className={`w-1/2 p-4 text-xl font-bold ${wantTOStake ? "text-gray-500" : ""}`} onClick={() => { setwantTOStake(false) }}>Unstake</button>
                                     </div>
                                     {
                                         wantTOStake ?
@@ -208,7 +210,7 @@ function Pool({ name, pool, network }) {
                                                     <span>Balance: {tokenBalance > 0 ? Math.floor(tokenBalance * 1000000000) / 1000000000 : 0}</span>
                                                 </div>
                                                 <div className="flex text-gray-900 relative">
-                                                    <input type="text" onChange={(e) => { setstakeNow(e.target.value) }} value={stakeNow} className="w-full px-5 py-3 rounded-xl bg-gray-100 border-2 border-indigo-500 outline-none dark:bg-black dark:text-white" min="0" placeholder="0.0" />
+                                                    <input type="text" onChange={(e) => { setstakeNow(e.target.value) }} value={stakeNow} className="w-full pl-5 py-3 rounded-xl bg-gray-100 border-2 border-indigo-500 dark:border-indigo-700 outline-none dark:bg-black dark:text-white" min="0" placeholder="0.0" />
                                                     <div className="absolute right-4 top-3.5">
                                                         <span onClick={() => { setstakeNow(tokenBalance) }} className="cursor-pointer px-3 py-1 bg-indigo-200 border-indigo-500 rounded-2xl dark:bg-indigo-900 dark:text-white text-sm">
                                                             MAX
@@ -219,7 +221,7 @@ function Pool({ name, pool, network }) {
                                                 </div>
 
                                                 <div className="flex my-5">
-                                                    <button className="btn w-full rounded-xl h-12" onClick={stake}>Stake</button>
+                                                    <button className="btn w-full rounded-xl h-12 dark:bg-indigo-700" onClick={stake}>Stake</button>
                                                 </div>
                                             </div>
                                             :
@@ -229,7 +231,7 @@ function Pool({ name, pool, network }) {
                                                     <span>Staked: {Math.floor(stakedBalance * 1000000000) / 1000000000}</span>
                                                 </div>
                                                 <div className="flex relative">
-                                                    <input type="text" onChange={(e) => { setunStakeNow(e.target.value) }} value={unStakeNow} className="w-full px-5 py-3 rounded-xl bg-gray-100 border-2 border-indigo-500 outline-none dark:bg-black dark:text-white" min="0" placeholder="0.0" />
+                                                    <input type="text" onChange={(e) => { setunStakeNow(e.target.value) }} value={unStakeNow} className="w-full pl-5 py-3 rounded-xl bg-gray-100 border-2 border-indigo-500 dark:border-indigo-700 outline-none dark:bg-black dark:text-white" min="0" placeholder="0.0" />
                                                     <div className="absolute right-4 top-3.5 ">
                                                         <span onClick={() => { setunStakeNow(stakedBalance) }} className="cursor-pointer px-3 py-1 bg-indigo-200 border-indigo-500 rounded-2xl dark:bg-indigo-900 dark:text-white text-sm">
                                                             MAX
@@ -237,7 +239,7 @@ function Pool({ name, pool, network }) {
                                                     </div>
                                                 </div>
                                                 <div className="flex my-5">
-                                                    <button className="btn w-full rounded-xl h-12" onClick={unStake}>Unstake</button>
+                                                    <button className="btn w-full rounded-xl h-12 dark:bg-indigo-700" onClick={unStake}>Unstake</button>
                                                 </div>
                                             </div>
                                     }
