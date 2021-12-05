@@ -11,7 +11,6 @@ import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
 import { updateBalance } from '@/redux/slices/balanceSlice'
 function Pool({ name, pool, network }) {
     const [Approve, setApprove] = useState(false)
-    const [ApproveAmount, setApproveAmount] = useState(0)
     const [wantTOStake, setwantTOStake] = useState(true)
     const dispatch = useDispatch()
     const { account, chainId, library } = useWeb3React()
@@ -22,7 +21,7 @@ function Pool({ name, pool, network }) {
     const [TVL, setTVL] = useState("")
     const tokenBalance = useSelector(state => state.tokenBalance.value)
     async function stake() {
-        if (stakeNow !== '' && !(stakeNow <= 0) && Approve && stakeNow <= ApproveAmount && !(stakeNow > tokenBalance)) {
+        if (stakeNow !== '' && !(stakeNow <= 0) && Approve && !(stakeNow > tokenBalance)) {
             try {
                 const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
                 await poolContract.methods.stake(library.utils.toWei(`${stakeNow}`, 'ether')).send({ from: account })
@@ -44,12 +43,11 @@ function Pool({ name, pool, network }) {
         }
     }
     async function upprove() {
-        if (stakeNow !== '' && !(stakeNow <= 0) && !(stakeNow > tokenBalance)) {
+        if (!Approve) {
             try {
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
-                await tokenContract.methods.approve(pool.contract, library.utils.toWei(`${stakeNow}`, 'ether')).send({ from: account })
+                await tokenContract.methods.approve(pool.contract, 115792089237316195423570985008687907853269984665640564039457584007913129639935).send({ from: account })
                 setApprove(true)
-                setApproveAmount(stakeNow)
             } catch (err) {
                 console.log(err)
             }
@@ -107,6 +105,11 @@ function Pool({ name, pool, network }) {
             tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
                 setTVL(library.utils.fromWei(TVL, 'ether'))
             })
+            tokenContract.methods.allowance(account, pool.contract).call().then((approveAmount) => {
+                if (approveAmount == 115792089237316195423570985008687907853269984665640564039457584007913129639935) {
+                    setApprove(true)
+                }
+            })
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             poolContract.methods.userInfo(account).call().then((staked) => {
                 return library.utils.fromWei(staked[0], 'ether')
@@ -119,6 +122,7 @@ function Pool({ name, pool, network }) {
                 setReward(reward)
             })
         }
+
     }, [account, chainId])
     return (
         <div className="flex flex-col flex-1 w-full m-5 overflow-hidden bg-white shadow-2xl md:w-2/3 lg:w-1/2 rounded-3xl dark:bg-gray-900">
