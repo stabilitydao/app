@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showAlert } from '@/src/components/alert'
 import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
 import { updateBalance } from '@/redux/slices/balanceSlice'
-import {MdGeneratingTokens} from "react-icons/md";
+import { MdGeneratingTokens } from "react-icons/md";
 function Pool({ name, pool, network }) {
     const [Approve, setApprove] = useState(false)
     const [wantTOStake, setwantTOStake] = useState(true)
@@ -139,7 +139,7 @@ function Pool({ name, pool, network }) {
             <div className="px-7 py-4 flex">
                 <div className="flex self-center w-1/3">
                     <img src="/profit.svg" alt="profit" width="100" className="w-8 mx-2" />
-                    <MdGeneratingTokens className="self-center "/>
+                    <MdGeneratingTokens className="self-center " />
                     <img src="/SDIV.svg" alt="profit" width="100" className="w-8 mx-2" />
                 </div>
                 <div className="flex self-center w-2/3 justify-center">Stake {pool.stake} to earn {pool.earn}</div>
@@ -172,13 +172,13 @@ function Pool({ name, pool, network }) {
                     {
                         Approve ?
                             <div>
-                                <div className="flex dark:bg-teal-900 rounded-2xl" style={{/*{backgroundColor: '#fffeee'}*/}}>
+                                <div className="flex dark:bg-teal-900 rounded-2xl" style={{/*{backgroundColor: '#fffeee'}*/ }}>
                                     <div className="flex flex-col w-1/2 p-4">
                                         <div className="flex dark:text-teal-100">Earned</div>
                                         <div className="flex dark:text-teal-100 font-bold">
                                             {Reward > 0 ? (
                                                 <div>
-                                                    <div className="mb-4 text-xl whitespace-nowrap">
+                                                    <div className="mb-4 text-xl whitespace-nowrap glow-effect text-white">
                                                         {Math.floor(Reward * 10000) / 10000} {pool.earn}
                                                     </div>
                                                     <button className="btn w-full dark:bg-teal-600 border-none outline-none text-sm rounded-2xl" onClick={harvest}>Harvest</button>
