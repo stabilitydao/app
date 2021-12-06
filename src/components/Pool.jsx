@@ -22,6 +22,8 @@ function Pool({ name, pool, network }) {
     const [unStakeNow, setunStakeNow] = useState("")
     const [TVL, setTVL] = useState("")
     const tokenBalance = useSelector(state => state.tokenBalance.value)
+
+
     async function stake() {
         if (stakeNow !== '' && !(stakeNow <= 0) && Approve && !(stakeNow > tokenBalance)) {
             try {
@@ -124,6 +126,14 @@ function Pool({ name, pool, network }) {
             })
         }
     }, [account, chainId])
+    setInterval(() => {
+        const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
+        poolContract.methods.pending(account).call().then((value) => {
+            return library.utils.fromWei(value, 'ether')
+        }).then((reward) => {
+            setReward(reward)
+        })
+    }, 15000);
 
     return (
         <div className="flex flex-col w-full m-5 overflow-hidden bg-white shadow-2xl rounded-3xl dark:bg-gray-900 min-w-full">
@@ -178,7 +188,7 @@ function Pool({ name, pool, network }) {
                                         <div className="flex dark:text-teal-100 font-bold">
                                             {Reward > 0 ? (
                                                 <div>
-                                                    <div className="mb-4 text-xl whitespace-nowrap glow-effect text-white">
+                                                    <div className="mb-4 text-xl whitespace-nowrap  ">
                                                         {Math.floor(Reward * 10000) / 10000} {pool.earn}
                                                     </div>
                                                     <button className="btn w-full dark:bg-teal-600 border-none outline-none text-sm rounded-2xl" onClick={harvest}>Harvest</button>

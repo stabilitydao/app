@@ -16,44 +16,6 @@
   .h-calc {
     min-height: calc(100vh - 64px);
   }
-  .glow-effect {
-    @apply border-0 outline-none  relative z-0 rounded-full;
-  }
-
-  .glow-effect:before {
-    content: "";
-    background: linear-gradient(
-      45deg,
-      #ff0000,
-      #ff7300,
-      #fffb00,
-      #48ff00,
-      #00ffd5,
-      #002bff,
-      #7a00ff,
-      #ff00c8,
-      #ff0000
-    );
-    @apply absolute rounded-full;
-    background-size: 400%;
-    z-index: -1;
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    animation: glowing 20s linear infinite;
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
-  }
-  @keyframes glowing {
-    0% {
-      background-position: 0 0;
-    }
-    50% {
-      background-position: 400% 0;
-    }
-    100% {
-      background-position: 0 0;
-    }
-  }
 }
 
 html {
