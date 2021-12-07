@@ -78,7 +78,7 @@ function Sidebar() {
                     <span className="ml-3.5 text-xl font-bold">STABILITY</span>
                 </div>
             </Link>
-            <ul className="mt-1 overflow-y-auto" style={{ height: "calc(100vh - 220px)" }}>
+            <ul className="mt-1 overflow-y-auto" style={{ height: "calc(100vh - 250px)" }}>
                 <li><Link href="/"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
                 <li><Link href="/roadmap"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Roadmap</a></Link></li>
                 <li><Link href="/tokens"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
