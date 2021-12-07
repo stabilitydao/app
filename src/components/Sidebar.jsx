@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { BsFillPeopleFill, BsGithub, BsTelegram, BsTwitter, BsDiscord } from 'react-icons/bs'
 import { AiFillHome } from 'react-icons/ai'
@@ -17,6 +17,7 @@ import uniV3PoolAbi from '@/src/abis/uniV3PoolAbi'
 import WEB3 from '@/src/functions/web3'
 function Sidebar() {
     const web3 = WEB3()
+    const [ethPrice, setethPrice] = useState()
     const profitPrice = useSelector(state => state.price.value)
     const priceIn = useSelector(state => state.price.in)
     const currentNetwork = useSelector(state => state.network.value)
@@ -46,12 +47,19 @@ function Sidebar() {
                     console.log(err)
                 })
             }
+            const ethPriceContract = new web3.eth.Contract(uniV3PoolAbi, '0x40FDe2952a0674a3E77707Af270af09800657293');
+            ethPriceContract.methods.slot0().call().then((price) => {
+                setethPrice(2 ** 192 / price[0] ** 2)
+            }).catch((err) => {
+                console.log(err)
+            })
         } else {
             dispatch(updateProfitPrice([
                 0, ''
             ]))
         }
     }, [network])
+
     return (
         <aside className={`fixed z-20 top-0 bottom-0 h-screen text-black bg-white shadow dark:bg-gray-900 dark:text-white w-72 xl:w-80 lg:static  duration-300  ${sidebar ? "left-0" : " -left-96"}`}>
             <Link href="/">
@@ -60,7 +68,7 @@ function Sidebar() {
                     <span className="ml-3.5 text-xl font-bold">STABILITY</span>
                 </div>
             </Link>
-            <ul className="mt-1 overflow-y-auto" style={{ height: "calc(100vh - 190px)" }}>
+            <ul className="mt-1 overflow-y-auto" style={{ height: "calc(100vh - 220px)" }}>
                 <li><Link href="/"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
                 <li><Link href="/roadmap"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Roadmap</a></Link></li>
                 <li><Link href="/tokens"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
@@ -69,8 +77,9 @@ function Sidebar() {
                 <li><Link href="/team"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Team</a></Link></li>
                 <li><Link href="/generation"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
             </ul>
-            <div className="absolute flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-2">
-                <h1 className="font-semibold text-xl"> Price {profitPrice} {priceIn}</h1>
+            <div className="absolute flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
+                <h1 className="font-semibold text-xl"> ETH={Math.floor(ethPrice * 1000) / 1000}$</h1>
+                <h1 className="font-semibold text-xl">PROFIT={profitPrice} {priceIn}</h1>
                 <ul className="flex justify-center text-center gap-x-5">
                     <li><a href="https://github.com/stabilitydao" target="_blank" rel="noopener noreferrer"><BsGithub className="text-3xl cursor-pointer" /></a></li>
                     <li><a href="https://twitter.com/stabilitydao" target="_blank" rel="noopener noreferrer"><BsTwitter className="text-3xl cursor-pointer" /></a></li>
