@@ -7,7 +7,9 @@ const buyLinks = {
 }
 
 const lpv3 = {
-    [MAINNET]: null,
+    [MAINNET]: {
+        DAIETH: '0xC2e9F25Be6257c210d7Adf0D4Cd6E3E881ba25f8',
+    },
     [ROPSTEN]: {
         ETH: '0x596B3535C42B6ff7dfF16EdE1f9DfC7e0CA5828A',
         DAIETH: '0x40FDe2952a0674a3E77707Af270af09800657293',

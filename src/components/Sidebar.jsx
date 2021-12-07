@@ -46,6 +46,10 @@ function Sidebar() {
                 }).catch((err) => {
                     console.log(err)
                 })
+            } else {
+                dispatch(updateProfitPrice([
+                    0, ''
+                ]))
             }
 
             if (lpv3[network].DAIETH) {
@@ -84,27 +88,33 @@ function Sidebar() {
                 <li><Link href="/generation"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
             </ul>
             <div className="absolute flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
-                <div className="font-semibold text-xl">
-                    {ethPrice ? (
-                        <div>
-                            ETH ${Math.floor(ethPrice * 1000) / 1000}
-                        </div>
-                    ) : null}
-                </div>
-                <div className="font-semibold text-xl">
-                    {profitPrice ? (
-                        <div>
-                            PROFIT {profitPrice} {priceIn}
-                        </div>
-                    ) : null}
-                </div>
-                <ul className="flex justify-center text-center gap-x-5">
+                <table className="w-50 mb-6">
+                    <body>
+                    <tr>
+                        <td className="w-20">
+                            {ethPrice ? 'ETH' : null}
+                        </td>
+                        <td className="text-right">
+                            {ethPrice ? `$${Math.floor(ethPrice * 1000) / 1000}` : null}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {profitPrice && ethPrice ? 'PROFIT' : null}
+                        </td>
+                        <td className="text-right">
+                            {profitPrice && ethPrice ? `$${Math.floor(profitPrice * ethPrice * 1000) / 1000}` : null}
+                        </td>
+                    </tr>
+                    </body>
+                </table>
+                <ul className="flex justify-center text-center gap-x-5 mb-4">
                     <li><a href="https://github.com/stabilitydao" target="_blank" rel="noopener noreferrer"><BsGithub className="text-3xl cursor-pointer" /></a></li>
                     <li><a href="https://twitter.com/stabilitydao" target="_blank" rel="noopener noreferrer"><BsTwitter className="text-3xl cursor-pointer" /></a></li>
                     <li><a href="https://t.me/stabilitydao" target="_blank" rel="noopener noreferrer" ><BsTelegram className="text-3xl " /></a></li>
                     <li><a href="https://discord.gg/R3nnetWzC9" target="_blank" rel="noopener noreferrer" ><BsDiscord className="text-3xl " /></a></li>
                 </ul>
-                <div className="my-1 text-sm">
+                <div className="my-1 text-sm mb-4 dark:text-gray-300">
                     © 2021 Stability
                 </div>
             </div>
