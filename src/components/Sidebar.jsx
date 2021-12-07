@@ -79,19 +79,19 @@ function Sidebar() {
                 </div>
             </Link>
             <ul className="mt-1 overflow-y-auto" style={{ height: "calc(100vh - 220px)" }}>
-                <li><Link href="/"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
-                <li><Link href="/roadmap"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Roadmap</a></Link></li>
-                <li><Link href="/tokens"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
-                <li><Link href="/pools"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer className="mr-2" />Pools</a></Link></li>
-                <li><Link href="/governance"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><RiGovernmentFill className="mr-2" />Governance</a></Link></li>
-                <li><Link href="/team"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Team</a></Link></li>
-                <li><Link href="/generation"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
+                <li><Link href="/"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
+                <li><Link href="/roadmap"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Roadmap</a></Link></li>
+                <li><Link href="/tokens"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
+                <li><Link href="/pools"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer className="mr-2" />Pools</a></Link></li>
+                <li><Link href="/governance"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><RiGovernmentFill className="mr-2" />Governance</a></Link></li>
+                <li><Link href="/team"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Team</a></Link></li>
+                <li><Link href="/generation"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
             </ul>
             <div className="absolute flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
                 <table className="w-50 mb-6">
-                    <body>
+                    <tbody>
                     <tr>
-                        <td className="w-20">
+                        <td className="w-16">
                             {ethPrice ? 'ETH' : null}
                         </td>
                         <td className="text-right">
@@ -106,7 +106,7 @@ function Sidebar() {
                             {profitPrice && ethPrice ? `$${Math.floor(profitPrice * ethPrice * 1000) / 1000}` : null}
                         </td>
                     </tr>
-                    </body>
+                    </tbody>
                 </table>
                 <ul className="flex justify-center text-center gap-x-5 mb-4">
                     <li><a href="https://github.com/stabilitydao" target="_blank" rel="noopener noreferrer"><BsGithub className="text-3xl cursor-pointer" /></a></li>
