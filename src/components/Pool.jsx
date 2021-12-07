@@ -90,49 +90,54 @@ function Pool({ name, pool, network }) {
         }
     }
     useEffect(() => {
-        if (account && Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString())) {
-            library.eth.getBalance(account).then((balance) => {
-                return library.utils.fromWei(balance, "ether")
-            }).then((eths) => {
-                dispatch(updateBalance(eths))
-            })
-            const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
-            tokenContract.methods.balanceOf(account).call().then((result) => {
-                return library.utils.fromWei(result);
-            }).then((tokenBalance) => {
-                dispatch(updateTokenbalance(tokenBalance))
-            })
+        if (library && library.eth) {
+            if (account && Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString())) {
+                library.eth.getBalance(account).then((balance) => {
+                    return library.utils.fromWei(balance, "ether")
+                }).then((eths) => {
+                    dispatch(updateBalance(eths))
+                })
+                const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
+                tokenContract.methods.balanceOf(account).call().then((result) => {
+                    return library.utils.fromWei(result);
+                }).then((tokenBalance) => {
+                    dispatch(updateTokenbalance(tokenBalance))
+                })
+            }
+            if (account && pool.contract) {
+                const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
+                tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
+                    setTVL(library.utils.fromWei(TVL, 'ether'))
+                })
+                tokenContract.methods.allowance(account, pool.contract).call().then((approveAmount) => {
+                    if (approveAmount == 115792089237316195423570985008687907853269984665640564039457584007913129639935) {
+                        setApprove(true)
+                    }
+                })
+                const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
+                poolContract.methods.userInfo(account).call().then((staked) => {
+                    return library.utils.fromWei(staked[0], 'ether')
+                }).then((stakedBalance) => {
+                    setstakedBalance(stakedBalance)
+                })
+                poolContract.methods.pending(account).call().then((value) => {
+                    return library.utils.fromWei(value, 'ether')
+                }).then((reward) => {
+                    setReward(reward)
+                })
+            }
         }
-        if (account && pool.contract) {
-            const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
-            tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
-                setTVL(library.utils.fromWei(TVL, 'ether'))
-            })
-            tokenContract.methods.allowance(account, pool.contract).call().then((approveAmount) => {
-                if (approveAmount == 115792089237316195423570985008687907853269984665640564039457584007913129639935) {
-                    setApprove(true)
-                }
-            })
+
+    }, [account, chainId])
+    setInterval(() => {
+        if (library && library.eth) {
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
-            poolContract.methods.userInfo(account).call().then((staked) => {
-                return library.utils.fromWei(staked[0], 'ether')
-            }).then((stakedBalance) => {
-                setstakedBalance(stakedBalance)
-            })
             poolContract.methods.pending(account).call().then((value) => {
                 return library.utils.fromWei(value, 'ether')
             }).then((reward) => {
                 setReward(reward)
             })
         }
-    }, [account, chainId])
-    setInterval(() => {
-        const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
-        poolContract.methods.pending(account).call().then((value) => {
-            return library.utils.fromWei(value, 'ether')
-        }).then((reward) => {
-            setReward(reward)
-        })
     }, 15000);
 
     return (

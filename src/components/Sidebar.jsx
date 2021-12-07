@@ -47,16 +47,22 @@ function Sidebar() {
                     console.log(err)
                 })
             }
-            const ethPriceContract = new web3.eth.Contract(uniV3PoolAbi, '0x40FDe2952a0674a3E77707Af270af09800657293');
-            ethPriceContract.methods.slot0().call().then((price) => {
-                setethPrice(2 ** 192 / price[0] ** 2)
-            }).catch((err) => {
-                console.log(err)
-            })
+
+            if (lpv3[network].DAIETH) {
+                const ethPriceContract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network].DAIETH);
+                ethPriceContract.methods.slot0().call().then((price) => {
+                    setethPrice(2 ** 192 / price[0] ** 2)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            } else {
+                setethPrice(null)
+            }
         } else {
             dispatch(updateProfitPrice([
                 0, ''
             ]))
+            setethPrice(null)
         }
     }, [network])
 
@@ -78,8 +84,20 @@ function Sidebar() {
                 <li><Link href="/generation"><a className="flex items-center py-4 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
             </ul>
             <div className="absolute flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
-                <h1 className="font-semibold text-xl"> ETH={Math.floor(ethPrice * 1000) / 1000}$</h1>
-                <h1 className="font-semibold text-xl">PROFIT={profitPrice} {priceIn}</h1>
+                <div className="font-semibold text-xl">
+                    {ethPrice ? (
+                        <div>
+                            ETH ${Math.floor(ethPrice * 1000) / 1000}
+                        </div>
+                    ) : null}
+                </div>
+                <div className="font-semibold text-xl">
+                    {profitPrice ? (
+                        <div>
+                            PROFIT {profitPrice} {priceIn}
+                        </div>
+                    ) : null}
+                </div>
                 <ul className="flex justify-center text-center gap-x-5">
                     <li><a href="https://github.com/stabilitydao" target="_blank" rel="noopener noreferrer"><BsGithub className="text-3xl cursor-pointer" /></a></li>
                     <li><a href="https://twitter.com/stabilitydao" target="_blank" rel="noopener noreferrer"><BsTwitter className="text-3xl cursor-pointer" /></a></li>
