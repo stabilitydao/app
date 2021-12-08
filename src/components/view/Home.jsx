@@ -59,7 +59,7 @@ function Home() {
                             <div className="flex justify-center mt-6 mb-3 text-4xl text-center">Tokenomics</div>
                             <div className="flex items-center justify-center pb-10 text-center text-indigo-700 sm:text-4xl font-Roboto">
                                 <img src="/profit.svg" alt="profit" width="100" className="self-center float-left mt-12 mx-4" />
-                                <img src="/SDIV.svg" alt="SDIV" width="100" className="self-center float-left mt-12 mx-4" />
+                                <img src="/sdiv.svg" alt="SDIV" width="100" className="self-center float-left mt-12 mx-4" />
                             </div>
                         </div>
                     </Link>

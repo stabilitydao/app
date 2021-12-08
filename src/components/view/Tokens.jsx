@@ -118,7 +118,7 @@ function Tokens() {
                     address: addresses[chainId].dToken,
                     symbol: "SDIV",
                     decimals: 18,
-                    image: "https://dev.stabilitydao.org/SDIV.svg",
+                    image: "https://dev.stabilitydao.org/sdiv.svg",
                 },
             }
         }).then(() => {
@@ -235,7 +235,7 @@ function Tokens() {
                         <div className="flex flex-wrap">
                             <div className="w-full mb-4 xl:w-1/2 lg:mb-3">
                                 <div className="flex justify-center mb-5 text-center">
-                                    <img src="/SDIV.svg" alt="profit" width="150" className="float-left my-2 ml-3 mr-7" />
+                                    <img src="/sdiv.svg" alt="profit" width="150" className="float-left my-2 ml-3 mr-7" />
                                     <div className="flex flex-col justify-between mt-1.5 pb-4">
                                         <div>
                                             <Link href="/pools">
@@ -267,7 +267,7 @@ function Tokens() {
                                         <tr>
                                             <td className="py-1 pr-10">Contract</td>
                                             <td className="py-1 text-right">{network && addresses[network].dToken ? (
-                                                <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].dToken)} rel="noopener noreferrer"><span style={{ color: networks[network].color }}>{networks[network].name}</span> {addresses[network].dToken.slice(0, -36)}...{addresses[network].dToken.substring(38)}</a>
+                                                <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].dToken)} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].dToken.slice(0, -36)}...{addresses[network].dToken.substring(38)}</a>
                                             ) : '-'}</td>
                                         </tr>
                                         <tr>
