@@ -16,7 +16,10 @@ import univ3prices from '@thanpolas/univ3prices';
 import uniV3PoolAbi from '@/src/abis/uniV3PoolAbi'
 import WEB3 from '@/src/functions/web3'
 import { updateProfitPriceIn$ } from '@/redux/slices/profitPriceSlice'
+import { useRouter } from 'next/router'
 function Sidebar() {
+    const { pathname } = useRouter();
+    const [activeRoute, setactiveRoute] = useState(null)
     const web3 = WEB3()
     const [ethPrice, setethPrice] = useState()
     const profitPrice = useSelector(state => state.price.value)
@@ -27,6 +30,11 @@ function Sidebar() {
     const sidebar = useSelector(state => state.sidebar.value)
     const { library, active, chainId, } = useWeb3React()
     const network = chainId ? chainId : currentNetwork
+
+    useEffect(() => {
+        setactiveRoute(pathname)
+    }, [pathname])
+
     useEffect(() => {
         if (lpv3[network] !== null) {
             let token1 = null;
@@ -84,13 +92,13 @@ function Sidebar() {
                 </div>
             </Link>
             <ul className="mt-1 overflow-y-auto" style={{ height: "calc(100vh - 250px)" }}>
-                <li><Link href="/"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
-                <li><Link href="/roadmap"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Roadmap</a></Link></li>
-                <li><Link href="/tokens"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
-                <li><Link href="/pools"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer className="mr-2" />Pools</a></Link></li>
-                <li><Link href="/generation"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
-                <li><Link href="/governance"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><RiGovernmentFill className="mr-2" />Governance</a></Link></li>
-                <li><Link href="/team"><a className="flex items-center py-3 text-xl pl-7 gap-x-2 " onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Team</a></Link></li>
+                <li><Link href="/"><a className={`${activeRoute === "/" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
+                <li><Link href="/roadmap"><a className={`${activeRoute === "/roadmap" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Roadmap</a></Link></li>
+                <li><Link href="/tokens"><a className={`${activeRoute === "/tokens" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
+                <li><Link href="/pools"><a className={`${activeRoute === "/pools" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer className="mr-2" />Pools</a></Link></li>
+                <li><Link href="/generation"><a className={`${activeRoute === "/generation" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
+                <li><Link href="/governance"><a className={`${activeRoute === "/governance" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><RiGovernmentFill className="mr-2" />Governance</a></Link></li>
+                <li><Link href="/team"><a className={`${activeRoute === "/team" ? "bg-indigo-600 text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Team</a></Link></li>
             </ul>
             <div className="absolute flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
                 <table className="w-50 mb-6">
