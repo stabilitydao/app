@@ -13,10 +13,12 @@ function Layout({ children }) {
     const [mounted, setMounted] = useState(false);
     const [Title, setTitle] = useState('')
     const { pathname } = useRouter();
-    const scroolTOP = document.getElementById('scroolTOP')
-    if (scroolTOP) {
-        scroolTOP.scrollTop = 0;
-    }
+    useEffect(() => {
+        const scroolTOP = document.getElementById('scroolTOP')
+        if (scroolTOP) {
+            scroolTOP.scrollTop = 0;
+        }
+    }, [pathname])
     useEffect(() => {
         let route = pathname.replace('/', '')
         setTitle(route ? route[0].toUpperCase() + route.slice(1) : '')
