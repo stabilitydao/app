@@ -157,7 +157,7 @@ function Pool({ name, pool, network }) {
                     <div className="flex self-center justify-center pl-3">
                         <img src="/profit.svg" alt="profit" className="w-16 mx-2" />
                         <MdGeneratingTokens className="self-center text-2xl" />
-                        <img src="/sdiv.svg" alt="profit" className="w-16 mx-2" />
+                        <img src="/SDIV.svg" alt="profit" className="w-16 mx-2" />
                     </div>
                 </div>
                 <div className="flex w-1/2 justify-center">
