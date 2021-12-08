@@ -6,10 +6,16 @@ import Navbar from './Navbar'
 import { ToastContainer } from 'react-toastify';
 import Sidebar from './Sidebar'
 import Modals from '@/src/components/modal/modals'
+import { useRouter } from 'next/router'
 function Layout({ children }) {
     const [Mode, setMode] = useState(null)
     const [mounted, setMounted] = useState(false);
-
+    const [Title, setTitle] = useState('')
+    const { pathname } = useRouter();
+    useEffect(() => {
+        let route = pathname.replace('/', '')
+        setTitle(route ? route[0].toUpperCase() + route.slice(1) : '')
+    }, [pathname])
     useEffect(() => {
         setMounted(true)
         const mode = localStorage.getItem("mode")
@@ -34,7 +40,7 @@ function Layout({ children }) {
         <Web3ReactProvider getLibrary={getLibrary} >
             <main className={Mode ? "dark" : "" + "overflow-y-hidden h-screen"} >
                 <Head>
-                    <title>Stability</title>
+                    <title>{Title ? `${Title} - ` : ""}Stability</title>
                     <meta name="description" content="Profit generating DeFi protocol" />
                     <link rel="icon" href="/logo_nolines_256.png" />
                 </Head>
