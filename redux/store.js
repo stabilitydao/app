@@ -9,6 +9,7 @@ import tokenReducer from './slices/tokenSlice'
 import dTokenReducer from './slices/dTokenSlice'
 import modalsReducer from './slices/modalsSlice'
 import sidebarReducer from './slices/sidebarSlice'
+import profitPriceReducer from './slices/profitPriceSlice'
 import { contributorsApi } from './slices/contributorsApi'
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     dToken: dTokenReducer,
     modals: modalsReducer,
     sidebar: sidebarReducer,
+    profitpriceIn$: profitPriceReducer,
     [contributorsApi.reducerPath]: contributorsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(contributorsApi.middleware)

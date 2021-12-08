@@ -22,8 +22,7 @@ function Pool({ name, pool, network }) {
     const [unStakeNow, setunStakeNow] = useState("")
     const [TVL, setTVL] = useState("")
     const tokenBalance = useSelector(state => state.tokenBalance.value)
-
-
+    const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
     async function stake() {
         if (stakeNow !== '' && !(stakeNow <= 0) && Approve && !(stakeNow > tokenBalance)) {
             try {
@@ -165,7 +164,7 @@ function Pool({ name, pool, network }) {
                         <tr>
                             <td className="py-1 text-lg">TVL</td>
                             <td className="py-1 text-lg text-right">
-                                {Math.floor(TVL * 100000) / 100000} {pool.stake}
+                                {(Math.floor(TVL * 100000) / 100000)*profitpriceIn$}$
                             </td>
                         </tr>
                     </tbody>

@@ -15,17 +15,18 @@ import { updateProfitPrice } from "@/redux/slices/priceSlice";
 import univ3prices from '@thanpolas/univ3prices';
 import uniV3PoolAbi from '@/src/abis/uniV3PoolAbi'
 import WEB3 from '@/src/functions/web3'
+import { updateProfitPriceIn$ } from '@/redux/slices/profitPriceSlice'
 function Sidebar() {
     const web3 = WEB3()
     const [ethPrice, setethPrice] = useState()
     const profitPrice = useSelector(state => state.price.value)
     const priceIn = useSelector(state => state.price.in)
     const currentNetwork = useSelector(state => state.network.value)
+    const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
     const dispatch = useDispatch()
     const sidebar = useSelector(state => state.sidebar.value)
     const { library, active, chainId, } = useWeb3React()
     const network = chainId ? chainId : currentNetwork
-
     useEffect(() => {
         if (lpv3[network] !== null) {
             let token1 = null;
@@ -69,7 +70,11 @@ function Sidebar() {
             setethPrice(null)
         }
     }, [network])
-
+    if (profitPrice && ethPrice) {
+        dispatch(updateProfitPriceIn$(Math.floor(profitPrice * ethPrice * 1000) / 1000))
+    } else {
+        dispatch(updateProfitPriceIn$(null))
+    }
     return (
         <aside className={`fixed z-20 top-0 bottom-0 h-screen text-black bg-white shadow dark:bg-gray-900 dark:text-white w-72 xl:w-80 lg:static  duration-300  ${sidebar ? "left-0" : " -left-96"}`}>
             <Link href="/">
@@ -90,22 +95,22 @@ function Sidebar() {
             <div className="absolute flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
                 <table className="w-50 mb-6">
                     <tbody>
-                    <tr>
-                        <td className="w-16">
-                            {ethPrice ? 'ETH' : null}
-                        </td>
-                        <td className="text-right">
-                            {ethPrice ? `$${Math.floor(ethPrice * 1000) / 1000}` : null}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {profitPrice && ethPrice ? 'PROFIT' : null}
-                        </td>
-                        <td className="text-right">
-                            {profitPrice && ethPrice ? `$${Math.floor(profitPrice * ethPrice * 1000) / 1000}` : null}
-                        </td>
-                    </tr>
+                        <tr>
+                            <td className="w-16">
+                                {ethPrice ? 'ETH' : null}
+                            </td>
+                            <td className="text-right">
+                                {ethPrice ? `$${Math.floor(ethPrice * 1000) / 1000}` : null}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {profitPrice && ethPrice ? 'PROFIT' : null}
+                            </td>
+                            <td className="text-right">
+                                ${profitPrice && ethPrice ? `${profitpriceIn$}` : null}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
                 <ul className="flex justify-center text-center gap-x-5 mb-4">
