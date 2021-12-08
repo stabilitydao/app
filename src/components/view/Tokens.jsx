@@ -132,10 +132,10 @@ function Tokens() {
             <div className="container p-4">
                 <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Tokens</h1>
                 <article className="mb-10">
-                    <div>
+                    <div className="lg:w-3/5 xl:w-4/5 mx-auto">
                         <h1 className="mb-8 text-4xl sm:text-5xl font-Roboto ">PROFIT</h1>
                         <div className="flex flex-wrap">
-                            <div className="w-full mb-4 lg:w-1/3 lg:mb-3">
+                            <div className="w-full mb-4 xl:w-1/2 lg:mb-3">
                                 <div className="flex justify-center mb-5 text-center">
                                     <img src="/profit.svg" alt="profit" width="150" className="float-left my-2 ml-3 mr-7" />
                                     <div className="flex flex-col justify-between mt-1.5 pb-4">
@@ -166,18 +166,18 @@ function Tokens() {
                                         </div>
                                     </div>
                                 </div>
-                                <p className="p-0 text-lg">
+                                <p className="text-lg my-8">
                                     The native token PROFIT&apos;s primary purpose is to represent ownership shares of the Stability protocol. Given PROFIT holders are effectively owners of Stability. Holding the token also allows investors to manage the Stability protocol collectively. Token entire supply was minted in Phase 0 and will be distributed in Phase 1.
                                 </p>
                             </div>
-                            <div className="flex-row w-full lg:w-2/3">
+                            <div className="flex-row w-full lg:w-4/5 xl:w-2/5 mx-auto">
                                 <div className="flex justify-center">
                                     <table className="w-full text-sm table-auto bg-blend-darken md:text-xl" style={{ maxWidth: '540px' }}>
                                         <tbody>
                                         <tr>
-                                            <td className="py-1">Contract</td>
-                                            <td className="py-1 text-xs text-right">{network ? (
-                                                <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].token)} rel="noopener noreferrer"><span style={{ color: networks[network].color }}>{networks[network].name}</span> {addresses[network].token}</a>
+                                            <td className="py-1 pr-10">Contract</td>
+                                            <td className="py-1 text-right">{network ? (
+                                                <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].token)} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].token.slice(0, -36)}...{addresses[network].token.substring(38)}</a>
                                             ) : null}</td>
                                         </tr>
                                         <tr>
@@ -207,15 +207,15 @@ function Tokens() {
                                             <td className="py-1 text-right">{token ? (token.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : ''}</td>
                                         </tr>
                                         <tr>
-                                            <td className="py-1">Type</td>
-                                            <td className="py-1 text-right">security</td>
+                                            <td className="py-1 pr-10">Type</td>
+                                            <td className="py-1 text-right">utility</td>
                                         </tr>
                                         <tr>
-                                            <td className="py-1">Model</td>
+                                            <td className="py-1 pr-10">Model</td>
                                             <td className="py-1 text-right">deflationary</td>
                                         </tr>
                                         <tr>
-                                            <td className="py-1">Distribution</td>
+                                            <td className="py-1 pr-10">Distribution</td>
                                             <td className="py-1 text-right">
                                                 liquidity bootstrapping<br/>
                                                 full supply available at IDO
@@ -230,10 +230,10 @@ function Tokens() {
                     </div>
                 </article>
                 <article className="mb-10">
-                    <div>
+                    <div className="lg:w-3/5 xl:w-4/5 mx-auto">
                         <h1 className="mb-8 text-4xl sm:text-5xl font-Roboto ">SDIV</h1>
                         <div className="flex flex-wrap">
-                            <div className="w-full mb-4 lg:w-1/3 lg:mb-3">
+                            <div className="w-full mb-4 xl:w-1/2 lg:mb-3">
                                 <div className="flex justify-center mb-5 text-center">
                                     <img src="/SDIV.svg" alt="profit" width="150" className="float-left my-2 ml-3 mr-7" />
                                     <div className="flex flex-col justify-between mt-1.5 pb-4">
@@ -256,42 +256,42 @@ function Tokens() {
                                         </div>
                                     </div>
                                 </div>
-                                <p className="p-0 text-lg">
+                                <p className="p-0 text-lg my-8">
                                     The SDIV token is intended to distribute the externally generated profit of the organization in the form of dividends.
                                 </p>
                             </div>
-                            <div className="flex-row w-full lg:w-2/3">
+                            <div className="flex-row w-full lg:w-4/5 xl:w-2/5 mx-auto">
                                 <div className="flex justify-center">
                                     <table className="w-full text-sm table-auto bg-blend-darken md:text-xl" style={{ maxWidth: '540px' }}>
                                         <tbody>
                                         <tr>
-                                            <td className="py-1">Contract</td>
-                                            <td className="py-1 text-xs text-right">{network && addresses[network].dToken ? (
-                                                <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].dToken)} rel="noopener noreferrer"><span style={{ color: networks[network].color }}>{networks[network].name}</span> {addresses[network].dToken}</a>
+                                            <td className="py-1 pr-10">Contract</td>
+                                            <td className="py-1 text-right">{network && addresses[network].dToken ? (
+                                                <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].dToken)} rel="noopener noreferrer"><span style={{ color: networks[network].color }}>{networks[network].name}</span> {addresses[network].dToken.slice(0, -36)}...{addresses[network].dToken.substring(38)}</a>
                                             ) : '-'}</td>
                                         </tr>
                                         <tr>
-                                            <td className="py-1">Token name</td>
+                                            <td className="py-1 pr-10">Token name</td>
                                             <td className="py-1 text-right">{network && addresses[network].dToken && dToken ? dToken.name : '-'}</td>
                                         </tr>
                                         <tr>
-                                            <td className="py-1">Symbol</td>
+                                            <td className="py-1 pr-10">Symbol</td>
                                             <td className="py-1 text-right">{network && addresses[network].dToken && dToken ? dToken.symbol : '-'}</td>
                                         </tr>
                                         <tr>
-                                            <td className="py-1 whitespace-nowrap">Total supply</td>
+                                            <td className="py-1 whitespace-nowrap pr-10">Total supply</td>
                                             <td className="py-1 text-right">{network && addresses[network].dToken && dToken ? dToken.totalSupply : '-'}</td>
                                         </tr>
                                         <tr>
-                                            <td className="py-1">Type</td>
+                                            <td className="py-1 pr-10">Type</td>
                                             <td className="py-1 text-right">dividend</td>
                                         </tr>
                                         <tr>
-                                            <td className="py-1">Model</td>
+                                            <td className="py-1 pr-10">Model</td>
                                             <td className="py-1 text-right">inflationary</td>
                                         </tr>
                                         <tr>
-                                            <td className="py-1">Distribution</td>
+                                            <td className="py-1 pr-10">Distribution</td>
                                             <td className="py-1 text-right">
                                                 <Link href="/pools">Minting pool</Link>
                                             </td>
