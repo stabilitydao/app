@@ -42,30 +42,40 @@ function Dividends() {
     return (
         <section className="dark:bg-black dark:text-white h-calc">
             <div className="container p-4">
-                <div className="">
-                    <table className="table-auto ">
-                        <tbody>
-                            <tr>
-                                <td className="p-2">
-                                    Total not paid:
-                                </td>
-                                <td className="p-2">
-                                    {pendingPayment ? Math.floor(pendingPayment * 10000) / 10000 : "-"}ETH
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="p-2">
-                                    Total amount paid:
-                                </td>
-                                <td className="p-2">
-                                    {totalPaid ? Math.floor(totalPaid * 10000) / 10000 : "-"}ETH
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                        </tfoot>
-                    </table>
-                    <button className='btn' onClick={releasePayment}>Release</button>
+                <h1 className="mb-10 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Dividends</h1>
+                <div className="flex justify-center">
+                    <div className="flex flex-col m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-green-900 dark:border-2 dark:bg-gradient-to-br dark:from-green-900 dark:to-black">
+                        <div className="p-3 text-3xl text-center dark:text-green-200 font-bold">EtherPayer</div>
+                        <div className="p-3">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td className="">Total amount paid</td>
+                                    <td className="pl-8 text-right">
+                                        {totalPaid ? (
+                                            <span>{totalPaid ? Math.floor(totalPaid * 10000) / 10000 : "-"} WETH</span>
+                                        ) : '-'}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Your pending payment
+                                    </td>
+                                    <td className="pl-8 text-right">
+                                        {pendingPayment ? (
+                                            <span>{Math.floor(pendingPayment * 10000) / 10000} WETH</span>
+                                        ) : "-"}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            { pendingPayment ? (
+                                <button className='btn' onClick={releasePayment}>Release</button>
+                            ) : null }
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
