@@ -11,10 +11,15 @@ function Pools() {
 
     const pools = {
         [ROPSTEN]: {
-            "Dividend Minter": {
+            "Old deprecated pool": {
                 stake: 'PROFIT',
                 earn: 'SDIV',
                 contract: "0x75F929ba1C30A337de2B36C315c94A9abA24343A",
+            },
+            "Dividend Minter": {
+                stake: 'PROFIT',
+                earn: 'SDIV',
+                contract: "0x20169ebb1b60ee0c45ECAa5235551cC69Ea788C0",
             },
         },
     };
