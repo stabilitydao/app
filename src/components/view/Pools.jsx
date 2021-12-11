@@ -25,7 +25,7 @@ function Pools() {
     };
 
     return (
-        <section className="dark:bg-black dark:text-white h-calc">
+        <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
             <div className="container p-4">
                 <h1 className="mb-10 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Pools</h1>
                 <div>

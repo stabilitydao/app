@@ -86,7 +86,7 @@ function Navbar({ Mode }) {
     }
 
     return (
-        <nav style={{height: 72}} className="sticky top-0 z-10 bg-white shadow dark:text-white dark:bg-gray-900">
+        <nav style={{height: 72, backgroundColor: Ismode ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,1)' }} className="sticky top-0 z-10 shadow dark:text-white">
             {
                 (Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()) ? !Sync : true)
                 && account && (chainId != currentNetwork) &&

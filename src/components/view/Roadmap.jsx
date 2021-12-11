@@ -51,7 +51,7 @@ export const phaseTasks = [
 
 function Roadmap() {
     return (
-        <section className="dark:bg-black dark:text-white h-calc">
+        <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
             <div className="container p-4 pt-8">
                 <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Roadmap</h1>
                 <div className="max-w-lg mx-auto">

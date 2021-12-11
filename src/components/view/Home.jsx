@@ -16,7 +16,7 @@ function Home() {
     });
 
     return (
-        <section className="dark:bg-black dark:text-white h-calc">
+        <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
             <div className="container p-4 pb-32">
                 <div className="max-w-lg mx-auto mb-20">
                     <img src="/logo.svg" alt="logo" width={512} height={512} />

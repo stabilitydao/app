@@ -5,6 +5,7 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     colors: {
+      space: '#18042c',
       transparent: 'transparent',
       current: 'currentColor',
       black: colors.black,
