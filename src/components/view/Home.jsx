@@ -3,6 +3,7 @@ import Link from 'next/link'
 import {currentPhase} from "@/src/components/view/Roadmap";
 import { MAINNET, ROPSTEN, RINKEBY } from 'addresses'
 import {useSelector} from "react-redux";
+import AlphaTesting from "@/src/components/AlphaTesting";
 
 const appEnabled = {
     [MAINNET]: false,
@@ -152,7 +153,6 @@ function Home() {
                     </div>
                 ) : (
                     <div className="max-w-lg mx-auto mb-20">
-
                         <img src="/logo.svg" alt="logo" width={512} height={512} />
                         <div className="text-center">
                             <div className="mt-0 mb-2 text-3xl font-medium leading-normal sm:text-4xl font-Roboto">
@@ -169,6 +169,9 @@ function Home() {
                                     Phase 0: {currentPhase}
                                 </div>
                             </Link>
+                        </div>
+                        <div>
+                            <AlphaTesting />
                         </div>
                     </div>
                 )}
