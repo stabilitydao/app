@@ -17,35 +17,40 @@ function Dividends() {
     const currentNetwork = useSelector(state => state.network.value)
     const { library, chainId, active, account } = useWeb3React()
     const network = chainId ? chainId : currentNetwork
-    const dividendAddress = '0x6BaF629618551Cb7454013F67f5d4A9119A61627'
-    const wethAddress = "0xc778417e063141139fce010982780140aa0cd5ab"
+    const wethAddress = {
+        [ROPSTEN]: "0xc778417e063141139fce010982780140aa0cd5ab",
+    }
     const dividends = {
         [ROPSTEN]: ['0x6BaF629618551Cb7454013F67f5d4A9119A61627'],
     };
     useEffect(() => {
-        if (active) {
-            const contract = new library.eth.Contract(dividendAbi, dividendAddress)
-            contract.methods.paymentPending(account).call().then((pending) => {
-                setpendingPayment(pending / 10 ** 18)
+        if (dividends[network]) {
+            const dividendAddress = dividends[network][0]
+            if (active) {
+                const contract = new library.eth.Contract(dividendAbi, dividendAddress)
+                contract.methods.paymentPending(account).call().then((pending) => {
+                    setpendingPayment(pending / 10 ** 18)
+                })
+                contract.methods.totalPaidTo(account).call().then((paidTo) => {
+                    setpaidTo(paidTo / 10 ** 18)
+                })
+            }
+            const contract = new web3.eth.Contract(dividendAbi, dividendAddress)
+            contract.methods.totalPaid().call().then((paid) => {
+                settotalPaid(paid / 10 ** 18)
             })
-            contract.methods.totalPaidTo(account).call().then((paidTo) => {
-                setpaidTo(paidTo / 10 ** 18)
+            const tokenContract = new web3.eth.Contract(tokenAbi, "0xc778417e063141139fce010982780140aa0cd5ab")
+            tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
+                settotalPending(totalPending / 10 ** 18)
             })
         }
-        const contract = new web3.eth.Contract(dividendAbi, dividendAddress)
-        contract.methods.totalPaid().call().then((paid) => {
-            settotalPaid(paid / 10 ** 18)
-        })
-        const tokenContract = new web3.eth.Contract(tokenAbi, "0xc778417e063141139fce010982780140aa0cd5ab")
-        tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
-            settotalPending(totalPending / 10 ** 18)
-        })
     }, [network, active])
 
     function update(params) {
         
     }
     async function releasePayment() {
+        const dividendAddress = dividends[network][0]
         if (pendingPayment !== null) {
             try {
                 const contract = new library.eth.Contract(dividendAbi, dividendAddress)
@@ -54,7 +59,7 @@ function Dividends() {
                 setpendingPayment(pending / 10 ** 18)
                 const paid = await contract.methods.totalPaid().call()
                 settotalPaid(paid / 10 ** 18)
-                const tokenContract = new library.eth.Contract(tokenAbi, wethAddress)
+                const tokenContract = new library.eth.Contract(tokenAbi, wethAddress[network])
                 tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
                     settotalPending(totalPending / 10 ** 18)
                 })
@@ -69,11 +74,10 @@ function Dividends() {
     return (
         <section className="h-calc">
             <div className="container p-4">
+                <h1 className="mb-10 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Dividends</h1>
                 {
-                    dividends[network] ?
-                        <h1 className="mb-10 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Dividends</h1>
-                        :
-                        <div className="m-6 text-3xl text-center text-indigo-500 font-semibold ">We currently have no dividends on this network</div>
+                    !dividends[network] &&
+                    <div className="m-6 text-3xl text-center font-semibold ">We currently have no dividends on this network</div>
                 }
                 {dividends[network] && <div className="flex justify-center">
                     <div className="flex flex-col m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-green-900 dark:border-2 dark:bg-gradient-to-br dark:from-green-900 dark:to-black">
