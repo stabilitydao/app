@@ -1,104 +1,177 @@
 import React from 'react'
 import Link from 'next/link'
-import {currentPhase, phaseTasks} from "@/src/components/view/Roadmap";
-import {TiTick} from "react-icons/ti";
-import contributors from "@/src/constants/contributors.json";
-import {useGetContributorsQuery} from "@/redux/slices/contributorsApi";
+import {currentPhase} from "@/src/components/view/Roadmap";
+import { MAINNET, ROPSTEN, RINKEBY } from 'addresses'
+import {useSelector} from "react-redux";
 
-function UserData(name) {
-    const { data } = useGetContributorsQuery(name)
-    return data
+const appEnabled = {
+    [MAINNET]: false,
+    [ROPSTEN]: true,
+    [RINKEBY]: false,
 }
 
 function Home() {
-    const contributorsData = contributors.map((name) => {
-        return UserData(name)
-    });
+    const currentNetwork = useSelector(state => state.network.value)
 
     return (
         <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
             <div className="container p-4 pb-32">
-                <div className="max-w-lg mx-auto mb-20">
-                    <img src="/logo.svg" alt="logo" width={512} height={512} />
-                    <div className="text-center">
-                        <div className="mt-0 mb-2 text-3xl font-medium leading-normal sm:text-4xl font-Roboto">
-                            <h1 className="text-4xl sm:text-6xl">
-                                Stability
-                            </h1>
-                                Profit generating DeFi protocol
-                        </div>
-                        <p className="mt-0 mb-4 text-sm font-medium leading-normal">
-                            Decentralized organization
-                        </p>
-                    </div>
-                </div>
-                <div className="flex flex-wrap w-full te justify-center">
-                    <Link href="/roadmap">
-                        <div className="flex flex-col w-full mb-4 cursor-pointer sm:w1/2 md:w-1/3 rounded-3xl dark:hover:bg-gray-900">
-                            <div className="flex justify-center mt-6 mb-4 text-4xl text-center">Roadmap</div>
-                            <div>
-                                <div className="flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-3xl font-Roboto">
-                                    Phase 0: {currentPhase}
+                {appEnabled[currentNetwork] ? (
+                    <div className="flex flex-col max-w-6xl mx-auto">
+                        <div className="flex flex-wrap">
+                            <div className="flex w-full md:w-1/2 justify-center md:justify-end md:pr-6">
+                                <div className="flex w-96 justify-center">
+                                    <img src="/logo.svg" alt="logo" width={256} height={256} />
                                 </div>
-                                <div>
-                                    <div className="p-3 pt-0 mb-6">
-                                        <ul className="text-lg font-semibold ">
-                                            {
-                                                Object.keys(phaseTasks[0]).map((task, value) => {
-                                                    return phaseTasks[0][task] ? <li className="relative pl-8" key={value}><TiTick className="absolute left-2 inline  top-0.5 text-2xl text-teal-500" /><span dangerouslySetInnerHTML={{__html: task}} /></li> : <li className="pl-8" key={value}><span dangerouslySetInnerHTML={{__html: task}} /></li>
-                                                })
-                                            }
-                                        </ul>
+                            </div>
+                            <div className="flex flex-col w-full md:w-1/2 justify-center md:items-start md:pl-6">
+                                <div className="flex flex-col items-center md:items-start">
+                                    <h1 className="text-4xl sm:text-6xl">
+                                        Stability
+                                    </h1>
+                                    <div className="text-3xl font-medium leading-normal sm:text-4xl ">
+                                        Profit generating DeFi protocol
+                                    </div>
+                                    <p className="mt-0 mb-4 text-sm font-medium leading-normal">
+                                        Decentralized organization
+                                    </p>
+                                    <Link href="/roadmap">
+                                        <div className="dark:bg-[#2f004b] py-0.5 px-4 rounded-xl cursor-pointer dark:text-[#96aaff] dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
+                                            Phase 0: {currentPhase}
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex py-3 justify-center flex-wrap md:my-3">
+                            <div className="flex w-full md:w-1/2 flex-col items-center md:items-end md:pr-3 lg:pr-6 my-5 md:my-0">
+                                <div className="flex w-80 md:w-80 lg:w-96 flex-col p-6 dark:bg-black rounded-2xl">
+                                    <div className="flex text-3xl">Staking</div>
+                                    <div className="flex">
+                                        <div className="flex flex-col w-1/2 p-4">
+                                            <div className="flex dark:text-teal-100">Earned</div>
+                                            <div className="flex dark:text-teal-100 font-bold">
+                                                {0 ? (
+                                                    <div>
+                                                        <div className="mb-4 text-xl whitespace-nowrap  ">
+                                                            {0}
+                                                        </div>
+                                                        <button className="btn w-full dark:bg-teal-600 border-none outline-none text-sm rounded-2xl" onClick={harvest}>Harvest</button>
+                                                    </div>
+                                                ) : (
+                                                    <div>-</div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col w-1/2 p-4">
+                                            <div className="flex dark:text-teal-100">PROFIT staked</div>
+                                            <div className="flex dark:text-teal-100 font-bold">
+                                                <div className="text-xl">
+                                                    0
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex w-full md:w-1/2 flex-col items-center md:items-start md:pr-3 lg:pl-6 my-5 md:my-0">
+                                <div className="flex w-80 md:w-80 lg:w-96 flex-col p-6 dark:bg-black rounded-2xl">
+                                    <div className="flex text-3xl">Dividends</div>
+                                    <div className="flex">
+                                        <div className="flex flex-col w-1/2 p-4">
+                                            <div className="flex dark:text-teal-100">Earned</div>
+                                            <div className="flex dark:text-teal-100 font-bold">
+                                                {0 ? (
+                                                    <div>
+                                                        <div className="mb-4 text-xl whitespace-nowrap  ">
+                                                            {0}
+                                                        </div>
+                                                        <button className="btn w-full dark:bg-teal-600 border-none outline-none text-sm rounded-2xl" onClick={harvest}>Harvest</button>
+                                                    </div>
+                                                ) : (
+                                                    <div>-</div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col w-1/2 p-4">
+                                            <div className="flex dark:text-teal-100">SDIV in wallet</div>
+                                            <div className="flex dark:text-teal-100 font-bold">
+                                                <div className="text-xl">
+                                                    0
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </Link>
-                    <Link href="/tokens">
-                        <div className="flex flex-col w-full mb-4 cursor-pointer sm:w1/2 md:w-1/3 rounded-3xl dark:hover:bg-gray-900">
-                            <div className="flex justify-center mt-6 mb-3 text-4xl text-center">Tokenomics</div>
-                            <div className="flex items-center justify-center pb-10 text-center text-indigo-700 sm:text-4xl font-Roboto">
-                                <img src="/profit.svg" alt="profit" width="100" className="self-center float-left mt-12 mx-4" />
-                                <img src="/SDIV.svg" alt="SDIV" width="100" className="self-center float-left mt-12 mx-4" />
+                        <div className="flex flex-wrap md:py-3 justify-center md:my-3">
+                            <div className="flex w-full md:w-1/2 flex-col items-center md:items-end md:pr-3 lg:pr-6 my-5 md:my-0">
+                                <div className="flex w-80 md:w-80 lg:w-96 h-40 flex-col p-6 dark:bg-black rounded-2xl">
+                                    <div className="flex text-3xl">PROFIT</div>
+                                    <div className="flex">
+                                        <table className="table-auto">
+                                            <tbody>
+                                            <tr>
+                                                <td>Price</td>
+                                                <td>-</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Marketcap</td>
+                                                <td>-</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total supply</td>
+                                                <td>1 000 000-</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </Link>
-                    <Link href="/pools">
-                        <div className="flex flex-col w-full mb-4 cursor-pointer sm:w1/2 md:w-1/3 rounded-3xl dark:hover:bg-gray-900">
-                            <div className="flex justify-center mt-6 mb-3 text-4xl text-center">Pools</div>
-                            <div className="flex flex-col h-full items-center justify-center pb-10 text-center text-teal-700 sm:text-4xl font-Roboto">
-                                <div className="self-center">Dividend Minter</div>
-                            </div>
-                        </div>
-                    </Link>
-                    <Link href="/team">
-                        <div className="flex flex-col w-full mb-4 cursor-pointer sm:w1/2 md:w-1/3 rounded-3xl dark:hover:bg-gray-900">
-                            <div className="flex justify-center mt-6 mb-4 text-4xl text-center">Team</div>
-                            <div className="flex items-center justify-center pb-10 text-center text-indigo-700 sm:text-4xl font-Roboto">
-                                <div className="flex flex-wrap justify-center">
-                                    {contributorsData.map((data, index) => {
-                                        return data ? (
-                                            <div
-                                                key={index}
-                                                className="w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4"
-                                            >
-                                                <div className="px-5 pt-5 text-sm w-100 ">
-                                                    <div className="flex-shrink-0">
-                                                        <div  className="relative block">
-                                                            <img alt="profil"
-                                                                 src={data.avatar_url}
-                                                                 className="object-cover w-16 h-16 mx-auto rounded-full "/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ) : null;
-                                    })}
+                            <div className="flex w-full md:w-1/2 flex-col items-center md:items-start md:pr-3 lg:pl-6 my-5 md:my-0">
+                                <div className="flex w-80 md:w-80 lg:w-96 flex-col h-40 p-6 dark:bg-black rounded-2xl">
+                                    <div className="flex text-3xl">SDIV</div>
+                                    <div className="flex">
+                                        <table className="table-auto">
+                                            <tbody>
+                                            <tr>
+                                                <td>New SDIV/block</td>
+                                                <td>1</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total supply</td>
+                                                <td>22 021</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </Link>
-                </div>
+                    </div>
+                ) : (
+                    <div className="max-w-lg mx-auto mb-20">
+
+                        <img src="/logo.svg" alt="logo" width={512} height={512} />
+                        <div className="text-center">
+                            <div className="mt-0 mb-2 text-3xl font-medium leading-normal sm:text-4xl font-Roboto">
+                                <h1 className="text-4xl sm:text-6xl">
+                                    Stability
+                                </h1>
+                                Profit generating DeFi protocol
+                            </div>
+                            <p className="mt-0 mb-4 text-sm font-medium leading-normal">
+                                Decentralized organization
+                            </p>
+                            <Link href="/roadmap">
+                                <div className="w-80 mx-auto dark:bg-[#2f004b] py-0.5 px-4 rounded-xl cursor-pointer dark:text-[#96aaff] dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
+                                    Phase 0: {currentPhase}
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
     )
