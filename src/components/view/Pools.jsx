@@ -30,7 +30,7 @@ function Pools() {
                 <h1 className="mb-10 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Pools</h1>
                 <div>
                     {pools[network] ? (
-                        <div className="flex flex-row flex-wrap justify-center">
+                        <div className="flex flex-row flex-wrap justify-center gap-2">
                             {Object.keys(pools[network]).map(name => {
                                 const pool = pools[network][name]
                                 return (

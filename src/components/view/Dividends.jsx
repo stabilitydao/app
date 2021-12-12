@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import dividendAbi from '@/src/abis/dividendAbi'
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { showAlert } from '@/src/components/alert';
 import WEB3 from '@/src/functions/web3';
 import tokenAbi from '@/src/abis/tokenAbi.json'
+import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
+import addresses, { MAINNET, ROPSTEN, RINKEBY } from 'addresses'
 function Dividends() {
     const web3 = WEB3()
+    const dispatch = useDispatch()
     const [pendingPayment, setpendingPayment] = useState(null)
     const [totalPending, settotalPending] = useState(null)
     const [totalPaid, settotalPaid] = useState(null)
@@ -16,6 +19,9 @@ function Dividends() {
     const network = chainId ? chainId : currentNetwork
     const dividendAddress = '0x6BaF629618551Cb7454013F67f5d4A9119A61627'
     const wethAddress = "0xc778417e063141139fce010982780140aa0cd5ab"
+    const dividends = {
+        [ROPSTEN]: ['0x6BaF629618551Cb7454013F67f5d4A9119A61627'],
+    };
     useEffect(() => {
         if (active) {
             const contract = new library.eth.Contract(dividendAbi, dividendAddress)
@@ -60,11 +66,16 @@ function Dividends() {
     return (
         <section className="h-calc">
             <div className="container p-4">
-                <h1 className="mb-10 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Dividends</h1>
-                { <div className="flex justify-center">
+                {
+                    dividends[network] ?
+                        <h1 className="mb-10 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Dividends</h1>
+                        :
+                        <div className="m-6 text-3xl text-center text-indigo-500 font-semibold ">We currently have no dividends on this network</div>
+                }
+                {dividends[network] && <div className="flex justify-center">
                     <div className="flex flex-col m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-green-900 dark:border-2 dark:bg-gradient-to-br dark:from-green-900 dark:to-black">
                         <div className="p-3 text-3xl text-center dark:text-green-200 font-bold">EtherPayer</div>
-                        <div className="p-3">
+                        <div className="p-3 space-y-4">
                             <table>
                                 <tbody>
                                     <tr>
@@ -83,26 +94,38 @@ function Dividends() {
                                             ) : '-'}
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td className="">Total amount paid to you</td>
-                                        <td className="pl-8 text-right">
-                                            {paidTo ? (
-                                                <span>{paidTo ? Math.floor(paidTo * 10000) / 10000 : "-"} WETH</span>
-                                            ) : '-'}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Your pending payment
-                                        </td>
-                                        <td className="pl-8 text-right">
-                                            {pendingPayment ? (
-                                                <span>{Math.floor(pendingPayment * 10000) / 10000} WETH</span>
-                                            ) : "-"}
-                                        </td>
-                                    </tr>
+                                    {active &&
+                                        <>
+                                            <tr>
+                                                <td className="">Total amount paid to you</td>
+                                                <td className="pl-8 text-right">
+                                                    {paidTo ? (
+                                                        <span>{paidTo ? Math.floor(paidTo * 10000) / 10000 : "-"} WETH</span>
+                                                    ) : '-'}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Your pending payment
+                                                </td>
+                                                <td className="pl-8 text-right">
+                                                    {pendingPayment ? (
+                                                        <span>{Math.floor(pendingPayment * 10000) / 10000} WETH</span>
+                                                    ) : "-"}
+                                                </td>
+                                            </tr>
+                                        </>
+                                    }
                                 </tbody>
                             </table>
+                            {!active && <button
+                                type="button"
+                                className=" h-10 btn rounded-2xl w-full"
+                                id="options-menu"
+                                onClick={() => dispatch(updateIsWalletOption(true))}
+                            >
+                                Connect Wallet
+                            </button>}
                         </div>
                         <div className="p-3">
                             {pendingPayment ? (
