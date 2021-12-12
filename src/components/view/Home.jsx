@@ -16,7 +16,7 @@ function Home() {
 
     return (
         <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
-            <div className="container p-4 pb-32">
+            <div className="container p-4 ">
                 {appEnabled[currentNetwork] ? (
                     <div className="flex flex-col max-w-6xl mx-auto">
                         <div className="flex flex-wrap">
@@ -37,7 +37,7 @@ function Home() {
                                         Decentralized organization
                                     </p>
                                     <Link href="/roadmap">
-                                        <div className="dark:bg-[#2f004b] py-0.5 px-4 rounded-xl cursor-pointer dark:text-[#96aaff] dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
+                                        <div className="dark:bg-[#2f004b] py-0.5 px-4 rounded-xl cursor-pointer dark:text-[#4faaff] dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
                                             Phase 0: {currentPhase}
                                         </div>
                                     </Link>
@@ -165,7 +165,7 @@ function Home() {
                                 Decentralized organization
                             </p>
                             <Link href="/roadmap">
-                                <div className="w-80 mx-auto dark:bg-[#2f004b] py-0.5 px-4 rounded-xl cursor-pointer dark:text-[#96aaff] dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
+                                <div className="w-80 mx-auto dark:bg-[#2f004b] py-0.5 px-4 rounded-xl cursor-pointer dark:text-[#4faaff] dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
                                     Phase 0: {currentPhase}
                                 </div>
                             </Link>
