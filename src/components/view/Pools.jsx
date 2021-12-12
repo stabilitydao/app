@@ -11,11 +11,6 @@ function Pools() {
 
     const pools = {
         [ROPSTEN]: {
-            "Old deprecated pool": {
-                stake: 'PROFIT',
-                earn: 'SDIV',
-                contract: "0x75F929ba1C30A337de2B36C315c94A9abA24343A",
-            },
             "Dividend Minter": {
                 stake: 'PROFIT',
                 earn: 'SDIV',
@@ -34,7 +29,7 @@ function Pools() {
                             {Object.keys(pools[network]).map(name => {
                                 const pool = pools[network][name]
                                 return (
-                                    <div key={name} className="flex flex-wrap justify-center ">
+                                    <div key={name} className="flex flex-wrap justify-center m-6">
                                         <Pool name={name} pool={pool} network={network} />
                                     </div>
                                 );
