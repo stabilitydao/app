@@ -128,7 +128,7 @@ function Tokens() {
     }
 
     return (
-        <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
+        <section className=" h-calc">
             <div className="container p-4">
                 <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Tokens</h1>
                 <article className="mb-10">

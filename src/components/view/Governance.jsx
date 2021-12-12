@@ -2,7 +2,7 @@ import React from 'react'
 
 function Governance() {
     return (
-        <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
+        <section className=" h-calc">
             <div className="container p-4">
                 <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Governance</h1>
                 <div className="max-w-2xl mx-auto">

@@ -14,7 +14,7 @@ function Home() {
     const currentNetwork = useSelector(state => state.network.value)
 
     return (
-        <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
+        <section className=" h-calc">
             <div className="container p-4 pb-32">
                 {appEnabled[currentNetwork] ? (
                     <div className="flex flex-col max-w-6xl mx-auto">

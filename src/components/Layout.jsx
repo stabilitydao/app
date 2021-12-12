@@ -51,7 +51,7 @@ function Layout({ children }) {
                 </Head>
                 <div className="flex flex-row">
                     <Sidebar Mode={Mode} />
-                    <div id="scroolTOP" className="w-full h-screen overflow-y-auto  "  >
+                    <div id="scroolTOP" className="w-full h-screen overflow-y-auto  dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white"  >
                         <Navbar Mode={mode => setMode(mode)} />
                         {children}
                     </div>

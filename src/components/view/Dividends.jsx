@@ -3,7 +3,9 @@ import { useWeb3React } from '@web3-react/core'
 import dividendAbi from '@/src/abis/dividendAbi'
 import { useSelector } from "react-redux";
 import { showAlert } from '@/src/components/alert';
+import WEB3 from '@/src/functions/web3';
 function Dividends() {
+    const web3 = WEB3()
     const [pendingPayment, setpendingPayment] = useState(null)
     const [totalPaid, settotalPaid] = useState(null)
     const currentNetwork = useSelector(state => state.network.value)
@@ -16,11 +18,12 @@ function Dividends() {
             contract.methods.paymentPending(account).call().then((pending) => {
                 setpendingPayment(pending / 10 ** 18)
             })
-            contract.methods.totalPaid().call().then((paid) => {
-                settotalPaid(paid / 10 ** 18)
-            })
         }
-    }, [network])
+        const contract = new web3.eth.Contract(dividendAbi, dividendAddress)
+        contract.methods.totalPaid().call().then((paid) => {
+            settotalPaid(paid / 10 ** 18)
+        })
+    }, [network,active])
 
     async function releasePayment() {
         if (pendingPayment !== null) {
@@ -40,7 +43,7 @@ function Dividends() {
     }
 
     return (
-        <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
+        <section className=" h-calc">
             <div className="container p-4">
                 <h1 className="mb-10 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Dividends</h1>
                 <div className="flex justify-center">
@@ -70,9 +73,9 @@ function Dividends() {
                                 </tbody>
                             </table>
                         </div>
-                        <div>
+                        <div className="p-3">
                             { pendingPayment ? (
-                                <button className='btn' onClick={releasePayment}>Release</button>
+                                <button className='btn w-full' onClick={releasePayment}>Release</button>
                             ) : null }
                         </div>
                     </div>

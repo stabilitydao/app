@@ -18,7 +18,7 @@ import uniV3PoolAbi from '@/src/abis/uniV3PoolAbi'
 import WEB3 from '@/src/functions/web3'
 import { updateProfitPriceIn$ } from '@/redux/slices/profitPriceSlice'
 import { useRouter } from 'next/router'
-function Sidebar({ Mode}) {
+function Sidebar({ Mode }) {
     const { pathname } = useRouter();
     const [activeRoute, setactiveRoute] = useState(null)
     const web3 = WEB3()
@@ -84,7 +84,7 @@ function Sidebar({ Mode}) {
         dispatch(updateProfitPriceIn$(null))
     }
     return (
-        <aside style={{backgroundColor: Mode ? '#160024' : 'rgba(255,255,255,1)'}} className={`fixed z-20 top-0 bottom-0 h-screen text-black bg-white shadow-900 dark:text-white w-72 xl:w-80 lg:static  duration-300  ${sidebar ? "left-0" : " -left-96"}`}>
+        <aside style={{ backgroundColor: Mode ? '#160024' : 'rgba(255,255,255,1)' }} className={`fixed z-20 top-0 bottom-0 h-screen text-black bg-white shadow-900 dark:text-white w-72 xl:w-80 lg:static  duration-300  ${sidebar ? "left-0" : " -left-96"}`}>
             <Link href="/">
                 <div style={{ height: 72, paddingLeft: 18 }} className="flex items-center py-2 cursor-pointer" onClick={() => { dispatch(updateSidebar(false)) }}>
                     <img src="/logo_nolines_256.png" alt="Stability" className="h-10" />
@@ -117,7 +117,7 @@ function Sidebar({ Mode}) {
                                 {profitPrice && ethPrice ? 'PROFIT' : null}
                             </td>
                             <td className="text-right">
-                                ${profitPrice && ethPrice ? `${profitpriceIn$}` : null}
+                                {profitPrice && ethPrice ? `$${profitpriceIn$}` : null}
                             </td>
                         </tr>
                     </tbody>
