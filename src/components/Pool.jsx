@@ -169,7 +169,7 @@ function Pool({ name, pool, network }) {
                 <div className="flex w-1/2 justify-center">
                     <div className="flex w-32 h-32 rounded-full dark:border-teal-800 border-2 flex-col justify-center items-center">
                         <div className="dark:text-teal-100 font-bold">TVL</div>
-                        <div className="text-xl font-bold dark:text-teal-100">${Math.floor(profitpriceIn$ * TVL)}</div>
+                        <div className="text-xl font-bold dark:text-teal-100">${Math.floor(profitpriceIn$ * TVL).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')}</div>
                     </div>
                 </div>
             </div>
@@ -194,22 +194,41 @@ function Pool({ name, pool, network }) {
                                         <div className="flex dark:text-teal-100">Earned</div>
                                         <div className="flex dark:text-teal-100 font-bold">
                                             {Reward > 0 ? (
-                                                <div>
+                                                <div className="h-20">
                                                     <div className="mb-4 text-xl whitespace-nowrap  ">
                                                         {Math.floor(Reward * 10000) / 10000} {pool.earn}
                                                     </div>
-                                                    <button className="btn w-full dark:bg-teal-600 border-none outline-none text-sm rounded-2xl" onClick={harvest}>Harvest</button>
+                                                    <button className="h-10 btn w-full dark:bg-teal-600 border-none outline-none text-sm rounded-2xl" onClick={harvest}>Harvest</button>
                                                 </div>
                                             ) : (
-                                                <div>-</div>
+                                                <div className="h-20">
+                                                    <div>-</div>
+                                                </div>
                                             )}
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-1/2 p-4">
-                                        <div className="flex dark:text-teal-100">Staked</div>
-                                        <div className="flex dark:text-teal-100 font-bold">
-                                            <div className="text-xl">
-                                                {Math.floor(stakedBalance * 100000) / 100000} {pool.stake}
+                                        <div>
+                                            <div className="flex dark:text-teal-100">Staked</div>
+                                            <div className="flex dark:text-teal-100 font-bold">
+                                                <div className="text-xl">
+                                                    {Math.floor(stakedBalance * 100000) / 100000} {pool.stake}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-2">
+                                            <div className="flex dark:text-teal-100 text-md">Your share</div>
+                                            <div className="flex dark:text-teal-100 font-bold">
+                                                <div className="text-md">
+                                                    {stakedBalance > 0 ? (
+                                                        <div>
+                                                            {Math.floor(10000000 * stakedBalance / TVL ) / 100000}%
+                                                        </div>
+                                                    ) : (
+                                                        <div>-</div>
+                                                    )}
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
