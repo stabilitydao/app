@@ -49,7 +49,7 @@ function Layout({ children }) {
                     <meta name="description" content="Profit generating DeFi protocol" />
                     <link rel="icon" href="/logo_nolines_256.png" />
                 </Head>
-                <div className="flex flex-row dark:bg-gray-800">
+                <div className="flex flex-row">
                     <Sidebar Mode={Mode} />
                     <div id="scroolTOP" className="w-full h-screen overflow-y-auto  "  >
                         <Navbar Mode={mode => setMode(mode)} />
