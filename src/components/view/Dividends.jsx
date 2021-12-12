@@ -42,6 +42,9 @@ function Dividends() {
         })
     }, [network, active])
 
+    function update(params) {
+        
+    }
     async function releasePayment() {
         if (pendingPayment !== null) {
             try {

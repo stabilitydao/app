@@ -11,7 +11,9 @@ import { showAlert } from '@/src/components/alert'
 import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
 import { updateBalance } from '@/redux/slices/balanceSlice'
 import { MdGeneratingTokens } from "react-icons/md";
+import WEB3 from '@/src/functions/web3';
 function Pool({ name, pool, network }) {
+    const web3 = WEB3()
     const [Approve, setApprove] = useState(false)
     const [wantTOStake, setwantTOStake] = useState(true)
     const dispatch = useDispatch()
@@ -21,8 +23,17 @@ function Pool({ name, pool, network }) {
     const [stakeNow, setstakeNow] = useState("")
     const [unStakeNow, setunStakeNow] = useState("")
     const [TVL, setTVL] = useState("")
+    const currentNetwork = useSelector(state => state.network.value)
     const tokenBalance = useSelector(state => state.tokenBalance.value)
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
+    function updateTVL() {
+        const tokenContract = new web3.eth.Contract(tokenAbi, addresses[chainId ? chainId : network].token);
+        tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
+            setTVL(web3.utils.fromWei(TVL, 'ether'))
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
     async function stake() {
         if (stakeNow !== '' && !(stakeNow <= 0) && Approve && !(stakeNow > tokenBalance)) {
             try {
@@ -33,9 +44,7 @@ function Pool({ name, pool, network }) {
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
                 const tokenBalance = await tokenContract.methods.balanceOf(account).call()
                 dispatch(updateTokenbalance(library.utils.fromWei(tokenBalance)))
-                const tvl = await tokenContract.methods.balanceOf(pool.contract).call()
-                const tvlInEther = library.utils.fromWei(tvl, 'ether')
-                setTVL(tvlInEther)
+                updateTVL()
                 setstakeNow("")
             } catch (err) {
                 console.log(err)
@@ -67,8 +76,7 @@ function Pool({ name, pool, network }) {
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
                 const tokenBalance = await tokenContract.methods.balanceOf(account).call()
                 dispatch(updateTokenbalance(library.utils.fromWei(tokenBalance)))
-                const TVL = await tokenContract.methods.balanceOf(pool.contract).call()
-                setTVL(library.utils.fromWei(TVL, 'ether'))
+                updateTVL()
                 setunStakeNow('')
             } catch (err) {
                 console.log(err)
@@ -105,9 +113,7 @@ function Pool({ name, pool, network }) {
             }
             if (account && pool.contract) {
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
-                tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
-                    setTVL(library.utils.fromWei(TVL, 'ether'))
-                })
+                updateTVL()
                 tokenContract.methods.allowance(account, pool.contract).call().then((approveAmount) => {
                     if (approveAmount == 115792089237316195423570985008687907853269984665640564039457584007913129639935) {
                         setApprove(true)
@@ -126,7 +132,7 @@ function Pool({ name, pool, network }) {
                 })
             }
         }
-
+        updateTVL()
     }, [account, chainId])
     setInterval(() => {
         if (library && library.eth) {
@@ -164,7 +170,6 @@ function Pool({ name, pool, network }) {
                     <div className="flex w-32 h-32 rounded-full dark:border-teal-800 border-2 flex-col justify-center items-center">
                         <div className="dark:text-teal-100 font-bold">TVL</div>
                         <div className="text-xl font-bold dark:text-teal-100">${Math.floor(profitpriceIn$ * TVL)}</div>
-
                     </div>
                 </div>
             </div>
@@ -172,7 +177,7 @@ function Pool({ name, pool, network }) {
                 <div className="p-7 text-center">
                     <button
                         type="button"
-                        className="w-40 h-10 btn rounded-2xl"
+                        className=" h-10 btn rounded-2xl w-full"
                         id="options-menu"
                         onClick={() => dispatch(updateIsWalletOption(true))}
                     >
