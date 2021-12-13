@@ -156,7 +156,7 @@ function Home() {
     return (
         <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
             <div className="container p-4 ">
-                {appEnabled[currentNetwork] ? (
+                {appEnabled[network] ? (
                     <div className="flex flex-col max-w-6xl mx-auto">
                         <div className="flex flex-wrap">
                             <div className="flex w-full md:w-1/2 justify-center md:justify-end md:pr-6">

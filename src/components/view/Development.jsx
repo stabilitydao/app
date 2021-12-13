@@ -55,7 +55,7 @@ function Development() {
                 <div className="max-w-lg mx-auto mb-10">
                     <h2 className="text-4xl my-2">Community</h2>
                     <div className="flex text-xl">
-                        Telegram community <a href="https://t.me/chainbuilders" target="_blank" className="pl-1">@chainbuilders</a>
+                        Telegram community <a href="https://t.me/chainbuilders" target="_blank" className="pl-1" rel="noreferrer">@chainbuilders</a>
                     </div>
                 </div>
 
