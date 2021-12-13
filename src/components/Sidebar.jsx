@@ -100,7 +100,7 @@ function Sidebar({ Mode }) {
             <ul className="mt-5 overflow-y-auto" style={{/*{ height: "calc(100vh - 250px)" }*/}}>
                 <li><Link href="/generation"><a className={`${activeRoute === "/generation" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
                 <li><Link href="/tokens"><a className={`${activeRoute === "/tokens" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
-                <li><Link href="/roadmap"><a className={`${activeRoute === "/roadmap" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Roadmap</a></Link></li>
+                <li><Link href="/development"><a className={`${activeRoute === "/development" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Development</a></Link></li>
                 <li><Link href="/team"><a className={`${activeRoute === "/team" ? "bg-indigo-600 text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Team</a></Link></li>
             </ul>
 

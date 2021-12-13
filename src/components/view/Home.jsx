@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { currentPhase } from "@/src/components/view/Roadmap";
+import { currentPhase } from "@/src/components/view/Development";
 import { MAINNET, ROPSTEN, RINKEBY } from 'addresses'
 import { useSelector, useDispatch } from "react-redux";
 import dividendAbi from '@/src/abis/dividendAbi'
@@ -10,7 +10,6 @@ import WEB3 from "@/src/functions/web3"
 import addresses from 'addresses'
 import { useWeb3React } from '@web3-react/core'
 import tokenAbi from '@/src/abis/tokenAbi'
-import { buyLinks, lpv3 } from '../../wallet/swaps'
 import poolAbi from '@/src/abis/poolAbi'
 const appEnabled = {
     [MAINNET]: false,
@@ -176,7 +175,7 @@ function Home() {
                                     <p className="mt-0 mb-4 text-sm font-medium leading-normal">
                                         Decentralized organization
                                     </p>
-                                    <Link href="/roadmap">
+                                    <Link href="/development">
                                         <div className="dark:bg-[#2f004b] py-0.5 px-4 rounded-xl cursor-pointer dark:text-[#4faaff] dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
                                             Phase 0: {currentPhase}
                                         </div>
@@ -304,7 +303,7 @@ function Home() {
                             <p className="mt-0 mb-4 text-sm font-medium leading-normal">
                                 Decentralized organization
                             </p>
-                            <Link href="/roadmap">
+                            <Link href="/development">
                                 <div className="w-80 mx-auto dark:bg-[#2f004b] py-0.5 px-4 rounded-xl cursor-pointer dark:text-[#4faaff] dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
                                     Phase 0: {currentPhase}
                                 </div>
