@@ -12,12 +12,11 @@ export const phases = {
 
 export const phaseTasks = [
     {
-        "Developer community <a href=\"https://t.me/chainbuilders\" target=\"_blank\" className=\"pl-1\">@chainbuilders</a>": true,
-        "User community <a href=\"https://t.me/stabilitydao\" target=\"_blank\" className=\"pl-1\">@stabilitydao</a>": true,
-        "Stability (PROFIT) token <a href=\"https://etherscan.io/token/0x3fa5F9c876BEbB41B8924633850b1a9922f7E4F9\" target=\"_blank\" className=\"pl-1\">0x3f..F9</a>": true,
-        "Dividend payer": false,
-        "White paper": false,
+        "Community <a href=\"https://t.me/stabilitydao\" target=\"_blank\" className=\"pl-1\">@stabilitydao</a> <a href=\"https://t.me/chainbuilders\" target=\"_blank\" className=\"pl-1\">@chainbuilders</a>": true,
+        "Utility PROFIT token <a href=\"https://etherscan.io/token/0x3fa5F9c876BEbB41B8924633850b1a9922f7E4F9\" target=\"_blank\" className=\"pl-1\">0x3f..F9</a>": true,
+        "Protocol Alpha<br />- Staking pool<br />- Dividend token<br />- Payment splitter": false,
         "App": false,
+        "White paper": false,
     },
     {
         "Liquidity bootstrapping (IDO)": false,
@@ -25,8 +24,9 @@ export const phaseTasks = [
         "Governance": false,
         "AMM V1": false,
         "NFT marketplace": false,
-        "DeX arbitrage bot": false,
+        "DeX arbitrage protocol": false,
         "Development Matrix": false,
+        "Protocol Release": false,
     },
     {
         "Incubator construction": false,
@@ -34,7 +34,6 @@ export const phaseTasks = [
         "Cross-chain swap": false,
         "DeX aggregator": false,
         "Yield projects conveyor": false,
-        "Arbitrage protocol": false,
         "DeX mechanical trading system": false,
         "NFT game project": false,
         "Chain boilerplate": false,
