@@ -7,6 +7,11 @@ function WEB3() {
     const currentNetwork = useSelector(state => state.network.value)
     const network = chainId ? chainId.toString() : currentNetwork.toString()
 
-    return new Web3(new Web3.providers.HttpProvider(networks[network].rpc));
+    if (networks[network]) {
+        return new Web3(new Web3.providers.HttpProvider(networks[network].rpc));
+    }
+
+    return null
+
 }
 export default WEB3

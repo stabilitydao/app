@@ -61,7 +61,7 @@ function Sidebar({ Mode }) {
                 ]))
             }
 
-            if (lpv3[network].DAIETH) {
+            if (lpv3[network] && lpv3[network].DAIETH) {
                 const ethPriceContract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network].DAIETH);
                 ethPriceContract.methods.slot0().call().then((price) => {
                     setethPrice(2 ** 192 / price[0] ** 2)
@@ -101,7 +101,7 @@ function Sidebar({ Mode }) {
                 <li><Link href="/generation"><a className={`${activeRoute === "/generation" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
                 <li><Link href="/tokens"><a className={`${activeRoute === "/tokens" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
                 <li><Link href="/development"><a className={`${activeRoute === "/development" ? "bg-indigo-600  text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Development</a></Link></li>
-                <li><Link href="/team"><a className={`${activeRoute === "/team" ? "bg-indigo-600 text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Team</a></Link></li>
+                <li><Link href="/about"><a className={`${activeRoute === "/about" ? "bg-indigo-600 text-white " : ""} flex items-center py-3 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />About</a></Link></li>
             </ul>
 
             <div className="absolute flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">

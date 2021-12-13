@@ -2,13 +2,15 @@ import React from 'react'
 import contributors from "@/src/constants/contributors.json";
 import {useGetContributorsQuery} from "@/redux/slices/contributorsApi";
 import {GoLocation} from "react-icons/go";
+import Link from "next/link";
+import {currentPhase} from "@/src/components/view/Development";
 
 function UserData(name) {
     const { data } = useGetContributorsQuery(name)
     return data
 }
 
-function Team() {
+function About() {
     const contributorsData = contributors.map((name) => {
         return UserData(name)
     })
@@ -16,26 +18,35 @@ function Team() {
     return (
         <section className=" h-calc">
             <div className="container p-4">
-                <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Team</h1>
+                <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Meet Stability</h1>
                 <div className="">
                     <div>
-                        <article className="mb-10">
-                            <div className="relative py-4 overflow-hidden rounded-xl">
-                                <div className="absolute" id="team" style={{top: '-60px'}} />
-                                <div className="flex flex-wrap mb-6 text-lg">
-                                    <div className="w-full mb-5 lg:w-1/3">
-                                        <div className="flex self-center justify-center w-full text-center h-52">
+                        <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
+                            <img src="/logo.svg" alt="logo" width={512} height={512} />
+                            <div className="text-center mb-10">
+                                <h2 className="text-5xl mb-5">Revenue generation</h2>
+                                <p className="mt-0 mb-4 text-lg leading-normal text-left">
+                                    Stability is decentralized financial platform for generating income in blockchain networks and distributing it among participants.
+                                </p>
+                            </div>
+                        </article>
+                        <article className="mb-10 max-w-3xl mx-auto text-center">
+                            <h2 className="text-5xl mb-5">Team</h2>
+                            <div className="relative py-4 overflow-hidden rounded-xl text-left px-8">
+                                <div className="flex flex-col flex-wrap mb-6 text-lg">
+                                    <div className="flex flex-wrap w-full mb-10 justify-between">
+                                        <div className="w-full md:w-1/3 flex self-center justify-center w-full text-center h-52 ">
                                             <div className="relative flex flex-col self-center justify-center w-32 h-32 text-5xl bg-indigo-200 border-2 rounded-full dark:border-indigo-500 dark:bg-indigo-800">
                                                 {contributorsData ? contributorsData.length : null}
                                                 <span className="mt-1 text-xs font-bold" >builders</span>
                                             </div>
                                         </div>
-                                        <div>
-                                            <i>Stability Builders</i> are skilled individuals who directly contribute to the advancement of the entire ecosystem. These include github contributors (open-source developers), expert researchers from a variety of fields, top public relations & marketing personnel, and cybersecurity specialists.<br />
+                                        <div className="md:w-2/3 flex">
+                                            Stability Builders are skilled individuals who directly contribute to the advancement of the entire ecosystem. These include github contributors (open-source developers), expert researchers from a variety of fields, top public relations & marketing personnel, and cybersecurity specialists.<br />
                                             Governance will be tasked with creating the optimal conditions that allow these highly qualified contributors to build and improve upon the protocol at maximum efficiency.
                                         </div>
                                     </div>
-                                    <div className="flex w-full lg:w-2/3 lg:pl-5">
+                                    <div className="flex w-full">
                                         <div className="flex flex-wrap justify-center">
                                             {contributorsData.map((data, index) => {
                                                 return data ? (
@@ -45,7 +56,7 @@ function Team() {
                                                         rel="noreferrer"
                                                         target="_blank"
                                                         key={index}
-                                                        className="w-1/2 md:w-1/4 lg:w-1/3 xl:w-1/4 dark:hover:bg-gray-800 rounded-2xl"
+                                                        className="w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 dark:hover:bg-gray-800 rounded-2xl"
                                                     >
                                                         <div className="px-5 pt-5 text-sm w-100 ">
                                                             <div className="flex-shrink-0">
@@ -89,4 +100,4 @@ function Team() {
     )
 }
 
-export default Team
+export default About

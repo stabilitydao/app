@@ -7,6 +7,7 @@ import WEB3 from '@/src/functions/web3';
 import tokenAbi from '@/src/abis/tokenAbi.json'
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
 import addresses, { MAINNET, ROPSTEN, RINKEBY } from 'addresses'
+import AlphaTesting from "@/src/components/AlphaTesting";
 function Dividends() {
     const web3 = WEB3()
     const dispatch = useDispatch()
@@ -77,12 +78,15 @@ function Dividends() {
                 <h1 className="mb-10 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Dividends</h1>
                 {
                     !dividends[network] &&
-                    <div className="m-6 text-3xl text-center font-semibold ">We currently have no dividends on this network</div>
+                    <div className="m-6 text-2xl text-center font-semibold ">
+                        <div>We currently have no dividend payers on this network</div>
+                        <AlphaTesting />
+                    </div>
                 }
                 {dividends[network] && <div className="flex justify-center">
                     <div className="flex flex-col m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-green-900 dark:border-2 dark:bg-gradient-to-br dark:from-green-900 dark:to-black">
                         <div className="p-3 text-3xl text-center dark:text-green-200 font-bold">EtherPayer</div>
-                        <div className="p-3 space-y-4">
+                        <div className="p-5 space-y-4">
                             <table>
                                 <tbody>
                                     <tr>
@@ -134,9 +138,9 @@ function Dividends() {
                                 Connect Wallet
                             </button>}
                         </div>
-                        <div className="p-3">
+                        <div className="p-5 mb-3">
                             {pendingPayment ? (
-                                <button className='btn w-full' onClick={releasePayment}>Release</button>
+                                <button className='btn dark:bg-green-700 dark:border-0 w-full' onClick={releasePayment}>Release</button>
                             ) : null}
                         </div>
                     </div>

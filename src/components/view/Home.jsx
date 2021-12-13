@@ -44,16 +44,12 @@ function Home() {
             },
         },
     };
-    const pool = {
-        stake: 'PROFIT',
-        earn: 'SDIV',
-        contract: "0x20169ebb1b60ee0c45ECAa5235551cC69Ea788C0",
-    }
+
     const dividends = {
         [ROPSTEN]: ['0x6BaF629618551Cb7454013F67f5d4A9119A61627'],
     };
     useEffect(() => {
-        if (web3.eth.net.isListening()) {
+        if (web3 && web3.eth.net.isListening() && network) {
             if (addresses[network].token) {
                 let contract;
                 contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
@@ -73,9 +69,10 @@ function Home() {
                 const dividendTokenContract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
                 dividendTokenContract.methods.totalSupply().call().then((supply) => {setsdivsupply(web3.utils.fromWei(supply, "ether"))}).catch((err) => {console.log(err)})
             }
-
         }
-        if (account && pool.contract) {
+
+        if (account && pools[network]) {
+            const pool = pools[network][Object.keys(pools[network])[0]]
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             poolContract.methods.pending(account).call().then((value) => {
                 return library.utils.fromWei(value, 'ether')
@@ -89,7 +86,7 @@ function Home() {
             })
         }
 
-        if (addresses[network].dToken && account) {
+        if (addresses[network] && addresses[network].dToken && account) {
             let contract;
             contract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
             contract.methods.balanceOf(account).call().then((balance) => {
@@ -104,12 +101,16 @@ function Home() {
                 setpendingPayment(pending / 10 ** 18)
             })
         }
-        const sdivmintContract = new web3.eth.Contract(poolAbi,'0x20169ebb1b60ee0c45ECAa5235551cC69Ea788C0')
-        sdivmintContract.methods.rewardTokensPerBlock().call().then((minted)=>[
-            setmintedReward(web3.utils.fromWei(minted, "ether"))
-        ]).catch((err)=>{
-            console.log(err)
-        })
+        if (pools[network]) {
+            const pool = pools[network][Object.keys(pools[network])[0]]
+            const sdivmintContract = new web3.eth.Contract(poolAbi,pool.contract)
+            sdivmintContract.methods.rewardTokensPerBlock().call().then((minted)=>[
+                setmintedReward(web3.utils.fromWei(minted, "ether"))
+            ]).catch((err)=>{
+                console.log(err)
+            })
+        }
+
     }, [network])
     async function harvest() {
         try {
@@ -144,7 +145,8 @@ function Home() {
         }
     }
     setInterval(() => {
-        if (library && library.eth) {
+        if (library && library.eth && pools[network]) {
+            const pool = pools[network][Object.keys(pools[network])[0]]
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             poolContract.methods.pending(account).call().then((value) => {
                 return library.utils.fromWei(value, 'ether')
@@ -165,79 +167,83 @@ function Home() {
                                 </div>
                             </div>
                             <div className="flex flex-col w-full md:w-1/2 justify-center md:items-start md:pl-6">
-                                <div className="flex flex-col items-center md:items-start">
-                                    <h1 className="text-4xl sm:text-6xl">
+                                <div className="flex flex-col w-full md:w-80 lg:w-96 items-center md:items-start">
+                                    <h1 className="text-4xl sm:text-5xl font-bold mb-2">
                                         Stability
                                     </h1>
-                                    <div className="text-3xl font-medium leading-normal sm:text-4xl ">
+                                    <div className="text-xl font-medium leading-normal sm:text-2xl mb-4">
                                         Profit generating DeFi protocol
                                     </div>
-                                    <p className="mt-0 mb-4 text-sm font-medium leading-normal">
-                                        Decentralized organization
-                                    </p>
-                                    <Link href="/development">
-                                        <div className="dark:bg-[#2f004b] py-0.5 px-4 rounded-xl cursor-pointer dark:text-[#4faaff] dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
-                                            Phase 0: {currentPhase}
-                                        </div>
-                                    </Link>
+                                    <div className="flex w-full flex-wrap justify-center md:justify-start">
+                                        <Link href="/about">
+                                            <div className="h-10 dark:bg-indigo-800 dark:text-white dark:border-[#4e1173] py-0.5 px-4 rounded-xl cursor-pointer flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mr-5 mb-5">
+                                                About
+                                            </div>
+                                        </Link>
+                                        <Link href="/development">
+                                            <div className="h-10 dark:bg-[#431365] py-0.5 px-4 rounded-xl cursor-pointer dark:text-white dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mr-5 mb-5" >
+                                                Development
+                                            </div>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex py-3 justify-center flex-wrap md:my-3">
-                            <div className="flex w-full md:w-1/2 flex-col items-center md:items-end md:pr-3 lg:pr-6 my-5 md:my-0">
-                                <div className="flex w-80 md:w-80 lg:w-96 flex-col p-6 dark:bg-black rounded-2xl">
+                        <div className="flex py-3 justify-center flex-wrap md:my-1 xl:my-3">
+                            <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-end md:px-3 xl:px-6">
+                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Staking</div>
                                     <div className="flex">
-                                        <div className="flex flex-col w-1/2 p-4">
+                                        <div className="flex flex-col w-3/5 py-4">
                                             <div className="flex dark:text-teal-100">Earned</div>
                                             <div className="flex dark:text-teal-100 font-bold">
                                                 {Reward ? (
-                                                    <div>
-                                                        <div className="mb-4 text-lg whitespace-nowrap  ">
+                                                    <div className="h-20">
+                                                        <div className="mb-4 text-lg">
                                                             {Math.floor(Reward * 10000) / 10000} SDIV
                                                         </div>
-                                                        <button className="btn w-full dark:bg-teal-600 border-none outline-none text-sm rounded-2xl" onClick={harvest}>Harvest</button>
+                                                        <button className="btn w-full dark:bg-teal-700 border-none outline-none rounded-2xl" onClick={harvest}>Harvest</button>
                                                     </div>
                                                 ) : (
-                                                    <div>-</div>
+                                                    <div className="h-20">-</div>
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="flex flex-col w-1/2 p-4">
+                                        <div className="flex flex-col w-2/5 py-4">
                                             <div className="flex dark:text-teal-100">PROFIT staked</div>
                                             <div className="flex dark:text-teal-100 font-bold">
                                                 <div className="text-lg">
-                                                    {Math.floor(stakedBalance * 100000) / 100000} {pool.stake}
+                                                    {Math.floor(stakedBalance * 100000) / 100000}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex w-full md:w-1/2 flex-col items-center md:items-start md:pr-3 lg:pl-6 my-5 md:my-0">
-                                <div className="flex w-80 md:w-80 lg:w-96 flex-col p-6 dark:bg-black rounded-2xl">
+                            <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:px-6">
+                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Dividends</div>
                                     <div className="flex">
-                                        <div className="flex flex-col w-1/2 p-4">
+                                        <div className="flex flex-col w-3/5 py-4">
                                             <div className="flex dark:text-teal-100">Earned</div>
                                             <div className="flex dark:text-teal-100 font-bold">
                                                 {pendingPayment ? (
-                                                    <div>
-                                                        <div className="mb-4 text-xl whitespace-nowrap  ">
+                                                    <div className="h-20">
+                                                        <div className="mb-4 text-lg whitespace-nowrap">
                                                             {Math.floor(pendingPayment * 10000) / 10000} WETH
                                                         </div>
-                                                        <button className="btn w-full dark:bg-teal-600 border-none outline-none text-sm rounded-2xl" onClick={releasePayment}>ReleasePayment</button>
+                                                        <button className="btn w-full dark:bg-green-700 border-none outline-none  rounded-2xl" onClick={releasePayment}>Release</button>
                                                     </div>
                                                 ) : (
-                                                    <div>-</div>
+                                                    <div className="h-20">-</div>
                                                 )}
 
                                             </div>
                                         </div>
-                                        <div className="flex flex-col w-1/2 p-4">
+                                        <div className="flex flex-col w-2/5 py-4">
                                             <div className="flex dark:text-teal-100">SDIV in wallet</div>
                                             <div className="flex dark:text-teal-100 font-bold">
-                                                <div className="text-xl">
+                                                <div className="text-lg">
                                                     {Math.floor(sdivbalance * 10000) / 10000}
                                                 </div>
                                             </div>
@@ -246,43 +252,48 @@ function Home() {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-wrap md:py-3 justify-center md:my-3">
-                            <div className="flex w-full md:w-1/2 flex-col items-center md:items-end md:pr-3 lg:pr-6 my-5 md:my-0">
-                                <div className="flex w-80 md:w-80 lg:w-96 h-40 flex-col p-6 dark:bg-black rounded-2xl">
-                                    <div className="flex text-3xl">PROFIT</div>
-                                    <div className="flex">
-                                        <table className="table-auto w-full">
+                        <div className="flex flex-wrap md:py-3 justify-center md:my-1 xl:my-2">
+                            <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-end md:px-3 xl:px-6">
+                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                    <div className="flex text-3xl">$PROFIT</div>
+                                    <div className="flex mt-3">
+                                        <table className="table-auto w-72">
                                             <tbody>
                                                 <tr>
                                                     <td>Price</td>
-                                                    <td>{profitpriceIn$ ? `$${profitpriceIn$}` : "-"}</td>
+                                                    <td className="text-right">{profitpriceIn$ ? `$${profitpriceIn$}` : "-"}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Marketcap</td>
-                                                    <td >{token.totalSupply && profitpriceIn$ ? (<span>${(profitpriceIn$ * (token ? token.totalSupply : 0))}</span>) : '-'}</td>                                                </tr>
+                                                    <td className="text-right">{token.totalSupply && profitpriceIn$ ? (<span>${(profitpriceIn$ * (token ? token.totalSupply : 0)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')}</span>) : '-'}</td>
+                                                </tr>
                                                 <tr>
                                                     <td>Total supply</td>
-                                                    <td>{token ? (token.totalSupply * 1) : ''}</td>
+                                                    <td className="text-right">{token ? (token.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : ''}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex w-full md:w-1/2 flex-col items-center md:items-start md:pr-3 lg:pl-6 my-5 md:my-0">
-                                <div className="flex w-80 md:w-80 lg:w-96 flex-col h-40 p-6 dark:bg-black rounded-2xl">
-                                    <div className="flex text-3xl">SDIV</div>
-                                    <div className="flex">
-                                        <table className="table-auto w-full">
+                            <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:pl-6">
+                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                    <div className="flex text-3xl">$SDIV</div>
+                                    <div className="flex mt-3">
+                                        <table className="table-auto w-72">
                                             <tbody>
-                                                <tr>
-                                                    <td>New SDIV/block</td>
-                                                    <td>{mintedReward}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Total supply</td>
-                                                    <td>{sdivsupply?sdivsupply:"-"}</td>
-                                                </tr>
+                                            <tr>
+                                                <td>Price</td>
+                                                <td className="text-right">-</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Market cap</td>
+                                                <td className="text-right">-</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total supply</td>
+                                                <td className="text-right">{sdivsupply? (sdivsupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') :"-"}</td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>

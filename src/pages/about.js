@@ -1,7 +1,7 @@
 import { Team } from '../components/view'
 
-function team() {
+function about() {
     return <Team />
 }
 
-export default team
+export default about

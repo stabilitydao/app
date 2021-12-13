@@ -12,14 +12,14 @@ export const phases = {
 
 export const phaseTasks = [
     {
-        "Core v0<br />- utility token <br />- staking pool<br />- dividend token<br />- payment splitter": false,
+        "Core v0<br />- utility token <br />- staking <br />- dividends<br />": false,
         "App": false,
         "White paper": false,
     },
     {
         "Liquidity bootstrapping (IDO)": false,
         "Bridging token to target chains": false,
-        "Core v1<br />- governance <br />- timelock<br />- distributor": false,
+        "Core v1<br />- governance <br />- distributor": false,
         "AMM": false,
         "NFT marketplace": false,
         "DeX arbitrage protocol": false,
