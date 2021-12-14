@@ -146,10 +146,10 @@ function Pool({ name, pool, network }) {
     }, 15000);
 
     return (
-        <div className="flex flex-col w-full m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-teal-900 dark:border-2 dark:bg-gradient-to-br dark:from-teal-900 dark:to-black min-w-full">
+        <div className="flex flex-col w-96 m-5 mt-0 overflow-hidden shadow-2xl rounded-3xl dark:border-teal-900 dark:border-2 dark:bg-gradient-to-br dark:from-teal-900 dark:to-black min-w-full">
             <div className="p-3 text-3xl text-center dark:text-teal-100 font-bold">{name}</div>
             <div className="flex self-center dark:text-teal-100 font-bold justify-center">Stake {pool.stake} to earn {pool.earn}</div>
-            <div className="w-full text-sm">
+            <div className="w-full text-sm h-12">
                 {network ? (
                     <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(pool.contract)} rel="noopener noreferrer">
                         <span className="hidden justify-center text-xs md:text-sm self-center" style={{ color: networks[network].color }}>{networks[network].name}</span>
@@ -157,7 +157,6 @@ function Pool({ name, pool, network }) {
                     </a>
                 ) : null}
             </div>
-
             <div className="flex">
                 <div className="flex w-1/2 justify-center">
                     <div className="flex self-center justify-center pl-3">
@@ -168,7 +167,7 @@ function Pool({ name, pool, network }) {
                 </div>
                 <div className="flex w-1/2 justify-center">
                     <div className="flex w-32 h-32 rounded-full dark:border-teal-800 border-2 flex-col justify-center items-center">
-                        <div className="dark:text-teal-100 font-bold">TVL</div>
+                        <div className="dark:text-teal-100 font-bold text-xl">TVL</div>
                         <div className="text-xl font-bold dark:text-teal-100">${Math.floor(profitpriceIn$ * TVL).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')}</div>
                     </div>
                 </div>
@@ -190,7 +189,7 @@ function Pool({ name, pool, network }) {
                         Approve ?
                             <div>
                                 <div className="flex rounded-2xl" style={{/*{backgroundColor: '#fffeee'}*/ }}>
-                                    <div className="flex flex-col w-1/2 p-4">
+                                    <div className="flex flex-col w-3/5 p-4">
                                         <div className="flex dark:text-teal-100">Earned</div>
                                         <div className="flex dark:text-teal-100 font-bold">
                                             {Reward > 0 ? (
@@ -207,7 +206,7 @@ function Pool({ name, pool, network }) {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="flex flex-col w-1/2 p-4">
+                                    <div className="flex flex-col w-2/5 p-4">
                                         <div>
                                             <div className="flex dark:text-teal-100">Staked</div>
                                             <div className="flex dark:text-teal-100 font-bold">
