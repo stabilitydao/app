@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { currentPhase } from "@/src/components/view/Development";
-import { MAINNET, ROPSTEN, RINKEBY } from 'addresses'
+import { MAINNET, ROPSTEN, RINKEBY } from '@stabilitydao/addresses'
 import { useSelector, useDispatch } from "react-redux";
 import dividendAbi from '@/src/abis/dividendAbi'
 import AlphaTesting from "@/src/components/AlphaTesting";
 import { symbol, name, totalSupply } from "@/redux/slices/tokenSlice";
 import WEB3 from "@/src/functions/web3"
-import addresses from 'addresses'
+import addresses from '@stabilitydao/addresses'
 import { useWeb3React } from '@web3-react/core'
 import tokenAbi from '@/src/abis/tokenAbi'
 import poolAbi from '@/src/abis/poolAbi'

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Link from 'next/link'
-import addresses from 'addresses'
+import addresses from '@stabilitydao/addresses'
 import { networks } from '../../wallet'
 import { buyLinks, lpv3 } from '../../wallet/swaps'
 import { useDispatch, useSelector } from "react-redux";

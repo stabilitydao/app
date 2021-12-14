@@ -8,7 +8,7 @@ import { updateBalance } from '@/redux/slices/balanceSlice'
 import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
 import { useDispatch } from 'react-redux'
 import tokenAbi from '@/src/abis/tokenAbi'
-import addresses from 'addresses'
+import addresses from '@stabilitydao/addresses'
 import { showAlert } from '@/src/components/alert';
 
 

@@ -12,7 +12,7 @@ import { updateSync } from '@/redux/slices/syncSlice'
 import { updateSidebar } from '@/redux/slices/sidebarSlice'
 import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
 import tokenAbi from '@/src/abis/tokenAbi'
-import addresses from 'addresses'
+import addresses from '@stabilitydao/addresses'
 import { updateBalance } from '@/redux/slices/balanceSlice'
 function Navbar({ Mode }) {
     const

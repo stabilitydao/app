@@ -6,7 +6,7 @@ import { showAlert } from '@/src/components/alert';
 import WEB3 from '@/src/functions/web3';
 import tokenAbi from '@/src/abis/tokenAbi.json'
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
-import addresses, { MAINNET, ROPSTEN, RINKEBY } from 'addresses'
+import addresses, { MAINNET, ROPSTEN, RINKEBY } from '@stabilitydao/addresses'
 import AlphaTesting from "@/src/components/AlphaTesting";
 import {networks} from "../../wallet/networks";
 function Dividends() {
@@ -19,9 +19,6 @@ function Dividends() {
     const currentNetwork = useSelector(state => state.network.value)
     const { library, chainId, active, account } = useWeb3React()
     const network = chainId ? chainId : currentNetwork
-    const wethAddress = {
-        [ROPSTEN]: "0xc778417e063141139fce010982780140aa0cd5ab",
-    }
     const dividends = {
         [ROPSTEN]: ['0x6BaF629618551Cb7454013F67f5d4A9119A61627'],
     };
@@ -48,9 +45,6 @@ function Dividends() {
         }
     }, [network, active])
 
-    function update(params) {
-        
-    }
     async function releasePayment() {
         const dividendAddress = dividends[network][0]
         if (pendingPayment !== null) {
@@ -61,7 +55,7 @@ function Dividends() {
                 setpendingPayment(pending / 10 ** 18)
                 const paid = await contract.methods.totalPaid().call()
                 settotalPaid(paid / 10 ** 18)
-                const tokenContract = new library.eth.Contract(tokenAbi, wethAddress[network])
+                const tokenContract = new library.eth.Contract(tokenAbi, addresses[network].weth)
                 tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
                     settotalPending(totalPending / 10 ** 18)
                 })

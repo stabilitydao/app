@@ -1,6 +1,6 @@
 import React from 'react'
 import { networks, switchNetwork } from '@/src/wallet'
-import { ROPSTEN } from 'addresses'
+import { ROPSTEN } from '@stabilitydao/addresses'
 import { useDispatch } from "react-redux";
 import { useWeb3React } from "@web3-react/core";
 import { updatenetwork } from "@/redux/slices/networkSlice";
