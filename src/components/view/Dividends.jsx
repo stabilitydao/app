@@ -8,6 +8,7 @@ import tokenAbi from '@/src/abis/tokenAbi.json'
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
 import addresses, { MAINNET, ROPSTEN, RINKEBY } from 'addresses'
 import AlphaTesting from "@/src/components/AlphaTesting";
+import {networks} from "../../wallet/networks";
 function Dividends() {
     const web3 = WEB3()
     const dispatch = useDispatch()
@@ -84,10 +85,16 @@ function Dividends() {
                     </div>
                 }
                 {dividends[network] && <div className="flex justify-center">
-                    <div className="flex flex-col m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-green-900 dark:border-2 dark:bg-gradient-to-br dark:from-green-900 dark:to-black">
-                        <div className="p-3 text-3xl text-center dark:text-green-200 font-bold">EtherPayer</div>
-                        <div className="p-5 space-y-4">
-                            <table>
+                    <div className="w-96 flex flex-col m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-green-900 dark:border-2 dark:bg-gradient-to-br dark:from-green-900 dark:to-black">
+                        <div className="p-3 pb-2 text-3xl text-center dark:text-green-200 font-bold">Ether Payer</div>
+                        <div className="flex flex-col w-full justify-center items-center">
+                            <div className="dark:text-green-200 font-bold">Hold SDIV to earn WETH</div>
+                            <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(dividends[network])} rel="noopener noreferrer">
+                                <span className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{dividends[network]}</span>
+                            </a>
+                        </div>
+                        <div className="p-5 pt-1 space-y-4">
+                            <table className="table-auto  w-full">
                                 <tbody>
                                     <tr>
                                         <td className="">Total amount paid</td>
