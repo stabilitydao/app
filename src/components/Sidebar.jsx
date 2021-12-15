@@ -84,14 +84,14 @@ function Sidebar({ Mode }) {
         dispatch(updateProfitPriceIn$(null))
     }
     return (
-        <aside style={{ backgroundColor: Mode ? '#160024' : 'rgba(255,255,255,1)' }} className={`fixed z-20 top-0 bottom-0 h-screen text-black bg-white shadow-900 dark:text-white w-72 xl:w-80 lg:static  duration-300  ${sidebar ? "left-0" : " -left-96"}`}>
-            <Link href="/">
-                <div style={{ height: 72, paddingLeft: 18 }} className="flex items-center py-2 cursor-pointer" onClick={() => { dispatch(updateSidebar(false)) }}>
-                    <img src="/logo_nolines_256.png" alt="Stability" className="h-10" />
-                    <span className="ml-3.5 text-xl font-bold">STABILITY</span>
-                </div>
-            </Link>
-            <div  style={{ height: "calc(100vh - 280px)" }} className="flex flex-col overflow-y-auto">
+        <aside style={{ height: "calc(100vh)", backgroundColor: Mode ? '#160024' : 'rgba(255,255,255,1)' }} className={`flex flex-col justify-between overflow-y-auto fixed z-20 top-0 bottom-0 h-screen text-black bg-white shadow-900 dark:text-white w-72 xl:w-80 lg:static  duration-300  ${sidebar ? "left-0" : " -left-96"}`}>
+            <div className="flex flex-col mb-8">
+                <Link href="/">
+                    <div style={{ height: 72, paddingLeft: 18 }} className="flex items-center py-2 cursor-pointer" onClick={() => { dispatch(updateSidebar(false)) }}>
+                        <img src="/logo_nolines_256.png" alt="Stability" className="h-10" />
+                        <span className="ml-3.5 text-xl font-bold">STABILITY</span>
+                    </div>
+                </Link>
                 <ul className="mt-1">
                     <li><Link href="/"><a className={`${activeRoute === "/" ? "bg-indigo-600  text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
                     <li><Link href="/pools"><a className={`${activeRoute === "/pools" ? "bg-indigo-600  text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer className="mr-2" />Pools</a></Link></li>
@@ -105,7 +105,7 @@ function Sidebar({ Mode }) {
                     <li><Link href="/about"><a className={`${activeRoute === "/about" ? "bg-indigo-600 text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />About</a></Link></li>
                 </ul>
             </div>
-            <div className="absolute flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
+            <div className="flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
                 <table className="w-50 mb-6">
                     <tbody>
                         <tr>
