@@ -26,8 +26,29 @@ function About() {
                             <div className="text-center mb-10">
                                 <h2 className="text-5xl mb-5">Revenue generation</h2>
                                 <p className="mt-0 mb-4 text-lg leading-normal text-left">
-                                    Stability is decentralized financial platform for generating income in blockchain networks and distributing it among participants.
+                                    Stability is profit generating DeFi protocol managed and developed by our decentralized organization.<br />
+                                    The main source of revenue is working Units - DeFi projects that generate income in blockchain networks.
                                 </p>
+                            </div>
+                        </article>
+                        <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
+                            <div className="text-center mb-10">
+                                <h2 className="text-5xl mb-5">Tokenomics</h2>
+                                <p className="mt-0 mb-4 text-lg leading-normal text-left">
+                                    We base native utility $PROFIT token on fair tokenomics and launch model without pre-sale, initial offering and funding.
+                                    All entire supply goes to liquidity bootstrapping pools for public sale by Development Fund.
+                                </p>
+                                <div className="flex flex-col mt-0 mb-4 text-lg leading-normal text-center w-full">
+
+                                    <h3 className="flex text-2xl font-bold mx-auto">Token distribution</h3>
+                                    <ul className="text-left text-lg mx-auto py-2 font-bold">
+                                        <li><span className="inline-flex w-16 justify-end mr-6">100%</span> in circulation</li>
+                                        <li><span className="inline-flex w-16 justify-end mr-6">0%</span> team</li>
+                                        <li><span className="inline-flex w-16 justify-end mr-6">0%</span> infrastructure</li>
+                                        <li><span className="inline-flex w-16 justify-end mr-6">0%</span> partnership</li>
+                                        <li><span className="inline-flex w-16 justify-end mr-6">0%</span> VC investors</li>
+                                    </ul>
+                                </div>
                             </div>
                         </article>
                         <article className="mb-10 max-w-3xl mx-auto text-center">
