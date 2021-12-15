@@ -1,6 +1,6 @@
 next.config.js
 .idea
-
+.vs
 # Logs
 logs
 *.log
