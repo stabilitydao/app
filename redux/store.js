@@ -11,6 +11,7 @@ import modalsReducer from './slices/modalsSlice'
 import sidebarReducer from './slices/sidebarSlice'
 import profitPriceReducer from './slices/profitPriceSlice'
 import { contributorsApi } from './slices/contributorsApi'
+import { stabilityApi } from './slices/stabilityApi'
 export const store = configureStore({
   reducer: {
     address: addressReducer,
@@ -25,6 +26,7 @@ export const store = configureStore({
     sidebar: sidebarReducer,
     profitpriceIn$: profitPriceReducer,
     [contributorsApi.reducerPath]: contributorsApi.reducer,
+    [stabilityApi.reducerPath]: stabilityApi.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(contributorsApi.middleware)
 })

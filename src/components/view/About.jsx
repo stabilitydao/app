@@ -1,19 +1,27 @@
-import React from 'react'
-import contributors from "@/src/constants/contributors.json";
+import React,{useEffect,useState} from 'react'
+// import contributors from "@/src/constants/contributors.json";
 import {useGetContributorsQuery} from "@/redux/slices/contributorsApi";
+import { useGetContributorsListQuery } from "@/redux/slices/stabilityApi";
 import {GoLocation} from "react-icons/go";
 import Link from "next/link";
 import {currentPhase} from "@/src/components/view/Development";
-
 function UserData(name) {
     const { data } = useGetContributorsQuery(name)
     return data
 }
 
 function About() {
-    const contributorsData = contributors.map((name) => {
-        return UserData(name)
-    })
+    const Ok = useGetContributorsQuery('Safu-Ape')
+    console.log(Ok)
+    const [contributorsData, setcontributorsData] = useState([])
+    const whichData = "public_members"
+    const { data } = useGetContributorsListQuery(whichData)
+    if (data) {
+        const contributorsData = data.map((user) => {
+            return UserData(user.login)
+        })
+        setcontributorsData(contributorsData)
+    }
 
     return (
         <section className=" h-calc">
