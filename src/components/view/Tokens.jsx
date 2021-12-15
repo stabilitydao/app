@@ -19,13 +19,12 @@ function Tokens() {
     const dispatch = useDispatch()
     const { library, active, chainId, } = useWeb3React()
     const profitPrice = useSelector(state => state.price.value)
+    const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
     const priceIn = useSelector(state => state.price.in)
     const currentNetwork = useSelector(state => state.network.value)
     const token = useSelector(state => state.token)
     const dToken = useSelector(state => state.dToken)
     const network = chainId ? chainId : currentNetwork
-
-    addresses[3].dToken = '0x424E1eAe04a2580EcD4d5f19Ad5285cC2b05a05C';
 
     useEffect(() => {
         if (lpv3[network] !== null) {
@@ -37,7 +36,7 @@ function Tokens() {
                     token1 = 'ETH'
                 }
             }
-            if (token1) {
+            /*if (token1) {
                 let contract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network][token1]);
                 contract.methods.slot0().call().then((slot0) => {
                     dispatch(updateProfitPrice([
@@ -47,7 +46,7 @@ function Tokens() {
                 }).catch((err) => {
                     console.log(err)
                 })
-            }
+            }*/
         } else {
             dispatch(updateProfitPrice([
                 0, ''
@@ -190,16 +189,16 @@ function Tokens() {
                                         </tr>
                                         <tr>
                                             <td className="py-1">Price</td>
-                                            <td className="py-1 text-right">{lpv3[network] !== null && profitPrice > 0 ? (
-                                                <span>{profitPrice} {priceIn}</span>
+                                            <td className="py-1 text-right">{lpv3[network] !== null && profitpriceIn$ > 0 ? (
+                                                <span>${profitpriceIn$}</span>
                                             ) : (
                                                 <span>-</span>
                                             )}</td>
                                         </tr>
                                         <tr>
                                             <td className="py-1">Market cap</td>
-                                            <td className="py-1 text-right">{lpv3[network] !== null && profitPrice > 0 ? (
-                                                <span>{(profitPrice * (token ? token.totalSupply : 0)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')} {priceIn}</span>
+                                            <td className="py-1 text-right">{lpv3[network] !== null && profitpriceIn$ > 0 ? (
+                                                <span>${(profitpriceIn$ * (token ? token.totalSupply : 0)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')}</span>
                                             ) : '-'}</td>
                                         </tr>
                                         <tr>
@@ -280,7 +279,7 @@ function Tokens() {
                                         </tr>
                                         <tr>
                                             <td className="py-1 whitespace-nowrap pr-10">Total supply</td>
-                                            <td className="py-1 text-right">{network && addresses[network].dToken && dToken ? dToken.totalSupply : '-'}</td>
+                                            <td className="py-1 text-right">{network && addresses[network].dToken && dToken ? (dToken.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : '-'}</td>
                                         </tr>
                                         <tr>
                                             <td className="py-1 pr-10">Type</td>

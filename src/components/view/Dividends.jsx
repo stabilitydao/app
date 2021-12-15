@@ -6,9 +6,10 @@ import { showAlert } from '@/src/components/alert';
 import WEB3 from '@/src/functions/web3';
 import tokenAbi from '@/src/abis/tokenAbi.json'
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
-import addresses, { MAINNET, ROPSTEN, RINKEBY } from '@stabilitydao/addresses'
+import addresses from '@stabilitydao/addresses'
 import AlphaTesting from "@/src/components/AlphaTesting";
 import {networks} from "../../wallet/networks";
+import {payers} from "@/src/wallet";
 function Dividends() {
     const web3 = WEB3()
     const dispatch = useDispatch()
@@ -19,9 +20,8 @@ function Dividends() {
     const currentNetwork = useSelector(state => state.network.value)
     const { library, chainId, active, account } = useWeb3React()
     const network = chainId ? chainId : currentNetwork
-    const dividends = {
-        [ROPSTEN]: ['0x6BaF629618551Cb7454013F67f5d4A9119A61627'],
-    };
+    const dividends = payers;
+
     useEffect(() => {
         if (dividends[network]) {
             const dividendAddress = dividends[network][0]

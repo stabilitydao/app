@@ -22,7 +22,6 @@ export const phaseTasks = [
         "Core v1<br />- governance <br />- distributor": false,
         "AMM": false,
         "NFT marketplace": false,
-        "DeX arbitrage protocol": false,
         "Development Matrix": false,
     },
     {
@@ -32,6 +31,7 @@ export const phaseTasks = [
         "Cross-chain bridge": false,
         "Yield projects conveyor": false,
         "DeX mechanical trading system": false,
+        "DeX arbitrage protocol": false,
         "NFT game project": false,
         "Chain boilerplate": false,
         "Building Generators in accordance with Matrix": false,
@@ -96,8 +96,6 @@ function Development() {
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </section>
     )

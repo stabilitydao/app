@@ -79,7 +79,7 @@ function Sidebar({ Mode }) {
         }
     }, [network])
     if (profitPrice && ethPrice) {
-        dispatch(updateProfitPriceIn$(Math.floor(profitPrice * ethPrice * 1000) / 1000))
+        dispatch(updateProfitPriceIn$(Math.floor(profitPrice * ethPrice * 100) / 100))
     } else {
         dispatch(updateProfitPriceIn$(null))
     }

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useWeb3React } from '@web3-react/core'
-import addresses, { MAINNET, ROPSTEN, RINKEBY } from '@stabilitydao/addresses'
+import {pools} from '@/src/wallet/pools';
 import { useSelector } from "react-redux";
 import Pool from '../Pool'
 import AlphaTesting from "@/src/components/AlphaTesting";
@@ -9,16 +9,6 @@ function Pools() {
     const { chainId } = useWeb3React()
     const currentNetwork = useSelector(state => state.network.value)
     const network = chainId ? chainId : currentNetwork
-
-    const pools = {
-        [ROPSTEN]: {
-            "Dividend Minter": {
-                stake: 'PROFIT',
-                earn: 'SDIV',
-                contract: "0x20169ebb1b60ee0c45ECAa5235551cC69Ea788C0",
-            },
-        },
-    };
 
     return (
         <section className=" h-calc">

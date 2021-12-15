@@ -19,4 +19,6 @@ export default function walletConnectError(error) {
 
 export { injected,walletconnect } from './connectors'
 export { networks } from './networks'
+export { pools } from './pools'
+export { payers } from './payers'
 export { switchNetwork } from './switchNetwork'

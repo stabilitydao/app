@@ -167,8 +167,8 @@ function Pool({ name, pool, network }) {
                 </div>
                 <div className="flex w-1/2 justify-center">
                     <div className="flex w-32 h-32 rounded-full dark:border-teal-800 border-2 flex-col justify-center items-center">
-                        <div className="dark:text-teal-100 font-bold text-xl">TVL</div>
-                        <div className="text-xl font-bold dark:text-teal-100">${Math.floor(profitpriceIn$ * TVL).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')}</div>
+                        <div className="dark:text-teal-100 font-bold text-xl">{TVL ? 'TVL' : null}</div>
+                        <div className="text-xl font-bold dark:text-teal-100">{TVL ? '$'.concat(Math.floor(profitpriceIn$ * TVL).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')) : null}</div>
                     </div>
                 </div>
             </div>
