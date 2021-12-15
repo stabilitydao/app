@@ -1,0 +1,1 @@
+export { default as showAlert } from '@/src/components/alert/showAlert'

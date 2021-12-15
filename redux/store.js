@@ -6,8 +6,12 @@ import networkReducer from './slices/networkSlice'
 import syncReducer from './slices/syncSlice'
 import priceReducer from './slices/priceSlice'
 import tokenReducer from './slices/tokenSlice'
+import dTokenReducer from './slices/dTokenSlice'
 import modalsReducer from './slices/modalsSlice'
+import sidebarReducer from './slices/sidebarSlice'
+import profitPriceReducer from './slices/profitPriceSlice'
 import { contributorsApi } from './slices/contributorsApi'
+import { stabilityApi } from './slices/stabilityApi'
 export const store = configureStore({
   reducer: {
     address: addressReducer,
@@ -17,8 +21,12 @@ export const store = configureStore({
     tokenBalance: tokenbalanceReducer,
     price: priceReducer,
     token: tokenReducer,
+    dToken: dTokenReducer,
     modals: modalsReducer,
+    sidebar: sidebarReducer,
+    profitpriceIn$: profitPriceReducer,
     [contributorsApi.reducerPath]: contributorsApi.reducer,
+    [stabilityApi.reducerPath]: stabilityApi.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(contributorsApi.middleware)
 })
