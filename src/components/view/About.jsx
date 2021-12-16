@@ -1,17 +1,16 @@
 import React from 'react'
-import contributors from "@/src/constants/contributors.json";
-import {useGetContributorsQuery} from "@/redux/slices/contributorsApi";
+import {useGetMembersQuery} from "@/redux/slices/membersApi";
 import {GoLocation} from "react-icons/go";
 import Link from "next/link";
 import {currentPhase} from "@/src/components/view/Development";
 
 function UserData(name) {
-    const { data } = useGetContributorsQuery(name)
+    const { data } = useGetMembersQuery(name)
     return data
 }
 
-function About() {
-    const contributorsData = contributors.map((name) => {
+function About({membersName}) {
+    const membersData = membersName.map((name) => {
         return UserData(name)
     })
 
@@ -58,7 +57,7 @@ function About() {
                                     <div className="flex flex-wrap w-full mb-10 justify-between">
                                         <div className="w-full md:w-1/3 flex self-center justify-center w-full text-center h-52 ">
                                             <div className="relative flex flex-col self-center justify-center w-32 h-32 text-5xl bg-indigo-200 border-2 rounded-full dark:border-indigo-500 dark:bg-indigo-800">
-                                                {contributorsData ? contributorsData.length : null}
+                                                {membersData ? membersData.length : null}
                                                 <span className="mt-1 text-xs font-bold" >builders</span>
                                             </div>
                                         </div>
@@ -69,7 +68,7 @@ function About() {
                                     </div>
                                     <div className="flex w-full">
                                         <div className="flex flex-wrap justify-center">
-                                            {contributorsData.map((data, index) => {
+                                            {membersData.map((data, index) => {
                                                 return data ? (
                                                     <a
                                                         title={`Go to ${data.name}'s GitHub profile`}

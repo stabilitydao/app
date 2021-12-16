@@ -83,9 +83,8 @@ function Navbar({ Mode }) {
             return <WiNightClear className="p-1 text-4xl text-black border border-gray-500 rounded-full cursor-pointer" onClick={handleMode} />
         }
     }
-
     return (
-        <nav style={{height: 72, backgroundColor: Ismode ? '#160024' : 'rgba(255,255,255,1)' }} className="sticky top-0 z-10 shadow dark:text-white dark:bg-[#160024]">
+        <nav style={{ backgroundColor: Ismode ? '#160024' : 'rgba(255,255,255,1)' }} className="sticky top-0 z-10 shadow dark:text-white dark:bg-[#160024]">
             {
                 (Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()) ? !Sync : true)
                 && account && (chainId != currentNetwork) &&
@@ -104,7 +103,7 @@ function Navbar({ Mode }) {
                     </div>
                 </div>
             }
-            <div className="container flex flex-row h-full px-6 py-2.5">
+            <div className="container flex flex-row h-full px-6 py-2.5 items-center" style={{height:72}}>
                 <div className="flex flex-row items-center mr-6 lg:hidden">
                     <GiHamburgerMenu className="text-2xl cursor-pointer" onClick={() => { dispatch(updateSidebar(!sidebar)) }} />
                 </div>
@@ -159,7 +158,7 @@ function Navbar({ Mode }) {
                         })
                     }
                 </div>
-                <div className="fixed bg-white rounded-full shadow-lg md:shadow-none md:static md:mt-2 md:ml-5 right-5 bottom-7 md:block dark:text-white dark:bg-gray-900">
+                <div className="fixed bg-white rounded-full shadow-lg md:shadow-none md:static md:ml-5 right-5 bottom-7 md:block dark:text-white dark:bg-gray-900">
                     <Mode_Icon />
                 </div>
             </div>
