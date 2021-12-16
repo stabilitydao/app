@@ -1,14 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const contributorsApi = createApi({
-    reducerPath: 'contributorsApi',
+export const membersApi = createApi({
+    reducerPath: 'membersApi',
     baseQuery: fetchBaseQuery({ baseUrl: 'https://api.github.com/users/' }),
     endpoints: (builder) => ({
-        getContributors: builder.query({
+        getMembers: builder.query({
             query: (userName) => `${userName}`,
         }),
     }),
 })
 
 
-export const { useGetContributorsQuery } = contributorsApi
+export const { useGetMembersQuery } = membersApi
