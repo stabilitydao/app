@@ -8,14 +8,15 @@ import AlphaTesting from "@/src/components/AlphaTesting";
 import { totalSupply } from "@/redux/slices/tokenSlice";
 import WEB3 from "@/src/functions/web3"
 import addresses from '@stabilitydao/addresses'
-import {buyLinks} from "@/src/wallet/swaps";
-import {pools} from '@/src/wallet/pools';
-import {payers} from '@/src/wallet/payers';
+import { buyLinks } from "@/src/wallet/swaps";
+import { pools } from '@/src/wallet/pools';
+import { payers } from '@/src/wallet/payers';
 import { useWeb3React } from '@web3-react/core'
 import tokenAbi from '@/src/abis/tokenAbi'
 import poolAbi from '@/src/abis/poolAbi'
-import {dtotalSupply} from "@/redux/slices/dTokenSlice";
-import {updateIsWalletOption} from "@/redux/slices/modalsSlice";
+import { dtotalSupply } from "@/redux/slices/dTokenSlice";
+import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
+import { updateIsPending } from '@/redux/slices/modalsSlice'
 const appEnabled = {
     [MAINNET]: false,
     [ROPSTEN]: true,
@@ -90,19 +91,23 @@ function Home() {
         }
     }, [network, active])
     async function harvest() {
+        dispatch(updateIsPending(true))
         try {
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             await poolContract.methods.harvest().send({ from: account })
             const value = await poolContract.methods.pending(account).call()
             const reward = library.utils.fromWei(value, 'ether')
             setReward(reward)
+            dispatch(updateIsPending(false))
         } catch (err) {
             console.log(err)
+            dispatch(updateIsPending(false))
         }
     }
     async function releasePayment() {
         const dividendAddress = dividends[network][0]
         if (pendingPayment !== null) {
+            dispatch(updateIsPending(true))
             try {
                 const contract = new library.eth.Contract(dividendAbi, dividendAddress)
                 await contract.methods.releasePayment().send({ from: account })
@@ -114,8 +119,10 @@ function Home() {
                 tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
                     settotalPending(totalPending / 10 ** 18)
                 })
+                dispatch(updateIsPending(false))
             } catch (err) {
                 console.log(err)
+                dispatch(updateIsPending(false))
             }
         } else {
             showAlert("Failed")
@@ -183,33 +190,33 @@ function Home() {
                                         </button>
                                     </div>}
                                     {active &&
-                                    <div className="flex">
+                                        <div className="flex">
 
 
-                                        <div className="flex flex-col w-3/5 py-4">
-                                            <div className="flex dark:text-teal-100">Earned</div>
-                                            <div className="flex dark:text-teal-100 font-bold">
-                                                {Reward ? (
-                                                    <div className="h-20">
-                                                        <div className="mb-4 text-lg">
-                                                            {Math.floor(Reward * 10000) / 10000} SDIV
+                                            <div className="flex flex-col w-3/5 py-4">
+                                                <div className="flex dark:text-teal-100">Earned</div>
+                                                <div className="flex dark:text-teal-100 font-bold">
+                                                    {Reward ? (
+                                                        <div className="h-20">
+                                                            <div className="mb-4 text-lg">
+                                                                {Math.floor(Reward * 10000) / 10000} SDIV
+                                                            </div>
+                                                            <button className="btn w-full dark:bg-teal-700 border-none outline-none rounded-xl" onClick={harvest}>Harvest</button>
                                                         </div>
-                                                        <button className="btn w-full dark:bg-teal-700 border-none outline-none rounded-xl" onClick={harvest}>Harvest</button>
-                                                    </div>
-                                                ) : (
-                                                    <div className="h-20">-</div>
-                                                )}
+                                                    ) : (
+                                                        <div className="h-20">-</div>
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex flex-col w-2/5 py-4">
-                                            <div className="flex dark:text-teal-100">PROFIT staked</div>
-                                            <div className="flex dark:text-teal-100 font-bold">
-                                                <div className="text-lg">
-                                                    {Math.floor(stakedBalance * 100000) / 100000}
+                                            <div className="flex flex-col w-2/5 py-4">
+                                                <div className="flex dark:text-teal-100">PROFIT staked</div>
+                                                <div className="flex dark:text-teal-100 font-bold">
+                                                    <div className="text-lg">
+                                                        {Math.floor(stakedBalance * 100000) / 100000}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     }
                                 </div>
                             </div>
@@ -227,32 +234,32 @@ function Home() {
                                         </button>
                                     </div>}
                                     {active &&
-                                    <div className="flex">
-                                        <div className="flex flex-col w-3/5 py-4">
-                                            <div className="flex dark:text-teal-100">Earned</div>
-                                            <div className="flex dark:text-teal-100 font-bold">
-                                                {pendingPayment ? (
-                                                    <div className="h-20">
-                                                        <div className="mb-4 text-lg whitespace-nowrap">
-                                                            {Math.floor(pendingPayment * 10000) / 10000} WETH
+                                        <div className="flex">
+                                            <div className="flex flex-col w-3/5 py-4">
+                                                <div className="flex dark:text-teal-100">Earned</div>
+                                                <div className="flex dark:text-teal-100 font-bold">
+                                                    {pendingPayment ? (
+                                                        <div className="h-20">
+                                                            <div className="mb-4 text-lg whitespace-nowrap">
+                                                                {Math.floor(pendingPayment * 10000) / 10000} WETH
+                                                            </div>
+                                                            <button className="btn w-full dark:bg-green-700 border-none outline-none rounded-xl" onClick={releasePayment}>Release</button>
                                                         </div>
-                                                        <button className="btn w-full dark:bg-green-700 border-none outline-none rounded-xl" onClick={releasePayment}>Release</button>
-                                                    </div>
-                                                ) : (
-                                                    <div className="h-20">-</div>
-                                                )}
+                                                    ) : (
+                                                        <div className="h-20">-</div>
+                                                    )}
 
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex flex-col w-2/5 py-4">
-                                            <div className="flex dark:text-teal-100">SDIV in wallet</div>
-                                            <div className="flex dark:text-teal-100 font-bold">
-                                                <div className="text-lg">
-                                                    {Math.floor(sdivbalance * 10000) / 10000}
+                                            <div className="flex flex-col w-2/5 py-4">
+                                                <div className="flex dark:text-teal-100">SDIV in wallet</div>
+                                                <div className="flex dark:text-teal-100 font-bold">
+                                                    <div className="text-lg">
+                                                        {Math.floor(sdivbalance * 10000) / 10000}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     }
                                 </div>
                             </div>
@@ -302,18 +309,18 @@ function Home() {
                                     <div className="flex mt-3">
                                         <table className="table-auto w-72">
                                             <tbody>
-                                            <tr>
-                                                <td>Price</td>
-                                                <td className="text-right">-</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Market cap</td>
-                                                <td className="text-right">-</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total supply</td>
-                                                <td className="text-right">{dToken ? (dToken.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') :"-"}</td>
-                                            </tr>
+                                                <tr>
+                                                    <td>Price</td>
+                                                    <td className="text-right">-</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Market cap</td>
+                                                    <td className="text-right">-</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Total supply</td>
+                                                    <td className="text-right">{dToken ? (dToken.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : "-"}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>

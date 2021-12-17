@@ -5,6 +5,7 @@ const initialState = {
         IsNetworkOption: false,
         IsProfile: false,
         IsModalOptionOpened: false,
+        IsModalPending: false,
     }
 }
 
@@ -21,8 +22,11 @@ export const modalsSlice = createSlice({
         updateIsWalletOption: (state, action) => {
             state.value.IsModalOptionOpened = action.payload
         },
+        updateIsPending: (state, action) => {
+            state.value.IsModalPending = action.payload
+        },
     },
 })
 
-export const { updateIsNetworkOption, updateIsProfile, updateIsWalletOption } = modalsSlice.actions
+export const { updateIsNetworkOption, updateIsProfile, updateIsWalletOption,updateIsPending } = modalsSlice.actions
 export default modalsSlice.reducer

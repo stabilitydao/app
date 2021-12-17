@@ -12,6 +12,8 @@ import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
 import { updateBalance } from '@/redux/slices/balanceSlice'
 import { MdGeneratingTokens } from "react-icons/md";
 import WEB3 from '@/src/functions/web3';
+import { updateIsPending } from '@/redux/slices/modalsSlice'
+
 function Pool({ name, pool, network }) {
     const web3 = WEB3()
     const [Approve, setApprove] = useState(false)
@@ -36,6 +38,7 @@ function Pool({ name, pool, network }) {
     }
     async function stake() {
         if (stakeNow !== '' && !(stakeNow <= 0) && Approve && !(stakeNow > tokenBalance)) {
+            dispatch(updateIsPending(true))
             try {
                 const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
                 await poolContract.methods.stake(library.utils.toWei(`${stakeNow}`, 'ether')).send({ from: account })
@@ -46,8 +49,10 @@ function Pool({ name, pool, network }) {
                 dispatch(updateTokenbalance(library.utils.fromWei(tokenBalance)))
                 updateTVL()
                 setstakeNow("")
+                dispatch(updateIsPending(false))
             } catch (err) {
                 console.log(err)
+                dispatch(updateIsPending(false))
             }
         } else {
             showAlert("Failed")
@@ -55,12 +60,15 @@ function Pool({ name, pool, network }) {
     }
     async function upprove() {
         if (!Approve) {
+            dispatch(updateIsPending(true))
             try {
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
                 await tokenContract.methods.approve(pool.contract, ethers.constants.MaxUint256).send({ from: account })
                 setApprove(true)
+                dispatch(updateIsPending(false))
             } catch (err) {
                 console.log(err)
+                dispatch(updateIsPending(false))
             }
         } else {
             showAlert("Failed")
@@ -68,6 +76,7 @@ function Pool({ name, pool, network }) {
     }
     async function unStake() {
         if (unStakeNow !== '' && !(unStakeNow <= 0) && !(unStakeNow > stakedBalance)) {
+            dispatch(updateIsPending(true))
             try {
                 const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
                 await poolContract.methods.unstake(library.utils.toWei(`${unStakeNow}`, 'ether')).send({ from: account })
@@ -78,22 +87,27 @@ function Pool({ name, pool, network }) {
                 dispatch(updateTokenbalance(library.utils.fromWei(tokenBalance)))
                 updateTVL()
                 setunStakeNow('')
+                dispatch(updateIsPending(false))
             } catch (err) {
                 console.log(err)
+                dispatch(updateIsPending(false))
             }
         } else {
             showAlert("Failed")
         }
     }
     async function harvest() {
+        dispatch(updateIsPending(true))
         try {
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             await poolContract.methods.harvest().send({ from: account })
             const value = await poolContract.methods.pending(account).call()
             const reward = library.utils.fromWei(value, 'ether')
             setReward(reward)
+            dispatch(updateIsPending(false))
         } catch (err) {
             console.log(err)
+            dispatch(updateIsPending(false))
         }
     }
     useEffect(() => {

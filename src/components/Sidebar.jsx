@@ -34,7 +34,6 @@ function Sidebar({ Mode }) {
     useEffect(() => {
         setactiveRoute(pathname)
     }, [pathname])
-
     useEffect(() => {
         if (lpv3[network] !== null) {
             let token1 = null;

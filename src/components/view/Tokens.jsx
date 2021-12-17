@@ -91,6 +91,7 @@ function Tokens() {
     }, [network])
 
     function addPROFITToWallet() {
+        dispatch(updateIsPending(true))
         library.currentProvider.request({
             method: "wallet_watchAsset",
             params: {
@@ -103,12 +104,15 @@ function Tokens() {
                 },
             }
         }).then(() => {
+            dispatch(updateIsPending(false))
         }).catch((err) => {
+            dispatch(updateIsPending(false))
             showAlert("Failed")
         });
     }
-
+    
     function addSDIVToWallet() {
+        dispatch(updateIsPending(true))
         library.currentProvider.request({
             method: "wallet_watchAsset",
             params: {
@@ -121,8 +125,10 @@ function Tokens() {
                 },
             }
         }).then(() => {
+            dispatch(updateIsPending(false))
         }).catch((err) => {
             showAlert("Failed")
+            dispatch(updateIsPending(false))
         });
     }
 

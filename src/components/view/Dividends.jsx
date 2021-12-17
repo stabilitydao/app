@@ -10,6 +10,7 @@ import addresses from '@stabilitydao/addresses'
 import AlphaTesting from "@/src/components/AlphaTesting";
 import {networks} from "../../wallet/networks";
 import {payers} from "@/src/wallet";
+import { updateIsPending } from '@/redux/slices/modalsSlice'
 function Dividends() {
     const web3 = WEB3()
     const dispatch = useDispatch()
@@ -48,6 +49,7 @@ function Dividends() {
     async function releasePayment() {
         const dividendAddress = dividends[network][0]
         if (pendingPayment !== null) {
+            dispatch(updateIsPending(true))
             try {
                 const contract = new library.eth.Contract(dividendAbi, dividendAddress)
                 await contract.methods.releasePayment().send({ from: account })
@@ -59,8 +61,10 @@ function Dividends() {
                 tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
                     settotalPending(totalPending / 10 ** 18)
                 })
+                dispatch(updateIsPending(false))
             } catch (err) {
                 console.log(err)
+                dispatch(updateIsPending(false))
             }
         } else {
             showAlert("Failed")

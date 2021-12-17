@@ -36,7 +36,7 @@ const Modal = ({ title, children, onClose, showCloseBtn }) => {
                     <h2 className="text-2xl font-Roboto">{title}</h2>
                     {showCloseBtn && <X size={24} strokeWidth={1} className="cursor-pointer" onClick={(e) => modalCloseHandler(e)} />}
                 </div>
-                <div className="overflow-y-auto text-center bg-gray-500 rounded-lg" style={{ maxHeight: "calc(100vh - 150px)" }}>
+                <div className="overflow-y-auto text-center bg-gray-100 dark:bg-gray-800 rounded-lg" style={{ maxHeight: "calc(100vh - 150px)" }}>
                     {children}
                 </div>
             </div>
