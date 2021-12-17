@@ -24,7 +24,7 @@ function Layout({ children }) {
         setTitle(route ? route[0].toUpperCase() + route.slice(1) : '')
     }, [pathname])
     useEffect(() => {
-        setMounted(true)
+        // setMounted(true)
         const mode = localStorage.getItem("mode")
         if (!mode) {
             setMode(true)
@@ -40,7 +40,12 @@ function Layout({ children }) {
         return new Web3(provider);
     }
 
-    if (!mounted) return null;
+    if (!mounted) return (
+        <div className='flex justify-center items-center mr-6 h-screen w-screen bg-indigo-900'>
+            <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-white'>
+            </div>
+        </div>
+    )
     return (
         <Web3ReactProvider getLibrary={getLibrary} >
             <main className={Mode ? "dark" : "" + "overflow-y-hidden h-screen"} >
