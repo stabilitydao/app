@@ -24,7 +24,7 @@ function Layout({ children }) {
         setTitle(route ? route[0].toUpperCase() + route.slice(1) : '')
     }, [pathname])
     useEffect(() => {
-        // setMounted(true)
+        setMounted(true)
         const mode = localStorage.getItem("mode")
         if (!mode) {
             setMode(true)
