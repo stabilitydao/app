@@ -12,17 +12,17 @@ function Layout({ children }) {
     const [Mode, setMode] = useState(null)
     const [mounted, setMounted] = useState(false);
     const [Title, setTitle] = useState('')
-    const { pathname } = useRouter();
+    const router = useRouter();
     useEffect(() => {
         const scroolTOP = document.getElementById('scroolTOP')
         if (scroolTOP) {
             scroolTOP.scrollTop = 0;
         }
-    }, [pathname])
+    }, [router.pathname])
     useEffect(() => {
-        let route = pathname.replace('/', '')
+        let route = router.pathname.replace('/', '')
         setTitle(route ? route[0].toUpperCase() + route.slice(1) : '')
-    }, [pathname])
+    }, [router.pathname])
     useEffect(() => {
         setMounted(true)
         const mode = localStorage.getItem("mode")
@@ -39,13 +39,28 @@ function Layout({ children }) {
     function getLibrary(provider) {
         return new Web3(provider);
     }
-
+    useEffect(() => {
+        function sett() {
+            setMounted(false)
+        }
+        function setf() {
+            setMounted(true)
+        }
+        router.events.on('routeChangeStart', sett)
+        router.events.on('routeChangeError', setf)
+        router.events.on('routeChangeComplete', setf)
+        return () => {
+            router.events.off('routeChangeStart', sett)
+            router.events.off('routeChangeError', setf)
+            router.events.off('routeChangeComplete', setf)
+        }
+    }, [router.pathname])
     if (!mounted) return (
         <div className='flex justify-center items-center mr-6 h-screen w-screen bg-indigo-900'>
             <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-white'>
             </div>
         </div>
-    )
+    );
     return (
         <Web3ReactProvider getLibrary={getLibrary} >
             <main className={Mode ? "dark" : "" + "overflow-y-hidden h-screen"} >
