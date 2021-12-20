@@ -6,6 +6,7 @@ import { injected, walletconnect } from '@/src/wallet/connectors'
 import walletConnectError, { networks, switchNetwork } from '@/src/wallet'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { WiDaySunny, WiNightClear } from 'react-icons/wi'
+import { FaFaucet } from 'react-icons/fa'
 import { User, AlertTriangle } from 'react-feather'
 import { updateIsNetworkOption, updateIsProfile, updateIsWalletOption } from '@/redux/slices/modalsSlice'
 import { updateSync } from '@/redux/slices/syncSlice'
@@ -103,10 +104,14 @@ function Navbar({ Mode }) {
                     </div>
                 </div>
             }
-            <div className="container flex flex-row h-full px-6 py-2.5 items-center" style={{height:72}}>
+            <div className="container flex flex-row h-full px-6 py-2.5 items-center" style={{ height: 72 }}>
                 <div className="flex flex-row items-center mr-6 lg:hidden">
                     <GiHamburgerMenu className="text-2xl cursor-pointer" onClick={() => { dispatch(updateSidebar(!sidebar)) }} />
                 </div>
+                {
+                    currentNetwork == 3 &&
+                    <a className='btn' href='https://faucet.ropsten.be/' target='_blank' rel="noopener noreferrer"> <FaFaucet className='sm:hidden' /> <span className='hidden sm:inline'>Faucet</span></a>
+                }
                 <div className="flex flex-row items-center ml-auto gap-x-2">
                     {
                         account ?
