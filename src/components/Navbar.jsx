@@ -15,12 +15,8 @@ import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
 import tokenAbi from '@/src/abis/tokenAbi'
 import addresses from '@stabilitydao/addresses'
 import { updateBalance } from '@/redux/slices/balanceSlice'
-import { ROPSTEN } from '../wallet/networks'
-import faucetAbi from '@/src/abis/faucetAbi'
-import { showAlert } from './alert'
 function Navbar({ Mode }) {
     const
-        faucetAddress = '0x28aCc83B9de64B892A1561576AB3b7e14E0a3c07',
         dispatch = useDispatch(),
         Sync = useSelector(state => state.sync.value),
         sidebar = useSelector(state => state.sidebar.value),
@@ -113,7 +109,7 @@ function Navbar({ Mode }) {
                     <GiHamburgerMenu className="text-2xl cursor-pointer" onClick={() => { dispatch(updateSidebar(!sidebar)) }} />
                 </div>
                 {
-                    (chainId ? chainId == ROPSTEN : false) &&
+                    currentNetwork == 3 &&
                     <a className='btn' href='https://faucet.ropsten.be/' target='_blank' rel="noopener noreferrer"> <FaFaucet className='sm:hidden' /> <span className='hidden sm:inline'>Faucet</span></a>
                 }
                 <div className="flex flex-row items-center ml-auto gap-x-2">
