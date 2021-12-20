@@ -6,6 +6,7 @@ import { injected, walletconnect } from '@/src/wallet/connectors'
 import walletConnectError, { networks, switchNetwork } from '@/src/wallet'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { WiDaySunny, WiNightClear } from 'react-icons/wi'
+import { FaFaucet } from 'react-icons/fa'
 import { User, AlertTriangle } from 'react-feather'
 import { updateIsNetworkOption, updateIsProfile, updateIsWalletOption } from '@/redux/slices/modalsSlice'
 import { updateSync } from '@/redux/slices/syncSlice'
@@ -14,8 +15,12 @@ import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
 import tokenAbi from '@/src/abis/tokenAbi'
 import addresses from '@stabilitydao/addresses'
 import { updateBalance } from '@/redux/slices/balanceSlice'
+import { ROPSTEN } from '../wallet/networks'
+import faucetAbi from '@/src/abis/faucetAbi'
+import { showAlert } from './alert'
 function Navbar({ Mode }) {
     const
+        faucetAddress = '0x28aCc83B9de64B892A1561576AB3b7e14E0a3c07',
         dispatch = useDispatch(),
         Sync = useSelector(state => state.sync.value),
         sidebar = useSelector(state => state.sidebar.value),
@@ -75,7 +80,16 @@ function Navbar({ Mode }) {
             dispatch(updateSync(false))
         }
     }, [chainId])
-
+    async function handleFaucet() {
+        const faucetContract = new library.eth.Contract(faucetAbi, faucetAddress)
+        const currentBlock = await library.eth.getBlockNumber()
+        const userBlock = await faucetContract.methods.list(account).call()
+        if (userBlock > currentBlock) {
+            showAlert("Do after 1 day")
+            return
+        }
+        await faucetContract.methods.giveEther().send({ from: account })
+    }
     const Mode_Icon = () => {
         if (Ismode === true) {
             return <WiDaySunny className="p-1 text-4xl text-white border border-gray-500 rounded-full cursor-pointer" onClick={handleMode} />
@@ -103,10 +117,14 @@ function Navbar({ Mode }) {
                     </div>
                 </div>
             }
-            <div className="container flex flex-row h-full px-6 py-2.5 items-center" style={{height:72}}>
+            <div className="container flex flex-row h-full px-6 py-2.5 items-center" style={{ height: 72 }}>
                 <div className="flex flex-row items-center mr-6 lg:hidden">
                     <GiHamburgerMenu className="text-2xl cursor-pointer" onClick={() => { dispatch(updateSidebar(!sidebar)) }} />
                 </div>
+                {
+                    (chainId ? chainId == ROPSTEN : false) &&
+                    <button className='btn' onClick={handleFaucet}> <FaFaucet className='sm:hidden' /> <span className='hidden sm:inline'>Faucet</span></button>
+                }
                 <div className="flex flex-row items-center ml-auto gap-x-2">
                     {
                         account ?
