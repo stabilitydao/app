@@ -80,16 +80,7 @@ function Navbar({ Mode }) {
             dispatch(updateSync(false))
         }
     }, [chainId])
-    async function handleFaucet() {
-        const faucetContract = new library.eth.Contract(faucetAbi, faucetAddress)
-        const currentBlock = await library.eth.getBlockNumber()
-        const userBlock = await faucetContract.methods.list(account).call()
-        if (userBlock > currentBlock) {
-            showAlert("Do after 1 day")
-            return
-        }
-        await faucetContract.methods.giveEther().send({ from: account })
-    }
+
     const Mode_Icon = () => {
         if (Ismode === true) {
             return <WiDaySunny className="p-1 text-4xl text-white border border-gray-500 rounded-full cursor-pointer" onClick={handleMode} />
@@ -123,7 +114,7 @@ function Navbar({ Mode }) {
                 </div>
                 {
                     (chainId ? chainId == ROPSTEN : false) &&
-                    <button className='btn' onClick={handleFaucet}> <FaFaucet className='sm:hidden' /> <span className='hidden sm:inline'>Faucet</span></button>
+                    <a className='btn' href='https://faucet.ropsten.be/' target='_blank' rel="noopener noreferrer"> <FaFaucet className='sm:hidden' /> <span className='hidden sm:inline'>Faucet</span></a>
                 }
                 <div className="flex flex-row items-center ml-auto gap-x-2">
                     {
