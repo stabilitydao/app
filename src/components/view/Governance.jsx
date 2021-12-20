@@ -6,7 +6,7 @@ function Governance() {
             <div className="container p-4">
                 <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Governance</h1>
                 <div className="max-w-2xl mx-auto">
-                    <div>
+                    <div className="flex flex-col">
                         <article className="mb-8">
                             <div className="py-4">
                                 <h2 className="mb-4 text-3xl sm:text-4xl font-Roboto ">On-chain voting</h2>
@@ -15,9 +15,55 @@ function Governance() {
                                 </p>
                             </div>
                         </article>
+                        <article className="my-5">
+                            Engagement ratio: [delegated tokens / total supply]<br />
+                            Active proposals: [delay, voting]<br />
+                            Proposals: [total proposals]<br />
+                            Holders: [total token holders]<br />
+                            Voters: [total voters]<br />
+                        </article>
+                        <article className="my-5 flex justify-between">
+                            <div>
+                                Your voting power: [address votes] <br />
+                                Delegated to: [delagate address]
+                            </div>
+                            <button className="btn">Delegate</button>
+                        </article>
+                        <article className="my-5">
+                            <h2 className="text-2xl">Propsals</h2>
+                            <table className="table-auto text-xl w-full">
+                                <thead>
+                                <tr>
+                                    <td className="px-2">Proposal</td>
+                                    <td className="px-2">Voting</td>
+                                    <td className="px-2">Total votes</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td className="p-2">
+                                        <div className="flex flex-col">
+                                            <div className="flex mb-1.5">Name of proposal</div>
+                                            <div className="flex"><span className="inline-flex bg-green-800 px-2 text-sm rounded-md ">Executed</span></div>
+                                        </div>
+                                    </td>
+                                    <td className="p-2">
+                                        <div className="flex flex-col">
+                                            <div>For | 120</div>
+                                            <div>Against | 1</div>
+                                        </div>
+                                    </td>
+                                    <td className="p-2">
+                                        121<br />
+                                        2 addresses
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </article>
                     </div>
                 </div>
-                <div className="max-w-2xl mx-auto">
+                <div className="max-w-2xl mx-auto mt-10">
                     <article >
                         <div className="w-full mb-7">
                             <h2 className="mb-4 text-3xl sm:text-4xl font-Roboto ">Resource distribution</h2>

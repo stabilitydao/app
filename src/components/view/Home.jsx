@@ -298,21 +298,21 @@ function Home() {
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:pl-6">
                                 <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
-                                    <div className="flex text-3xl">$SDIV</div>
+                                    <div className="flex text-3xl">Governance</div>
                                     <div className="flex mt-3">
                                         <table className="table-auto w-72">
                                             <tbody>
                                             <tr>
-                                                <td>Price</td>
+                                                <td>Treasure</td>
+                                                <td className="text-right">0.1 WETH</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Active proposals</td>
                                                 <td className="text-right">-</td>
                                             </tr>
                                             <tr>
-                                                <td>Market cap</td>
+                                                <td>Proposals</td>
                                                 <td className="text-right">-</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total supply</td>
-                                                <td className="text-right">{dToken ? (dToken.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') :"-"}</td>
                                             </tr>
                                             </tbody>
                                         </table>
