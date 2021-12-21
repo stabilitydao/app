@@ -4,12 +4,18 @@ const GET_GOV_QUERY = gql`
         governor(id:$id){
             id
             proposals{
-            id
-            description
-            startBlock
-            endBlock
-            canceled
-            executed
+                id
+                description
+                startBlock
+                endBlock
+                canceled
+                executed
+                supports {
+                    support
+                    votes{
+                    weight
+                }
+              }
             }
         }
     }  

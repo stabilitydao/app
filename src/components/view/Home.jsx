@@ -16,6 +16,10 @@ import tokenAbi from '@/src/abis/tokenAbi'
 import poolAbi from '@/src/abis/poolAbi'
 import {dtotalSupply} from "@/redux/slices/dTokenSlice";
 import {updateIsWalletOption} from "@/redux/slices/modalsSlice";
+import {gov} from "@/src/wallet"
+import {useQuery} from "@apollo/client";
+import {GET_GOV_QUERY} from "@/src/graphql/queries";
+
 const appEnabled = {
     [MAINNET]: false,
     [ROPSTEN]: true,
@@ -26,6 +30,7 @@ function Home() {
     const dispatch = useDispatch()
     const web3 = WEB3()
     const [Reward, setReward] = useState(null)
+    const [blocknumber, setBlocknumber] = useState()
     const { library, chainId, active, account } = useWeb3React()
     const [sdivbalance, setsdivbalance] = useState(null)
     const [pendingPayment, setpendingPayment] = useState(null)
@@ -37,6 +42,30 @@ function Home() {
     const dToken = useSelector(state => state.dToken)
 
     const dividends = payers;
+
+    useEffect(() => {
+        if(web3.eth && gov[network]) {
+            web3.eth.getBlockNumber().then(e => {
+                setBlocknumber(e)
+            })
+        }
+    }, [web3.eth, network])
+
+    let graphData;
+
+    const {loading, error, data} = useQuery(GET_GOV_QUERY, {
+        variables: {id: gov[3].toLowerCase()},
+    });
+
+    graphData = data
+
+    if (!gov[network]) {
+        graphData = null
+    }
+
+    const activeProposals = graphData ? graphData.governor.proposals.filter(proposal => (parseInt(proposal.startBlock) <= parseInt(blocknumber)) && (parseInt(proposal.endBlock) >= parseInt(blocknumber))).length : ""
+    const totalProposals = graphData ? graphData.governor.proposals.length : 0
+
 
     useEffect(() => {
         if (web3 && web3.eth.net.isListening() && network) {
@@ -168,7 +197,7 @@ function Home() {
                         </div>
                         <div className="flex py-3 justify-center flex-wrap md:my-1 xl:my-3">
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-end md:px-3 xl:px-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 md:px-5 lg:px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Staking</div>
                                     {!active && <div className="flex pt-8 pb-6">
                                         <button
@@ -192,7 +221,7 @@ function Home() {
                                                 {Reward ? (
                                                     <div className="h-20">
                                                         <div className="mb-4 text-lg">
-                                                            {Math.floor(Reward * 10000) / 10000} SDIV
+                                                            {Math.floor(Reward * 10**4) / 10**4} SDIV
                                                         </div>
                                                         <button className="btn w-full dark:bg-teal-700 border-none outline-none rounded-xl" onClick={harvest}>Harvest</button>
                                                     </div>
@@ -205,7 +234,7 @@ function Home() {
                                             <div className="flex dark:text-teal-100">PROFIT staked</div>
                                             <div className="flex dark:text-teal-100 font-bold">
                                                 <div className="text-lg">
-                                                    {Math.floor(stakedBalance * 100000) / 100000}
+                                                    {Math.floor(stakedBalance * 10**4) / 10**4}
                                                 </div>
                                             </div>
                                         </div>
@@ -214,7 +243,7 @@ function Home() {
                                 </div>
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:px-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 md:px-5 lg:px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Dividends</div>
                                     {!active && <div className="flex pt-8 pb-6">
                                         <button
@@ -234,7 +263,7 @@ function Home() {
                                                 {pendingPayment ? (
                                                     <div className="h-20">
                                                         <div className="mb-4 text-lg whitespace-nowrap">
-                                                            {Math.floor(pendingPayment * 10000) / 10000} WETH
+                                                            {Math.floor(pendingPayment * 10**6) / 10**6} WETH
                                                         </div>
                                                         <button className="btn w-full dark:bg-green-700 border-none outline-none rounded-xl" onClick={releasePayment}>Release</button>
                                                     </div>
@@ -259,7 +288,7 @@ function Home() {
                         </div>
                         <div className="flex flex-wrap md:py-3 justify-center md:my-1 xl:my-2">
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-end md:px-3 xl:px-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 md:px-5 lg:px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex w-full justify-between pr-4">
                                         <span className="text-3xl ">$PROFIT</span>
                                         <span>
@@ -297,22 +326,22 @@ function Home() {
                                 </div>
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:pl-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 md:px-5 lg:px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Governance</div>
                                     <div className="flex mt-3">
                                         <table className="table-auto w-72">
                                             <tbody>
                                             <tr>
                                                 <td>Treasure</td>
-                                                <td className="text-right">0.1 WETH</td>
+                                                <td className="text-right">-</td>
                                             </tr>
                                             <tr>
                                                 <td>Active proposals</td>
-                                                <td className="text-right">-</td>
+                                                <td className="text-right">{activeProposals}</td>
                                             </tr>
                                             <tr>
                                                 <td>Proposals</td>
-                                                <td className="text-right">-</td>
+                                                <td className="text-right">{totalProposals}</td>
                                             </tr>
                                             </tbody>
                                         </table>
