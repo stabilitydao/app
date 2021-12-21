@@ -1,16 +1,15 @@
 import { gql } from '@apollo/client'
 const GET_GOV_QUERY = gql`
-    query governor($id:Id!){
+    query governor($id:ID!){
         governor(id:$id){
             id
             proposals{
             id
             description
-            eta
-            canceled
-            executed
             startBlock
             endBlock
+            canceled
+            executed
             }
         }
     }  

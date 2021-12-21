@@ -1,6 +1,13 @@
 import React from 'react'
-
+import { useQuery } from "@apollo/client";
+import { GET_GOV_QUERY } from "@/src/graphql/queries";
+import WEB3 from '@/src/functions/web3';
 function Governance() {
+    const web3 = WEB3()
+    const govAddress = '0x005d71553aD3f8f919E5121aA45Bf24594DCE0d6'
+    const { loading, error, data } = useQuery(GET_GOV_QUERY, {
+        variables: { id: govAddress.toLowerCase() },
+    });
     return (
         <section className=" h-calc">
             <div className="container p-4">
@@ -17,8 +24,8 @@ function Governance() {
                         </article>
                         <article className="my-5">
                             Engagement ratio: [delegated tokens / total supply]<br />
-                            Active proposals: [delay, voting]<br />
-                            Proposals: [total proposals]<br />
+                            Active proposals: {data ? data.governor.proposals.filter((proposal) => { proposal.startBlock <= web3.eth.getBlockNumber() }).length : ""}<br />
+                            Proposals: {data ? data.governor.proposals.length : ""} <br />
                             Holders: [total token holders]<br />
                             Voters: [total voters]<br />
                         </article>
@@ -33,31 +40,31 @@ function Governance() {
                             <h2 className="text-2xl">Propsals</h2>
                             <table className="table-auto text-xl w-full">
                                 <thead>
-                                <tr>
-                                    <td className="px-2">Proposal</td>
-                                    <td className="px-2">Voting</td>
-                                    <td className="px-2">Total votes</td>
-                                </tr>
+                                    <tr>
+                                        <td className="px-2">Proposal</td>
+                                        <td className="px-2">Voting</td>
+                                        <td className="px-2">Total votes</td>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td className="p-2">
-                                        <div className="flex flex-col">
-                                            <div className="flex mb-1.5">Name of proposal</div>
-                                            <div className="flex"><span className="inline-flex bg-green-800 px-2 text-sm rounded-md ">Executed</span></div>
-                                        </div>
-                                    </td>
-                                    <td className="p-2">
-                                        <div className="flex flex-col">
-                                            <div>For | 120</div>
-                                            <div>Against | 1</div>
-                                        </div>
-                                    </td>
-                                    <td className="p-2">
-                                        121<br />
-                                        2 addresses
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td className="p-2">
+                                            <div className="flex flex-col">
+                                                <div className="flex mb-1.5">{data ? data.governor.proposals.map((proposal, index) => <tr key={index}>{proposal.description}</tr>) : ""}</div>
+                                                <div className="flex"><span className="inline-flex bg-green-800 px-2 text-sm rounded-md ">Executed</span></div>
+                                            </div>
+                                        </td>
+                                        <td className="p-2">
+                                            <div className="flex flex-col">
+                                                <div>For | 120</div>
+                                                <div>Against | 1</div>
+                                            </div>
+                                        </td>
+                                        <td className="p-2">
+                                            121<br />
+                                            2 addresses
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </article>
@@ -73,32 +80,32 @@ function Governance() {
                         </div>
                         <table className="w-full mx-auto text-sm table-auto bg-blend-darken md:text-xl">
                             <thead>
-                            <tr>
-                                <th className="w-1/4 text-left">Target</th>
-                                <th className="w-1/4">Contract</th>
-                                <th className="w-1/4 text-center">Current share</th>
-                                <th className="w-1/4 text-right">Limits</th>
-                            </tr>
+                                <tr>
+                                    <th className="w-1/4 text-left">Target</th>
+                                    <th className="w-1/4">Contract</th>
+                                    <th className="w-1/4 text-center">Current share</th>
+                                    <th className="w-1/4 text-right">Limits</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td className="py-1">Dividends</td>
-                                <td className="py-1 pl-1">EtherPayer</td>
-                                <td className="py-1 font-bold text-center">48%</td>
-                                <td className="py-1 text-right whitespace-nowrap">10% - 90%</td>
-                            </tr>
-                            <tr>
-                                <td className="py-1">Governance</td>
-                                <td className="py-1 pl-1">Gov</td>
-                                <td className="py-1 font-bold text-center">48%</td>
-                                <td className="py-1 text-right whitespace-nowrap">10% - 90%</td>
-                            </tr>
-                            <tr>
-                                <td className="py-1">Builders</td>
-                                <td className="py-1 pl-1">DevFund</td>
-                                <td className="py-1 font-bold text-center">4%</td>
-                                <td className="py-1 text-right whitespace-nowrap">1% - 50%</td>
-                            </tr>
+                                <tr>
+                                    <td className="py-1">Dividends</td>
+                                    <td className="py-1 pl-1">EtherPayer</td>
+                                    <td className="py-1 font-bold text-center">48%</td>
+                                    <td className="py-1 text-right whitespace-nowrap">10% - 90%</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-1">Governance</td>
+                                    <td className="py-1 pl-1">Gov</td>
+                                    <td className="py-1 font-bold text-center">48%</td>
+                                    <td className="py-1 text-right whitespace-nowrap">10% - 90%</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-1">Builders</td>
+                                    <td className="py-1 pl-1">DevFund</td>
+                                    <td className="py-1 font-bold text-center">4%</td>
+                                    <td className="py-1 text-right whitespace-nowrap">1% - 50%</td>
+                                </tr>
                             </tbody>
                         </table>
                     </article>
