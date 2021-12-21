@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import Sidebar from './Sidebar'
 import Modals from '@/src/components/modal/modals'
 import { useRouter } from 'next/router'
-
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 function Layout({ children }) {
     const [Mode, setMode] = useState(null)
     const [mounted, setMounted] = useState(false);
@@ -39,28 +39,33 @@ function Layout({ children }) {
     function getLibrary(provider) {
         return new Web3(provider);
     }
-
+    const client = new ApolloClient({
+        cache: new InMemoryCache(),
+        uri: 'https://api.thegraph.com/subgraphs/name/stabilitydao/v0'
+    })
     if (!mounted) return null;
     return (
         <Web3ReactProvider getLibrary={getLibrary} >
-            <main className={Mode ? "dark" : "" + "overflow-y-hidden h-screen"} >
-                <Head>
-                    <title>{Title ? `${Title} - ` : ""}Stability</title>
-                    <meta name="description" content="Profit generating DeFi protocol" />
-                    <link rel="icon" href="/logo_nolines_256.png" />
-                </Head>
-                <div className="flex flex-row">
-                    <Sidebar Mode={Mode} />
-                    <div id="scroolTOP" className="w-full h-screen overflow-y-auto">
-                        <main className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white">
-                            <Navbar Mode={mode => setMode(mode)} />
-                            {children}
-                        </main>
+            <ApolloProvider client={client}>
+                <main className={Mode ? "dark" : "" + "overflow-y-hidden h-screen"} >
+                    <Head>
+                        <title>{Title ? `${Title} - ` : ""}Stability</title>
+                        <meta name="description" content="Profit generating DeFi protocol" />
+                        <link rel="icon" href="/logo_nolines_256.png" />
+                    </Head>
+                    <div className="flex flex-row">
+                        <Sidebar Mode={Mode} />
+                        <div id="scroolTOP" className="w-full h-screen overflow-y-auto">
+                            <main className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white">
+                                <Navbar Mode={mode => setMode(mode)} />
+                                {children}
+                            </main>
+                        </div>
                     </div>
-                </div>
-                <Modals />
-                <ToastContainer position="top-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme={"colored"} icon={false} />
-            </main>
+                    <Modals />
+                    <ToastContainer position="top-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme={"colored"} icon={false} />
+                </main>
+            </ApolloProvider>
         </Web3ReactProvider>
     )
 }
