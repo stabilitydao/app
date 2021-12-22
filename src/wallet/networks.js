@@ -15,7 +15,7 @@ const networks = {
         chainid: 1,
         hexchainid: "0x1",
         symbol: "ETH",
-        explorerurl: "https://etherscan.io/address/"
+        explorerurl: "https://etherscan.io/"
     },
     3: {
         name: "Ropsten",
@@ -25,7 +25,7 @@ const networks = {
         chainid: 3,
         hexchainid: "0x3",
         symbol: "ETH",
-        explorerurl: "https://ropsten.etherscan.io/address/"
+        explorerurl: "https://ropsten.etherscan.io/"
     },
     4: {
         name: "Rinkeby",
@@ -35,7 +35,7 @@ const networks = {
         chainid: 4,
         hexchainid: "0x4",
         symbol: "ETH",
-        explorerurl: "https://rinkeby.etherscan.io/address/"
+        explorerurl: "https://rinkeby.etherscan.io/"
     }
 }
 

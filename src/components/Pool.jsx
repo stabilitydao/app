@@ -151,7 +151,7 @@ function Pool({ name, pool, network }) {
             <div className="flex self-center dark:text-teal-100 font-bold justify-center">Stake {pool.stake} to earn {pool.earn}</div>
             <div className="w-full text-sm h-12">
                 {network ? (
-                    <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(pool.contract)} rel="noopener noreferrer">
+                    <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={`${networks[network].explorerurl}address/${pool.contract}`} rel="noopener noreferrer">
                         <span className="hidden justify-center text-xs md:text-sm self-center" style={{ color: networks[network].color }}>{networks[network].name}</span>
                         <span className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{pool.contract}</span>
                     </a>

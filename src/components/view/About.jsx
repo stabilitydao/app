@@ -34,7 +34,7 @@ function About({membersName}) {
                             <div className="text-center mb-10">
                                 <h2 className="text-5xl mb-5">Tokenomics</h2>
                                 <p className="mt-0 mb-4 text-lg leading-normal text-left">
-                                    We base native utility $PROFIT token on fair tokenomics and launch model without pre-sale, initial offering and funding.
+                                    We base native $PROFIT token on fair tokenomics and launch model without pre-sale, initial offering and funding.
                                     All entire supply goes to liquidity bootstrapping pools for public sale by Development Fund.
                                 </p>
                                 <div className="flex flex-col mt-0 mb-4 text-lg leading-normal text-center w-full">
