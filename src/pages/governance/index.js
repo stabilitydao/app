@@ -1,4 +1,4 @@
-import { Governance } from '../components/view'
+import { Governance } from '../../components/view'
 
 function governance() {
     return <Governance />

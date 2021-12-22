@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from "@apollo/client";
 import { GET_GOV_QUERY } from "@/src/graphql/queries";
 import WEB3 from '@/src/functions/web3';
-import {useWeb3React} from "@web3-react/core";
-import {useDispatch, useSelector} from "react-redux";
-import {gov} from "@/src/wallet"
-import {updateIsWalletOption} from "@/redux/slices/modalsSlice";
+import { useWeb3React } from "@web3-react/core";
+import { useDispatch, useSelector } from "react-redux";
+import { gov } from "@/src/wallet"
+import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
+import Link from 'next/link'
 function Governance() {
     const web3 = WEB3()
     const dispatch = useDispatch()
@@ -16,8 +17,8 @@ function Governance() {
 
     let graphData;
 
-    const {loading, error, data} = useQuery(GET_GOV_QUERY, {
-        variables: {id: gov[3].toLowerCase()},
+    const { loading, error, data } = useQuery(GET_GOV_QUERY, {
+        variables: { id: gov[3].toLowerCase() },
     });
 
     graphData = data
@@ -27,13 +28,12 @@ function Governance() {
     }
 
     useEffect(() => {
-        if(web3.eth && gov[network]) {
+        if (web3.eth && gov[network]) {
             web3.eth.getBlockNumber().then(e => {
                 setBlocknumber(e)
             })
         }
     }, [web3.eth, network])
-
     return (
         <section className=" h-calc">
             <div className="container p-4">
@@ -82,76 +82,76 @@ function Governance() {
                                     <h2 className="text-2xl">Propsals</h2>
                                     <table className="table-auto text-xl w-full">
                                         <thead>
-                                        <tr>
-                                            <td className="px-2">Proposal</td>
-                                            <td className="px-2">Voting</td>
-                                            <td className="px-2">Total votes</td>
-                                        </tr>
+                                            <tr>
+                                                <td className="px-2">Proposal</td>
+                                                <td className="px-2">Voting</td>
+                                                <td className="px-2">Total votes</td>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        {graphData.governor.proposals.map((proposal, index) => {
-                                            let status;
-                                            let statusBg;
-                                            if ((parseInt(proposal.startBlock) <= parseInt(blocknumber)) && (parseInt(proposal.endBlock) >= parseInt(blocknumber))) {
-                                                status = 'Active'
-                                                statusBg = 'bg-green-800'
-                                            } else if (parseInt(proposal.startBlock) > parseInt(blocknumber)) {
-                                                status = 'Pending'
-                                                statusBg = 'bg-blue-800'
-                                            } // ....
+                                            {graphData.governor.proposals.map((proposal, index) => {
+                                                let status;
+                                                let statusBg;
+                                                if ((parseInt(proposal.startBlock) <= parseInt(blocknumber)) && (parseInt(proposal.endBlock) >= parseInt(blocknumber))) {
+                                                    status = 'Active'
+                                                    statusBg = 'bg-green-800'
+                                                } else if (parseInt(proposal.startBlock) > parseInt(blocknumber)) {
+                                                    status = 'Pending'
+                                                    statusBg = 'bg-blue-800'
+                                                } // ....
 
-                                            let votes = 0
-                                            let voters = 0
-                                            let votesFor = 0
-                                            let votesForWeight = 0
-                                            let votesAgainst = 0
-                                            let votesAgainstWeight = 0
-                                            if (proposal.supports) {
-                                                proposal.supports.map(s => {
-                                                    if (s.support == 1) {
-                                                        votesFor++
-                                                        s.votes.map(v => {
-                                                            votesForWeight += parseInt(v.weight)
-                                                            votes += parseInt(v.weight)
-                                                            voters++
-                                                        })
-                                                    } else if (s.support == 0) {
-                                                        votesAgainst++
-                                                        s.votes.map(v => {
-                                                            votesAgainstWeight += parseInt(v.weight)
-                                                            votes += parseInt(v.weight)
-                                                            voters++
-                                                        })
-                                                    }
+                                                let votes = 0
+                                                let voters = 0
+                                                let votesFor = 0
+                                                let votesForWeight = 0
+                                                let votesAgainst = 0
+                                                let votesAgainstWeight = 0
+                                                if (proposal.supports) {
+                                                    proposal.supports.map(s => {
+                                                        if (s.support == 1) {
+                                                            votesFor++
+                                                            s.votes.map(v => {
+                                                                votesForWeight += parseInt(v.weight)
+                                                                votes += parseInt(v.weight)
+                                                                voters++
+                                                            })
+                                                        } else if (s.support == 0) {
+                                                            votesAgainst++
+                                                            s.votes.map(v => {
+                                                                votesAgainstWeight += parseInt(v.weight)
+                                                                votes += parseInt(v.weight)
+                                                                voters++
+                                                            })
+                                                        }
 
-                                                })
-                                            }
+                                                    })
+                                                }
 
-                                            return (
-                                                <tr key={index}>
-                                                    <td className="p-2">
-                                                        <div className="flex flex-col">
-                                                            <div className="flex mb-1.5">{proposal.description}</div>
-                                                            <div className="flex"><span className={`inline-flex ${statusBg} px-2 text-sm rounded-md `}>{status}</span></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2">
-                                                        {votes > 0 ? (
+                                                return (
+                                                    <tr key={index}>
+                                                        <td className="p-2">
                                                             <div className="flex flex-col">
-                                                                <div className="text-green-500">For: {Math.round(votesForWeight * 10**5 / 10**18) / 10**5}</div>
-                                                                <div className="text-red-500">Against: {Math.round(votesAgainstWeight * 10**5 / 10**18) / 10**5}</div>
+                                                                <div className="flex mb-1.5"><Link href="/governance/[id]" as={`/governance/${proposal.id.replace('/','_')}`}><a>{proposal.description}</a></Link></div>
+                                                                <div className="flex"><span className={`inline-flex ${statusBg} px-2 text-sm rounded-md `}>{status}</span></div>
                                                             </div>
-                                                        ) : (
-                                                            <div>Not yet</div>
-                                                        )}
-                                                    </td>
-                                                    <td className="p-2">
-                                                        {Math.round(votes * 10**5 / 10**18) / 10**5}<br />
-                                                        {voters} addresses
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })}
+                                                        </td>
+                                                        <td className="p-2">
+                                                            {votes > 0 ? (
+                                                                <div className="flex flex-col">
+                                                                    <div className="text-green-500">For: {Math.round(votesForWeight * 10 ** 5 / 10 ** 18) / 10 ** 5}</div>
+                                                                    <div className="text-red-500">Against: {Math.round(votesAgainstWeight * 10 ** 5 / 10 ** 18) / 10 ** 5}</div>
+                                                                </div>
+                                                            ) : (
+                                                                <div>Not yet</div>
+                                                            )}
+                                                        </td>
+                                                        <td className="p-2">
+                                                            {Math.round(votes * 10 ** 5 / 10 ** 18) / 10 ** 5}<br />
+                                                            {voters} addresses
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })}
                                         </tbody>
                                     </table>
                                 </article>

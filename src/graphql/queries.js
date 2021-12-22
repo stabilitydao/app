@@ -20,4 +20,40 @@ const GET_GOV_QUERY = gql`
         }
     }  
 `
-export { GET_GOV_QUERY }
+const GET_PROPOSAL_QUERY = gql`
+    query proposal($id:ID!){
+        proposal(id:$id){
+            id
+      startBlock
+      endBlock
+      description
+      votecast {
+        timestamp
+        transaction {
+          id
+        }
+        support {
+          support
+        }
+        receipt {
+          weight
+        }
+      }
+      proposer {
+        id
+      }
+      executed
+      canceled
+      queued
+      calls {
+        index
+        target {
+          id
+        }
+        calldata
+        signature
+      }
+        }
+    }  
+`
+export { GET_GOV_QUERY ,GET_PROPOSAL_QUERY}

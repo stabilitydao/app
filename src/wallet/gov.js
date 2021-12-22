@@ -5,4 +5,3 @@ const gov = {
 };
 
 export {gov}
-export default gov
