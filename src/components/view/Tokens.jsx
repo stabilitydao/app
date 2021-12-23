@@ -166,7 +166,7 @@ function Tokens() {
                                     </div>
                                 </div>
                                 <p className="text-lg my-8">
-                                    The native token PROFIT&apos;s primary purpose is to represent ownership shares of the Stability protocol. Given PROFIT holders are effectively owners of Stability. Holding the token also allows investors to manage the Stability protocol collectively. Token entire supply was minted in Phase 0 and will be distributed in Phase 1.
+                                    The native token PROFIT&apos;s primary purpose is to represent ownership shares of the Stability protocol. Given PROFIT holders are effectively owners of Stability. Holding the token also allows investors to manage the Stability protocol collectively.
                                 </p>
                             </div>
                             <div className="flex-row w-full lg:w-4/5 xl:w-2/5 mx-auto">

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { currentPhase } from "@/src/components/view/Development";
 import { MAINNET, ROPSTEN, RINKEBY } from '@stabilitydao/addresses'
 import { useSelector, useDispatch } from "react-redux";
 import dividendAbi from '@/src/abis/dividendAbi'
@@ -56,6 +55,16 @@ function Home() {
                         console.log(err)
                     })
             }
+
+            if (addresses[network] && addresses[network].dToken && account) {
+                let contract;
+                contract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
+                contract.methods.balanceOf(account).call().then((balance) => {
+                    setsdivbalance(web3.utils.fromWei(balance, "ether"))
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }
         }
 
         if (account && pools[network]) {
@@ -73,15 +82,6 @@ function Home() {
             })
         }
 
-        if (addresses[network] && addresses[network].dToken && account) {
-            let contract;
-            contract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
-            contract.methods.balanceOf(account).call().then((balance) => {
-                setsdivbalance(web3.utils.fromWei(balance, "ether"))
-            }).catch((err) => {
-                console.log(err)
-            })
-        }
         if (dividends[network] && account) {
             const dividendcontract = new library.eth.Contract(dividendAbi, dividends[network][0])
             dividendcontract.methods.paymentPending(account).call().then((pending) => {
@@ -154,17 +154,12 @@ function Home() {
                                         Stability
                                     </h1>
                                     <div className="text-xl font-medium leading-normal sm:text-2xl mb-4">
-                                        Profit generating DeFi protocol
+                                        Profit generating decentralized organization
                                     </div>
                                     <div className="flex w-full flex-wrap justify-center md:justify-start">
                                         <Link href="/about">
                                             <div className="h-10 dark:bg-indigo-800 dark:text-white dark:border-[#4e1173] py-0.5 px-4 rounded-xl cursor-pointer flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mr-5 mb-5">
                                                 About
-                                            </div>
-                                        </Link>
-                                        <Link href="/development">
-                                            <div className="h-10 dark:bg-[#431365] py-0.5 px-4 rounded-xl cursor-pointer dark:text-white dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mr-5 mb-5" >
-                                                Development
                                             </div>
                                         </Link>
                                     </div>
@@ -189,8 +184,6 @@ function Home() {
                                     </div>}
                                     {active &&
                                         <div className="flex">
-
-
                                             <div className="flex flex-col w-3/5 py-4">
                                                 <div className="flex dark:text-teal-100">Earned</div>
                                                 <div className="flex dark:text-teal-100 font-bold">
@@ -303,21 +296,21 @@ function Home() {
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:pl-6">
                                 <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
-                                    <div className="flex text-3xl">$SDIV</div>
+                                    <div className="flex text-3xl">Governance</div>
                                     <div className="flex mt-3">
                                         <table className="table-auto w-72">
                                             <tbody>
                                                 <tr>
-                                                    <td>Price</td>
+                                                    <td>Treasure</td>
                                                     <td className="text-right">-</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Market cap</td>
+                                                    <td>Proposals</td>
                                                     <td className="text-right">-</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Total supply</td>
-                                                    <td className="text-right">{dToken ? (dToken.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : "-"}</td>
+                                                    <td>Engagement</td>
+                                                    <td className="text-right">-</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -331,17 +324,14 @@ function Home() {
                         <img src="/logo.svg" alt="logo" width={512} height={512} />
                         <div className="text-center">
                             <div className="mt-0 mb-2 text-3xl font-medium leading-normal sm:text-4xl font-Roboto">
-                                <h1 className="text-4xl sm:text-6xl">
+                                <h1 className="text-4xl sm:text-6xl mb-4">
                                     Stability
                                 </h1>
-                                Profit generating DeFi protocol
+                                <div className="mb-6">Profit generating<br /> decentralized organization</div>
                             </div>
-                            <p className="mt-0 mb-4 text-sm font-medium leading-normal">
-                                Decentralized organization
-                            </p>
-                            <Link href="/development">
-                                <div className="w-80 mx-auto dark:bg-[#2f004b] py-0.5 px-4 rounded-xl cursor-pointer dark:text-[#4faaff] dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
-                                    Phase 0: {currentPhase}
+                            <Link href="/about">
+                                <div className="w-80 mx-auto dark:bg-indigo-900 py-1 px-4 rounded-xl cursor-pointer dark:text-white dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
+                                    About us
                                 </div>
                             </Link>
                         </div>

@@ -1,8 +1,6 @@
 import React from 'react'
 import {useGetMembersQuery} from "@/redux/slices/membersApi";
 import {GoLocation} from "react-icons/go";
-import Link from "next/link";
-import {currentPhase} from "@/src/components/view/Development";
 
 function UserData(name) {
     const { data } = useGetMembersQuery(name)
@@ -25,9 +23,63 @@ function About({membersName}) {
                             <div className="text-center mb-10">
                                 <h2 className="text-5xl mb-5">Revenue generation</h2>
                                 <p className="mt-0 mb-4 text-lg leading-normal text-left">
-                                    Stability is profit generating DeFi protocol managed and developed by our decentralized organization.<br />
+                                    Stability is profit generating and distributing decentralized organization.<br />
                                     The main source of revenue is working Units - DeFi projects that generate income in blockchain networks.
                                 </p>
+                            </div>
+                        </article>
+                        <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
+                            <div className="container mb-10">
+                                <h2 className="text-center text-5xl mb-10">Roadmap</h2>
+                                <div className="flex md:px-6 max-w-5xl mx-auto text-left">
+                                    <div className="flex flex-col w-1/3">
+                                        <div className="flex h-12 text-2xl font-bold">
+                                            Now
+                                        </div>
+                                        <div className="flex flex-col text-lg">
+                                            <div>Tokens</div>
+                                            <div>Staking</div>
+                                            <div>Dividends</div>
+                                            <div>App v0</div>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col w-1/3">
+                                        <div className="flex h-12 text-2xl font-bold">
+                                            Next
+                                        </div>
+                                        <div className="flex flex-col text-lg">
+                                            <div>Splitter</div>
+                                            <div>Governance</div>
+                                            <div>AMM unit</div>
+                                            <div>NFT marketplace unit</div>
+                                            <div>Development matrix</div>
+                                            <div>White paper</div>
+                                            <div>Docs</div>
+                                            <div>App v1</div>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col w-1/3">
+                                        <div className="flex h-12 text-2xl font-bold">
+                                            Later
+                                        </div>
+                                        <div className="flex flex-col md:text-lg">
+                                            <div>Incubator construction</div>
+                                            <div>DeX aggregator</div>
+                                            <div>DAO factory</div>
+                                            <div>Cross-chain bridge</div>
+                                            <div>Yield projects conveyor</div>
+                                            <div>DeX mechanical trading system</div>
+                                            <div>NFT game project</div>
+                                            <div>Chain boilerplate</div>
+                                            <div>Building Generators in accordance with Matrix</div>
+                                            <div>Improvement Fund (decentralized non-profit fund)</div>
+                                            <div>Development of xUnits (offline business managed by DAO through validators)</div>
+                                            <div>TaxPayer company boilerplate</div>
+                                            <div>Improvement network</div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </article>
                         <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
@@ -35,7 +87,7 @@ function About({membersName}) {
                                 <h2 className="text-5xl mb-5">Tokenomics</h2>
                                 <p className="mt-0 mb-4 text-lg leading-normal text-left">
                                     We base native $PROFIT token on fair tokenomics and launch model without pre-sale, initial offering and funding.
-                                    All entire supply goes to liquidity bootstrapping pools for public sale by Development Fund.
+                                    All entire supply goes to liquidity pools for public sale by Development Fund.
                                 </p>
                                 <div className="flex flex-col mt-0 mb-4 text-lg leading-normal text-center w-full">
 
