@@ -7,11 +7,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { gov } from "@/src/wallet"
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
 import Link from 'next/link'
+import govAbi from '@/src/abis/govAbi'
+import tokenAbi from '@/src/abis/tokenAbi'
+import addresses from '@stabilitydao/addresses';
+import { showAlert } from '../alert';
 function Governance() {
     const web3 = WEB3()
     const dispatch = useDispatch()
+    const [delegateAddress, setdelegateAddress] = useState(null)
+    const [deledatedTo, setdeledatedTo] = useState(null)
     const [blocknumber, setBlocknumber] = useState()
-    const { active, chainId, } = useWeb3React()
+    const { active, chainId, account, library } = useWeb3React()
     const currentNetwork = useSelector(state => state.network.value)
     const network = chainId ? chainId : currentNetwork
 
@@ -26,14 +32,37 @@ function Governance() {
     if (!gov[network]) {
         graphData = null
     }
-
+    if (graphData) {
+        console.log(graphData.governor.proposals)
+    }
     useEffect(() => {
         if (web3.eth && gov[network]) {
             web3.eth.getBlockNumber().then(e => {
                 setBlocknumber(e)
             })
         }
+        if (active) {
+            const tokenContract = new library.eth.Contract(tokenAbi, addresses[network].token)
+            tokenContract.methods.delegates(account).call().then((delegatedTo) => {
+                setdeledatedTo(delegatedTo)
+            }).catch((err) => { console.log(err) })
+        }
     }, [web3.eth, network])
+    async function handleDelegate(e) {
+        e.preventDefault()
+        if (!delegateAddress) {
+            showAlert("Failed")
+        } else {
+            try {
+                const tokenContract = new library.eth.Contract(tokenAbi, addresses[network].token)
+                await tokenContract.methods.delegate(delegateAddress).send({ from: account })
+                const delegatedTo = await tokenContract.methods.delegates(account).call()
+                setdeledatedTo(delegatedTo)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
     return (
         <section className=" h-calc">
             <div className="container p-4">
@@ -62,9 +91,14 @@ function Governance() {
                                     <article className="my-5 flex justify-between">
                                         <div>
                                             Your voting power: [address votes] <br />
-                                            Delegated to: [delagate address]
+                                            <h1>
+                                                Delegated to: {deledatedTo?deledatedTo:"-"}
+                                            </h1>
                                         </div>
-                                        <button className="btn">Delegate</button>
+                                        <form >
+                                            <input type="text" className='w-20 h-6 bg-gray-200 focus:outline-none px-3 py-1 border-2 text-gray-900 border-indigo-800' onChange={(e) => { setdelegateAddress(e.target.value) }} value={delegateAddress} />
+                                            <button className="btn" onClick={handleDelegate} >Delegate</button>
+                                        </form>
                                     </article>
                                 ) : (
                                     <div className="w-64">
@@ -131,7 +165,7 @@ function Governance() {
                                                     <tr key={index}>
                                                         <td className="p-2">
                                                             <div className="flex flex-col">
-                                                                <div className="flex mb-1.5"><Link href="/governance/[id]" as={`/governance/${proposal.id.replace('/','_')}`}><a>{proposal.description}</a></Link></div>
+                                                                <div className="flex mb-1.5"><Link href="/governance/[id]" as={`/governance/${proposal.id.replace('/', '_')}`}><a>{proposal.description}</a></Link></div>
                                                                 <div className="flex"><span className={`inline-flex ${statusBg} px-2 text-sm rounded-md `}>{status}</span></div>
                                                             </div>
                                                         </td>

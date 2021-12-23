@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery } from "@apollo/client";
 import { GET_PROPOSAL_QUERY } from '@/src/graphql/queries'
 import ErrorPage from 'next/error'
@@ -7,7 +7,10 @@ import { useWeb3React } from "@web3-react/core";
 import { useSelector } from "react-redux";
 import govAbi from '@/src/abis/govAbi'
 import { showAlert } from '../alert';
+import WEB3 from '@/src/functions/web3';
 function Proposal({ id }) {
+    const web3 = WEB3()
+    const [proposalStatus, setproposalStatus] = useState(null)
     const [hasVoted, sethasVoted] = useState(false)
     const { chainId, library, account } = useWeb3React()
     const currentNetwork = useSelector(state => state.network.value)
@@ -15,7 +18,6 @@ function Proposal({ id }) {
     const { loading, error, data: proposal } = useQuery(GET_PROPOSAL_QUERY, {
         variables: { id: id.toLowerCase().toString() },
     });
-    const govAddress = '0x005d71553aD3f8f919E5121aA45Bf24594DCE0d6'
     const proposalId = id.split('/').pop()
     async function castVote(value) {
         try {
@@ -26,14 +28,24 @@ function Proposal({ id }) {
         }
     }
     useEffect(() => {
-        if (account) {
-            const govContract = new library.eth.Contract(govAbi, govAddress)
-            govContract.methods.hasVoted(proposalId, account).call().then((vote) => {
-                sethasVoted(vote)
-            }).catch((err) => {
-                console.log(err)
+        if (gov[network]) {
+            if (account) {
+                const govContract = new library.eth.Contract(govAbi, gov[network])
+                govContract.methods.hasVoted(proposalId, account).call().then((vote) => {
+                    sethasVoted(vote)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }
+            console.log(gov[network])
+            const govContract = new web3.eth.Contract(govAbi, gov[network])
+            govContract.methods.state(proposalId).call().then((r) => {
+                setproposalStatus(r)
+            }).catch(()=>{
+                console.log("error")
             })
         }
+
     }, [network])
     if (!gov[network]) {
         return <ErrorPage statusCode='404' />
@@ -56,6 +68,7 @@ function Proposal({ id }) {
                         </button>
                     </div>
                 }
+                <h1>Proposal State : {proposalStatus?proposalStatus:""}</h1>
             </div>
         </section>
     )
