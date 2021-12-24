@@ -11,9 +11,11 @@ import govAbi from '@/src/abis/govAbi'
 import tokenAbi from '@/src/abis/tokenAbi'
 import addresses from '@stabilitydao/addresses';
 import { showAlert } from '../alert';
+import { ProposalState } from '@/src/components/ProposalState';
 function Governance() {
     const web3 = WEB3()
     const dispatch = useDispatch()
+    const [status, setstatus] = useState([])
     const [delegateAddress, setdelegateAddress] = useState(null)
     const [deledatedTo, setdeledatedTo] = useState(null)
     const [blocknumber, setBlocknumber] = useState()
@@ -22,7 +24,6 @@ function Governance() {
     const network = chainId ? chainId : currentNetwork
 
     let graphData;
-
     const { loading, error, data } = useQuery(GET_GOV_QUERY, {
         variables: { id: gov[3].toLowerCase() },
     });
@@ -33,7 +34,7 @@ function Governance() {
         graphData = null
     }
     if (graphData) {
-        console.log(graphData.governor.proposals)
+        // console.log(graphData.governor.proposals)
     }
     useEffect(() => {
         if (web3.eth && gov[network]) {
@@ -84,7 +85,6 @@ function Governance() {
                             {/*Voters: [total voters]<br />*/}
                             {/*Engagement ratio: [delegated tokens / total supply]<br />*/}
                         </article>
-
                         {graphData ? (
                             <div>
                                 {active ? (
@@ -92,7 +92,7 @@ function Governance() {
                                         <div>
                                             Your voting power: [address votes] <br />
                                             <h1>
-                                                Delegated to: {deledatedTo?deledatedTo:"-"}
+                                                Delegated to: {deledatedTo ? deledatedTo : "-"}
                                             </h1>
                                         </div>
                                         <form >
@@ -133,7 +133,6 @@ function Governance() {
                                                     status = 'Pending'
                                                     statusBg = 'bg-blue-800'
                                                 } // ....
-
                                                 let votes = 0
                                                 let voters = 0
                                                 let votesFor = 0
@@ -160,14 +159,14 @@ function Governance() {
 
                                                     })
                                                 }
-
                                                 return (
                                                     <tr key={index}>
                                                         <td className="p-2">
                                                             <div className="flex flex-col">
                                                                 <div className="flex mb-1.5"><Link href="/governance/[id]" as={`/governance/${proposal.id.replace('/', '_')}`}><a>{proposal.description}</a></Link></div>
-                                                                <div className="flex"><span className={`inline-flex ${statusBg} px-2 text-sm rounded-md `}>{status}</span></div>
+                                                                <div className="flex"><span className={`inline-flex ${statusBg} px-2 text-sm rounded-md `}>{status} </span></div>
                                                             </div>
+                                                            {<ProposalState address={proposal.id.split('/').pop()} />}
                                                         </td>
                                                         <td className="p-2">
                                                             {votes > 0 ? (

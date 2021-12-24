@@ -37,7 +37,6 @@ function Proposal({ id }) {
                     console.log(err)
                 })
             }
-            console.log(gov[network])
             const govContract = new web3.eth.Contract(govAbi, gov[network])
             govContract.methods.state(proposalId).call().then((r) => {
                 setproposalStatus(r)
@@ -45,7 +44,6 @@ function Proposal({ id }) {
                 console.log("error")
             })
         }
-
     }, [network])
     if (!gov[network]) {
         return <ErrorPage statusCode='404' />
