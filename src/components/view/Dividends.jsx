@@ -38,7 +38,7 @@ function Dividends() {
             contract.methods.totalPaid().call().then((paid) => {
                 settotalPaid(paid / 10 ** 18)
             })
-            const tokenContract = new web3.eth.Contract(tokenAbi, "0xc778417e063141139fce010982780140aa0cd5ab")
+            const tokenContract = new web3.eth.Contract(tokenAbi, addresses[network].weth)
             tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
                 settotalPending(totalPending / 10 ** 18)
             })

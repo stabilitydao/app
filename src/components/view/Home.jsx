@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { MAINNET, ROPSTEN, RINKEBY } from '@stabilitydao/addresses'
+import { MAINNET, ROPSTEN, RINKEBY, MUMBAI } from '@stabilitydao/addresses'
 import { useSelector, useDispatch } from "react-redux";
 import dividendAbi from '@/src/abis/dividendAbi'
 import AlphaTesting from "@/src/components/AlphaTesting";
@@ -19,6 +19,7 @@ const appEnabled = {
     [MAINNET]: false,
     [ROPSTEN]: true,
     [RINKEBY]: false,
+    [MUMBAI]: true,
 }
 
 function Home() {
@@ -104,7 +105,7 @@ function Home() {
         return () => {
             clearInterval(interval)
         }
-    }, [])
+    }, [network])
     async function harvest() {
         try {
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));

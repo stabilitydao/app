@@ -49,7 +49,7 @@ function Sidebar({ Mode }) {
                 let contract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network][token1]);
                 contract.methods.slot0().call().then((slot0) => {
                     dispatch(updateProfitPrice([
-                        univ3prices([18, 18], slot0[0]).toAuto({ reverse: true, decimalPlaces: 2, }),
+                        univ3prices([18, 18], slot0[0]).toAuto({ reverse: true, decimalPlaces: 8, }),
                         token1
                     ]))
                 }).catch((err) => {
