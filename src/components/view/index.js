@@ -1,5 +1,4 @@
 export {default as Home} from './Home'
-export {default as Development} from './Development'
 export {default as Pools} from './Pools'
 export {default as Generation} from './Generation'
 export {default as Governance} from './Governance'

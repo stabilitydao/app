@@ -49,7 +49,7 @@ function Sidebar({ Mode }) {
                 let contract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network][token1]);
                 contract.methods.slot0().call().then((slot0) => {
                     dispatch(updateProfitPrice([
-                        univ3prices([18, 18], slot0[0]).toAuto({ reverse: true, decimalPlaces: 2, }),
+                        univ3prices([18, 18], slot0[0]).toAuto({ reverse: true, decimalPlaces: 8, }),
                         token1
                     ]))
                 }).catch((err) => {
@@ -99,9 +99,8 @@ function Sidebar({ Mode }) {
                     <li><Link href="/governance"><a className={`${activeRoute === "/governance" ? "bg-indigo-600  text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><RiGovernmentFill className="mr-2" />Governance</a></Link></li>
                 </ul>
                 <ul className="mt-5">
-                    <li><Link href="/generation"><a className={`${activeRoute === "/generation" ? "bg-indigo-600  text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
                     <li><Link href="/tokens"><a className={`${activeRoute === "/tokens" ? "bg-indigo-600  text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
-                    <li><Link href="/development"><a className={`${activeRoute === "/development" ? "bg-indigo-600  text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><MdEditRoad className="mr-2" />Development</a></Link></li>
+                    <li><Link href="/generation"><a className={`${activeRoute === "/generation" ? "bg-indigo-600  text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
                     <li><Link href="/about"><a className={`${activeRoute === "/about" ? "bg-indigo-600 text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />About</a></Link></li>
                 </ul>
             </div>

@@ -38,7 +38,7 @@ function Dividends() {
             contract.methods.totalPaid().call().then((paid) => {
                 settotalPaid(paid / 10 ** 18)
             })
-            const tokenContract = new web3.eth.Contract(tokenAbi, "0xc778417e063141139fce010982780140aa0cd5ab")
+            const tokenContract = new web3.eth.Contract(tokenAbi, addresses[network].weth)
             tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
                 settotalPending(totalPending / 10 ** 18)
             })
@@ -83,7 +83,7 @@ function Dividends() {
                         <div className="p-3 pb-2 text-3xl text-center dark:text-green-200 font-bold">Ether Payer</div>
                         <div className="flex flex-col w-full justify-center items-center">
                             <div className="dark:text-green-200 font-bold">Hold SDIV to earn WETH</div>
-                            <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(dividends[network])} rel="noopener noreferrer">
+                            <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={`${networks[network].explorerurl}address/${dividends[network]}`} rel="noopener noreferrer">
                                 <span className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{dividends[network]}</span>
                             </a>
                         </div>

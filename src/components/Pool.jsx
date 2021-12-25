@@ -134,24 +134,28 @@ function Pool({ name, pool, network }) {
         }
         updateTVL()
     }, [account, chainId])
-    setInterval(() => {
-        if (library && library.eth) {
-            const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
-            poolContract.methods.pending(account).call().then((value) => {
-                return library.utils.fromWei(value, 'ether')
-            }).then((reward) => {
-                setReward(reward)
-            })
+    useEffect(() => {
+        const intervalReward = setInterval(() => {
+            if (library && library.eth) {
+                const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
+                poolContract.methods.pending(account).call().then((value) => {
+                    return library.utils.fromWei(value, 'ether')
+                }).then((reward) => {
+                    setReward(reward)
+                })
+            }
+        }, 15000);
+        return () => {
+            clearInterval(intervalReward)
         }
-    }, 15000);
-
+    }, [])
     return (
         <div className="flex flex-col w-96 m-5 mt-0 overflow-hidden shadow-2xl rounded-3xl dark:border-teal-900 dark:border-2 dark:bg-gradient-to-br dark:from-teal-900 dark:to-black min-w-full">
             <div className="p-3 text-3xl text-center dark:text-teal-100 font-bold">{name}</div>
             <div className="flex self-center dark:text-teal-100 font-bold justify-center">Stake {pool.stake} to earn {pool.earn}</div>
             <div className="w-full text-sm h-12">
                 {network ? (
-                    <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(pool.contract)} rel="noopener noreferrer">
+                    <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={`${networks[network].explorerurl}address/${pool.contract}`} rel="noopener noreferrer">
                         <span className="hidden justify-center text-xs md:text-sm self-center" style={{ color: networks[network].color }}>{networks[network].name}</span>
                         <span className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{pool.contract}</span>
                     </a>
@@ -221,7 +225,7 @@ function Pool({ name, pool, network }) {
                                                 <div className="text-md">
                                                     {stakedBalance > 0 ? (
                                                         <div>
-                                                            {Math.floor(10000000 * stakedBalance / TVL ) / 100000}%
+                                                            {Math.floor(10000000 * stakedBalance / TVL) / 100000}%
                                                         </div>
                                                     ) : (
                                                         <div>-</div>

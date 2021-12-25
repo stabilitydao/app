@@ -64,7 +64,7 @@ function Profile({ onClose }) {
             {
                 Object.entries(networks).map((network, index) => {
                     if (network[0] == chainId) {
-                        return <a key={index} rel="noopener noreferrer" className="flex flex-row items-center justify-end font-Roboto gap-x-1" href={network[1].explorerurl + account} target="_blank">
+                        return <a key={index} rel="noopener noreferrer" className="flex flex-row items-center justify-end font-Roboto gap-x-1" href={`${network[1].explorerurl}address/${account}`} target="_blank">
                             View on explorer
                             <ExternalLink size={20} strokeWidth={1} className="cursor-pointer onClick-active" />
                         </a>

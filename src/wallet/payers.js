@@ -1,6 +1,7 @@
-import addresses, {ROPSTEN} from "@stabilitydao/addresses";
+import addresses, {ROPSTEN,MUMBAI} from "@stabilitydao/addresses";
 
 const payers = {
+    [MUMBAI]: addresses[MUMBAI].dPayers,
     [ROPSTEN]: addresses[ROPSTEN].dPayers,
 };
 
