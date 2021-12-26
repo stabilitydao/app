@@ -61,10 +61,17 @@ function Sidebar({ Mode }) {
                 ]))
             }
 
-            if (lpv3[network] && lpv3[network].DAIETH) {
+            if (lpv3[network].DAIETH) {
                 const ethPriceContract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network].DAIETH);
                 ethPriceContract.methods.slot0().call().then((price) => {
                     setethPrice(2 ** 192 / price[0] ** 2)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            } else if(lpv3[network].USDCETH) {
+                const ethPriceContract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network].USDCETH);
+                ethPriceContract.methods.slot0().call().then((price) => {
+                    setethPrice(univ3prices([6, 18], price[0]).toAuto({ reverse: false, decimalPlaces: 8, }))
                 }).catch((err) => {
                     console.log(err)
                 })

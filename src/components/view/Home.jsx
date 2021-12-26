@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { MAINNET, ROPSTEN, RINKEBY, MUMBAI } from '@stabilitydao/addresses'
+import { POLYGON, ROPSTEN, MUMBAI } from '@stabilitydao/addresses'
 import { useSelector, useDispatch } from "react-redux";
 import dividendAbi from '@/src/abis/dividendAbi'
 import AlphaTesting from "@/src/components/AlphaTesting";
@@ -16,9 +16,8 @@ import poolAbi from '@/src/abis/poolAbi'
 import { dtotalSupply } from "@/redux/slices/dTokenSlice";
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
 const appEnabled = {
-    [MAINNET]: false,
+    [POLYGON]: true,
     [ROPSTEN]: true,
-    [RINKEBY]: false,
     [MUMBAI]: true,
 }
 
@@ -34,7 +33,6 @@ function Home() {
     const network = chainId ? chainId : currentNetwork
     const [stakedBalance, setstakedBalance] = useState(null)
     const token = useSelector(state => state.token)
-    const dToken = useSelector(state => state.dToken)
 
     const dividends = payers;
 
@@ -188,7 +186,7 @@ function Home() {
                                             <div className="flex flex-col w-3/5 py-4">
                                                 <div className="flex dark:text-teal-100">Earned</div>
                                                 <div className="flex dark:text-teal-100 font-bold">
-                                                    {Reward ? (
+                                                    {Reward > 0 ? (
                                                         <div className="h-20">
                                                             <div className="mb-4 text-lg">
                                                                 {Math.floor(Reward * 10000) / 10000} SDIV

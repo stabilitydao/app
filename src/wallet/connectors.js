@@ -1,6 +1,6 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { networks, MUMBAI } from '@/src/wallet/networks'
+import { networks, POLYGON, MUMBAI } from '@/src/wallet/networks'
 
 const supportedChainIds = [
   1, // mainnet
@@ -11,7 +11,7 @@ const supportedChainIds = [
   MUMBAI,
   250, // fantom
   4002, // fantom testnet
-  137, // matic
+  POLYGON, // matic
   80001, // matic testnet
   100, // xdai
   56, // binance smart chain
@@ -32,7 +32,8 @@ const supportedChainIds = [
 ]
 
 const RPC = {
-  1: networks[1].rpc,
+  POLYGON: networks[POLYGON].rpc,
+  // 1: networks[1].rpc,
   3: networks[3].rpc,
   // 4: networks[4].rpc,
   MUMBAI: networks[MUMBAI].rpc,

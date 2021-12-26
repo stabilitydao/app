@@ -1,6 +1,7 @@
-import {MAINNET, MUMBAI, RINKEBY, ROPSTEN} from "./networks";
+import {POLYGON, MAINNET, MUMBAI, RINKEBY, ROPSTEN} from "./networks";
 
 const buyLinks = {
+    [POLYGON]: null,
     [MAINNET]: null,
     [ROPSTEN]: 'https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x29E4d6c08e3AD060Dc2fC8DCE70AaB8C8c57563F',
     [RINKEBY]: 'https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x7D68ECf1762bA27120d0f98BFcFa0da67eb15860',
@@ -8,6 +9,9 @@ const buyLinks = {
 }
 
 const lpv3 = {
+    [POLYGON]: {
+        USDCETH: '0x45dDa9cb7c25131DF268515131f647d726f50608',
+    },
     [MAINNET]: {
         DAIETH: '0xC2e9F25Be6257c210d7Adf0D4Cd6E3E881ba25f8',
     },
