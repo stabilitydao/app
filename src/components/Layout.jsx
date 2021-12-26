@@ -27,7 +27,7 @@ function Main({ child }) {
         }
     }, [router.pathname])
     if (!mounted) return (
-        <div className='flex justify-center items-center mr-6  w-full dark:bg-indigo-900 bg-white' style={{ height: "calc(100vh - 72px)" }}>
+        <div className='flex justify-center items-center mr-6  w-full dark:bg-[#160024] bg-white' style={{ height: "calc(100vh - 72px)" }}>
             <div className='animate-spin rounded-full h-32 w-32 border-b-2 dark:border-white border-indigo-900'>
             </div>
         </div>
