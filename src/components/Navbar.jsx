@@ -89,7 +89,7 @@ function Navbar({ Mode }) {
             {
                 (Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()) ? !Sync : true)
                 && account && (chainId != currentNetwork) &&
-                <div className="text-white bg-red-500 ">
+                <div className="text-white bg-red-500 dark:bg-red-900 ">
                     <div className="container flex flex-col justify-between px-2 py-2 text-white gap-y-2 sm:items-center sm:flex-row sm:px-6">
                         <h1 className="flex flex-row items-center font-semibold font-Roboto gap-x-1"> <AlertTriangle size={20} strokeWidth={1.5} />Please switch to {Object.entries(networks).map((network) => { if (network[1].chainid === currentNetwork) { return network[1].name } })} networks</h1>
                         {

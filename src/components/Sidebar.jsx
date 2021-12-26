@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { BsFillPeopleFill, BsGithub, BsTelegram, BsTwitter, BsDiscord } from 'react-icons/bs'
+import { BsGithub, BsTelegram, BsTwitter, BsDiscord } from 'react-icons/bs'
 import { AiFillHome } from 'react-icons/ai'
-import { networks } from '@/src/wallet'
-import { buyLinks, lpv3 } from '@/src/wallet/swaps'
+import { lpv3 } from '@/src/wallet/swaps'
 import { RiGovernmentFill } from 'react-icons/ri'
 import { BiServer, BiCoin, BiGroup } from 'react-icons/bi'
-import { MdEditRoad } from 'react-icons/md'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateSidebar } from '@/redux/slices/sidebarSlice'
 import { GiRegeneration } from "react-icons/gi";
@@ -24,19 +22,18 @@ function Sidebar({ Mode }) {
     const web3 = WEB3()
     const [ethPrice, setethPrice] = useState()
     const profitPrice = useSelector(state => state.price.value)
-    const priceIn = useSelector(state => state.price.in)
     const currentNetwork = useSelector(state => state.network.value)
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
     const dispatch = useDispatch()
     const sidebar = useSelector(state => state.sidebar.value)
-    const { library, active, chainId, } = useWeb3React()
+    const { chainId, } = useWeb3React()
     const network = chainId ? chainId : currentNetwork
     useEffect(() => {
         setactiveRoute(pathname)
     }, [pathname])
 
     useEffect(() => {
-        if (lpv3[network] !== null) {
+        if (lpv3[network] !== null && web3) {
             let token1 = null;
             if (lpv3[network] instanceof Object) {
                 if (lpv3[network].DAI) {
@@ -84,7 +81,8 @@ function Sidebar({ Mode }) {
             ]))
             setethPrice(null)
         }
-    }, [network])
+    }, [network, web3])
+
     if (profitPrice && ethPrice) {
         dispatch(updateProfitPriceIn$(Math.floor(profitPrice * ethPrice * 100) / 100))
     } else {

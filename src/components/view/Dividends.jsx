@@ -7,7 +7,6 @@ import WEB3 from '@/src/functions/web3';
 import tokenAbi from '@/src/abis/tokenAbi.json'
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
 import addresses from '@stabilitydao/addresses'
-import AlphaTesting from "@/src/components/AlphaTesting";
 import {networks} from "../../wallet/networks";
 import {payers} from "@/src/wallet";
 function Dividends() {
@@ -75,7 +74,6 @@ function Dividends() {
                     !dividends[network] &&
                     <div className="m-6 text-2xl text-center font-semibold ">
                         <div>We currently have no dividend payers on this network</div>
-                        <AlphaTesting />
                     </div>
                 }
                 {dividends[network] && <div className="flex justify-center">

@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { POLYGON, ROPSTEN, MUMBAI } from '@stabilitydao/addresses'
 import { useSelector, useDispatch } from "react-redux";
 import dividendAbi from '@/src/abis/dividendAbi'
-import AlphaTesting from "@/src/components/AlphaTesting";
 import { totalSupply } from "@/redux/slices/tokenSlice";
 import WEB3 from "@/src/functions/web3"
 import addresses from '@stabilitydao/addresses'
@@ -333,9 +332,6 @@ function Home() {
                                     About us
                                 </div>
                             </Link>
-                        </div>
-                        <div>
-                            <AlphaTesting />
                         </div>
                     </div>
                 )}
