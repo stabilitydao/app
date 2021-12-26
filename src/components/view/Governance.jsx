@@ -1,6 +1,14 @@
 import React from 'react'
+import {networks} from "@/src/wallet";
+import {gov} from "@/src/wallet";
+import {useWeb3React} from "@web3-react/core";
+import {useSelector} from "react-redux";
 
 function Governance() {
+    const { chainId } = useWeb3React()
+    const currentNetwork = useSelector(state => state.network.value)
+    const network = chainId ? chainId : currentNetwork
+
     return (
         <section className=" h-calc">
             <div className="container p-4">
@@ -13,6 +21,12 @@ function Governance() {
                                 <p className="text-lg">
                                     PROFIT token holders with sufficient voting power can directly participate in the governance of the Stability protocol. These will be the only investors who can collectively change the organization’s resource distribution (mentioned below) and participate in critical decision-making processes involving the direction of the entire ecosystem.
                                 </p>
+                            </div>
+                            <div className="py-4">
+                                <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={`${networks[network].explorerurl}address/${gov[network]}`} rel="noopener noreferrer">
+                                    <span className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{gov[network]}</span>
+                                </a>
+                                <div className="dark:text-blue-800 text-2xl font-bold">Governance user interface is under active development</div>
                             </div>
                         </article>
                     </div>

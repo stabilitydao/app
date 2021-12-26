@@ -12,7 +12,6 @@ import { payers } from '@/src/wallet/payers';
 import { useWeb3React } from '@web3-react/core'
 import tokenAbi from '@/src/abis/tokenAbi'
 import poolAbi from '@/src/abis/poolAbi'
-import { dtotalSupply } from "@/redux/slices/dTokenSlice";
 import {
     txConfirmedByNetwork,
     updateIsTxSubmitted,
@@ -54,16 +53,6 @@ function Home() {
                 contract.methods.totalSupply().call().then(r => {
                     dispatch(totalSupply(web3.utils.fromWei(r, "ether")))
                 })
-            }
-
-            if (addresses[network].dToken) {
-                const dividendTokenContract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
-                dividendTokenContract.methods.totalSupply().call().then(r => {
-                    dispatch(dtotalSupply(web3.utils.fromWei(r, "ether")))
-                })
-                    .catch((err) => {
-                        console.log(err)
-                    })
             }
 
             if (addresses[network] && addresses[network].dToken && account) {
@@ -333,8 +322,7 @@ function Home() {
                                 <div className="h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Governance</div>
                                     <div className="flex mt-3">
-                                        <div className="flex dark:text-indigo-400 text-2xl">Under construction</div>
-                                       {/* <table className="table-auto w-72">
+                                        <table className="table-auto w-72">
                                             <tbody>
                                                 <tr>
                                                     <td>Treasure</td>
@@ -349,7 +337,7 @@ function Home() {
                                                     <td className="text-right">-</td>
                                                 </tr>
                                             </tbody>
-                                        </table>*/}
+                                        </table>
                                     </div>
                                 </div>
                             </div>
