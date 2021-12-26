@@ -13,7 +13,13 @@ import { useWeb3React } from '@web3-react/core'
 import tokenAbi from '@/src/abis/tokenAbi'
 import poolAbi from '@/src/abis/poolAbi'
 import { dtotalSupply } from "@/redux/slices/dTokenSlice";
-import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
+import {
+    txConfirmedByNetwork,
+    updateIsTxSubmitted,
+    updateIsWaitingForWalletTxConfirm,
+    updateIsWalletOption
+} from "@/redux/slices/modalsSlice";
+import {showAlert} from "@/src/components/alert";
 const appEnabled = {
     [POLYGON]: true,
     [ROPSTEN]: true,
@@ -110,22 +116,41 @@ function Home() {
         }
     }, [network])
     async function harvest() {
+        dispatch(updateIsWaitingForWalletTxConfirm(true))
         try {
+            const pool = pools[network][Object.keys(pools[network])[0]]
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             await poolContract.methods.harvest().send({ from: account })
+                .on('transactionHash', txhash => {
+                    dispatch(updateIsWaitingForWalletTxConfirm(false))
+                    dispatch(updateIsTxSubmitted(txhash))
+                })
+                .on('receipt', r => {
+                    dispatch(txConfirmedByNetwork())
+                })
+
             const value = await poolContract.methods.pending(account).call()
             const reward = library.utils.fromWei(value, 'ether')
             setReward(reward)
         } catch (err) {
             console.log(err)
+            dispatch(updateIsWaitingForWalletTxConfirm(false))
         }
     }
     async function releasePayment() {
         const dividendAddress = dividends[network][0]
+        dispatch(updateIsWaitingForWalletTxConfirm(true))
         if (pendingPayment !== null) {
             try {
                 const contract = new library.eth.Contract(dividendAbi, dividendAddress)
                 await contract.methods.releasePayment().send({ from: account })
+                    .on('transactionHash', txhash => {
+                        dispatch(updateIsWaitingForWalletTxConfirm(false))
+                        dispatch(updateIsTxSubmitted(txhash))
+                    })
+                    .on('receipt', r => {
+                        dispatch(txConfirmedByNetwork())
+                    })
                 const pending = await contract.methods.paymentPending(account).call()
                 setpendingPayment(pending / 10 ** 18)
                 const paid = await contract.methods.totalPaid().call()
@@ -136,6 +161,7 @@ function Home() {
                 })
             } catch (err) {
                 console.log(err)
+                dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
         } else {
             showAlert("Failed")

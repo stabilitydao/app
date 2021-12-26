@@ -5,7 +5,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { showAlert } from '@/src/components/alert';
 import WEB3 from '@/src/functions/web3';
 import tokenAbi from '@/src/abis/tokenAbi.json'
-import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
+import {
+    txConfirmedByNetwork,
+    updateIsTxSubmitted,
+    updateIsWaitingForWalletTxConfirm,
+    updateIsWalletOption
+} from "@/redux/slices/modalsSlice";
 import addresses from '@stabilitydao/addresses'
 import {networks} from "../../wallet/networks";
 import {payers} from "@/src/wallet";
@@ -47,9 +52,17 @@ function Dividends() {
     async function releasePayment() {
         const dividendAddress = dividends[network][0]
         if (pendingPayment !== null) {
+            dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const contract = new library.eth.Contract(dividendAbi, dividendAddress)
                 await contract.methods.releasePayment().send({ from: account })
+                    .on('transactionHash', txhash => {
+                        dispatch(updateIsWaitingForWalletTxConfirm(false))
+                        dispatch(updateIsTxSubmitted(txhash))
+                    })
+                    .on('receipt', r => {
+                        dispatch(txConfirmedByNetwork())
+                    })
                 const pending = await contract.methods.paymentPending(account).call()
                 setpendingPayment(pending / 10 ** 18)
                 const paid = await contract.methods.totalPaid().call()
@@ -60,6 +73,7 @@ function Dividends() {
                 })
             } catch (err) {
                 console.log(err)
+                dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
         } else {
             showAlert("Failed")

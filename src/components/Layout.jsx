@@ -7,22 +7,52 @@ import { ToastContainer } from 'react-toastify';
 import Sidebar from './Sidebar'
 import Modals from '@/src/components/modal/modals'
 import { useRouter } from 'next/router'
-
+function Main({ child }) {
+    const [mounted, setMounted] = useState(true);
+    const router = useRouter()
+    useEffect(() => {
+        function sett() {
+            setMounted(false)
+        }
+        function setf() {
+            setMounted(true)
+        }
+        router.events.on('routeChangeStart', sett)
+        router.events.on('routeChangeError', setf)
+        router.events.on('routeChangeComplete', setf)
+        return () => {
+            router.events.off('routeChangeStart', sett)
+            router.events.off('routeChangeError', setf)
+            router.events.off('routeChangeComplete', setf)
+        }
+    }, [router.pathname])
+    if (!mounted) return (
+        <div className='flex justify-center items-center mr-6  w-full dark:bg-[#160024] bg-white' style={{ height: "calc(100vh - 72px)" }}>
+            <div className='animate-spin rounded-full h-32 w-32 border-b-2 dark:border-white border-indigo-900'>
+            </div>
+        </div>
+    );
+    return (<>
+        <main className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white">
+            {child}
+        </main>
+    </>)
+}
 function Layout({ children }) {
     const [Mode, setMode] = useState(null)
     const [mounted, setMounted] = useState(false);
     const [Title, setTitle] = useState('')
-    const { pathname } = useRouter();
+    const router = useRouter();
     useEffect(() => {
         const scroolTOP = document.getElementById('scroolTOP')
         if (scroolTOP) {
             scroolTOP.scrollTop = 0;
         }
-    }, [pathname])
+    }, [router.pathname])
     useEffect(() => {
-        let route = pathname.replace('/', '')
+        let route = router.pathname.replace('/', '')
         setTitle(route ? route[0].toUpperCase() + route.slice(1) : '')
-    }, [pathname])
+    }, [router.pathname])
     useEffect(() => {
         setMounted(true)
         const mode = localStorage.getItem("mode")
@@ -39,8 +69,12 @@ function Layout({ children }) {
     function getLibrary(provider) {
         return new Web3(provider);
     }
-
-    if (!mounted) return null;
+    if (!mounted) return (
+        <div className='flex justify-center items-center mr-6 h-screen w-screen bg-indigo-900'>
+            <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-white'>
+            </div>
+        </div>
+    );
     return (
         <Web3ReactProvider getLibrary={getLibrary} >
             <main className={Mode ? "dark" : "" + "overflow-y-hidden h-screen"} >
@@ -52,10 +86,8 @@ function Layout({ children }) {
                 <div className="flex flex-row">
                     <Sidebar Mode={Mode} />
                     <div id="scroolTOP" className="w-full h-screen overflow-y-auto">
-                        <main className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white">
-                            <Navbar Mode={mode => setMode(mode)} />
-                            {children}
-                        </main>
+                        <Navbar Mode={mode => setMode(mode)} />
+                        <Main child={children} />
                     </div>
                 </div>
                 <Modals />
