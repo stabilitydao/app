@@ -6,6 +6,7 @@ const initialState = {
         IsProfile: false,
         IsModalOptionOpened: false,
         IsModalPending: false,
+        IsWaitingForConfirm: false,
     }
 }
 
@@ -25,8 +26,11 @@ export const modalsSlice = createSlice({
         updateIsPending: (state, action) => {
             state.value.IsModalPending = action.payload
         },
+        updateIsWaitingForConfirm: (state, action) => {
+            state.value.IsWaitingForConfirm = action.payload
+        },
     },
 })
 
-export const { updateIsNetworkOption, updateIsProfile, updateIsWalletOption,updateIsPending } = modalsSlice.actions
+export const { updateIsNetworkOption, updateIsProfile, updateIsWalletOption, updateIsPending, updateIsWaitingForConfirm } = modalsSlice.actions
 export default modalsSlice.reducer
