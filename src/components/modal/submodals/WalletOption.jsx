@@ -1,19 +1,24 @@
+
 import React from 'react'
 import { injected, walletconnect } from '@/src/wallet/connectors'
 import walletConnectError from '@/src/wallet'
 import { useWeb3React } from '@web3-react/core'
+import { useDispatch } from 'react-redux'
+import { updateIsPending } from '@/redux/slices/modalsSlice'
 
 function WalletOption({ onClose }) {
-
+const dispatch =useDispatch()
     const { activate } = useWeb3React()
     async function handleWalletConnect(connector) {
+        onClose()
+        dispatch(updateIsPending(true))
         try {
             await activate(connector, undefined, true)
             localStorage.setItem("auth", JSON.stringify(true))
-            onClose()
+            dispatch(updateIsPending(false))
         } catch (error) {
             walletConnectError(error)
-            onClose()
+            dispatch(updateIsPending(false))
         }
     }
 

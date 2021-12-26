@@ -12,8 +12,13 @@ import { payers } from '@/src/wallet/payers';
 import { useWeb3React } from '@web3-react/core'
 import tokenAbi from '@/src/abis/tokenAbi'
 import poolAbi from '@/src/abis/poolAbi'
-import { dtotalSupply } from "@/redux/slices/dTokenSlice";
-import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
+import {
+    txConfirmedByNetwork,
+    updateIsTxSubmitted,
+    updateIsWaitingForWalletTxConfirm,
+    updateIsWalletOption
+} from "@/redux/slices/modalsSlice";
+import {showAlert} from "@/src/components/alert";
 const appEnabled = {
     [POLYGON]: true,
     [ROPSTEN]: true,
@@ -48,16 +53,6 @@ function Home() {
                 contract.methods.totalSupply().call().then(r => {
                     dispatch(totalSupply(web3.utils.fromWei(r, "ether")))
                 })
-            }
-
-            if (addresses[network].dToken) {
-                const dividendTokenContract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
-                dividendTokenContract.methods.totalSupply().call().then(r => {
-                    dispatch(dtotalSupply(web3.utils.fromWei(r, "ether")))
-                })
-                    .catch((err) => {
-                        console.log(err)
-                    })
             }
 
             if (addresses[network] && addresses[network].dToken && account) {
@@ -110,22 +105,41 @@ function Home() {
         }
     }, [network])
     async function harvest() {
+        dispatch(updateIsWaitingForWalletTxConfirm(true))
         try {
+            const pool = pools[network][Object.keys(pools[network])[0]]
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             await poolContract.methods.harvest().send({ from: account })
+                .on('transactionHash', txhash => {
+                    dispatch(updateIsWaitingForWalletTxConfirm(false))
+                    dispatch(updateIsTxSubmitted(txhash))
+                })
+                .on('receipt', r => {
+                    dispatch(txConfirmedByNetwork())
+                })
+
             const value = await poolContract.methods.pending(account).call()
             const reward = library.utils.fromWei(value, 'ether')
             setReward(reward)
         } catch (err) {
             console.log(err)
+            dispatch(updateIsWaitingForWalletTxConfirm(false))
         }
     }
     async function releasePayment() {
         const dividendAddress = dividends[network][0]
+        dispatch(updateIsWaitingForWalletTxConfirm(true))
         if (pendingPayment !== null) {
             try {
                 const contract = new library.eth.Contract(dividendAbi, dividendAddress)
                 await contract.methods.releasePayment().send({ from: account })
+                    .on('transactionHash', txhash => {
+                        dispatch(updateIsWaitingForWalletTxConfirm(false))
+                        dispatch(updateIsTxSubmitted(txhash))
+                    })
+                    .on('receipt', r => {
+                        dispatch(txConfirmedByNetwork())
+                    })
                 const pending = await contract.methods.paymentPending(account).call()
                 setpendingPayment(pending / 10 ** 18)
                 const paid = await contract.methods.totalPaid().call()
@@ -136,6 +150,7 @@ function Home() {
                 })
             } catch (err) {
                 console.log(err)
+                dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
         } else {
             showAlert("Failed")
@@ -307,8 +322,7 @@ function Home() {
                                 <div className="h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Governance</div>
                                     <div className="flex mt-3">
-                                        <div className="flex dark:text-indigo-400 text-2xl">Under construction</div>
-                                       {/* <table className="table-auto w-72">
+                                        <table className="table-auto w-72">
                                             <tbody>
                                                 <tr>
                                                     <td>Treasure</td>
@@ -323,7 +337,7 @@ function Home() {
                                                     <td className="text-right">-</td>
                                                 </tr>
                                             </tbody>
-                                        </table>*/}
+                                        </table>
                                     </div>
                                 </div>
                             </div>

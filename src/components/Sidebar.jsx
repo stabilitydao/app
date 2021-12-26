@@ -31,7 +31,6 @@ function Sidebar({ Mode }) {
     useEffect(() => {
         setactiveRoute(pathname)
     }, [pathname])
-
     useEffect(() => {
         if (lpv3[network] !== null && web3) {
             let token1 = null;
