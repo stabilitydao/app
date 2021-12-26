@@ -20,6 +20,12 @@ const appEnabled = {
     [MUMBAI]: true,
 }
 
+const mintingStartBlock = {
+    [POLYGON]: 23100000,
+    [ROPSTEN]: false,
+    [MUMBAI]: false,
+}
+
 function Home() {
     const dispatch = useDispatch()
     const web3 = WEB3()
@@ -140,6 +146,11 @@ function Home() {
             <div className="container p-4 ">
                 {appEnabled[network] ? (
                     <div className="flex flex-col max-w-6xl mx-auto">
+                        {mintingStartBlock[network] &&
+                            <div className="flex text-3xl font-bold dark:text-indigo-400 w-full justify-center my-8">
+                                Dividend minting starts at block <a className="ml-3" href={`https://polygonscan.com/block/countdown/${mintingStartBlock[network]}`} target="_blank">#{mintingStartBlock[network]}</a>
+                            </div>
+                        }
                         <div className="flex flex-wrap">
                             <div className="flex w-full md:w-1/2 justify-center md:justify-end md:pr-6">
                                 <div className="flex w-96 justify-center">
@@ -255,7 +266,7 @@ function Home() {
                         </div>
                         <div className="flex flex-wrap md:py-3 justify-center md:my-1 xl:my-2">
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-end md:px-3 xl:px-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex w-full justify-between pr-4">
                                         <span className="text-3xl ">$PROFIT</span>
                                         <span>
@@ -293,10 +304,11 @@ function Home() {
                                 </div>
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:pl-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Governance</div>
                                     <div className="flex mt-3">
-                                        <table className="table-auto w-72">
+                                        <div className="flex dark:text-indigo-400 text-2xl">Under construction</div>
+                                       {/* <table className="table-auto w-72">
                                             <tbody>
                                                 <tr>
                                                     <td>Treasure</td>
@@ -311,7 +323,7 @@ function Home() {
                                                     <td className="text-right">-</td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table>*/}
                                     </div>
                                 </div>
                             </div>
