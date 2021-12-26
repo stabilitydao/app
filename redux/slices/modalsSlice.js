@@ -6,7 +6,10 @@ const initialState = {
         IsProfile: false,
         IsModalOptionOpened: false,
         IsModalPending: false,
-        IsWaitingForConfirm: false,
+        IsWaitingForWalletTxConfirm: false,
+        IsWaitingForChangeNetwork: false,
+        IsTxSubmitted: false,
+        txhash: '',
     }
 }
 
@@ -26,11 +29,21 @@ export const modalsSlice = createSlice({
         updateIsPending: (state, action) => {
             state.value.IsModalPending = action.payload
         },
-        updateIsWaitingForConfirm: (state, action) => {
-            state.value.IsWaitingForConfirm = action.payload
+        updateIsWaitingForWalletTxConfirm: (state, action) => {
+            state.value.IsWaitingForWalletTxConfirm = action.payload
+        },
+        updateIsWaitingForChangeNetwork: (state, action) => {
+            state.value.IsWaitingForChangeNetwork = action.payload
+        },
+        updateIsTxSubmitted: (state, action) => {
+            state.value.txhash = action.payload
+            state.value.IsTxSubmitted = true
+        },
+        txConfirmedByNetwork: (state, action) => {
+            state.value.IsTxSubmitted = false
         },
     },
 })
 
-export const { updateIsNetworkOption, updateIsProfile, updateIsWalletOption, updateIsPending, updateIsWaitingForConfirm } = modalsSlice.actions
+export const { updateIsNetworkOption, updateIsProfile, updateIsWalletOption, updateIsPending, updateIsWaitingForWalletTxConfirm, updateIsWaitingForChangeNetwork, updateIsTxSubmitted, txConfirmedByNetwork } = modalsSlice.actions
 export default modalsSlice.reducer

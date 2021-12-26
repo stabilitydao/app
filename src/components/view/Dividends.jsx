@@ -5,12 +5,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { showAlert } from '@/src/components/alert';
 import WEB3 from '@/src/functions/web3';
 import tokenAbi from '@/src/abis/tokenAbi.json'
-import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
+import {
+    txConfirmedByNetwork,
+    updateIsTxSubmitted,
+    updateIsWaitingForWalletTxConfirm,
+    updateIsWalletOption
+} from "@/redux/slices/modalsSlice";
 import addresses from '@stabilitydao/addresses'
 import AlphaTesting from "@/src/components/AlphaTesting";
 import {networks} from "../../wallet/networks";
 import {payers} from "@/src/wallet";
-import { updateIsPending } from '@/redux/slices/modalsSlice'
 function Dividends() {
     const web3 = WEB3()
     const dispatch = useDispatch()
@@ -49,10 +53,17 @@ function Dividends() {
     async function releasePayment() {
         const dividendAddress = dividends[network][0]
         if (pendingPayment !== null) {
-            dispatch(updateIsPending(true))
+            dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const contract = new library.eth.Contract(dividendAbi, dividendAddress)
                 await contract.methods.releasePayment().send({ from: account })
+                    .on('transactionHash', txhash => {
+                        dispatch(updateIsWaitingForWalletTxConfirm(false))
+                        dispatch(updateIsTxSubmitted(txhash))
+                    })
+                    .on('receipt', r => {
+                        dispatch(txConfirmedByNetwork())
+                    })
                 const pending = await contract.methods.paymentPending(account).call()
                 setpendingPayment(pending / 10 ** 18)
                 const paid = await contract.methods.totalPaid().call()
@@ -61,10 +72,9 @@ function Dividends() {
                 tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
                     settotalPending(totalPending / 10 ** 18)
                 })
-                dispatch(updateIsPending(false))
             } catch (err) {
                 console.log(err)
-                dispatch(updateIsPending(false))
+                dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
         } else {
             showAlert("Failed")

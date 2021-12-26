@@ -5,14 +5,14 @@ import { ethers } from 'ethers'
 import tokenAbi from '@/src/abis/tokenAbi'
 import addresses from '@stabilitydao/addresses'
 import { networks } from "../wallet/networks";
-import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
+import {txConfirmedByNetwork, updateIsTxSubmitted, updateIsWalletOption} from "@/redux/slices/modalsSlice";
 import { useDispatch, useSelector } from 'react-redux'
 import { showAlert } from '@/src/components/alert'
 import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
 import { updateBalance } from '@/redux/slices/balanceSlice'
 import { MdGeneratingTokens } from "react-icons/md";
 import WEB3 from '@/src/functions/web3';
-import { updateIsPending } from '@/redux/slices/modalsSlice'
+import { updateIsWaitingForWalletTxConfirm } from '@/redux/slices/modalsSlice'
 
 function Pool({ name, pool, network }) {
     const web3 = WEB3()
@@ -38,10 +38,17 @@ function Pool({ name, pool, network }) {
     }
     async function stake() {
         if (stakeNow !== '' && !(stakeNow <= 0) && Approve && !(stakeNow > tokenBalance)) {
-            dispatch(updateIsPending(true))
+            dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
                 await poolContract.methods.stake(library.utils.toWei(`${stakeNow}`, 'ether')).send({ from: account })
+                    .on('transactionHash', txhash => {
+                        dispatch(updateIsWaitingForWalletTxConfirm(false))
+                        dispatch(updateIsTxSubmitted(txhash))
+                    })
+                    .on('receipt', r => {
+                        dispatch(txConfirmedByNetwork())
+                    })
                 const staked = await poolContract.methods.userInfo(account).call()
                 setstakedBalance(library.utils.fromWei(staked[0], 'ether'))
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
@@ -49,10 +56,9 @@ function Pool({ name, pool, network }) {
                 dispatch(updateTokenbalance(library.utils.fromWei(tokenBalance)))
                 updateTVL()
                 setstakeNow("")
-                dispatch(updateIsPending(false))
             } catch (err) {
                 console.log(err)
-                dispatch(updateIsPending(false))
+                dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
         } else {
             showAlert("Failed")
@@ -60,15 +66,21 @@ function Pool({ name, pool, network }) {
     }
     async function upprove() {
         if (!Approve) {
-            dispatch(updateIsPending(true))
+            dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
                 await tokenContract.methods.approve(pool.contract, ethers.constants.MaxUint256).send({ from: account })
+                    .on('transactionHash', txhash => {
+                        dispatch(updateIsWaitingForWalletTxConfirm(false))
+                        dispatch(updateIsTxSubmitted(txhash))
+                    })
+                    .on('receipt', r => {
+                        dispatch(txConfirmedByNetwork())
+                    })
                 setApprove(true)
-                dispatch(updateIsPending(false))
             } catch (err) {
                 console.log(err)
-                dispatch(updateIsPending(false))
+                dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
         } else {
             showAlert("Failed")
@@ -76,10 +88,17 @@ function Pool({ name, pool, network }) {
     }
     async function unStake() {
         if (unStakeNow !== '' && !(unStakeNow <= 0) && !(unStakeNow > stakedBalance)) {
-            dispatch(updateIsPending(true))
+            dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
                 await poolContract.methods.unstake(library.utils.toWei(`${unStakeNow}`, 'ether')).send({ from: account })
+                    .on('transactionHash', txhash => {
+                        dispatch(updateIsWaitingForWalletTxConfirm(false))
+                        dispatch(updateIsTxSubmitted(txhash))
+                    })
+                    .on('receipt', r => {
+                        dispatch(txConfirmedByNetwork())
+                    })
                 const staked = await poolContract.methods.userInfo(account).call()
                 setstakedBalance(library.utils.fromWei(staked[0], 'ether'))
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
@@ -87,27 +106,32 @@ function Pool({ name, pool, network }) {
                 dispatch(updateTokenbalance(library.utils.fromWei(tokenBalance)))
                 updateTVL()
                 setunStakeNow('')
-                dispatch(updateIsPending(false))
             } catch (err) {
                 console.log(err)
-                dispatch(updateIsPending(false))
+                dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
         } else {
             showAlert("Failed")
         }
     }
     async function harvest() {
-        dispatch(updateIsPending(true))
+        dispatch(updateIsWaitingForWalletTxConfirm(true))
         try {
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             await poolContract.methods.harvest().send({ from: account })
+                .on('transactionHash', txhash => {
+                    dispatch(updateIsWaitingForWalletTxConfirm(false))
+                    dispatch(updateIsTxSubmitted(txhash))
+                })
+                .on('receipt', r => {
+                    dispatch(txConfirmedByNetwork())
+                })
             const value = await poolContract.methods.pending(account).call()
             const reward = library.utils.fromWei(value, 'ether')
             setReward(reward)
-            dispatch(updateIsPending(false))
         } catch (err) {
             console.log(err)
-            dispatch(updateIsPending(false))
+            dispatch(updateIsWaitingForWalletTxConfirm(false))
         }
     }
     useEffect(() => {

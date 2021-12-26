@@ -1,8 +1,22 @@
 import React from 'react'
 import Modal from '@/src/components/modal/Modal'
-import { WalletOption, Profile, NetworkOption, Pending, WaitingForConfirm } from '@/src/components/modal/submodals'
+import {
+    WalletOption,
+    Profile,
+    NetworkOption,
+    Pending,
+    WaitingForConfirm,
+    TxSubmitted
+} from '@/src/components/modal/submodals'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateIsNetworkOption, updateIsProfile, updateIsWalletOption, updateIsPending, updateIsWaitingForConfirm } from '@/redux/slices/modalsSlice'
+import {
+    updateIsNetworkOption,
+    updateIsProfile,
+    updateIsWalletOption,
+    updateIsPending,
+    updateIsWaitingForWalletTxConfirm,
+    updateIsTxSubmitted
+} from '@/redux/slices/modalsSlice'
 
 function Modals() {
     const dispatch = useDispatch()
@@ -10,7 +24,8 @@ function Modals() {
     const IsProfile = useSelector(state => state.modals.value.IsProfile)
     const IsModalOptionOpened = useSelector(state => state.modals.value.IsModalOptionOpened)
     const IsModalPending = useSelector(state => state.modals.value.IsModalPending)
-    const IsWaitingForConfirm = useSelector(state => state.modals.value.IsWaitingForConfirm)
+    const IsWaitingForWalletTxConfirm = useSelector(state => state.modals.value.IsWaitingForWalletTxConfirm)
+    const IsTxSubmitted = useSelector(state => state.modals.value.IsTxSubmitted)
 
     return (
         <div>
@@ -39,9 +54,15 @@ function Modals() {
                 </Modal>
             }
             {
-                IsWaitingForConfirm &&
-                <Modal title="Waiting For Comfirm" onClose={() => dispatch(updateIsWaitingForConfirm(false))} showCloseBtn>
-                    <WaitingForConfirm onClose={() => dispatch(updateIsWaitingForConfirm(false))} />
+                IsWaitingForWalletTxConfirm &&
+                <Modal title={''} onClose={() => dispatch(updateIsWaitingForWalletTxConfirm(false))} showCloseBtn>
+                    <WaitingForConfirm onClose={() => dispatch(updateIsWaitingForWalletTxConfirm(false))} />
+                </Modal>
+            }
+            {
+                IsTxSubmitted &&
+                <Modal title={''} onClose={() => dispatch(updateIsTxSubmitted(false))} showCloseBtn>
+                    <TxSubmitted onClose={() => dispatch(updateIsTxSubmitted(false))} />
                 </Modal>
             }
         </div>
