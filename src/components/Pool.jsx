@@ -201,7 +201,7 @@ function Pool({ name, pool, network }) {
                             <div>
                                 {mintingStartBlock[network] ? (
                                     <div className="text-md font-bold">
-                                        Dividend minting starts at block <a className="ml-1" href={`https://polygonscan.com/block/countdown/${mintingStartBlock[network]}`} target="_blank">#{mintingStartBlock[network]}</a>
+                                        Dividend minting starts at block <a className="ml-1" href={`https://polygonscan.com/block/countdown/${mintingStartBlock[network]}`} target="_blank" rel="noreferrer">#{mintingStartBlock[network]}</a>
                                     </div>
                                 ) : (
                                     <div>

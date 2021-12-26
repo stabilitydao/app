@@ -148,7 +148,7 @@ function Home() {
                     <div className="flex flex-col max-w-6xl mx-auto">
                         {mintingStartBlock[network] &&
                             <div className="flex text-3xl font-bold dark:text-indigo-400 w-full justify-center my-8">
-                                Dividend minting starts at block <a className="ml-3" href={`https://polygonscan.com/block/countdown/${mintingStartBlock[network]}`} target="_blank">#{mintingStartBlock[network]}</a>
+                                Dividend minting starts at block <a className="ml-3" href={`https://polygonscan.com/block/countdown/${mintingStartBlock[network]}`} target="_blank"  rel="noreferrer">#{mintingStartBlock[network]}</a>
                             </div>
                         }
                         <div className="flex flex-wrap">
