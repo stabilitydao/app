@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    value: 1,
+    value: 137,
 }
 
 export const networkSlice = createSlice({

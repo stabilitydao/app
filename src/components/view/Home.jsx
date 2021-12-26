@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { currentPhase } from "@/src/components/view/Development";
-import { MAINNET, ROPSTEN, RINKEBY } from '@stabilitydao/addresses'
+import { POLYGON, ROPSTEN, MUMBAI } from '@stabilitydao/addresses'
 import { useSelector, useDispatch } from "react-redux";
 import dividendAbi from '@/src/abis/dividendAbi'
-import AlphaTesting from "@/src/components/AlphaTesting";
 import { totalSupply } from "@/redux/slices/tokenSlice";
 import WEB3 from "@/src/functions/web3"
 import addresses from '@stabilitydao/addresses'
@@ -16,11 +14,16 @@ import tokenAbi from '@/src/abis/tokenAbi'
 import poolAbi from '@/src/abis/poolAbi'
 import { dtotalSupply } from "@/redux/slices/dTokenSlice";
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
-import { updateIsPending } from '@/redux/slices/modalsSlice'
 const appEnabled = {
-    [MAINNET]: false,
+    [POLYGON]: true,
     [ROPSTEN]: true,
-    [RINKEBY]: false,
+    [MUMBAI]: true,
+}
+
+const mintingStartBlock = {
+    [POLYGON]: 23100000,
+    [ROPSTEN]: false,
+    [MUMBAI]: false,
 }
 
 function Home() {
@@ -35,7 +38,6 @@ function Home() {
     const network = chainId ? chainId : currentNetwork
     const [stakedBalance, setstakedBalance] = useState(null)
     const token = useSelector(state => state.token)
-    const dToken = useSelector(state => state.dToken)
 
     const dividends = payers;
 
@@ -57,6 +59,16 @@ function Home() {
                         console.log(err)
                     })
             }
+
+            if (addresses[network] && addresses[network].dToken && account) {
+                let contract;
+                contract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
+                contract.methods.balanceOf(account).call().then((balance) => {
+                    setsdivbalance(web3.utils.fromWei(balance, "ether"))
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }
         }
 
         if (account && pools[network]) {
@@ -74,15 +86,6 @@ function Home() {
             })
         }
 
-        if (addresses[network] && addresses[network].dToken && account) {
-            let contract;
-            contract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
-            contract.methods.balanceOf(account).call().then((balance) => {
-                setsdivbalance(web3.utils.fromWei(balance, "ether"))
-            }).catch((err) => {
-                console.log(err)
-            })
-        }
         if (dividends[network] && account) {
             const dividendcontract = new library.eth.Contract(dividendAbi, dividends[network][0])
             dividendcontract.methods.paymentPending(account).call().then((pending) => {
@@ -90,24 +93,36 @@ function Home() {
             })
         }
     }, [network, active])
+    useEffect(() => { 
+        const interval = setInterval(() => {
+            if (library && library.eth && pools[network]) {
+                const pool = pools[network][Object.keys(pools[network])[0]]
+                const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
+                poolContract.methods.pending(account).call().then((value) => {
+                    return library.utils.fromWei(value, 'ether')
+                }).then((reward) => {
+                    setReward(reward)
+                })
+            }
+        }, 15000)
+        return () => {
+            clearInterval(interval)
+        }
+    }, [network])
     async function harvest() {
-        dispatch(updateIsPending(true))
         try {
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
             await poolContract.methods.harvest().send({ from: account })
             const value = await poolContract.methods.pending(account).call()
             const reward = library.utils.fromWei(value, 'ether')
             setReward(reward)
-            dispatch(updateIsPending(false))
         } catch (err) {
             console.log(err)
-            dispatch(updateIsPending(false))
         }
     }
     async function releasePayment() {
         const dividendAddress = dividends[network][0]
         if (pendingPayment !== null) {
-            dispatch(updateIsPending(true))
             try {
                 const contract = new library.eth.Contract(dividendAbi, dividendAddress)
                 await contract.methods.releasePayment().send({ from: account })
@@ -119,31 +134,23 @@ function Home() {
                 tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
                     settotalPending(totalPending / 10 ** 18)
                 })
-                dispatch(updateIsPending(false))
             } catch (err) {
                 console.log(err)
-                dispatch(updateIsPending(false))
             }
         } else {
             showAlert("Failed")
         }
     }
-    setInterval(() => {
-        if (library && library.eth && pools[network]) {
-            const pool = pools[network][Object.keys(pools[network])[0]]
-            const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
-            poolContract.methods.pending(account).call().then((value) => {
-                return library.utils.fromWei(value, 'ether')
-            }).then((reward) => {
-                setReward(reward)
-            })
-        }
-    }, 15000);
     return (
         <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
             <div className="container p-4 ">
                 {appEnabled[network] ? (
                     <div className="flex flex-col max-w-6xl mx-auto">
+                        {mintingStartBlock[network] &&
+                            <div className="flex text-3xl font-bold dark:text-indigo-400 w-full justify-center my-8">
+                                Dividend minting starts at block <a className="ml-3" href={`https://polygonscan.com/block/countdown/${mintingStartBlock[network]}`} target="_blank"  rel="noreferrer">#{mintingStartBlock[network]}</a>
+                            </div>
+                        }
                         <div className="flex flex-wrap">
                             <div className="flex w-full md:w-1/2 justify-center md:justify-end md:pr-6">
                                 <div className="flex w-96 justify-center">
@@ -156,17 +163,12 @@ function Home() {
                                         Stability
                                     </h1>
                                     <div className="text-xl font-medium leading-normal sm:text-2xl mb-4">
-                                        Profit generating DeFi protocol
+                                        Profit generating decentralized organization
                                     </div>
                                     <div className="flex w-full flex-wrap justify-center md:justify-start">
                                         <Link href="/about">
                                             <div className="h-10 dark:bg-indigo-800 dark:text-white dark:border-[#4e1173] py-0.5 px-4 rounded-xl cursor-pointer flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mr-5 mb-5">
                                                 About
-                                            </div>
-                                        </Link>
-                                        <Link href="/development">
-                                            <div className="h-10 dark:bg-[#431365] py-0.5 px-4 rounded-xl cursor-pointer dark:text-white dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mr-5 mb-5" >
-                                                Development
                                             </div>
                                         </Link>
                                     </div>
@@ -191,12 +193,10 @@ function Home() {
                                     </div>}
                                     {active &&
                                         <div className="flex">
-
-
                                             <div className="flex flex-col w-3/5 py-4">
                                                 <div className="flex dark:text-teal-100">Earned</div>
                                                 <div className="flex dark:text-teal-100 font-bold">
-                                                    {Reward ? (
+                                                    {Reward > 0 ? (
                                                         <div className="h-20">
                                                             <div className="mb-4 text-lg">
                                                                 {Math.floor(Reward * 10000) / 10000} SDIV
@@ -266,7 +266,7 @@ function Home() {
                         </div>
                         <div className="flex flex-wrap md:py-3 justify-center md:my-1 xl:my-2">
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-end md:px-3 xl:px-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex w-full justify-between pr-4">
                                         <span className="text-3xl ">$PROFIT</span>
                                         <span>
@@ -304,25 +304,26 @@ function Home() {
                                 </div>
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:pl-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
-                                    <div className="flex text-3xl">$SDIV</div>
+                                <div className="h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                    <div className="flex text-3xl">Governance</div>
                                     <div className="flex mt-3">
-                                        <table className="table-auto w-72">
+                                        <div className="flex dark:text-indigo-400 text-2xl">Under construction</div>
+                                       {/* <table className="table-auto w-72">
                                             <tbody>
                                                 <tr>
-                                                    <td>Price</td>
+                                                    <td>Treasure</td>
                                                     <td className="text-right">-</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Market cap</td>
+                                                    <td>Proposals</td>
                                                     <td className="text-right">-</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Total supply</td>
-                                                    <td className="text-right">{dToken ? (dToken.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : "-"}</td>
+                                                    <td>Engagement</td>
+                                                    <td className="text-right">-</td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table>*/}
                                     </div>
                                 </div>
                             </div>
@@ -333,22 +334,16 @@ function Home() {
                         <img src="/logo.svg" alt="logo" width={512} height={512} />
                         <div className="text-center">
                             <div className="mt-0 mb-2 text-3xl font-medium leading-normal sm:text-4xl font-Roboto">
-                                <h1 className="text-4xl sm:text-6xl">
+                                <h1 className="text-4xl sm:text-6xl mb-4">
                                     Stability
                                 </h1>
-                                Profit generating DeFi protocol
+                                <div className="mb-6">Profit generating<br /> decentralized organization</div>
                             </div>
-                            <p className="mt-0 mb-4 text-sm font-medium leading-normal">
-                                Decentralized organization
-                            </p>
-                            <Link href="/development">
-                                <div className="w-80 mx-auto dark:bg-[#2f004b] py-0.5 px-4 rounded-xl cursor-pointer dark:text-[#4faaff] dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
-                                    Phase 0: {currentPhase}
+                            <Link href="/about">
+                                <div className="w-80 mx-auto dark:bg-indigo-900 py-1 px-4 rounded-xl cursor-pointer dark:text-white dark:border-[#4e1173] flex items-center justify-center mb-1 text-center text-indigo-700 sm:text-2xl font-Roboto">
+                                    About us
                                 </div>
                             </Link>
-                        </div>
-                        <div>
-                            <AlphaTesting />
                         </div>
                     </div>
                 )}

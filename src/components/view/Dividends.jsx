@@ -12,7 +12,6 @@ import {
     updateIsWalletOption
 } from "@/redux/slices/modalsSlice";
 import addresses from '@stabilitydao/addresses'
-import AlphaTesting from "@/src/components/AlphaTesting";
 import {networks} from "../../wallet/networks";
 import {payers} from "@/src/wallet";
 function Dividends() {
@@ -43,7 +42,7 @@ function Dividends() {
             contract.methods.totalPaid().call().then((paid) => {
                 settotalPaid(paid / 10 ** 18)
             })
-            const tokenContract = new web3.eth.Contract(tokenAbi, "0xc778417e063141139fce010982780140aa0cd5ab")
+            const tokenContract = new web3.eth.Contract(tokenAbi, addresses[network].weth)
             tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
                 settotalPending(totalPending / 10 ** 18)
             })
@@ -89,7 +88,6 @@ function Dividends() {
                     !dividends[network] &&
                     <div className="m-6 text-2xl text-center font-semibold ">
                         <div>We currently have no dividend payers on this network</div>
-                        <AlphaTesting />
                     </div>
                 }
                 {dividends[network] && <div className="flex justify-center">
@@ -97,7 +95,7 @@ function Dividends() {
                         <div className="p-3 pb-2 text-3xl text-center dark:text-green-200 font-bold">Ether Payer</div>
                         <div className="flex flex-col w-full justify-center items-center">
                             <div className="dark:text-green-200 font-bold">Hold SDIV to earn WETH</div>
-                            <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={networks[network].explorerurl.concat(dividends[network])} rel="noopener noreferrer">
+                            <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={`${networks[network].explorerurl}address/${dividends[network]}`} rel="noopener noreferrer">
                                 <span className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{dividends[network]}</span>
                             </a>
                         </div>

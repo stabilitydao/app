@@ -172,7 +172,7 @@ function Tokens() {
                                     </div>
                                 </div>
                                 <p className="text-lg my-8">
-                                    The native token PROFIT&apos;s primary purpose is to represent ownership shares of the Stability protocol. Given PROFIT holders are effectively owners of Stability. Holding the token also allows investors to manage the Stability protocol collectively. Token entire supply was minted in Phase 0 and will be distributed in Phase 1.
+                                    The native token PROFIT&apos;s primary purpose is to represent ownership shares of the Stability protocol. Given PROFIT holders are effectively owners of Stability. Holding the token also allows investors to manage the Stability protocol collectively.
                                 </p>
                             </div>
                             <div className="flex-row w-full lg:w-4/5 xl:w-2/5 mx-auto">
@@ -182,7 +182,7 @@ function Tokens() {
                                         <tr>
                                             <td className="py-1 pr-10">Contract</td>
                                             <td className="py-1 text-right">{network ? (
-                                                <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].token)} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].token.slice(0, -36)}...{addresses[network].token.substring(38)}</a>
+                                                <a title="View Asset on Etherscan" target="_blank" href={`${networks[network].explorerurl}token/${addresses[network].token}`} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].token.slice(0, -36)}...{addresses[network].token.substring(38)}</a>
                                             ) : null}</td>
                                         </tr>
                                         <tr>
@@ -213,7 +213,7 @@ function Tokens() {
                                         </tr>
                                         <tr>
                                             <td className="py-1 pr-10">Type</td>
-                                            <td className="py-1 text-right">utility</td>
+                                            <td className="py-1 text-right">governance</td>
                                         </tr>
                                         <tr>
                                             <td className="py-1 pr-10">Model</td>
@@ -223,7 +223,7 @@ function Tokens() {
                                             <td className="py-1 pr-10">Distribution</td>
                                             <td className="py-1 text-right">
                                                 liquidity bootstrapping<br/>
-                                                full supply available at IDO
+                                                100% in curculation
                                             </td>
                                         </tr>
                                         </tbody>
@@ -272,7 +272,7 @@ function Tokens() {
                                         <tr>
                                             <td className="py-1 pr-10">Contract</td>
                                             <td className="py-1 text-right">{network && addresses[network].dToken ? (
-                                                <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].dToken)} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].dToken.slice(0, -36)}...{addresses[network].dToken.substring(38)}</a>
+                                                <a title="View Asset on Etherscan" target="_blank" href={`${networks[network].explorerurl}token/${addresses[network].dToken}`} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].dToken.slice(0, -36)}...{addresses[network].dToken.substring(38)}</a>
                                             ) : '-'}</td>
                                         </tr>
                                         <tr>

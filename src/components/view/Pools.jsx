@@ -3,7 +3,6 @@ import { useWeb3React } from '@web3-react/core'
 import {pools} from '@/src/wallet/pools';
 import { useSelector } from "react-redux";
 import Pool from '../Pool'
-import AlphaTesting from "@/src/components/AlphaTesting";
 
 function Pools() {
     const { chainId } = useWeb3React()
@@ -29,7 +28,6 @@ function Pools() {
                     ) : (
                         <div className="m-6 text-2xl text-center font-bold">
                             <div>We currently have no pools on this network</div>
-                            <AlphaTesting />
                         </div>
                     )}
                 </div>
