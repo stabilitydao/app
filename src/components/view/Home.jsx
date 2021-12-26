@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { MAINNET, ROPSTEN, RINKEBY } from '@stabilitydao/addresses'
+import { POLYGON, ROPSTEN, MUMBAI } from '@stabilitydao/addresses'
 import { useSelector, useDispatch } from "react-redux";
 import dividendAbi from '@/src/abis/dividendAbi'
-import AlphaTesting from "@/src/components/AlphaTesting";
 import { totalSupply } from "@/redux/slices/tokenSlice";
 import WEB3 from "@/src/functions/web3"
 import addresses from '@stabilitydao/addresses'
@@ -16,9 +15,15 @@ import poolAbi from '@/src/abis/poolAbi'
 import { dtotalSupply } from "@/redux/slices/dTokenSlice";
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
 const appEnabled = {
-    [MAINNET]: false,
+    [POLYGON]: true,
     [ROPSTEN]: true,
-    [RINKEBY]: false,
+    [MUMBAI]: true,
+}
+
+const mintingStartBlock = {
+    [POLYGON]: 23100000,
+    [ROPSTEN]: false,
+    [MUMBAI]: false,
 }
 
 function Home() {
@@ -33,7 +38,6 @@ function Home() {
     const network = chainId ? chainId : currentNetwork
     const [stakedBalance, setstakedBalance] = useState(null)
     const token = useSelector(state => state.token)
-    const dToken = useSelector(state => state.dToken)
 
     const dividends = payers;
 
@@ -104,7 +108,7 @@ function Home() {
         return () => {
             clearInterval(interval)
         }
-    }, [])
+    }, [network])
     async function harvest() {
         try {
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
@@ -142,6 +146,11 @@ function Home() {
             <div className="container p-4 ">
                 {appEnabled[network] ? (
                     <div className="flex flex-col max-w-6xl mx-auto">
+                        {mintingStartBlock[network] &&
+                            <div className="flex text-3xl font-bold dark:text-indigo-400 w-full justify-center my-8">
+                                Dividend minting starts at block <a className="ml-3" href={`https://polygonscan.com/block/countdown/${mintingStartBlock[network]}`} target="_blank"  rel="noreferrer">#{mintingStartBlock[network]}</a>
+                            </div>
+                        }
                         <div className="flex flex-wrap">
                             <div className="flex w-full md:w-1/2 justify-center md:justify-end md:pr-6">
                                 <div className="flex w-96 justify-center">
@@ -187,7 +196,7 @@ function Home() {
                                             <div className="flex flex-col w-3/5 py-4">
                                                 <div className="flex dark:text-teal-100">Earned</div>
                                                 <div className="flex dark:text-teal-100 font-bold">
-                                                    {Reward ? (
+                                                    {Reward > 0 ? (
                                                         <div className="h-20">
                                                             <div className="mb-4 text-lg">
                                                                 {Math.floor(Reward * 10000) / 10000} SDIV
@@ -257,7 +266,7 @@ function Home() {
                         </div>
                         <div className="flex flex-wrap md:py-3 justify-center md:my-1 xl:my-2">
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-end md:px-3 xl:px-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex w-full justify-between pr-4">
                                         <span className="text-3xl ">$PROFIT</span>
                                         <span>
@@ -295,10 +304,11 @@ function Home() {
                                 </div>
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:pl-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Governance</div>
                                     <div className="flex mt-3">
-                                        <table className="table-auto w-72">
+                                        <div className="flex dark:text-indigo-400 text-2xl">Under construction</div>
+                                       {/* <table className="table-auto w-72">
                                             <tbody>
                                                 <tr>
                                                     <td>Treasure</td>
@@ -313,7 +323,7 @@ function Home() {
                                                     <td className="text-right">-</td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table>*/}
                                     </div>
                                 </div>
                             </div>
@@ -334,9 +344,6 @@ function Home() {
                                     About us
                                 </div>
                             </Link>
-                        </div>
-                        <div>
-                            <AlphaTesting />
                         </div>
                     </div>
                 )}

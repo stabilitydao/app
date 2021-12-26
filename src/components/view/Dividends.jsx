@@ -7,7 +7,6 @@ import WEB3 from '@/src/functions/web3';
 import tokenAbi from '@/src/abis/tokenAbi.json'
 import { updateIsWalletOption } from "@/redux/slices/modalsSlice";
 import addresses from '@stabilitydao/addresses'
-import AlphaTesting from "@/src/components/AlphaTesting";
 import {networks} from "../../wallet/networks";
 import {payers} from "@/src/wallet";
 function Dividends() {
@@ -38,7 +37,7 @@ function Dividends() {
             contract.methods.totalPaid().call().then((paid) => {
                 settotalPaid(paid / 10 ** 18)
             })
-            const tokenContract = new web3.eth.Contract(tokenAbi, "0xc778417e063141139fce010982780140aa0cd5ab")
+            const tokenContract = new web3.eth.Contract(tokenAbi, addresses[network].weth)
             tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
                 settotalPending(totalPending / 10 ** 18)
             })
@@ -75,7 +74,6 @@ function Dividends() {
                     !dividends[network] &&
                     <div className="m-6 text-2xl text-center font-semibold ">
                         <div>We currently have no dividend payers on this network</div>
-                        <AlphaTesting />
                     </div>
                 }
                 {dividends[network] && <div className="flex justify-center">
