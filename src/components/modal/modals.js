@@ -15,8 +15,9 @@ import {
     updateIsWalletOption,
     updateIsPending,
     updateIsWaitingForWalletTxConfirm,
-    updateIsTxSubmitted
+    updateIsTxSubmitted, updateIsWaitingForChangeNetwork
 } from '@/redux/slices/modalsSlice'
+import WaitingForWalletChangeNetwork from "@/src/components/modal/submodals/WaitingForWalletChangeNetwork";
 
 function Modals() {
     const dispatch = useDispatch()
@@ -25,6 +26,7 @@ function Modals() {
     const IsModalOptionOpened = useSelector(state => state.modals.value.IsModalOptionOpened)
     const IsModalPending = useSelector(state => state.modals.value.IsModalPending)
     const IsWaitingForWalletTxConfirm = useSelector(state => state.modals.value.IsWaitingForWalletTxConfirm)
+    const IsWaitingForChangeNetwork = useSelector(state => state.modals.value.IsWaitingForChangeNetwork)
     const IsTxSubmitted = useSelector(state => state.modals.value.IsTxSubmitted)
 
     return (
@@ -63,6 +65,12 @@ function Modals() {
                 IsTxSubmitted &&
                 <Modal title={''} onClose={() => dispatch(updateIsTxSubmitted(false))} showCloseBtn>
                     <TxSubmitted onClose={() => dispatch(updateIsTxSubmitted(false))} />
+                </Modal>
+            }
+            {
+                IsWaitingForChangeNetwork &&
+                <Modal title={''} onClose={() => dispatch(updateIsWaitingForChangeNetwork(false))} showCloseBtn>
+                    <WaitingForWalletChangeNetwork onClose={() => dispatch(updateIsWaitingForChangeNetwork(false))} />
                 </Modal>
             }
         </div>

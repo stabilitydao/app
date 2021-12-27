@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 function Governance() {
     const { chainId } = useWeb3React()
     const currentNetwork = useSelector(state => state.network.value)
-    const network = chainId ? chainId : currentNetwork
+    const network = chainId && networks[chainId] ? chainId : currentNetwork
 
     return (
         <section className=" h-calc">
