@@ -5,9 +5,6 @@ import { networks } from '../../wallet'
 import { buyLinks, lpv3 } from '../../wallet/swaps'
 import { useDispatch, useSelector } from "react-redux";
 import { useWeb3React } from '@web3-react/core'
-import { updateProfitPrice } from "@/redux/slices/priceSlice";
-import univ3prices from '@thanpolas/univ3prices';
-import uniV3PoolAbi from '@/src/abis/uniV3PoolAbi'
 import tokenAbi from '@/src/abis/tokenAbi'
 import { showAlert } from '@/src/components/alert';
 import WEB3 from '@/src/functions/web3'
@@ -18,41 +15,13 @@ function Tokens() {
     const web3 = WEB3()
     const dispatch = useDispatch()
     const { library, active, chainId, } = useWeb3React()
-    const profitPrice = useSelector(state => state.price.value)
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
-    const priceIn = useSelector(state => state.price.in)
     const currentNetwork = useSelector(state => state.network.value)
     const token = useSelector(state => state.token)
     const dToken = useSelector(state => state.dToken)
     const network = chainId && networks[chainId] ? chainId : currentNetwork
 
     useEffect(() => {
-        if (lpv3[network] !== null) {
-            let token1 = null;
-            if (lpv3[network] instanceof Object) {
-                if (lpv3[network].DAI) {
-                    token1 = 'DAI'
-                } else if (lpv3[network].ETH) {
-                    token1 = 'ETH'
-                }
-            }
-            /*if (token1) {
-                let contract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network][token1]);
-                contract.methods.slot0().call().then((slot0) => {
-                    dispatch(updateProfitPrice([
-                        univ3prices([18, 18], slot0[0]).toAuto({ reverse: true, decimalPlaces: 2, }),
-                        token1
-                    ]))
-                }).catch((err) => {
-                    console.log(err)
-                })
-            }*/
-        } else {
-            dispatch(updateProfitPrice([
-                0, ''
-            ]))
-        }
-
         if (web3.eth.net.isListening()) {
             if(addresses[network].token) {
                 // ABI is ERC-20 API as a JSON

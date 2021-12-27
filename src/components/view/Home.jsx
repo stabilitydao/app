@@ -192,7 +192,7 @@ function Home() {
                         </div>
                         <div className="flex py-3 justify-center flex-wrap md:my-1 xl:my-3">
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-end md:px-3 xl:px-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="shadow-2xl flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Staking</div>
                                     {!active && <div className="flex pt-8 pb-6">
                                         <button
@@ -236,7 +236,7 @@ function Home() {
                                 </div>
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:px-6">
-                                <div className="flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="shadow-2xl flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Dividends</div>
                                     {!active && <div className="flex pt-8 pb-6">
                                         <button
@@ -281,7 +281,7 @@ function Home() {
                         </div>
                         <div className="flex flex-wrap md:py-3 justify-center md:my-1 xl:my-2">
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-end md:px-3 xl:px-6">
-                                <div className="h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="shadow-2xl h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex w-full justify-between pr-4">
                                         <span className="text-3xl ">$PROFIT</span>
                                         <span>
@@ -319,7 +319,7 @@ function Home() {
                                 </div>
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:pl-6">
-                                <div className="h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="shadow-2xl h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Governance</div>
                                     <div className="flex mt-3">
                                         <table className="table-auto w-72">
