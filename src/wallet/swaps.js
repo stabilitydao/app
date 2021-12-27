@@ -1,7 +1,7 @@
 import {POLYGON, MAINNET, MUMBAI, RINKEBY, ROPSTEN} from "./networks";
 
 const buyLinks = {
-    [POLYGON]: null,
+    [POLYGON]: 'https://app.uniswap.org/#/swap?inputCurrency=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&outputCurrency=0x48469a0481254d5945E7E56c1Eb9861429c02f44',
     [MAINNET]: null,
     [ROPSTEN]: 'https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x29E4d6c08e3AD060Dc2fC8DCE70AaB8C8c57563F',
     [RINKEBY]: 'https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x7D68ECf1762bA27120d0f98BFcFa0da67eb15860',
