@@ -11,6 +11,7 @@ const buyLinks = {
 const lpv3 = {
     [POLYGON]: {
         USDCETH: '0x45dDa9cb7c25131DF268515131f647d726f50608',
+        ETH: '0xd3B1f11f0ff29Add929941095C696D464D6961FC',
     },
     [MAINNET]: {
         DAIETH: '0xC2e9F25Be6257c210d7Adf0D4Cd6E3E881ba25f8',
