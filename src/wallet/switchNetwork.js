@@ -1,15 +1,15 @@
 import { updatenetwork } from '@/redux/slices/networkSlice'
 import { showAlert } from '@/src/components/alert';
-import { updateIsPending } from '@/redux/slices/modalsSlice'
+import { updateIsWaitingForChangeNetwork } from '@/redux/slices/modalsSlice'
 async function switchNetwork(network, dispatch, library) {
-    dispatch(updateIsPending(true))
+    dispatch(updateIsWaitingForChangeNetwork(true))
     try {
         await library.currentProvider.request({
             method: "wallet_switchEthereumChain",
             params: [{ chainId: network.hexchainid }],
         });
         dispatch(updatenetwork(network.chainid))
-        dispatch(updateIsPending(false))
+        dispatch(updateIsWaitingForChangeNetwork(false))
     } catch (error) {
         if (error.code === 4902) {
             try {
@@ -34,7 +34,7 @@ async function switchNetwork(network, dispatch, library) {
             }
         }
         showAlert("Failed")
-        dispatch(updateIsPending(false))
+        dispatch(updateIsWaitingForChangeNetwork(false))
     }
 }
 

@@ -24,7 +24,7 @@ function Tokens() {
     const currentNetwork = useSelector(state => state.network.value)
     const token = useSelector(state => state.token)
     const dToken = useSelector(state => state.dToken)
-    const network = chainId ? chainId : currentNetwork
+    const network = chainId && networks[chainId] ? chainId : currentNetwork
 
     useEffect(() => {
         if (lpv3[network] !== null) {
@@ -91,7 +91,7 @@ function Tokens() {
     }, [network])
 
     function addPROFITToWallet() {
-        dispatch(updateIsPending(true))
+        // dispatch(updateIsPending(true))
         library.currentProvider.request({
             method: "wallet_watchAsset",
             params: {
@@ -104,15 +104,15 @@ function Tokens() {
                 },
             }
         }).then(() => {
-            dispatch(updateIsPending(false))
+            // dispatch(updateIsPending(false))
         }).catch((err) => {
-            dispatch(updateIsPending(false))
+            // dispatch(updateIsPending(false))
             showAlert("Failed")
         });
     }
     
     function addSDIVToWallet() {
-        dispatch(updateIsPending(true))
+        // dispatch(updateIsPending(true))
         library.currentProvider.request({
             method: "wallet_watchAsset",
             params: {
@@ -125,10 +125,10 @@ function Tokens() {
                 },
             }
         }).then(() => {
-            dispatch(updateIsPending(false))
+            // dispatch(updateIsPending(false))
         }).catch((err) => {
             showAlert("Failed")
-            dispatch(updateIsPending(false))
+            // dispatch(updateIsPending(false))
         });
     }
 
