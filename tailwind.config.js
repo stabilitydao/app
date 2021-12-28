@@ -1,7 +1,7 @@
 const colors = require('tailwindcss/colors')
 module.exports = {
   mode: 'jit',
-  purge: ['./src/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     colors: {
@@ -16,11 +16,11 @@ module.exports = {
       green: colors.green,
       red: colors.rose,
       yellow: colors.amber,
-      'warn-gray': colors.warmGray,
-      'true-gray': colors.trueGray,
+      stone: colors.stone,
+      neutral: colors.neutral,
       gray: colors.gray,
-      'cool-gray': colors.coolGray,
-      'blue-gray': colors.blueGray,
+      zinc: colors.zinc,
+      slate: colors.slate,
     },
     extend: {
       fontFamily: {

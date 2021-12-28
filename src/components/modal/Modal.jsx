@@ -31,7 +31,7 @@ const Modal = ({ title, children, onClose, showCloseBtn }) => {
     return (
         <div className="fixed inset-0 z-20 flex items-start justify-center w-screen h-screen px-5" ref={modal}>
             <div className="fixed w-screen h-screen bg-black opacity-40 " onClick={(e) => modalCloseHandler(e)} ref={modalBg} />
-            <div className="z-10 max-w-sm p-5 mx-auto mt-12 bg-white shadow-2xl w-96 rounded-3xl dark:bg-blue-gray-900 relative" ref={modalContent}>
+            <div className="z-10 max-w-sm p-5 mx-auto mt-12 bg-white shadow-2xl w-96 rounded-3xl dark:bg-slate-900 relative" ref={modalContent}>
                 <div className="flex items-center justify-between mb-2 text-center dark:text-white">
                     <h2 className="text-2xl font-Roboto">{title}</h2>
                     {showCloseBtn && <X size={24} strokeWidth={1} className="cursor-pointer absolute right-6 top-6" onClick={(e) => modalCloseHandler(e)} />}

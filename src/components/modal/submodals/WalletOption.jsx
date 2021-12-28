@@ -23,7 +23,7 @@ const dispatch =useDispatch()
     }
 
     return (
-        <div className="flex flex-col pt-2 bg-white gap-y-2 dark:bg-blue-gray-900">
+        <div className="flex flex-col pt-2 bg-white gap-y-2 dark:bg-slate-900">
             {[
                 {
                     name: "Metamask",
@@ -37,7 +37,7 @@ const dispatch =useDispatch()
                 },
             ].map(({ name, connector, img }, index) => {
                 return (
-                    <button onClick={() => { handleWalletConnect(connector) }} key={index} className="block px-4 py-3 text-gray-700 bg-gray-100 rounded-xl text-md hover:bg-gray-300 hover:text-gray-900 dark:text-white dark:bg-blue-gray-800 dark:hover:bg-blue-gray-700" >
+                    <button onClick={() => { handleWalletConnect(connector) }} key={index} className="block px-4 py-3 text-gray-700 bg-gray-100 rounded-xl text-md hover:bg-gray-300 hover:text-gray-900 dark:text-white dark:bg-slate-800 dark:hover:bg-slate-700" >
                         <span className="flex flex-col font-Roboto">
                             <span className="flex items-center justify-between">
                                 {name}
