@@ -303,7 +303,7 @@ function Home() {
                                             <tbody>
                                                 <tr>
                                                     <td>Price</td>
-                                                    <td className="text-right">{profitpriceIn$ ? `$${profitpriceIn$}` : "-"}</td>
+                                                    <td className="text-right">{profitpriceIn$ ? `$${Math.floor(profitpriceIn$ * 100) / 100}` : "-"}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Market cap</td>
