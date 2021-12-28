@@ -83,7 +83,7 @@ function Sidebar({ Mode }) {
     }, [network, web3])
 
     if (profitPrice && ethPrice) {
-        dispatch(updateProfitPriceIn$(Math.floor(profitPrice * ethPrice * 100) / 100))
+        dispatch(updateProfitPriceIn$(Math.floor(profitPrice * ethPrice * 10000000) / 10000000))
     } else {
         dispatch(updateProfitPriceIn$(null))
     }
@@ -124,7 +124,7 @@ function Sidebar({ Mode }) {
                                 {profitPrice && ethPrice ? 'PROFIT' : null}
                             </td>
                             <td className="text-right">
-                                {profitPrice && ethPrice ? `$${profitpriceIn$}` : null}
+                                {profitPrice && ethPrice ? `$${Math.floor(profitpriceIn$ * 100) / 100}` : null}
                             </td>
                         </tr>
                     </tbody>
