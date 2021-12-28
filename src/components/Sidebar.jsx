@@ -106,6 +106,7 @@ function Sidebar({ Mode }) {
                     <li><Link href="/tokens"><a className={`${activeRoute === "/tokens" ? "bg-indigo-600  text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
                     <li><Link href="/generation"><a className={`${activeRoute === "/generation" ? "bg-indigo-600  text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
                     <li><Link href="/about"><a className={`${activeRoute === "/about" ? "bg-indigo-600 text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />About</a></Link></li>
+                    <li><Link href="/faq"><a className={`${activeRoute === "/faq" ? "bg-indigo-600 text-white " : ""} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Faq</a></Link></li>
                 </ul>
             </div>
             <div className="flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
