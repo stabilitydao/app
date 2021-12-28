@@ -13,7 +13,8 @@
   "license": "MIT",
   "dependencies": {
     "@ethersproject/providers": "^5.5.0",
-    "@headlessui/react": "^1.4.1",
+    "@headlessui/react": "^1.4.2",
+    "@heroicons/react": "^1.0.5",
     "@reduxjs/toolkit": "^1.6.2",
     "@stabilitydao/addresses": "stabilitydao/addresses",
     "@thanpolas/univ3prices": "^3.0.2",
