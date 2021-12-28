@@ -47,13 +47,13 @@ function Profile({ onClose }) {
     }
 
     return (
-        <div className="flex flex-col py-3 text-black bg-white dark:text-white dark:bg-blue-gray-900 gap-y-4">
+        <div className="flex flex-col py-3 text-black bg-white dark:text-white dark:bg-slate-900 gap-y-4">
             <div >
                 <h2 className="text-sm text-left font-Roboto">
                     YOUR ADDRESS
                 </h2>
             </div>
-            <div className="px-4 py-3 text-gray-700 bg-gray-100 rounded-xl text-md hover:bg-gray-300 hover:text-gray-900 dark:text-white dark:bg-blue-gray-800 dark:hover:bg-blue-gray-700" >
+            <div className="px-4 py-3 text-gray-700 bg-gray-100 rounded-xl text-md hover:bg-gray-300 hover:text-gray-900 dark:text-white dark:bg-slate-800 dark:hover:bg-slate-700" >
                 <div className="flex items-start mx-auto w-60 sm:w-full gap-x-1">
                     <h1 className="overflow-x-auto font-Roboto scrollbar-thin ">
                         {account}
