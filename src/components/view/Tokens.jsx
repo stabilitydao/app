@@ -23,7 +23,7 @@ function Tokens() {
 
     useEffect(() => {
         if (web3.eth.net.isListening()) {
-            if(addresses[network].token) {
+            if (addresses[network].token) {
                 // ABI is ERC-20 API as a JSON
                 let contract;
                 contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
@@ -40,7 +40,7 @@ function Tokens() {
                 })
             }
 
-            if(addresses[network].dToken) {
+            if (addresses[network].dToken) {
                 // ABI is ERC-20 API as a JSON
                 let contract;
                 contract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
@@ -79,7 +79,7 @@ function Tokens() {
             showAlert("Failed")
         });
     }
-    
+
     function addSDIVToWallet() {
         // dispatch(updateIsPending(true))
         library.currentProvider.request({
@@ -132,10 +132,10 @@ function Tokens() {
                                         </div>
                                         <div className="flex justify-center w-28">
                                             {active &&
-                                            <button title="Add to wallet" className="flex text-xs text-black border-0 btn bg-cool-gray-300 dark:text-white dark:bg-true-gray-700 hover:bg-indigo-300 rounded-xl dark:hover:bg-true-gray-800" onClick={addPROFITToWallet}>
-                                                <img src="/wallets/metamask.png" className="h-4 mr-2" alt="Metamask" />
-                                                Add
-                                            </button>
+                                                <button title="Add to wallet" className="flex text-xs text-black border-0 btn bg-cool-gray-300 dark:text-white dark:bg-true-gray-700 hover:bg-indigo-300 rounded-xl dark:hover:bg-true-gray-800" onClick={addPROFITToWallet}>
+                                                    <img src="/wallets/metamask.png" className="h-4 mr-2" alt="Metamask" />
+                                                    Add
+                                                </button>
                                             }
                                         </div>
                                     </div>
@@ -148,53 +148,53 @@ function Tokens() {
                                 <div className="flex justify-center">
                                     <table className="w-full text-sm table-auto bg-blend-darken md:text-xl" style={{ maxWidth: '540px' }}>
                                         <tbody>
-                                        <tr>
-                                            <td className="py-1 pr-10">Contract</td>
-                                            <td className="py-1 text-right">{network ? (
-                                                <a title="View Asset on Etherscan" target="_blank" href={`${networks[network].explorerurl}token/${addresses[network].token}`} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].token.slice(0, -36)}...{addresses[network].token.substring(38)}</a>
-                                            ) : null}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1">Token name</td>
-                                            <td className="py-1 text-right">{token ? token.name : ''}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1">Symbol</td>
-                                            <td className="py-1 text-right">{token ? token.symbol : ''}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1">Price</td>
-                                            <td className="py-1 text-right">{lpv3[network] !== null && profitpriceIn$ > 0 ? (
-                                                <span>${profitpriceIn$}</span>
-                                            ) : (
-                                                <span>-</span>
-                                            )}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1">Market cap</td>
-                                            <td className="py-1 text-right">{lpv3[network] !== null && profitpriceIn$ > 0 ? (
-                                                <span>${(profitpriceIn$ * (token ? token.totalSupply : 0)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')}</span>
-                                            ) : '-'}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 whitespace-nowrap">Total supply</td>
-                                            <td className="py-1 text-right">{token ? (token.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : ''}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 pr-10">Type</td>
-                                            <td className="py-1 text-right">governance</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 pr-10">Model</td>
-                                            <td className="py-1 text-right">deflationary</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 pr-10">Distribution</td>
-                                            <td className="py-1 text-right">
-                                                liquidity bootstrapping<br/>
-                                                100% in curculation
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Contract</td>
+                                                <td className="py-1 text-right">{network ? (
+                                                    <a title="View Asset on Etherscan" target="_blank" href={`${networks[network].explorerurl}token/${addresses[network].token}`} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].token.slice(0, -36)}...{addresses[network].token.substring(38)}</a>
+                                                ) : null}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1">Token name</td>
+                                                <td className="py-1 text-right">{token ? token.name : ''}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1">Symbol</td>
+                                                <td className="py-1 text-right">{token ? token.symbol : ''}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1">Price</td>
+                                                <td className="py-1 text-right">{lpv3[network] !== null && profitpriceIn$ > 0 ? (
+                                                    <span>${profitpriceIn$}</span>
+                                                ) : (
+                                                    <span>-</span>
+                                                )}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1">Market cap</td>
+                                                <td className="py-1 text-right">{lpv3[network] !== null && profitpriceIn$ > 0 ? (
+                                                    <span>${(profitpriceIn$ * (token ? token.totalSupply : 0)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')}</span>
+                                                ) : '-'}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1 whitespace-nowrap">Total supply</td>
+                                                <td className="py-1 text-right">{token ? (token.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : ''}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Type</td>
+                                                <td className="py-1 text-right">governance</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Model</td>
+                                                <td className="py-1 text-right">deflationary</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Distribution</td>
+                                                <td className="py-1 text-right">
+                                                    liquidity bootstrapping<br />
+                                                    100% in curculation
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -222,10 +222,10 @@ function Tokens() {
                                         </div>
                                         <div className="flex justify-center w-28">
                                             {active && addresses[network].dToken &&
-                                            <button title="Add to wallet" className="flex text-xs text-black border-0 btn bg-cool-gray-300 dark:text-white dark:bg-true-gray-700 hover:bg-indigo-300 rounded-xl dark:hover:bg-true-gray-800" onClick={addSDIVToWallet}>
-                                                <img src="/wallets/metamask.png" className="h-4 mr-2" alt="Metamask" />
-                                                Add
-                                            </button>
+                                                <button title="Add to wallet" className="flex text-xs text-black border-0 btn bg-cool-gray-300 dark:text-white dark:bg-true-gray-700 hover:bg-indigo-300 rounded-xl dark:hover:bg-true-gray-800" onClick={addSDIVToWallet}>
+                                                    <img src="/wallets/metamask.png" className="h-4 mr-2" alt="Metamask" />
+                                                    Add
+                                                </button>
                                             }
                                         </div>
                                     </div>
@@ -238,38 +238,38 @@ function Tokens() {
                                 <div className="flex justify-center">
                                     <table className="w-full text-sm table-auto bg-blend-darken md:text-xl" style={{ maxWidth: '540px' }}>
                                         <tbody>
-                                        <tr>
-                                            <td className="py-1 pr-10">Contract</td>
-                                            <td className="py-1 text-right">{network && addresses[network].dToken ? (
-                                                <a title="View Asset on Etherscan" target="_blank" href={`${networks[network].explorerurl}token/${addresses[network].dToken}`} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].dToken.slice(0, -36)}...{addresses[network].dToken.substring(38)}</a>
-                                            ) : '-'}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 pr-10">Token name</td>
-                                            <td className="py-1 text-right">{network && addresses[network].dToken && dToken ? dToken.name : '-'}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 pr-10">Symbol</td>
-                                            <td className="py-1 text-right">{network && addresses[network].dToken && dToken ? dToken.symbol : '-'}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 whitespace-nowrap pr-10">Total supply</td>
-                                            <td className="py-1 text-right">{network && addresses[network].dToken && dToken ? (dToken.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : '-'}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 pr-10">Type</td>
-                                            <td className="py-1 text-right">dividend</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 pr-10">Model</td>
-                                            <td className="py-1 text-right">inflationary</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 pr-10">Distribution</td>
-                                            <td className="py-1 text-right">
-                                                <Link href="/pools">Minting pool</Link>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Contract</td>
+                                                <td className="py-1 text-right">{network && addresses[network].dToken ? (
+                                                    <a title="View Asset on Etherscan" target="_blank" href={`${networks[network].explorerurl}token/${addresses[network].dToken}`} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].dToken.slice(0, -36)}...{addresses[network].dToken.substring(38)}</a>
+                                                ) : '-'}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Token name</td>
+                                                <td className="py-1 text-right">{network && addresses[network].dToken && dToken ? dToken.name : '-'}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Symbol</td>
+                                                <td className="py-1 text-right">{network && addresses[network].dToken && dToken ? dToken.symbol : '-'}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1 whitespace-nowrap pr-10">Total supply</td>
+                                                <td className="py-1 text-right">{network && addresses[network].dToken && dToken ? (dToken.totalSupply * 1).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : '-'}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Type</td>
+                                                <td className="py-1 text-right">dividend</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Model</td>
+                                                <td className="py-1 text-right">inflationary</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Distribution</td>
+                                                <td className="py-1 text-right">
+                                                    <Link href="/pools">Minting pool</Link>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
