@@ -44,7 +44,7 @@ function Faq() {
                                 return (
                                     <details open="" key={index} className="font-Roboto">
                                         <summary className="py-2 outline-none cursor-pointer   text-xl">{faq.question}</summary>
-                                        <div className="px-4 pb-4 text-gray-800 dark:text-cool-gray-200">
+                                        <div className="px-4 pb-4 text-gray-800 dark:text-gray-200">
                                             <p className="text-lg">{faq.answer}</p>
                                         </div>
                                     </details>
