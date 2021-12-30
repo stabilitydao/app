@@ -77,7 +77,7 @@ function Layout({ children }) {
     );
     return (
         <Web3ReactProvider getLibrary={getLibrary} >
-            <main className={Mode ? "dark" : "" + "overflow-y-hidden h-screen"} >
+            <main className={Mode ? "dark" : ""} >
                 <Head>
                     <title>{Title ? `${Title} - ` : ""}Stability</title>
                     <meta name="description" content="Profit generating DeFi protocol" />
@@ -85,7 +85,7 @@ function Layout({ children }) {
                 </Head>
                 <div className="flex flex-row">
                     <Sidebar Mode={Mode} />
-                    <div id="scroolTOP" className="w-full h-screen overflow-y-auto">
+                    <div id="scroolTOP" className="w-full lg:h-screen overflow-y-auto">
                         <Navbar Mode={mode => setMode(mode)} />
                         <Main child={children} />
                     </div>

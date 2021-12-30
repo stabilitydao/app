@@ -167,7 +167,7 @@ function Navbar({ Mode }) {
                     <Mode_Icon />
                 </div>
             </div>
-            {sidebar && <div className={`fixed inset-0 w-screen h-screen bg-black opacity-20 `} onClick={() => { dispatch(updateSidebar(false)) }} />}
+            {sidebar && <div className={`fixed inset-0 bg-black opacity-20 `} onClick={() => { dispatch(updateSidebar(false)) }} />}
         </nav>
     )
 }
