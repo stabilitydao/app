@@ -4,6 +4,7 @@ import { POLYGON, ROPSTEN, MUMBAI } from '@stabilitydao/addresses'
 import { useSelector, useDispatch } from "react-redux";
 import dividendAbi from '@/src/abis/dividendAbi'
 import { totalSupply } from "@/redux/slices/tokenSlice";
+import { updateTVL } from "@/redux/slices/tvlSlice";
 import WEB3 from "@/src/functions/web3"
 import addresses from '@stabilitydao/addresses'
 import { buyLinks } from "@/src/wallet/swaps";
@@ -34,6 +35,7 @@ function Home() {
     const [pendingPayment, setpendingPayment] = useState(null)
     const currentNetwork = useSelector(state => state.network.value)
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
+    const tvl = useSelector(state => state.tvl.value)
     const network = chainId ? chainId : currentNetwork
     const [stakedBalance, setstakedBalance] = useState(null)
     const token = useSelector(state => state.token)
@@ -63,6 +65,7 @@ function Home() {
         if (account && pools[network]) {
             const pool = pools[network][Object.keys(pools[network])[0]]
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
+
             poolContract.methods.pending(account).call().then((value) => {
                 return library.utils.fromWei(value, 'ether')
             }).then((reward) => {
@@ -82,7 +85,28 @@ function Home() {
             })
         }
     }, [network, active])
-    useEffect(() => { 
+
+
+    useEffect(() => {
+        if (web3 && web3.eth && network && profitpriceIn$ && addresses[network].token && pools[network]) {
+            const pool = pools[network][Object.keys(pools[network])[0]]
+            const tokenContract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+            if (profitpriceIn$) {
+                // todo get TVL for all pools
+                tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
+                    const
+                        fromEther = web3.utils.fromWei(TVL, 'ether'),
+                        rounded = Math.round(fromEther * profitpriceIn$)
+
+                    dispatch(updateTVL(rounded))
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }
+        }
+    }, [network,profitpriceIn$, web3]);
+
+    useEffect(() => {
         const interval = setInterval(() => {
             if (library && library.eth && pools[network]) {
                 const pool = pools[network][Object.keys(pools[network])[0]]
@@ -181,8 +205,24 @@ function Home() {
                         </div>
                         <div className="flex py-3 justify-center flex-wrap md:my-1 xl:my-3">
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-end md:px-3 xl:px-6">
-                                <div className="shadow-2xl flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
-                                    <div className="flex text-3xl">Staking</div>
+                                <div className="shadow-2xl flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 md:px-6 lg:px-10  py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                    <div className="flex w-full">
+                                        <span className="flex text-3xl w-3/5">Staking</span>
+                                        <span className="flex w-2/5">
+                                            {tvl ? (
+                                                <div className="flex mt-1 justify-start">
+                                                    <div className=" px-2 flex h-8 rounded-full dark:border-teal-900 border-2 flex-row justify-center items-center dark:text-teal-200">
+                                                        <div className=" font-bold text-sm">{tvl ? 'TVL' : null}</div>
+                                                        <div className="ml-1.5 text-sm font-bold whitespace-nowrap">{tvl ? '$'.concat(Math.floor(tvl).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')) : null}</div>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="mt-1 w-2/5">
+                                                    <div className="h-8" />
+                                                </div>
+                                            )}
+                                        </span>
+                                    </div>
                                     {!active && <div className="flex pt-8 pb-6">
                                         <button
                                             type="button"
@@ -225,7 +265,7 @@ function Home() {
                                 </div>
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:px-6">
-                                <div className="shadow-2xl flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="shadow-2xl flex w-full sm:w-96 md:w-80 lg:w-96 flex-col px-10 md:px-6 lg:px-10 py-8 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Dividends</div>
                                     {!active && <div className="flex pt-8 pb-6">
                                         <button
@@ -270,7 +310,7 @@ function Home() {
                         </div>
                         <div className="flex flex-wrap md:py-3 justify-center md:my-1 xl:my-2">
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-end md:px-3 xl:px-6">
-                                <div className="shadow-2xl h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="shadow-2xl h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col py-7 px-10 md:px-6 lg:px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex w-full justify-between pr-4">
                                         <span className="text-3xl ">$PROFIT</span>
                                         <span>
@@ -308,7 +348,7 @@ function Home() {
                                 </div>
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:pl-6">
-                                <div className="shadow-2xl h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
+                                <div className="shadow-2xl h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 md:px-6 lg:px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
                                     <div className="flex text-3xl">Governance</div>
                                     <div className="flex mt-3">
                                         <table className="table-auto w-72">
