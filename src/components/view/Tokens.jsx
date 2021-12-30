@@ -5,6 +5,9 @@ import { networks } from '../../wallet'
 import { buyLinks, lpv3 } from '../../wallet/swaps'
 import { useDispatch, useSelector } from "react-redux";
 import { useWeb3React } from '@web3-react/core'
+import { updateProfitPrice } from "@/redux/slices/priceSlice";
+import univ3prices from '@thanpolas/univ3prices';
+import uniV3PoolAbi from '@/src/abis/uniV3PoolAbi'
 import tokenAbi from '@/src/abis/tokenAbi'
 import { showAlert } from '@/src/components/alert';
 import WEB3 from '@/src/functions/web3'
@@ -15,13 +18,41 @@ function Tokens() {
     const web3 = WEB3()
     const dispatch = useDispatch()
     const { library, active, chainId, } = useWeb3React()
+    const profitPrice = useSelector(state => state.price.value)
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
+    const priceIn = useSelector(state => state.price.in)
     const currentNetwork = useSelector(state => state.network.value)
     const token = useSelector(state => state.token)
     const dToken = useSelector(state => state.dToken)
-    const network = chainId && networks[chainId] ? chainId : currentNetwork
+    const network = chainId ? chainId : currentNetwork
 
     useEffect(() => {
+        if (lpv3[network] !== null) {
+            let token1 = null;
+            if (lpv3[network] instanceof Object) {
+                if (lpv3[network].DAI) {
+                    token1 = 'DAI'
+                } else if (lpv3[network].ETH) {
+                    token1 = 'ETH'
+                }
+            }
+            /*if (token1) {
+                let contract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network][token1]);
+                contract.methods.slot0().call().then((slot0) => {
+                    dispatch(updateProfitPrice([
+                        univ3prices([18, 18], slot0[0]).toAuto({ reverse: true, decimalPlaces: 2, }),
+                        token1
+                    ]))
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }*/
+        } else {
+            dispatch(updateProfitPrice([
+                0, ''
+            ]))
+        }
+
         if (web3.eth.net.isListening()) {
             if(addresses[network].token) {
                 // ABI is ERC-20 API as a JSON
@@ -60,7 +91,6 @@ function Tokens() {
     }, [network])
 
     function addPROFITToWallet() {
-        // dispatch(updateIsPending(true))
         library.currentProvider.request({
             method: "wallet_watchAsset",
             params: {
@@ -73,15 +103,12 @@ function Tokens() {
                 },
             }
         }).then(() => {
-            // dispatch(updateIsPending(false))
         }).catch((err) => {
-            // dispatch(updateIsPending(false))
             showAlert("Failed")
         });
     }
-    
+
     function addSDIVToWallet() {
-        // dispatch(updateIsPending(true))
         library.currentProvider.request({
             method: "wallet_watchAsset",
             params: {
@@ -94,10 +121,8 @@ function Tokens() {
                 },
             }
         }).then(() => {
-            // dispatch(updateIsPending(false))
         }).catch((err) => {
             showAlert("Failed")
-            // dispatch(updateIsPending(false))
         });
     }
 
@@ -141,7 +166,7 @@ function Tokens() {
                                     </div>
                                 </div>
                                 <p className="text-lg my-8">
-                                    The native token PROFIT&apos;s primary purpose is to represent ownership shares of the Stability protocol. Given PROFIT holders are effectively owners of Stability. Holding the token also allows investors to manage the Stability protocol collectively.
+                                    The native token PROFIT&apos;s primary purpose is to represent ownership shares of the Stability protocol. Given PROFIT holders are effectively owners of Stability. Holding the token also allows investors to manage the Stability protocol collectively. Token entire supply was minted in Phase 0 and will be distributed in Phase 1.
                                 </p>
                             </div>
                             <div className="flex-row w-full lg:w-4/5 xl:w-2/5 mx-auto">
@@ -151,7 +176,7 @@ function Tokens() {
                                         <tr>
                                             <td className="py-1 pr-10">Contract</td>
                                             <td className="py-1 text-right">{network ? (
-                                                <a title="View Asset on Etherscan" target="_blank" href={`${networks[network].explorerurl}token/${addresses[network].token}`} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].token.slice(0, -36)}...{addresses[network].token.substring(38)}</a>
+                                                <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].token)} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].token.slice(0, -36)}...{addresses[network].token.substring(38)}</a>
                                             ) : null}</td>
                                         </tr>
                                         <tr>
@@ -182,7 +207,7 @@ function Tokens() {
                                         </tr>
                                         <tr>
                                             <td className="py-1 pr-10">Type</td>
-                                            <td className="py-1 text-right">governance</td>
+                                            <td className="py-1 text-right">utility</td>
                                         </tr>
                                         <tr>
                                             <td className="py-1 pr-10">Model</td>
@@ -192,7 +217,7 @@ function Tokens() {
                                             <td className="py-1 pr-10">Distribution</td>
                                             <td className="py-1 text-right">
                                                 liquidity bootstrapping<br/>
-                                                100% in curculation
+                                                full supply available at IDO
                                             </td>
                                         </tr>
                                         </tbody>
@@ -241,7 +266,7 @@ function Tokens() {
                                         <tr>
                                             <td className="py-1 pr-10">Contract</td>
                                             <td className="py-1 text-right">{network && addresses[network].dToken ? (
-                                                <a title="View Asset on Etherscan" target="_blank" href={`${networks[network].explorerurl}token/${addresses[network].dToken}`} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].dToken.slice(0, -36)}...{addresses[network].dToken.substring(38)}</a>
+                                                <a title="View Asset on Etherscan" target="_blank" href={networks[network].explorerurl.concat(addresses[network].dToken)} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].dToken.slice(0, -36)}...{addresses[network].dToken.substring(38)}</a>
                                             ) : '-'}</td>
                                         </tr>
                                         <tr>
