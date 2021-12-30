@@ -27,7 +27,7 @@ function Main({ child }) {
         }
     }, [router.pathname])
     if (!mounted) return (
-        <div className='flex justify-center items-center mr-6  w-full dark:bg-[#160024] bg-white' style={{ height: "calc(100vh - 72px)" }}>
+        <div className='flex fixed inset-0 top-16 left-0 lg:left-60  right-0 bottom-0 justify-center items-center  dark:bg-[#160024] bg-white' >
             <div className='animate-spin rounded-full h-32 w-32 border-b-2 dark:border-white border-indigo-900'>
             </div>
         </div>
@@ -70,7 +70,7 @@ function Layout({ children }) {
         return new Web3(provider);
     }
     if (!mounted) return (
-        <div className='flex fixed inset-0 justify-center items-center   bg-indigo-900'>
+        <div className='flex fixed inset-0 justify-center items-center bg-indigo-900'>
             <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-white'>
             </div>
         </div>
