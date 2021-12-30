@@ -33,7 +33,7 @@ async function switchNetwork(network, dispatch, library) {
             } catch (error) {
             }
         }
-        showAlert("Failed",error.code,error.message)
+        showAlert("Failed")
         dispatch(updateIsWaitingForChangeNetwork(false))
     }
 }

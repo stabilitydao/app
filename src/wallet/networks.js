@@ -17,7 +17,7 @@ const networks = {
         color: "#8142ff",
         rpc: `${process.env.NEXT_PUBLIC_RPC_POLYGON}`,
         chainid: POLYGON,
-        hexchainid: "0x137",
+        hexchainid: "0x89",
         symbol: "MATIC",
         explorerurl: "https://polygonscan.com/"
     },
