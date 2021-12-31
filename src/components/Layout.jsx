@@ -77,6 +77,13 @@ function Layout({ children }) {
     );
     return (
         <Web3ReactProvider getLibrary={getLibrary} >
+            <style>
+                {`
+                body{
+                    background-color:${Mode ? "#160024" : " rgba(255,255,255,1))"};
+                }
+                `}
+            </style>
             <main className={Mode ? "dark" : ""} >
                 <Head>
                     <title>{Title ? `${Title} - ` : ""}Stability</title>
