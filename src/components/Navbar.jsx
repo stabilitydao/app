@@ -85,7 +85,7 @@ function Navbar({ Mode }) {
         }
     }
     return (
-        <nav style={{ backgroundColor: Ismode ? '#160024' : 'rgba(255,255,255,1)' }} className="sticky top-0 z-10 shadow dark:text-white dark:bg-[#160024]">
+        <nav style={{ backgroundColor: Ismode ? '#160024' : 'rgba(255,255,255,1)' }} className="lg:sticky fixed top-0 z-10 shadow dark:text-white dark:bg-[#160024]">
             {
                 (Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()) ? !Sync : true)
                 && account && (chainId != currentNetwork) &&
@@ -167,7 +167,7 @@ function Navbar({ Mode }) {
                     <Mode_Icon />
                 </div>
             </div>
-            {sidebar && <div className={`fixed inset-0 w-screen h-screen bg-black opacity-20 `} onClick={() => { dispatch(updateSidebar(false)) }} />}
+            {sidebar && <div className={`fixed inset-0 bg-black opacity-20 `} onClick={() => { dispatch(updateSidebar(false)) }} />}
         </nav>
     )
 }
