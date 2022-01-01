@@ -1,5 +1,6 @@
 import React from 'react'
 import {BiTime} from "react-icons/bi";
+import {BsLink} from "react-icons/bs";
 
 function Generation() {
     return (
@@ -22,9 +23,15 @@ function Generation() {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="whitespace-nowrap text-2xl pr-5">NFT marketplace</td>
+                                    <td className="whitespace-nowrap text-2xl pr-5">
+                                        <a className="inline-flex" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
+                                            Rarest.Market
+                                            <BsLink className="text-xl cursor-pointer self-center ml-1.5" />
+                                        </a>
+                                    </td>
                                     <td className="text-lg">
-                                        NFT minting and trading platform.
+                                        NFT marketplace platform.<br />
+                                        Creating, selling and collecting digital items.
                                     </td>
                                 </tr>
                                 </tbody>
