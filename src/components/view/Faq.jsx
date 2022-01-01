@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 function Faq() {
     return (
         <section className="h-calc">
@@ -27,11 +28,6 @@ function Faq() {
                                 },
                                 {
 
-                                    question: "Will polyscan update our social?",
-                                    answer: "Had verification. Hope Polyscan will add our social there real soon."
-                                },
-                                {
-
                                     question: "When token/pool contract will be audited?",
                                     answer: "We are currently working for audit."
                                 },
@@ -39,6 +35,16 @@ function Faq() {
 
                                     question: "White paper when will be ready?",
                                     answer: "It will take awhile as our focus is to iron some bugs in our dapps now."
+                                },
+                                {
+
+                                    question: "What is SDIV?",
+                                    answer: "The SDIV token is intended to distribute the externally generated profit of the organization in the form of dividends."
+                                },
+                                {
+
+                                    question: "If I press harvest SDIV, my PROFIT TOKEN will be gone?",
+                                    answer: "NO. It will transfer back to your wallet."
                                 }
                             ].map((faq, index) => {
                                 return (
@@ -51,6 +57,30 @@ function Faq() {
                                 )
                             })
                         }
+                        <details open="" className="font-Roboto">
+                            <summary className="py-2 outline-none cursor-pointer   text-xl">How does staking work?</summary>
+                            <div className="px-4 pb-4 text-gray-800 dark:text-gray-200">
+                                <p className="text-lg">Stake PROFIT @<Link href='/pools'><a className="underline">https://stabilitydao.org/pools</a></Link> to Harvest SDIV</p>
+                            </div>
+                        </details>
+                        <details open="" className="font-Roboto">
+                            <summary className="py-2 outline-none cursor-pointer   text-xl">Where can I see SDIV pending payout?</summary>
+                            <div className="px-4 pb-4 text-gray-800 dark:text-gray-200">
+                                <p className="text-lg"><Link href='/dividends'><a className="underline">https://stabilitydao.org/dividends</a></Link></p>
+                            </div>
+                        </details>
+                        <details open="" className="font-Roboto">
+                            <summary className="py-2 outline-none cursor-pointer   text-xl">Do I have to &quot;Harvest&quot; @<Link href='/pools'><a className="underline">https://stabilitydao.org/pools</a></Link> to Harvest SDIV into my wallet in order to get the dividen?</summary>
+                            <div className="px-4 pb-4 text-gray-800 dark:text-gray-200">
+                                <p className="text-lg">Yes</p>
+                            </div>
+                        </details>
+                        <details open="" className="font-Roboto">
+                            <summary className="py-2 outline-none cursor-pointer   text-xl">I harvested SDIV into my wallet but I still didn&apos;t get any WETH! Why?</summary>
+                            <div className="px-4 pb-4 text-gray-800 dark:text-gray-200">
+                                <p className="text-lg">You will only get the payout when Team release it to all holders. You can view the pending payout at @<Link href='/dividends'><a className="underline">https://stabilitydao.org/dividends</a></Link></p>
+                            </div>
+                        </details>
                     </div>
                 </div>
             </div>
