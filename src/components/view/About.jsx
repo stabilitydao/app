@@ -120,7 +120,7 @@ function About({membersName}) {
                                     </div>
                                     <div className="flex w-full">
                                         <div className="flex flex-wrap justify-center">
-                                            {membersData.map((data, index) => {
+                                            {membersData && membersData.map((data, index) => {
                                                 return data ? (
                                                     <a
                                                         title={`Go to ${data.name}'s GitHub profile`}
