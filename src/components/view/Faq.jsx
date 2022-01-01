@@ -70,7 +70,7 @@ function Faq() {
                             </div>
                         </details>
                         <details open="" className="font-Roboto">
-                            <summary className="py-2 outline-none cursor-pointer   text-xl">Do I have to &quot;Harvest&quot; @<Link href='/pools'><a className="underline">https://stabilitydao.org/pools</a></Link> to Harvest SDIV into my wallet in order to get the dividen?</summary>
+                            <summary className="py-2 outline-none cursor-pointer   text-xl">Do I have to &quot;Harvest&quot; @<Link href='/pools'><a className="underline">https://stabilitydao.org/pools</a></Link> to Harvest SDIV into my wallet in order to get the dividend?</summary>
                             <div className="px-4 pb-4 text-gray-800 dark:text-gray-200">
                                 <p className="text-lg">Yes</p>
                             </div>
