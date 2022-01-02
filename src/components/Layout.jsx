@@ -27,7 +27,7 @@ function Main({ child }) {
         }
     }, [router.pathname])
     if (!mounted) return (
-        <div className='flex fixed inset-0 top-16 left-0 lg:left-60  right-0 bottom-0 justify-center items-center  dark:bg-[#160024] bg-white' >
+        <div className='flex fixed top-16 left-0 lg:left-60  right-0 bottom-0 justify-center items-center  dark:bg-[#160024] bg-white' >
             <div className='animate-spin rounded-full h-32 w-32 border-b-2 dark:border-white border-indigo-900'>
             </div>
         </div>
