@@ -85,7 +85,7 @@ function Navbar({ Mode }) {
         }
     }
     return (
-        <nav style={{ backgroundColor: Ismode ? '#160024' : 'rgba(255,255,255,1)' }} className="lg:sticky fixed top-0 z-10 shadow dark:text-white dark:bg-[#160024]">
+        <nav style={{ backgroundColor: Ismode ? '#160024' : 'rgba(255,255,255,1)' }} className="lg:sticky fixed top-0 z-10 left-0 right-0 shadow dark:text-white dark:bg-[#160024]">
             {
                 (Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString()) ? !Sync : true)
                 && account && (chainId != currentNetwork) &&
