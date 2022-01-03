@@ -47,7 +47,7 @@ function Home() {
     useEffect(async () => {
         const balances = {}
 
-        if (web3 && await web3.eth.net.isListening()) {
+        if (web3) {
             let contract
             if (tl[network]) {
                 contract = new web3.eth.Contract(tokenAbi, addresses[network].weth);
@@ -64,9 +64,9 @@ function Home() {
                     }
                 }
             }
-        }
 
-        setTreasureBalances(balances)
+            setTreasureBalances(balances)
+        }
     }, [network, web3])
 
     useEffect(() => {
