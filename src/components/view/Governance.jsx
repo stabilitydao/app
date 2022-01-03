@@ -29,7 +29,7 @@ function Governance() {
 
 
     useEffect(async () => {
-        if (network && web3 && await web3.eth.net.isListening()) {
+        if (web3) {
             let contract
 
             if (gov[network]) {

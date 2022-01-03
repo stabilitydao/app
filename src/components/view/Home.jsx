@@ -45,27 +45,29 @@ function Home() {
     const dividends = payers;
 
     useEffect(async () => {
-        let contract
         const balances = {}
 
-        if (tl[network]) {
-            contract = new web3.eth.Contract(tokenAbi, addresses[network].weth);
-            const wethBal = await contract.methods.balanceOf(tl[network]).call()
-            if (wethBal > 0) {
-                balances.weth = web3.utils.fromWei(wethBal)
-            }
+        if (web3) {
+            let contract
+            if (tl[network]) {
+                contract = new web3.eth.Contract(tokenAbi, addresses[network].weth);
+                const wethBal = await contract.methods.balanceOf(tl[network]).call()
+                if (wethBal > 0) {
+                    balances.weth = web3.utils.fromWei(wethBal)
+                }
 
-            if (addresses[network].token) {
-                contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
-                const profitBal = await contract.methods.balanceOf(tl[network]).call()
-                if (profitBal > 0) {
-                    balances.profit = web3.utils.fromWei(profitBal)
+                if (addresses[network].token) {
+                    contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+                    const profitBal = await contract.methods.balanceOf(tl[network]).call()
+                    if (profitBal > 0) {
+                        balances.profit = web3.utils.fromWei(profitBal)
+                    }
                 }
             }
-        }
 
-        setTreasureBalances(balances)
-    }, [network])
+            setTreasureBalances(balances)
+        }
+    }, [network, web3])
 
     useEffect(() => {
         if (web3 && web3.eth.net.isListening() && network) {
@@ -129,7 +131,7 @@ function Home() {
                 })
             }
         }
-    }, [network,profitpriceIn$, web3]);
+    }, [network,profitpriceIn$]);
 
     useEffect(() => {
         const interval = setInterval(() => {
