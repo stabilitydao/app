@@ -20,6 +20,7 @@ import {
     updateIsWalletOption
 } from "@/redux/slices/modalsSlice";
 import {showAlert} from "@/src/components/alert";
+import {tl} from "@/src/wallet";
 const appEnabled = {
     [POLYGON]: true,
     [ROPSTEN]: true,
@@ -39,8 +40,32 @@ function Home() {
     const network = chainId ? chainId : currentNetwork
     const [stakedBalance, setstakedBalance] = useState(null)
     const token = useSelector(state => state.token)
+    const [treasureBalances, setTreasureBalances] = useState({})
 
     const dividends = payers;
+
+    useEffect(async () => {
+        let contract
+        const balances = {}
+
+        if (tl[network]) {
+            contract = new web3.eth.Contract(tokenAbi, addresses[network].weth);
+            const wethBal = await contract.methods.balanceOf(tl[network]).call()
+            if (wethBal > 0) {
+                balances.weth = web3.utils.fromWei(wethBal)
+            }
+
+            if (addresses[network].token) {
+                contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+                const profitBal = await contract.methods.balanceOf(tl[network]).call()
+                if (profitBal > 0) {
+                    balances.profit = web3.utils.fromWei(profitBal)
+                }
+            }
+        }
+
+        setTreasureBalances(balances)
+    }, [network])
 
     useEffect(() => {
         if (web3 && web3.eth.net.isListening() && network) {
@@ -84,7 +109,7 @@ function Home() {
                 setpendingPayment(pending / 10 ** 18)
             })
         }
-    }, [network, active])
+    }, [network])
 
 
     useEffect(() => {
@@ -355,7 +380,11 @@ function Home() {
                                             <tbody>
                                                 <tr>
                                                     <td>Treasure</td>
-                                                    <td className="text-right">-</td>
+                                                    <td className="text-right">{Object.keys(treasureBalances).length ? Object.keys(treasureBalances).map(cur => {
+                                                        return (
+                                                            <span className="ml-2" key={cur}>{treasureBalances[cur]} {cur.toUpperCase()}</span>
+                                                        )
+                                                    }) : '-'}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Proposals</td>
