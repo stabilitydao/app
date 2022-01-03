@@ -19,7 +19,8 @@ const networks = {
         chainid: POLYGON,
         hexchainid: "0x89",
         symbol: "MATIC",
-        explorerurl: "https://polygonscan.com/"
+        explorerurl: "https://polygonscan.com/",
+        blocktimeAvgSec: 2.9,
     },
     /*1: {
         name: "Ethereum",
@@ -33,13 +34,15 @@ const networks = {
     },*/
     3: {
         name: "Ropsten",
+        testnet: true,
         fullname: "Ropsten testnet",
         color: "#ff0000",
         rpc: `https://ropsten.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_KEY}`,
         chainid: 3,
         hexchainid: "0x3",
         symbol: "ETH",
-        explorerurl: "https://ropsten.etherscan.io/"
+        explorerurl: "https://ropsten.etherscan.io/",
+        blocktimeAvgSec: 13,
     },
     /*4: {
         name: "Rinkeby",
@@ -53,13 +56,15 @@ const networks = {
     },*/
     80001: {
         name: "Mumbai",
+        testnet: true,
         fullname: "Mumbai testnet",
         color: "#c342ff",
         rpc: `${process.env.NEXT_PUBLIC_RPC_MUMBAI}`,
         chainid: 80001,
         hexchainid: "0x13881",
         symbol: "MATIC",
-        explorerurl: "https://mumbai.polygonscan.com/"
+        explorerurl: "https://mumbai.polygonscan.com/",
+        blocktimeAvgSec: 2.9,
     }
 }
 

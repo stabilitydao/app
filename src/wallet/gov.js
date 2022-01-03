@@ -6,5 +6,15 @@ const gov = {
     [ROPSTEN]: addresses[ROPSTEN].gov,
 };
 
-export {gov}
+const tl = {
+    [POLYGON]: addresses[POLYGON].govTl,
+    [MUMBAI]: addresses[MUMBAI].govTl,
+    [ROPSTEN]: addresses[ROPSTEN].govTl,
+};
+
+const splitter = {
+    [ROPSTEN]: addresses[ROPSTEN].splitter,
+};
+
+export {gov, tl, splitter}
 export default gov
