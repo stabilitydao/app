@@ -25,6 +25,7 @@ function Dividends() {
     const { library, chainId, active, account } = useWeb3React()
     const network = chainId ? chainId : currentNetwork
     const dividends = payers;
+    const rpcLib = chainId ? library : web3
 
     useEffect(() => {
         if (dividends[network]) {
@@ -38,11 +39,11 @@ function Dividends() {
                     setpaidTo(paidTo / 10 ** 18)
                 })
             }
-            const contract = new web3.eth.Contract(dividendAbi, dividendAddress)
+            const contract = new rpcLib.eth.Contract(dividendAbi, dividendAddress)
             contract.methods.totalPaid().call().then((paid) => {
                 settotalPaid(paid / 10 ** 18)
             })
-            const tokenContract = new web3.eth.Contract(tokenAbi, addresses[network].weth)
+            const tokenContract = new rpcLib.eth.Contract(tokenAbi, addresses[network].weth)
             tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
                 settotalPending(totalPending / 10 ** 18)
             })

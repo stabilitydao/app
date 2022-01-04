@@ -10,7 +10,7 @@ import splitterAbi from "@/src/abis/splitterAbi.json";
 import addresses from "@stabilitydao/addresses";
 
 function Governance() {
-    const { chainId } = useWeb3React()
+    const { chainId, library } = useWeb3React()
     const web3 = WEB3()
     const currentNetwork = useSelector(state => state.network.value)
     const network = chainId && networks[chainId] ? chainId : currentNetwork
@@ -26,18 +26,18 @@ function Governance() {
         votingPeriod: '-',
         proposalThreshold: '-',
     })
-
+    const rpcLib = chainId ? library : web3
 
     useEffect(async () => {
-        if (web3) {
+        if (rpcLib) {
             let contract
 
             if (gov[network]) {
-                contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+                contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token);
 
                 const totalSupply = await contract.methods.totalSupply().call()
 
-                contract = new web3.eth.Contract(govAbi, gov[network]);
+                contract = new rpcLib.eth.Contract(govAbi, gov[network]);
 
                 const
                     quorumRow = await contract.methods.quorum(await web3.eth.getBlockNumber() - 1).call(),
@@ -69,7 +69,7 @@ function Governance() {
             }
 
             if (splitter[network]) {
-                contract = new web3.eth.Contract(splitterAbi, splitter[network]);
+                contract = new rpcLib.eth.Contract(splitterAbi, splitter[network]);
 
                 setShares({
                     div: `${await contract.methods.div().call()}%`,
@@ -87,14 +87,14 @@ function Governance() {
             const balances = {}
 
             if (tl[network]) {
-                contract = new web3.eth.Contract(tokenAbi, addresses[network].weth);
+                contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].weth);
                 const wethBal = await contract.methods.balanceOf(tl[network]).call()
                 if (wethBal > 0) {
                     balances.weth = web3.utils.fromWei(wethBal)
                 }
 
                 if (addresses[network].token) {
-                    contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+                    contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token);
                     const profitBal = await contract.methods.balanceOf(tl[network]).call()
                     if (profitBal > 0) {
                         balances.profit = web3.utils.fromWei(profitBal)
