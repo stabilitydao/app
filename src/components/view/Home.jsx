@@ -41,23 +41,24 @@ function Home() {
     const [stakedBalance, setstakedBalance] = useState(null)
     const token = useSelector(state => state.token)
     const [treasureBalances, setTreasureBalances] = useState({})
+    const rpcLib = chainId ? library : web3
 
     const dividends = payers;
 
     useEffect(async () => {
         const balances = {}
 
-        if (web3) {
+        if (rpcLib) {
             let contract
             if (tl[network]) {
-                contract = new web3.eth.Contract(tokenAbi, addresses[network].weth);
+                contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].weth);
                 const wethBal = await contract.methods.balanceOf(tl[network]).call()
                 if (wethBal > 0) {
                     balances.weth = web3.utils.fromWei(wethBal)
                 }
 
                 if (addresses[network].token) {
-                    contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+                    contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token);
                     const profitBal = await contract.methods.balanceOf(tl[network]).call()
                     if (profitBal > 0) {
                         balances.profit = web3.utils.fromWei(profitBal)
@@ -67,12 +68,12 @@ function Home() {
 
             setTreasureBalances(balances)
         }
-    }, [network, web3])
+    }, [network])
 
     useEffect(() => {
         if (web3 && web3.eth.net.isListening() && network) {
             if (addresses[network].token) {
-                let contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+                let contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token);
                 contract.methods.totalSupply().call().then(r => {
                     dispatch(totalSupply(web3.utils.fromWei(r, "ether")))
                 })
@@ -80,7 +81,7 @@ function Home() {
 
             if (addresses[network] && addresses[network].dToken && account) {
                 let contract;
-                contract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
+                contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].dToken);
                 contract.methods.balanceOf(account).call().then((balance) => {
                     setsdivbalance(web3.utils.fromWei(balance, "ether"))
                 }).catch((err) => {
@@ -117,7 +118,7 @@ function Home() {
     useEffect(() => {
         if (web3 && web3.eth && network && profitpriceIn$ && addresses[network].token && pools[network]) {
             const pool = pools[network][Object.keys(pools[network])[0]]
-            const tokenContract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+            const tokenContract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token);
             if (profitpriceIn$) {
                 // todo get TVL for all pools
                 tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {

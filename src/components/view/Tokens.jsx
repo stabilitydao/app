@@ -20,21 +20,22 @@ function Tokens() {
     const token = useSelector(state => state.token)
     const dToken = useSelector(state => state.dToken)
     const network = chainId && networks[chainId] ? chainId : currentNetwork
+    const rpcLib = chainId ? library : web3
 
     useEffect(() => {
-        if (web3.eth.net.isListening()) {
+        if (rpcLib) {
             if (addresses[network].token) {
                 // ABI is ERC-20 API as a JSON
                 let contract;
-                contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+                contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token);
                 contract.methods.symbol().call().then((r) => {
                     dispatch(symbol(r))
                 })
-                contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+                contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token);
                 contract.methods.name().call().then((r) => {
                     dispatch(name(r))
                 })
-                contract = new web3.eth.Contract(tokenAbi, addresses[network].token);
+                contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token);
                 contract.methods.totalSupply().call().then((r) => {
                     dispatch(totalSupply(web3.utils.fromWei(r, "ether")))
                 })
@@ -43,15 +44,15 @@ function Tokens() {
             if (addresses[network].dToken) {
                 // ABI is ERC-20 API as a JSON
                 let contract;
-                contract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
+                contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].dToken);
                 contract.methods.symbol().call().then((r) => {
                     dispatch(dsymbol(r))
                 })
-                contract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
+                contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].dToken);
                 contract.methods.name().call().then((r) => {
                     dispatch(dname(r))
                 })
-                contract = new web3.eth.Contract(tokenAbi, addresses[network].dToken);
+                contract = new rpcLib.eth.Contract(tokenAbi, addresses[network].dToken);
                 contract.methods.totalSupply().call().then((r) => {
                     dispatch(dtotalSupply(web3.utils.fromWei(r, "ether")))
                 })

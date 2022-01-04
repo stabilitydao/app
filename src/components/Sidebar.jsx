@@ -26,8 +26,10 @@ function Sidebar({ Mode }) {
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
     const dispatch = useDispatch()
     const sidebar = useSelector(state => state.sidebar.value)
-    const { chainId, } = useWeb3React()
+    const { chainId, library, } = useWeb3React()
     const network = chainId ? chainId : currentNetwork
+    const rpcLib = chainId ? library : web3
+
     useEffect(() => {
         setactiveRoute(pathname)
     }, [pathname])
@@ -42,7 +44,7 @@ function Sidebar({ Mode }) {
                 }
             }
             if (token1) {
-                let contract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network][token1]);
+                let contract = new rpcLib.eth.Contract(uniV3PoolAbi, lpv3[network][token1]);
                 contract.methods.slot0().call().then((slot0) => {
                     dispatch(updateProfitPrice([
                         univ3prices([18, 18], slot0[0]).toAuto({ reverse: true, decimalPlaces: 8, }),
@@ -58,14 +60,14 @@ function Sidebar({ Mode }) {
             }
 
             if (lpv3[network].DAIETH) {
-                const ethPriceContract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network].DAIETH);
+                const ethPriceContract = new rpcLib.eth.Contract(uniV3PoolAbi, lpv3[network].DAIETH);
                 ethPriceContract.methods.slot0().call().then((price) => {
                     setethPrice(2 ** 192 / price[0] ** 2)
                 }).catch((err) => {
                     console.log(err)
                 })
             } else if (lpv3[network].USDCETH) {
-                const ethPriceContract = new web3.eth.Contract(uniV3PoolAbi, lpv3[network].USDCETH);
+                const ethPriceContract = new rpcLib.eth.Contract(uniV3PoolAbi, lpv3[network].USDCETH);
                 ethPriceContract.methods.slot0().call().then((price) => {
                     setethPrice(univ3prices([6, 18], price[0]).toAuto({ reverse: false, decimalPlaces: 8, }))
                 }).catch((err) => {

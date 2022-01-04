@@ -36,7 +36,12 @@ function Pool({ name, pool, network }) {
     const tokenBalance = useSelector(state => state.tokenBalance.value)
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
     function updateTVL() {
-        const tokenContract = new web3.eth.Contract(tokenAbi, addresses[chainId ? chainId : network].token);
+        let tokenContract;
+        if (chainId) {
+            tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId ? chainId : network].token);
+        } else {
+            tokenContract = new web3.eth.Contract(tokenAbi, addresses[chainId ? chainId : network].token);
+        }
         tokenContract.methods.balanceOf(pool.contract).call().then((TVL) => {
             setTVL(web3.utils.fromWei(TVL, 'ether'))
         }).catch((err) => {
