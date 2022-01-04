@@ -13,6 +13,8 @@ const tl = {
 };
 
 const splitter = {
+    [POLYGON]: addresses[POLYGON].splitter,
+    [MUMBAI]: addresses[MUMBAI].splitter,
     [ROPSTEN]: addresses[ROPSTEN].splitter,
 };
 
