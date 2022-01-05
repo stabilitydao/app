@@ -73,12 +73,29 @@ function Payer({ name, address, rewardTokenAddress, rewardTokenSymbol, color, ne
         }
     }
 
+    let cardClassNames, titleClassNames, descClassNames, buttonClassNames;
+    if (color === 'blue') {
+        cardClassNames = "w-96 flex flex-col m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-blue-900 dark:border-2 dark:bg-gradient-to-br dark:from-blue-900 dark:to-black"
+        titleClassNames = "p-3 pb-2 text-3xl text-center dark:text-blue-200 font-bold"
+        descClassNames = "dark:text-blue-200 font-bold"
+        buttonClassNames = "btn dark:bg-blue-700 dark:border-0 w-full"
+    } else if (color === 'green') {
+        cardClassNames = "w-96 flex flex-col m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-green-900 dark:border-2 dark:bg-gradient-to-br dark:from-green-900 dark:to-black"
+        titleClassNames = "p-3 pb-2 text-3xl text-center dark:text-green-200 font-bold"
+        descClassNames = "dark:text-green-200 font-bold"
+        buttonClassNames = "btn dark:bg-green-700 dark:border-0 w-full"
+    } else if (color === 'indigo') {
+        cardClassNames = "w-96 flex flex-col m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-indigo-900 dark:border-2 dark:bg-gradient-to-br dark:from-indigo-900 dark:to-black"
+        titleClassNames = "p-3 pb-2 text-3xl text-center dark:text-indigo-200 font-bold"
+        descClassNames = "dark:text-indigo-200 font-bold"
+        buttonClassNames = "btn dark:bg-indigo-700 dark:border-0 w-full"
+    }
     return (
         <div className="flex justify-center">
-            <div className={`w-96 flex flex-col m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-${color}-900 dark:border-2 dark:bg-gradient-to-br dark:from-${color}-900 dark:to-black`}>
-                <div className={`p-3 pb-2 text-3xl text-center dark:text-${color}-200 font-bold`}>{name}</div>
+            <div className={cardClassNames}>
+                <div className={titleClassNames}>{name}</div>
                 <div className="flex flex-col w-full justify-center items-center">
-                    <div className={`dark:text-${color}-200 font-bold`}>Hold SDIV to earn {rewardTokenSymbol}</div>
+                    <div className={descClassNames}>Hold SDIV to earn {rewardTokenSymbol}</div>
                     <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={`${networks[network].explorerurl}address/${address}`} rel="noopener noreferrer">
                         <span className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{address}</span>
                     </a>
@@ -136,8 +153,8 @@ function Payer({ name, address, rewardTokenAddress, rewardTokenSymbol, color, ne
                     </button>}
                 </div>
                 <div className="p-5 mb-3">
-                    {pendingPayment ? (
-                        <button className={`btn dark:bg-${color}-700 dark:border-0 w-full`} onClick={releasePayment}>Release</button>
+                    {account && pendingPayment ? (
+                        <button className={buttonClassNames} onClick={releasePayment}>Release</button>
                     ) : null}
                 </div>
             </div>
