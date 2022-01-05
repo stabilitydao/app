@@ -41,7 +41,7 @@ function Payer({ name, address, rewardTokenAddress, rewardTokenSymbol, color, ne
         tokenContract.methods.balanceOf(address).call().then((totalPending) => {
             settotalPending(totalPending / 10 ** 18)
         })
-    }, [active])
+    })
 
     async function releasePayment() {
         if (pendingPayment !== null) {

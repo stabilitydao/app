@@ -19,7 +19,6 @@ import {
     updateIsWaitingForWalletTxConfirm,
     updateIsWalletOption
 } from "@/redux/slices/modalsSlice";
-import { showAlert } from "@/src/components/alert";
 import { tl } from "@/src/wallet";
 const appEnabled = {
     [POLYGON]: true,
@@ -33,7 +32,6 @@ function Home() {
     const [Reward, setReward] = useState(null)
     const { library, chainId, active, account } = useWeb3React()
     const [sdivbalance, setsdivbalance] = useState(null)
-    const [pendingPayment, setpendingPayment] = useState(null)
     const [pendingPayments, setpendingPayments] = useState({})
     const currentNetwork = useSelector(state => state.network.value)
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
@@ -108,14 +106,7 @@ function Home() {
                 setstakedBalance(stakedBalance)
             })
         }
-
-        if (dividends[network] && account) {
-            const dividendcontract = new library.eth.Contract(dividendAbi, dividends[network][0])
-            dividendcontract.methods.paymentPending(account).call().then((pending) => {
-                setpendingPayment(pending / 10 ** 18)
-            })
-        }
-    }, [network])
+    }, [network, account])
 
     useEffect(async () => {
         if (dividends[network] && account) {
@@ -144,7 +135,7 @@ function Home() {
 
             setpendingPayments(pendingPayments)
         }
-    }, [network, IsWaitingForWalletTxConfirm, IsTxSubmitted])
+    }, [network, account, IsWaitingForWalletTxConfirm, IsTxSubmitted])
 
     useEffect(() => {
         if (web3 && web3.eth && network && profitpriceIn$ && addresses[network].token && pools[network]) {
@@ -222,12 +213,6 @@ function Home() {
                 dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
         })
-
-        if (pendingPayment !== null) {
-
-        } else {
-            showAlert("Failed")
-        }
     }
     return (
         <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
