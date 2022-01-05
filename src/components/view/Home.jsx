@@ -19,7 +19,6 @@ import {
     updateIsWaitingForWalletTxConfirm,
     updateIsWalletOption
 } from "@/redux/slices/modalsSlice";
-import { showAlert } from "@/src/components/alert";
 import { tl } from "@/src/wallet";
 const appEnabled = {
     [POLYGON]: true,
@@ -33,13 +32,15 @@ function Home() {
     const [Reward, setReward] = useState(null)
     const { library, chainId, active, account } = useWeb3React()
     const [sdivbalance, setsdivbalance] = useState(null)
-    const [pendingPayment, setpendingPayment] = useState(null)
+    const [pendingPayments, setpendingPayments] = useState({})
     const currentNetwork = useSelector(state => state.network.value)
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
     const tvl = useSelector(state => state.tvl.value)
     const network = chainId ? chainId : currentNetwork
     const [stakedBalance, setstakedBalance] = useState(null)
     const token = useSelector(state => state.token)
+    const IsWaitingForWalletTxConfirm = useSelector(state => state.modals.value.IsWaitingForWalletTxConfirm)
+    const IsTxSubmitted = useSelector(state => state.modals.value.IsTxSubmitted)
     const [treasureBalances, setTreasureBalances] = useState({})
     const rpcLib = chainId ? library : web3
 
@@ -105,15 +106,36 @@ function Home() {
                 setstakedBalance(stakedBalance)
             })
         }
+    }, [network, account])
 
+    useEffect(async () => {
         if (dividends[network] && account) {
-            const dividendcontract = new library.eth.Contract(dividendAbi, dividends[network][0])
-            dividendcontract.methods.paymentPending(account).call().then((pending) => {
-                setpendingPayment(pending / 10 ** 18)
-            })
-        }
-    }, [network])
+            const pendingPayments = {}
+            if (dividends[network][0]) {
+                const dividendcontract = new library.eth.Contract(dividendAbi, dividends[network][0])
+                const pending = await dividendcontract.methods.paymentPending(account).call()
+                if (pending > 0) {
+                    pendingPayments[dividends[network][0]] = {
+                        symbol: 'WETH',
+                        amount: pending / 10 ** 18,
+                    }
+                }
+            }
 
+            if (dividends[network][1]) {
+                const dividendcontract = new library.eth.Contract(dividendAbi, dividends[network][1])
+                const pending = await dividendcontract.methods.paymentPending(account).call()
+                if (pending > 0) {
+                    pendingPayments[dividends[network][1]] = {
+                        symbol: 'PROFIT',
+                        amount: pending / 10 ** 18,
+                    }
+                }
+            }
+
+            setpendingPayments(pendingPayments)
+        }
+    }, [network, account, IsWaitingForWalletTxConfirm, IsTxSubmitted])
 
     useEffect(() => {
         if (web3 && web3.eth && network && profitpriceIn$ && addresses[network].token && pools[network]) {
@@ -172,10 +194,10 @@ function Home() {
             dispatch(updateIsWaitingForWalletTxConfirm(false))
         }
     }
-    async function releasePayment() {
-        const dividendAddress = dividends[network][0]
-        dispatch(updateIsWaitingForWalletTxConfirm(true))
-        if (pendingPayment !== null) {
+    function releasePayment() {
+        Object.keys(pendingPayments).map(async payerAddress => {
+            const dividendAddress = payerAddress
+            dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const contract = new library.eth.Contract(dividendAbi, dividendAddress)
                 await contract.methods.releasePayment().send({ from: account })
@@ -186,21 +208,11 @@ function Home() {
                     .on('receipt', r => {
                         dispatch(txConfirmedByNetwork())
                     })
-                const pending = await contract.methods.paymentPending(account).call()
-                setpendingPayment(pending / 10 ** 18)
-                const paid = await contract.methods.totalPaid().call()
-                settotalPaid(paid / 10 ** 18)
-                const tokenContract = new library.eth.Contract(tokenAbi, wethAddress[network])
-                tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
-                    settotalPending(totalPending / 10 ** 18)
-                })
             } catch (err) {
                 console.log(err)
                 dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
-        } else {
-            showAlert("Failed")
-        }
+        })
     }
     return (
         <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
@@ -310,10 +322,16 @@ function Home() {
                                             <div className="flex flex-col w-3/5 py-4">
                                                 <div className="flex dark:text-teal-100">Earned</div>
                                                 <div className="flex dark:text-teal-100 font-bold">
-                                                    {pendingPayment ? (
+                                                    {Object.keys(pendingPayments).length ? (
                                                         <div className="h-20">
                                                             <div className="mb-4 text-lg whitespace-nowrap">
-                                                                {Math.floor(pendingPayment * 10000) / 10000} WETH
+                                                                {Object.keys(pendingPayments).map((payerAddress) => {
+                                                                    return (
+                                                                        <div className="flex" key={payerAddress}>
+                                                                            {Math.floor(pendingPayments[payerAddress].amount * 10000) / 10000} {pendingPayments[payerAddress].symbol}
+                                                                        </div>
+                                                                    )
+                                                                })}
                                                             </div>
                                                             <button className="btn w-full dark:bg-green-700 border-none outline-none rounded-xl" onClick={releasePayment}>Release</button>
                                                         </div>

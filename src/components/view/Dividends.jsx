@@ -1,164 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useWeb3React } from '@web3-react/core'
-import dividendAbi from '@/src/abis/dividendAbi'
-import { useSelector, useDispatch } from "react-redux";
-import { showAlert } from '@/src/components/alert';
-import WEB3 from '@/src/functions/web3';
-import tokenAbi from '@/src/abis/tokenAbi.json'
-import {
-    txConfirmedByNetwork,
-    updateIsTxSubmitted,
-    updateIsWaitingForWalletTxConfirm,
-    updateIsWalletOption
-} from "@/redux/slices/modalsSlice";
+import { useSelector } from "react-redux";
 import addresses from '@stabilitydao/addresses'
-import {networks} from "../../wallet/networks";
 import {payers} from "@/src/wallet";
+import Payer from "@/src/components/Payer";
 function Dividends() {
-    const web3 = WEB3()
-    const dispatch = useDispatch()
-    const [pendingPayment, setpendingPayment] = useState(null)
-    const [totalPending, settotalPending] = useState(null)
-    const [totalPaid, settotalPaid] = useState(null)
-    const [paidTo, setpaidTo] = useState(null)
     const currentNetwork = useSelector(state => state.network.value)
-    const { library, chainId, active, account } = useWeb3React()
+    const { chainId } = useWeb3React()
     const network = chainId ? chainId : currentNetwork
-    const dividends = payers;
-    const rpcLib = chainId ? library : web3
-
-    useEffect(() => {
-        if (dividends[network]) {
-            const dividendAddress = dividends[network][0]
-            if (active) {
-                const contract = new library.eth.Contract(dividendAbi, dividendAddress)
-                contract.methods.paymentPending(account).call().then((pending) => {
-                    setpendingPayment(pending / 10 ** 18)
-                })
-                contract.methods.totalPaidTo(account).call().then((paidTo) => {
-                    setpaidTo(paidTo / 10 ** 18)
-                })
-            }
-            const contract = new rpcLib.eth.Contract(dividendAbi, dividendAddress)
-            contract.methods.totalPaid().call().then((paid) => {
-                settotalPaid(paid / 10 ** 18)
-            })
-            const tokenContract = new rpcLib.eth.Contract(tokenAbi, addresses[network].weth)
-            tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
-                settotalPending(totalPending / 10 ** 18)
-            })
-        }
-    }, [network, active])
-
-    async function releasePayment() {
-        const dividendAddress = dividends[network][0]
-        if (pendingPayment !== null) {
-            dispatch(updateIsWaitingForWalletTxConfirm(true))
-            try {
-                const contract = new library.eth.Contract(dividendAbi, dividendAddress)
-                await contract.methods.releasePayment().send({ from: account })
-                    .on('transactionHash', txhash => {
-                        dispatch(updateIsWaitingForWalletTxConfirm(false))
-                        dispatch(updateIsTxSubmitted(txhash))
-                    })
-                    .on('receipt', r => {
-                        dispatch(txConfirmedByNetwork())
-                    })
-                const pending = await contract.methods.paymentPending(account).call()
-                setpendingPayment(pending / 10 ** 18)
-                const paid = await contract.methods.totalPaid().call()
-                settotalPaid(paid / 10 ** 18)
-                const tokenContract = new library.eth.Contract(tokenAbi, addresses[network].weth)
-                tokenContract.methods.balanceOf(dividendAddress).call().then((totalPending) => {
-                    settotalPending(totalPending / 10 ** 18)
-                })
-            } catch (err) {
-                console.log(err)
-                dispatch(updateIsWaitingForWalletTxConfirm(false))
-            }
-        } else {
-            showAlert("Failed")
-        }
-    }
+    const etherPayer = payers[network][0]
+    const profitPayer = payers[network][1]
 
     return (
         <section className="h-calc">
             <div className="container p-4">
                 <h1 className="mb-10 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Dividends</h1>
                 {
-                    !dividends[network] &&
+                    !payers[network] &&
                     <div className="m-6 text-2xl text-center font-semibold ">
                         <div>We currently have no dividend payers on this network</div>
                     </div>
                 }
-                {dividends[network] && <div className="flex justify-center">
-                    <div className="w-96 flex flex-col m-5 overflow-hidden shadow-2xl rounded-3xl dark:border-green-900 dark:border-2 dark:bg-gradient-to-br dark:from-green-900 dark:to-black">
-                        <div className="p-3 pb-2 text-3xl text-center dark:text-green-200 font-bold">Ether Payer</div>
-                        <div className="flex flex-col w-full justify-center items-center">
-                            <div className="dark:text-green-200 font-bold">Hold SDIV to earn WETH</div>
-                            <a className="flex justify-center h-9 items-center" title="View contract on Etherscan" target="_blank" href={`${networks[network].explorerurl}address/${dividends[network]}`} rel="noopener noreferrer">
-                                <span className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{dividends[network]}</span>
-                            </a>
-                        </div>
-                        <div className="p-5 pt-1 space-y-4">
-                            <table className="table-auto  w-full">
-                                <tbody>
-                                    <tr>
-                                        <td className="">Total amount paid</td>
-                                        <td className="pl-8 text-right">
-                                            {totalPaid ? (
-                                                <span>{totalPaid ? Math.floor(totalPaid * 10000) / 10000 : "-"} WETH</span>
-                                            ) : '-'}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="">Total pending</td>
-                                        <td className="pl-8 text-right">
-                                            {totalPending ? (
-                                                <span>{totalPending ? Math.floor(totalPending * 10000) / 10000 : "-"} WETH</span>
-                                            ) : '-'}
-                                        </td>
-                                    </tr>
-                                    {active &&
-                                        <>
-                                            <tr>
-                                                <td className="">Total amount paid to you</td>
-                                                <td className="pl-8 text-right">
-                                                    {paidTo ? (
-                                                        <span>{paidTo ? Math.floor(paidTo * 10000) / 10000 : "-"} WETH</span>
-                                                    ) : '-'}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Your pending payment
-                                                </td>
-                                                <td className="pl-8 text-right">
-                                                    {pendingPayment ? (
-                                                        <span>{Math.floor(pendingPayment * 10000) / 10000} WETH</span>
-                                                    ) : "-"}
-                                                </td>
-                                            </tr>
-                                        </>
-                                    }
-                                </tbody>
-                            </table>
-                            {!active && <button
-                                type="button"
-                                className=" h-10 btn rounded-2xl w-full"
-                                id="options-menu"
-                                onClick={() => dispatch(updateIsWalletOption(true))}
-                            >
-                                Connect Wallet
-                            </button>}
-                        </div>
-                        <div className="p-5 mb-3">
-                            {pendingPayment ? (
-                                <button className='btn dark:bg-green-700 dark:border-0 w-full' onClick={releasePayment}>Release</button>
-                            ) : null}
-                        </div>
-                    </div>
-                </div>}
+                <div className="flex flex-wrap justify-center">
+                    {etherPayer && <Payer address={etherPayer} name={'Ether Payer'} rewardTokenAddress={addresses[network].weth} rewardTokenSymbol={'WETH'} color={'green'} network={network} />}
+                    {profitPayer && <Payer address={profitPayer} name={'Profit Payer'} rewardTokenAddress={addresses[network].token} rewardTokenSymbol={'PROFIT'} color={'blue'} network={network} />}
+                </div>
             </div>
         </section>
     )
