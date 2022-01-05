@@ -19,8 +19,8 @@ import {
     updateIsWaitingForWalletTxConfirm,
     updateIsWalletOption
 } from "@/redux/slices/modalsSlice";
-import {showAlert} from "@/src/components/alert";
-import {tl} from "@/src/wallet";
+import { showAlert } from "@/src/components/alert";
+import { tl } from "@/src/wallet";
 const appEnabled = {
     [POLYGON]: true,
     [ROPSTEN]: true,
@@ -132,7 +132,7 @@ function Home() {
                 })
             }
         }
-    }, [network,profitpriceIn$]);
+    }, [network, profitpriceIn$]);
 
     useEffect(() => {
         const interval = setInterval(() => {
