@@ -153,7 +153,7 @@ function Payer({ name, address, rewardTokenAddress, rewardTokenSymbol, color, ne
                     </button>}
                 </div>
                 <div className="p-5 mb-3">
-                    {pendingPayment ? (
+                    {account && pendingPayment ? (
                         <button className={buttonClassNames} onClick={releasePayment}>Release</button>
                     ) : null}
                 </div>
