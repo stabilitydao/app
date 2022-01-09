@@ -1,6 +1,7 @@
 import React from 'react'
 import {useGetMembersQuery} from "@/redux/slices/membersApi";
 import {GoLocation} from "react-icons/go";
+import {BsCheck} from "react-icons/bs";
 
 function UserData(name) {
     const { data } = useGetMembersQuery(name)
@@ -34,42 +35,53 @@ function About({membersName}) {
                                 <div className="flex md:px-6 max-w-5xl mx-auto text-left">
                                     <div className="flex flex-col w-1/3">
                                         <div className="flex h-12 text-2xl font-bold">
-                                            Now
+                                            Q4 2021
                                         </div>
                                         <div className="flex flex-col text-lg">
                                             <div>Tokens</div>
                                             <div>Staking</div>
                                             <div>Dividends</div>
-                                            <div>App v0</div>
+                                            <div>App</div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-1/3">
                                         <div className="flex h-12 text-2xl font-bold">
-                                            Next
+                                            Q1 2022
                                         </div>
-                                        <div className="flex flex-col text-lg">
-                                            <div>Splitter</div>
+                                        <div className="flex flex-col text-lg items-start">
+                                            <div className="flex items-center"><BsCheck className="text-2xl text-teal-400" />Splitter</div>
                                             <div>Governance</div>
-                                            <div>AMM unit</div>
-                                            <div>NFT marketplace unit</div>
-                                            <div>Development matrix</div>
                                             <div>White paper</div>
                                             <div>Docs</div>
-                                            <div>App v1</div>
+                                            <a className="w-44 py-5 border-0 inline-flex flex-col items-center justify-center" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
+                                                <img src="/reactswap.png" alt="Rarest" className="w-20 h-20 mb-2"/>
+                                                <div className="flex font-bold text-2xl">
+                                                    ReactSwap
+                                                </div>
+                                                <div>Multichain DeX</div>
+                                            </a>
+                                            <a className="w-44 py-5 border-0 inline-flex flex-col items-center justify-center" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
+                                                <img src="/rarest.png" alt="Rarest" className="w-20 h-20 mb-2"/>
+                                                <div className="flex font-bold text-2xl">
+                                                    Rarest
+                                                </div>
+                                                <div>NFT marketplace</div>
+                                            </a>
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-1/3">
                                         <div className="flex h-12 text-2xl font-bold">
-                                            Later
+                                            2022+
                                         </div>
                                         <div className="flex flex-col md:text-lg">
                                             <div>Incubator construction</div>
+                                            <div>Development matrix</div>
                                             <div>DeX aggregator</div>
+                                            <div>NFT GameFi project</div>
                                             <div>DAO factory</div>
                                             <div>Cross-chain bridge</div>
                                             <div>Yield projects conveyor</div>
                                             <div>DeX mechanical trading system</div>
-                                            <div>NFT game project</div>
                                             <div>Chain boilerplate</div>
                                             <div>Building Generators in accordance with Matrix</div>
                                             <div>Improvement Fund (decentralized non-profit fund)</div>

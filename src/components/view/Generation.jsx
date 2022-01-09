@@ -12,21 +12,30 @@ function Generation() {
                         <div className="py-4">
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-3xl sm:text-4xl font-Roboto ">Units</h2>
-                                <div className="flex items-center pr-5"><BiTime className="text-2xl mr-2" /><span className="text-2xl">Next</span></div>
+                                <div className="flex items-center pr-5"><BiTime className="text-2xl mr-2" /><span className="text-2xl">Q1 2022</span></div>
                             </div>
                             <table className="table-auto">
                                 <tbody>
                                 <tr>
-                                    <td className="whitespace-nowrap text-2xl pr-5">AMM-v1</td>
+                                    <td className="whitespace-nowrap text-2xl pr-5">
+                                        <a className="w-44 py-5 border-0 inline-flex flex-col items-center justify-center" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
+                                            <img src="/reactswap.png" alt="Rarest" className="w-20 h-20 mb-2"/>
+                                            <div className="flex font-bold text-2xl">
+                                                ReactSwap
+                                            </div>
+                                        </a>
+                                    </td>
                                     <td className="text-lg">
                                         Multi-chain automated market maker with liquidity providing farms, staking pools and lending markets. Fork of SushiSwap.
                                     </td>
                                 </tr>
                                 <tr>
                                     <td className="whitespace-nowrap text-2xl pr-5">
-                                        <a className="inline-flex" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
-                                            Rarest.Market
-                                            <BsLink className="text-xl cursor-pointer self-center ml-1.5" />
+                                        <a className="w-44 py-5 border-0 inline-flex flex-col items-center justify-center" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
+                                            <img src="/rarest.png" alt="Rarest" className="w-20 h-20 mb-2"/>
+                                            <div className="flex font-bold text-2xl">
+                                                Rarest
+                                            </div>
                                         </a>
                                     </td>
                                     <td className="text-lg">
