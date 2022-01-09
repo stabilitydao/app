@@ -49,24 +49,22 @@ function About({membersName}) {
                                             Q1 2022
                                         </div>
                                         <div className="flex flex-col text-lg items-start">
-                                            <div className="flex items-center"><BsCheck className="text-2xl text-teal-400" />Splitter</div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Splitter</div>
+                                            <a className="w-44 border-0 inline-flex justify-start" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
+                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2"/>
+                                                <div className="flex font-bold">
+                                                    ReactSwap
+                                                </div>
+                                            </a>
+                                            <a className="w-44 border-0 inline-flex justify-start" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
+                                                <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2"/>
+                                                <div className="flex font-bold">
+                                                    Rarest
+                                                </div>
+                                            </a>
                                             <div>Governance</div>
                                             <div>White paper</div>
                                             <div>Docs</div>
-                                            <a className="w-44 py-5 border-0 inline-flex flex-col items-center justify-center" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
-                                                <img src="/reactswap.png" alt="Rarest" className="w-20 h-20 mb-2"/>
-                                                <div className="flex font-bold text-2xl">
-                                                    ReactSwap
-                                                </div>
-                                                <div>Multichain DeX</div>
-                                            </a>
-                                            <a className="w-44 py-5 border-0 inline-flex flex-col items-center justify-center" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
-                                                <img src="/rarest.png" alt="Rarest" className="w-20 h-20 mb-2"/>
-                                                <div className="flex font-bold text-2xl">
-                                                    Rarest
-                                                </div>
-                                                <div>NFT marketplace</div>
-                                            </a>
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-1/3">
