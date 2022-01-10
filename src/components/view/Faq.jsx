@@ -34,7 +34,7 @@ function Faq() {
                                 {
 
                                     question: "White paper when will be ready?",
-                                    answer: "It will take awhile as our focus is to iron some bugs in our dapps now."
+                                    answer: "It will take a while as our focus is to iron some bugs in our dapps now."
                                 },
                                 {
 
