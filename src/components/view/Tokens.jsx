@@ -193,7 +193,7 @@ function Tokens() {
                                                 <td className="py-1 pr-10">Distribution</td>
                                                 <td className="py-1 text-right">
                                                     liquidity bootstrapping<br />
-                                                    100% in curculation
+                                                    100% in circulation
                                                 </td>
                                             </tr>
                                         </tbody>
