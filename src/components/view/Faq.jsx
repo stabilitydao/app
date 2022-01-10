@@ -12,13 +12,12 @@ function Faq() {
                         {
                             [
                                 {
-
-                                    question: "Stability is a native token?",
-                                    answer: "Yes, PROFIT token is a native token."
+                                    question: "Is Stability a native token?",
+                                    answer: "Yes, Stability (PROFIT) token is a native token."
                                 },
                                 {
 
-                                    question: "LP will be locked? If not why?",
+                                    question: "Will LP be locked? If not why?",
                                     answer: "The team will decide in due course."
                                 },
                                 {
@@ -27,13 +26,12 @@ function Faq() {
                                     answer: "We are still working on it, but we would not know when they will list us."
                                 },
                                 {
-
-                                    question: "When token/pool contract will be audited?",
+                                    question: "When will the token/pool contract be audited?",
                                     answer: "We are currently working for audit."
                                 },
                                 {
 
-                                    question: "White paper when will be ready?",
+                                    question: "When will the white paper be ready?",
                                     answer: "It will take a while as our focus is to iron some bugs in our dapps now."
                                 },
                                 {
@@ -43,7 +41,7 @@ function Faq() {
                                 },
                                 {
 
-                                    question: "If I press harvest SDIV, my PROFIT TOKEN will be gone?",
+                                    question: "If I press harvest SDIV, my PROFIT tokens will be gone?",
                                     answer: "NO. It will transfer back to your wallet."
                                 }
                             ].map((faq, index) => {
@@ -70,7 +68,7 @@ function Faq() {
                             </div>
                         </details>
                         <details open="" className="font-Roboto">
-                            <summary className="py-2 outline-none cursor-pointer   text-xl">Do I have to &quot;Harvest&quot; @<Link href='/pools'><a className="underline">https://stabilitydao.org/pools</a></Link> to Harvest SDIV into my wallet in order to get the dividend?</summary>
+                            <summary className="py-2 outline-none cursor-pointer   text-xl">Do I have to &quot;Harvest&quot; @<Link href='/pools'><a className="underline">https://stabilitydao.org/pools</a></Link> to Harvest SDIV into my wallet in order to get the dividends?</summary>
                             <div className="px-4 pb-4 text-gray-800 dark:text-gray-200">
                                 <p className="text-lg">Yes</p>
                             </div>
