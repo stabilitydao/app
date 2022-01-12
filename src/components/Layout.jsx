@@ -89,10 +89,6 @@ function Layout({ children }) {
                     <title>{Title ? `${Title} - ` : ""}Stability</title>
                     <link rel="icon" href="/logo_nolines_256.png" />
                     <meta name="description" content="Profit generating DeFi protocol" />
-                    <meta property="og:title" content="Stability" />
-                    <meta property="og:description" content="Profit generating decentralized organization" />
-                    <meta property="og:url" content="https://stabilitydao.org" />
-                    <meta property="og:image" content="https://stabilitydao.org/stability.svg" />
                 </Head>
                 <div className="flex flex-row">
                     <Sidebar Mode={Mode} />
