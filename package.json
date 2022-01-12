@@ -12,6 +12,7 @@
   "repository": "https://github.com/stabilitydao/app.git",
   "license": "MIT",
   "dependencies": {
+    "@clover-network/clover-connector": "^1.0.0",
     "@ethersproject/providers": "^5.5.0",
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
