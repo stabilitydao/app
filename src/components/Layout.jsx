@@ -92,7 +92,7 @@ function Layout({ children }) {
                     <meta property="og:title" content="Stability" />
                     <meta property="og:description" content="Profit generating decentralized organization" />
                     <meta property="og:url" content="https://stabilitydao.org" />
-                    <meta property="og:image" content="https://stabilitydao.org/stability.svg" />
+                    <meta property="og:image" content="https://stabilitydao.org/logo.png" />
                 </Head>
                 <div className="flex flex-row">
                     <Sidebar Mode={Mode} />
