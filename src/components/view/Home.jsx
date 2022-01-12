@@ -222,7 +222,7 @@ function Home() {
                         <div className="flex flex-wrap">
                             <div className="flex w-full md:w-1/2 justify-center md:justify-end md:pr-6">
                                 <div className="flex w-96 justify-center">
-                                    <img src="/logo.svg" alt="logo" width={256} height={256} />
+                                    <img src="/stability.svg" alt="logo" width={256} height={256} />
                                 </div>
                             </div>
                             <div className="flex flex-col w-full md:w-1/2 justify-center md:items-start md:pl-6">
