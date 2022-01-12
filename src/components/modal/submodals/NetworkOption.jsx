@@ -22,7 +22,7 @@ function NetworkOption({ onClose }) {
             {
                 networkOrder.map((id, index) => {
                     const net = networks[id]
-                    if (account && Sync &&Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString())) {
+                    if (account && Sync && Object.keys(networks).includes(chainId ? chainId.toString() : currentNetwork.toString())) {
                         if (net.chainid === chainId) {
                             return <button onClick={() => { switchNetwork(net, dispatch, library, onClose()) }} key={index} className="block px-4 py-3 text-gray-900 bg-gray-300 rounded-xl text-md dark:text-white dark:bg-slate-700">
                                 <span className="flex items-center font-Roboto">
