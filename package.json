@@ -21,6 +21,7 @@
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
     "@web3-react/walletconnect-connector": "^6.2.8",
+    "@web3-react/walletlink-connector": "^6.2.8",
     "ethers": "^5.5.2",
     "next": "latest",
     "next-themes": "^0.0.15",

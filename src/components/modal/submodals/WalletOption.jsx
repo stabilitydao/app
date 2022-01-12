@@ -1,13 +1,12 @@
-
 import React from 'react'
-import { injected, walletconnect } from '@/src/wallet/connectors'
+import { injected, walletconnect, walletlinkconnector } from '@/src/wallet/connectors'
 import walletConnectError from '@/src/wallet'
 import { useWeb3React } from '@web3-react/core'
 import { useDispatch } from 'react-redux'
 import { updateIsPending } from '@/redux/slices/modalsSlice'
 
 function WalletOption({ onClose }) {
-const dispatch =useDispatch()
+    const dispatch = useDispatch()
     const { activate } = useWeb3React()
     async function handleWalletConnect(connector) {
         onClose()
@@ -34,6 +33,11 @@ const dispatch =useDispatch()
                     name: "WalletConnect",
                     connector: walletconnect,
                     img: "/wallets/wallet-connect.svg"
+                },
+                {
+                    name: "Coinbase",
+                    connector: walletlinkconnector,
+                    img: "/wallets/coinbase.svg"
                 },
             ].map(({ name, connector, img }, index) => {
                 return (
