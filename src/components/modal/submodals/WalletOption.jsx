@@ -1,5 +1,5 @@
 import React from 'react'
-import { injected, walletconnect, walletlinkconnector } from '@/src/wallet/connectors'
+import { injected, walletconnect, walletlinkconnector, torusconnector } from '@/src/wallet/connectors'
 import walletConnectError from '@/src/wallet'
 import { useWeb3React } from '@web3-react/core'
 import { useDispatch } from 'react-redux'
@@ -38,6 +38,11 @@ function WalletOption({ onClose }) {
                     name: "Coinbase",
                     connector: walletlinkconnector,
                     img: "/wallets/coinbase.svg"
+                },
+                {
+                    name: "Torus",
+                    connector: torusconnector,
+                    img: "/wallets/torus.png"
                 },
             ].map(({ name, connector, img }, index) => {
                 return (
