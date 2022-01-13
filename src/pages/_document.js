@@ -10,14 +10,15 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                    <meta property="og:title" content="Stability" />
-                    <meta property="og:description" content="Profit generating decentralized organization" />
+                    <meta property="og:image" content="https://stabilitydao.org/ogimage.jpg" />
+                    <meta property="og:image:alt" content="Profit generating decentralized organization" />
+                    <meta property="og:image:width" content="1200" />
+                    <meta property="og:image:height" content="600" />
+                    <meta property="og:site_name" content="Stability" />
+                    <meta property="og:type" content="object" />
+                    <meta property="og:title" content="Stability Dao" />
                     <meta property="og:url" content="https://stabilitydao.org" />
-                    <meta property="og:image" content="https://stabilitydao.org/logo.png" />
-                    <meta property="og:image:width" content="968" />
-                    <meta property="og:image:height" content="504" />
-                    <meta property="og:image:type" content="image/png" />
-                    <meta property="og:type" content="website" />
+                    <meta property="og:description" content="Profit generating decentralized organization" />
                 </Head>
                 <body>
                     <Main />
