@@ -2,13 +2,14 @@ import React from 'react'
 import {useGetMembersQuery} from "@/redux/slices/membersApi";
 import {GoLocation} from "react-icons/go";
 import {BsCheck} from "react-icons/bs";
+import Link from 'next/link';
 
 function UserData(name) {
     const { data } = useGetMembersQuery(name)
     return data
 }
 
-function About({membersName}) {
+function About({ membersName }) {
     const membersData = membersName.map((name) => {
         return UserData(name)
     })
@@ -16,7 +17,7 @@ function About({membersName}) {
     return (
         <section className=" h-calc">
             <div className="container p-4">
-                <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Meet Stability</h1>
+                <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Meet StabilityDAO</h1>
                 <div className="">
                     <div>
                         <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
@@ -27,6 +28,10 @@ function About({membersName}) {
                                     Stability is profit generating and distributing decentralized organization.<br />
                                     The main source of revenue is working Units - DeFi projects that generate income in blockchain networks.
                                 </p>
+                            </div>
+                            <div className='mb-10'>
+                                <h2 className="text-5xl mb-5">How it works?</h2>
+                                <img src="/revenue.png" alt="revenue" className='w-full h-auto' />
                             </div>
                         </article>
                         <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
@@ -50,6 +55,7 @@ function About({membersName}) {
                                         </div>
                                         <div className="flex flex-col text-lg items-start">
                                             <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Splitter</div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" /><Link href="/litepaper.pdf"><a className='underline'>Litepaper</a></Link></div>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
                                                 <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2"/>
                                                 <div className="flex font-bold">
@@ -142,10 +148,10 @@ function About({membersName}) {
                                                     >
                                                         <div className="px-5 pt-5 text-sm w-100 ">
                                                             <div className="flex-shrink-0">
-                                                                <div  className="relative block">
+                                                                <div className="relative block">
                                                                     <img alt="profil"
-                                                                         src={data.avatar_url}
-                                                                         className="object-cover w-24 h-24 mx-auto rounded-full "/>
+                                                                        src={data.avatar_url}
+                                                                        className="object-cover w-24 h-24 mx-auto rounded-full " />
                                                                 </div>
                                                             </div>
                                                             <div className="flex flex-col justify-center mt-5">
@@ -157,14 +163,14 @@ function About({membersName}) {
                                                         <div className="flex flex-col justify-center pl-5 my-1 text-sm">
                                                             {data.location ? (
                                                                 <div className="flex align-middle">
-                                                                    <GoLocation className="mt-1"/>
+                                                                    <GoLocation className="mt-1" />
                                                                     <div className="ml-1.5 text-md line flex flex-wrap">{data.location}</div>
                                                                 </div>
                                                             ) : null}
                                                         </div>
                                                         <div className="px-5 mt-1 mb-5 text-xs ">
                                                             <p className="overflow-hidden">
-                                                                {data.bio ? data.bio.substring(0,80) : null}
+                                                                {data.bio ? data.bio.substring(0, 80) : null}
                                                             </p>
                                                         </div>
                                                     </a>
