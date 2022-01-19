@@ -1,7 +1,7 @@
 import React from 'react'
-import {useGetMembersQuery} from "@/redux/slices/membersApi";
-import {GoLocation} from "react-icons/go";
-import {BsCheck} from "react-icons/bs";
+import { useGetMembersQuery } from "@/redux/slices/membersApi";
+import { GoLocation } from "react-icons/go";
+import { BsCheck } from "react-icons/bs";
 import Link from 'next/link';
 
 function UserData(name) {
@@ -16,7 +16,7 @@ function About({ membersName }) {
 
     return (
         <section className=" h-calc">
-            <div className="container p-4">
+            <div className="container p-4 pt-20 lg:pt-0">
                 <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Meet StabilityDAO</h1>
                 <div className="">
                     <div>
@@ -62,13 +62,13 @@ function About({ membersName }) {
                                             <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Splitter</div>
                                             <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" /><a href="/litepaper.pdf" target="_blank" className='underline' rel="nofollow">Litepaper</a></div>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
-                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2"/>
+                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
                                                     ReactSwap
                                                 </div>
                                             </a>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
-                                                <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2"/>
+                                                <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
                                                     Rarest
                                                 </div>
