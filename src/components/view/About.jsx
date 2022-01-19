@@ -29,9 +29,14 @@ function About({ membersName }) {
                                     The main source of revenue is working Units - DeFi projects that generate income in blockchain networks.
                                 </p>
                             </div>
-                            <div className='mb-10'>
+                            <div className='mb-10 text-center'>
                                 <h2 className="text-5xl mb-5">How it works?</h2>
                                 <img src="/revenue.png" alt="revenue" className='w-full h-auto' />
+                                <a href="/litepaper.pdf" target="_blank" rel="nofollow" className="">
+                                    <div className="w-60  my-8 h-10 dark:bg-indigo-800 dark:text-white dark:border-[#4e1173] py-0.5 px-4 rounded-xl cursor-pointer flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mx-auto">
+                                        Litepaper
+                                    </div>
+                                </a>
                             </div>
                         </article>
                         <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
@@ -55,7 +60,7 @@ function About({ membersName }) {
                                         </div>
                                         <div className="flex flex-col text-lg items-start">
                                             <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Splitter</div>
-                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" /><Link href="/litepaper.pdf"><a className='underline'>Litepaper</a></Link></div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" /><a href="/litepaper.pdf" target="_blank" className='underline' rel="nofollow">Litepaper</a></div>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
                                                 <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2"/>
                                                 <div className="flex font-bold">
@@ -69,7 +74,6 @@ function About({ membersName }) {
                                                 </div>
                                             </a>
                                             <div>Governance</div>
-                                            <div>White paper</div>
                                             <div>Docs</div>
                                         </div>
                                     </div>
