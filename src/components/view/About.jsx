@@ -15,7 +15,7 @@ function About({ membersName }) {
     return (
         <section className=" h-calc">
             <div className="container p-4">
-                <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Meet Stability</h1>
+                <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Meet StabilityDAO</h1>
                 <div className="">
                     <div>
                         <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
@@ -28,7 +28,7 @@ function About({ membersName }) {
                                 </p>
                             </div>
                             <div className='mb-10'>
-                                <h2 className="text-5xl mb-5">Meet StabilityDAO</h2>
+                                <h2 className="text-5xl mb-5">StabilityDAO Chart</h2>
                                 <img src="/revenue.png" alt="revenue" className='w-full h-auto' />
                             </div>
                         </article>
