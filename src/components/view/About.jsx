@@ -26,7 +26,9 @@ function About({ membersName }) {
                                     Stability is profit generating and distributing decentralized organization.<br />
                                     The main source of revenue is working Units - DeFi projects that generate income in blockchain networks.
                                 </p>
-                                <h2 className="text-5xl mb-5">Stability Flow</h2>
+                            </div>
+                            <div className='mb-10'>
+                                <h2 className="text-5xl mb-5">Meet StabilityDAO</h2>
                                 <img src="/revenue.png" alt="revenue" className='w-full h-auto' />
                             </div>
                         </article>
