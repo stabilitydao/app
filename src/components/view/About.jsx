@@ -1,13 +1,13 @@
 import React from 'react'
-import {useGetMembersQuery} from "@/redux/slices/membersApi";
-import {GoLocation} from "react-icons/go";
-
+import { useGetMembersQuery } from "@/redux/slices/membersApi";
+import { GoLocation } from "react-icons/go";
+import Link from 'next/link';
 function UserData(name) {
     const { data } = useGetMembersQuery(name)
     return data
 }
 
-function About({membersName}) {
+function About({ membersName }) {
     const membersData = membersName.map((name) => {
         return UserData(name)
     })
@@ -26,6 +26,8 @@ function About({membersName}) {
                                     Stability is profit generating and distributing decentralized organization.<br />
                                     The main source of revenue is working Units - DeFi projects that generate income in blockchain networks.
                                 </p>
+                                <h2 className="text-5xl mb-5">Stability Flow</h2>
+                                <img src="/revenue.png" alt="revenue" className='w-full h-auto' />
                             </div>
                         </article>
                         <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
@@ -50,6 +52,7 @@ function About({membersName}) {
                                         <div className="flex flex-col text-lg">
                                             <div>Splitter</div>
                                             <div>Governance</div>
+                                            <Link href="/litepaper.pdf"><a className='underline'>Litepaper</a></Link>
                                             <div>AMM unit</div>
                                             <div>NFT marketplace unit</div>
                                             <div>Development matrix</div>
@@ -132,10 +135,10 @@ function About({membersName}) {
                                                     >
                                                         <div className="px-5 pt-5 text-sm w-100 ">
                                                             <div className="flex-shrink-0">
-                                                                <div  className="relative block">
+                                                                <div className="relative block">
                                                                     <img alt="profil"
-                                                                         src={data.avatar_url}
-                                                                         className="object-cover w-24 h-24 mx-auto rounded-full "/>
+                                                                        src={data.avatar_url}
+                                                                        className="object-cover w-24 h-24 mx-auto rounded-full " />
                                                                 </div>
                                                             </div>
                                                             <div className="flex flex-col justify-center mt-5">
@@ -147,14 +150,14 @@ function About({membersName}) {
                                                         <div className="flex flex-col justify-center pl-5 my-1 text-sm">
                                                             {data.location ? (
                                                                 <div className="flex align-middle">
-                                                                    <GoLocation className="mt-1"/>
+                                                                    <GoLocation className="mt-1" />
                                                                     <div className="ml-1.5 text-md line flex flex-wrap">{data.location}</div>
                                                                 </div>
                                                             ) : null}
                                                         </div>
                                                         <div className="px-5 mt-1 mb-5 text-xs ">
                                                             <p className="overflow-hidden">
-                                                                {data.bio ? data.bio.substring(0,80) : null}
+                                                                {data.bio ? data.bio.substring(0, 80) : null}
                                                             </p>
                                                         </div>
                                                     </a>
