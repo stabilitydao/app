@@ -13,7 +13,7 @@ function Dividends() {
 
     return (
         <section className="h-calc">
-            <div className="container p-4">
+            <div className="container p-4 pt-24 lg:pt-0">
                 <h1 className="mb-10 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Dividends</h1>
                 {
                     !payers[network] &&

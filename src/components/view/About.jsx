@@ -16,7 +16,7 @@ function About({ membersName }) {
 
     return (
         <section className=" h-calc">
-            <div className="container p-4 pt-20 lg:pt-0">
+            <div className="container p-4 pt-24 lg:pt-0">
                 <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Meet StabilityDAO</h1>
                 <div className="">
                     <div>
