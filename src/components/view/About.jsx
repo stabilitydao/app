@@ -75,13 +75,14 @@ function About({ membersName }) {
                                             </a>
                                             <div>Governance</div>
                                             <div>Docs</div>
+                                            <div>SDIV burns</div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-1/3">
                                         <div className="flex h-12 text-2xl font-bold">
                                             2022+
                                         </div>
-                                        <div className="flex flex-col md:text-lg">
+                                        <div className="flex flex-col text-lg">
                                             <div>Incubator construction</div>
                                             <div>Development matrix</div>
                                             <div>DeX aggregator</div>
