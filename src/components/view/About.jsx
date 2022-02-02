@@ -2,7 +2,6 @@ import React from 'react'
 import { useGetMembersQuery } from "@/redux/slices/membersApi";
 import { GoLocation } from "react-icons/go";
 import { BsCheck } from "react-icons/bs";
-import Link from 'next/link';
 
 function UserData(name) {
     const { data } = useGetMembersQuery(name)
@@ -48,10 +47,10 @@ function About({ membersName }) {
                                             Q4 2021
                                         </div>
                                         <div className="flex flex-col text-lg">
-                                            <div>Tokens</div>
-                                            <div>Staking</div>
-                                            <div>Dividends</div>
-                                            <div>App</div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Tokens</div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Staking</div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Dividends</div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />App</div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-1/3">
@@ -74,8 +73,9 @@ function About({ membersName }) {
                                                 </div>
                                             </a>
                                             <div>Governance</div>
-                                            <div>Docs</div>
+                                            <div>Profit Maker collection</div>
                                             <div>SDIV burns</div>
+                                            <div>Docs</div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-1/3">
@@ -86,10 +86,11 @@ function About({ membersName }) {
                                             <div>Incubator construction</div>
                                             <div>Development matrix</div>
                                             <div>DeX aggregator</div>
+                                            <div>Algorithmic stablecoin</div>
                                             <div>NFT GameFi project</div>
                                             <div>DAO factory</div>
                                             <div>Cross-chain bridge</div>
-                                            <div>Yield projects conveyor</div>
+                                            <div>Verse projects conveyor</div>
                                             <div>DeX mechanical trading system</div>
                                             <div>Chain boilerplate</div>
                                             <div>Building Generators in accordance with Matrix</div>
