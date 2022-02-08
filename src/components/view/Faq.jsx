@@ -3,7 +3,7 @@ import Link from 'next/link'
 function Faq() {
     return (
         <section className="h-calc">
-            <div className="container p-4">
+            <div className="container p-4 pt-24 lg:pt-0">
                 <h1 className="mb-6 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-5xl font-Roboto">
                     Frequently Asked Questions
                 </h1>

@@ -1,7 +1,7 @@
 import { Team } from '../components/view'
+function about({ membersName }) {
+    return <Team membersName={membersName} />
 
-function about({membersName}) {
-    return <Team membersName={membersName}/>
 }
 
 export async function getServerSideProps() {

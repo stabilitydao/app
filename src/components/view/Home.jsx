@@ -216,7 +216,7 @@ function Home() {
     }
     return (
         <section className="dark:bg-gradient-to-br dark:from-black dark:via-space dark:to-black dark:text-white h-calc">
-            <div className="container p-4 ">
+            <div className="container p-4 pt-20 lg:pt-0">
                 {appEnabled[network] ? (
                     <div className="flex flex-col max-w-6xl mx-auto">
                         <div className="flex flex-wrap">
@@ -239,6 +239,11 @@ function Home() {
                                                 About
                                             </div>
                                         </Link>
+                                        <a href="/litepaper.pdf" target="_blank" rel="nofollow">
+                                            <div className="h-10 dark:bg-indigo-800 dark:text-white dark:border-[#4e1173] py-0.5 px-4 rounded-xl cursor-pointer flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mr-5 mb-5">
+                                                Litepaper
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

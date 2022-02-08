@@ -21,6 +21,9 @@ function Sidebar({ Mode }) {
     const [activeRoute, setactiveRoute] = useState(null)
     const web3 = WEB3()
     const [ethPrice, setethPrice] = useState()
+    const [btcethPrice, setbtcethPrice] = useState()
+    const [btcPrice, setbtcPrice] = useState()
+    const [maticPrice, setmaticPrice] = useState()
     const profitPrice = useSelector(state => state.price.value)
     const currentNetwork = useSelector(state => state.network.value)
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
@@ -76,17 +79,47 @@ function Sidebar({ Mode }) {
             } else {
                 setethPrice(null)
             }
+
+            if (lpv3[network].MATICUSDC) {
+                const v3pool = new rpcLib.eth.Contract(uniV3PoolAbi, lpv3[network].MATICUSDC);
+                v3pool.methods.slot0().call().then((price) => {
+                    setmaticPrice(univ3prices([18, 6], price[0]).toAuto({ reverse: true, decimalPlaces: 8, }))
+                }).catch((err) => {
+                    console.log(err)
+                })
+            } else {
+                setmaticPrice(null)
+            }
+
+            if (lpv3[network].BTCETH) {
+                const v3pool = new rpcLib.eth.Contract(uniV3PoolAbi, lpv3[network].BTCETH);
+                v3pool.methods.slot0().call().then((price) => {
+                    setbtcethPrice(univ3prices([8, 18], price[0]).toAuto({ reverse: true, decimalPlaces: 8, }))
+                }).catch((err) => {
+                    console.log(err)
+                })
+            } else {
+                setbtcethPrice(null)
+            }
         } else {
             dispatch(updateProfitPrice([
                 0, ''
             ]))
             setethPrice(null)
         }
+
         if (profitPrice && ethPrice) {
             dispatch(updateProfitPriceIn$(Math.floor(profitPrice * ethPrice * 10000000) / 10000000))
         } else {
             dispatch(updateProfitPriceIn$(null))
         }
+
+        if (btcethPrice && ethPrice) {
+            setbtcPrice(ethPrice * btcethPrice)
+        } else {
+            setbtcPrice(null)
+        }
+
     }, [network, web3])
 
     return (
@@ -114,12 +147,28 @@ function Sidebar({ Mode }) {
             <div className="flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
                 <table className="w-50 mb-6">
                     <tbody>
+                    <tr>
+                        <td className="w-16">
+                            {btcPrice ? 'BTC' : null}
+                        </td>
+                        <td className="text-right">
+                            {btcPrice ? `${(Math.floor(btcPrice * 100) / 100).toFixed(2).replace(/\d(?=(\d{3})+(.\d+)$)/g, '$& ')}` : null}
+                        </td>
+                    </tr>
                         <tr>
                             <td className="w-16">
                                 {ethPrice ? 'ETH' : null}
                             </td>
                             <td className="text-right">
-                                {ethPrice ? `$${Math.floor(ethPrice * 1000) / 1000}` : null}
+                                {ethPrice ? `${(Math.floor(ethPrice * 100) / 100).toFixed(2).replace(/\d(?=(\d{3})+(.\d+)$)/g, '$& ')}` : null}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="w-16">
+                                {maticPrice ? 'MATIC' : null}
+                            </td>
+                            <td className="text-right">
+                                {maticPrice ? `${Math.floor(maticPrice * 100) / 100}` : null}
                             </td>
                         </tr>
                         <tr>
@@ -127,7 +176,7 @@ function Sidebar({ Mode }) {
                                 {profitPrice && ethPrice ? 'PROFIT' : null}
                             </td>
                             <td className="text-right">
-                                {profitPrice && ethPrice ? `$${Math.floor(profitpriceIn$ * 100) / 100}` : null}
+                                {profitPrice && ethPrice ? `${Math.floor(profitpriceIn$ * 100) / 100}` : null}
                             </td>
                         </tr>
                     </tbody>
@@ -139,7 +188,7 @@ function Sidebar({ Mode }) {
                     <li><a href="https://discord.gg/R3nnetWzC9" target="_blank" rel="noopener noreferrer" ><BsDiscord className="text-3xl " /></a></li>
                 </ul>
                 <div className="my-1 text-sm mb-4 dark:text-gray-300">
-                    © 2021 Stability
+                    © 2022 Stability
                 </div>
             </div>
         </aside>

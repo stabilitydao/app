@@ -1,5 +1,4 @@
 import { Generation } from '../components/view'
-
 function generation() {
     return <Generation />
 }

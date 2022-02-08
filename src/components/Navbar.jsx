@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
-import { injected, walletconnect } from '@/src/wallet/connectors'
+import { injected, walletconnect, walletlinkconnector } from '@/src/wallet/connectors'
 import walletConnectError, { networks, switchNetwork } from '@/src/wallet'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { WiDaySunny, WiNightClear } from 'react-icons/wi'
@@ -43,7 +43,7 @@ function Navbar({ Mode }) {
         const auth = JSON.parse(localStorage.getItem("auth"))
         if (auth) {
             setTimeout(() => {
-                activate(injected || walletconnect, undefined, true)
+                activate(injected || walletconnect || walletlinkconnector, undefined, true)
                     .then(() => {
                         dispatch(updateSync(true))
                     })

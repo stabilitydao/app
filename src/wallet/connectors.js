@@ -1,7 +1,9 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { networks, POLYGON, MUMBAI } from '@/src/wallet/networks'
-
+import { WalletLinkConnector } from '@web3-react/walletlink-connector'
+import { TorusConnector } from '@web3-react/torus-connector'
+import { CloverConnector } from '@clover-network/clover-connector'
 const supportedChainIds = [
   1, // mainnet
   3, // ropsten
@@ -47,5 +49,18 @@ export const walletconnect = new WalletConnectConnector({
 });
 
 export const injected = new InjectedConnector({
+  supportedChainIds
+})
+export const walletlinkconnector = new WalletLinkConnector({
+  url: 'https://stabilitydao.org/',
+  appName: 'StabilityDao',
+  appLogoUrl: 'https://stabilitydao.org/logo_nolines_256.png',
+  darkMode: true,
+})
+
+export const torusconnector = new TorusConnector({
+  chainId: POLYGON,
+})
+export const cloverconnector = new CloverConnector({
   supportedChainIds
 })

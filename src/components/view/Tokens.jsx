@@ -17,10 +17,14 @@ function Tokens() {
     const { library, active, chainId, } = useWeb3React()
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
     const currentNetwork = useSelector(state => state.network.value)
+    const mode = useSelector(state => state.mode.value)
     const token = useSelector(state => state.token)
     const dToken = useSelector(state => state.dToken)
     const network = chainId && networks[chainId] ? chainId : currentNetwork
     const rpcLib = chainId ? library : web3
+
+    // todo get theme
+    const isDark = mode
 
     useEffect(() => {
         if (rpcLib) {
@@ -104,11 +108,13 @@ function Tokens() {
 
     return (
         <section className=" h-calc">
-            <div className="container p-4">
-                <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Tokens</h1>
+            <div className="container p-4 pt-24 lg:pt-4">
+                <h1 className="mb:d-none mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-5xl font-Roboto">PROFIT</h1>
                 <article className="mb-10">
+                    <div className="mb-10">
+                        <div dangerouslySetInnerHTML={{ __html: isDark ? "<style>#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:45%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}</style><div id=\"dexscreener-embed\"><iframe src=\"https://dexscreener.com/polygon/0xd3B1f11f0ff29Add929941095C696D464D6961FC?embed=1&theme=dark&trades=0&info=0\"></iframe></div>" : "<style>#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:45%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}</style><div id=\"dexscreener-embed\"><iframe src=\"https://dexscreener.com/polygon/0xd3B1f11f0ff29Add929941095C696D464D6961FC?embed=1&trades=0&info=0\"></iframe></div>" }} />
+                    </div>
                     <div className="lg:w-3/5 xl:w-4/5 mx-auto">
-                        <h1 className="mb-8 text-4xl sm:text-5xl font-Roboto ">PROFIT</h1>
                         <div className="flex flex-wrap">
                             <div className="w-full mb-4 xl:w-1/2 lg:mb-3">
                                 <div className="flex justify-center mb-5 text-center">
@@ -204,9 +210,9 @@ function Tokens() {
                         </div>
                     </div>
                 </article>
+                <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">SDIV</h1>
                 <article className="mb-10">
                     <div className="lg:w-3/5 xl:w-4/5 mx-auto">
-                        <h1 className="mb-8 text-4xl sm:text-5xl font-Roboto ">SDIV</h1>
                         <div className="flex flex-wrap">
                             <div className="w-full mb-4 xl:w-1/2 lg:mb-3">
                                 <div className="flex justify-center mb-5 text-center">

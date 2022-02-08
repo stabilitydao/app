@@ -1,22 +1,22 @@
 import React from 'react'
-import {useGetMembersQuery} from "@/redux/slices/membersApi";
-import {GoLocation} from "react-icons/go";
-import {BsCheck} from "react-icons/bs";
+import { useGetMembersQuery } from "@/redux/slices/membersApi";
+import { GoLocation } from "react-icons/go";
+import { BsCheck } from "react-icons/bs";
 
 function UserData(name) {
     const { data } = useGetMembersQuery(name)
     return data
 }
 
-function About({membersName}) {
+function About({ membersName }) {
     const membersData = membersName.map((name) => {
         return UserData(name)
     })
 
     return (
         <section className=" h-calc">
-            <div className="container p-4">
-                <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Meet Stability</h1>
+            <div className="container p-4 pt-24 lg:pt-0">
+                <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Meet StabilityDAO</h1>
                 <div className="">
                     <div>
                         <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
@@ -28,6 +28,15 @@ function About({membersName}) {
                                     The main source of revenue is working Units - DeFi projects that generate income in blockchain networks.
                                 </p>
                             </div>
+                            <div className='mb-10 text-center'>
+                                <h2 className="text-5xl mb-5">How it works?</h2>
+                                <img src="/revenue.png" alt="revenue" className='w-full h-auto' />
+                                <a href="/litepaper.pdf" target="_blank" rel="nofollow" className="">
+                                    <div className="w-60  my-8 h-10 dark:bg-indigo-800 dark:text-white dark:border-[#4e1173] py-0.5 px-4 rounded-xl cursor-pointer flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mx-auto">
+                                        Litepaper
+                                    </div>
+                                </a>
+                            </div>
                         </article>
                         <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
                             <div className="container mb-10">
@@ -38,10 +47,10 @@ function About({membersName}) {
                                             Q4 2021
                                         </div>
                                         <div className="flex flex-col text-lg">
-                                            <div>Tokens</div>
-                                            <div>Staking</div>
-                                            <div>Dividends</div>
-                                            <div>App</div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Tokens</div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Staking</div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Dividends</div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />App</div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-1/3">
@@ -50,20 +59,22 @@ function About({membersName}) {
                                         </div>
                                         <div className="flex flex-col text-lg items-start">
                                             <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Splitter</div>
+                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" /><a href="/litepaper.pdf" target="_blank" className='underline' rel="nofollow">Litepaper</a></div>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
-                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2"/>
+                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
                                                     ReactSwap
                                                 </div>
                                             </a>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
-                                                <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2"/>
+                                                <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
                                                     Rarest
                                                 </div>
                                             </a>
                                             <div>Governance</div>
-                                            <div>White paper</div>
+                                            <div>Profit Maker collection</div>
+                                            <div>SDIV burns</div>
                                             <div>Docs</div>
                                         </div>
                                     </div>
@@ -71,14 +82,15 @@ function About({membersName}) {
                                         <div className="flex h-12 text-2xl font-bold">
                                             2022+
                                         </div>
-                                        <div className="flex flex-col md:text-lg">
+                                        <div className="flex flex-col text-lg">
                                             <div>Incubator construction</div>
                                             <div>Development matrix</div>
                                             <div>DeX aggregator</div>
+                                            <div>Algorithmic stablecoin</div>
                                             <div>NFT GameFi project</div>
                                             <div>DAO factory</div>
                                             <div>Cross-chain bridge</div>
-                                            <div>Yield projects conveyor</div>
+                                            <div>Verse projects conveyor</div>
                                             <div>DeX mechanical trading system</div>
                                             <div>Chain boilerplate</div>
                                             <div>Building Generators in accordance with Matrix</div>
@@ -142,10 +154,10 @@ function About({membersName}) {
                                                     >
                                                         <div className="px-5 pt-5 text-sm w-100 ">
                                                             <div className="flex-shrink-0">
-                                                                <div  className="relative block">
+                                                                <div className="relative block">
                                                                     <img alt="profil"
-                                                                         src={data.avatar_url}
-                                                                         className="object-cover w-24 h-24 mx-auto rounded-full "/>
+                                                                        src={data.avatar_url}
+                                                                        className="object-cover w-24 h-24 mx-auto rounded-full " />
                                                                 </div>
                                                             </div>
                                                             <div className="flex flex-col justify-center mt-5">
@@ -157,14 +169,14 @@ function About({membersName}) {
                                                         <div className="flex flex-col justify-center pl-5 my-1 text-sm">
                                                             {data.location ? (
                                                                 <div className="flex align-middle">
-                                                                    <GoLocation className="mt-1"/>
+                                                                    <GoLocation className="mt-1" />
                                                                     <div className="ml-1.5 text-md line flex flex-wrap">{data.location}</div>
                                                                 </div>
                                                             ) : null}
                                                         </div>
                                                         <div className="px-5 mt-1 mb-5 text-xs ">
                                                             <p className="overflow-hidden">
-                                                                {data.bio ? data.bio.substring(0,80) : null}
+                                                                {data.bio ? data.bio.substring(0, 80) : null}
                                                             </p>
                                                         </div>
                                                     </a>

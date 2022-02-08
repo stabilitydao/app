@@ -1,4 +1,5 @@
-import {Home } from '../components/view'
+import { Home } from '../components/view'
 export default function home() {
-  return <Home/>
+  return <Home />
+
 }
