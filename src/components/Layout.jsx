@@ -7,6 +7,9 @@ import { ToastContainer } from 'react-toastify';
 import Sidebar from './Sidebar'
 import Modals from '@/src/components/modal/modals'
 import { useRouter } from 'next/router'
+import { useDispatch, useSelector } from "react-redux";
+import { updateMode } from "@/redux/slices/modeSlice";
+
 function Main({ child }) {
     const [mounted, setMounted] = useState(true);
     const router = useRouter()
@@ -39,6 +42,7 @@ function Main({ child }) {
     </>)
 }
 function Layout({ children }) {
+    const dispatch = useDispatch()
     const [Mode, setMode] = useState(null)
     const [mounted, setMounted] = useState(false);
     const [Title, setTitle] = useState('')
@@ -65,6 +69,7 @@ function Layout({ children }) {
     }, [])
     useEffect(() => {
         localStorage.setItem("mode", JSON.stringify(Mode))
+        dispatch(updateMode(Mode))
     }, [Mode])
     function getLibrary(provider) {
         return new Web3(provider);
