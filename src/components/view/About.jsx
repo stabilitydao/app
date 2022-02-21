@@ -85,6 +85,7 @@ function About({ membersName }) {
                                         <div className="flex flex-col text-lg">
                                             <div>Incubator construction</div>
                                             <div>Development matrix</div>
+                                            <div>Analytical resource</div>
                                             <div>DeX aggregator</div>
                                             <div>Algorithmic stablecoin</div>
                                             <div>NFT GameFi project</div>
