@@ -12,7 +12,8 @@ export default async function handler(request, response) {
     // ropsten ProfitMakerTestnet
     const pmAddress = addresses[ROPSTEN].pm;
 
-    const dbKey = `PROFIT_MAKER_TESTNET1_${tokenId}`
+    const dbKey = `PROFIT_MAKER_TESTNET2_${tokenId}`
+    const usedColorsDbKey = 'PROFIT_MAKER_TESTNET_USED_COLORS'
 
     const HOST = 'https://dev.stabilitydao.org'
 
@@ -56,6 +57,15 @@ export default async function handler(request, response) {
 
             // save to redis all
             await client.set(dbKey, JSON.stringify(metadata))
+
+            let usedColors = await client.get(usedColorsDbKey)
+            if (usedColors) {
+                usedColors.push(color)
+            } else {
+                usedColors = [color]
+            }
+
+            await client.set(usedColorsDbKey, JSON.stringify(usedColors))
 
             response.status(200).json(metadata);
         } else {
