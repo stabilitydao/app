@@ -319,13 +319,18 @@ function Tokens() {
                     <div className="lg:w-3/5 xl:w-4/5 mx-auto">
                         <div className="flex flex-wrap">
                             <div className="w-full mb-4 xl:w-1/2 lg:mb-3">
-                                <div className="flex justify-center mb-5 text-center">
+                                <div className="flex justify-center mb-5 text-center flex-col">
                                     <img src="/pm.png" alt="PM" width="400" className="float-left my-2 ml-3 mr-7" />
                                     <div className="flex flex-col justify-between mt-1.5 pb-4">
-                                        <div />
                                         <div className="flex justify-center">
+                                            {network == 80001 && (
+                                                <a className="mt-2" href="https://testnets.opensea.io/collection/profit-maker-testnet" target="_blank" rel="noopener noreferrer">
+                                                    <button title="See collection on OpenSea marketplace" className=" py-1 text-xl rounded-md btn">
+                                                        OpenSea
+                                                    </button>
+                                                </a>
+                                            )}
                                         </div>
-                                        <div />
                                     </div>
                                 </div>
                             </div>

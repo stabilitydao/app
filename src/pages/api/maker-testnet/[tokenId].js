@@ -1,9 +1,10 @@
 import Web3 from 'web3'
 import {networks} from "../../../wallet/networks";
-import addresses, {ROPSTEN, POLYGON} from "@stabilitydao/addresses";
+import addresses, {ROPSTEN,} from "@stabilitydao/addresses";
 import pmAbi from '@/src/abis/pmAbi.json'
-import colors from './_colors'
+import {pmColors} from '@/src/wallet/pm'
 
+// noinspection JSUnusedGlobalSymbols
 export default async function handler(request, response) {
     const { tokenId } = request.query;
 
@@ -20,16 +21,16 @@ export default async function handler(request, response) {
     const res = await pm.methods.props(tokenId).call()
     const { color, epoch } = res;
 
-    if (color > 0 && epoch > 0 && colors[color]) {
+    if (color > 0 && epoch > 0 && pmColors[color]) {
         // todo save to redis all
 
         response.status(200).json({
             'name': `Profit Maker #${tokenId}`,
             'attributes': {
-                'color': colors[color].name,
+                'color': pmColors[color].name,
                 'epoch': epoch,
             },
-            'image': `${HOST}/maker/${colors[color].name.toLowerCase().replace(/ /g,"-")}.mp4`
+            'image': `${HOST}/maker/${pmColors[color].name.toLowerCase().replace(/ /g,"-")}.mp4`
         });
     } else {
         response.status(404).end(`Profit Maker #${tokenId} not minted`)
