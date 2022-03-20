@@ -25,11 +25,19 @@ export default async function handler(request, response) {
         // todo save to redis all
 
         response.status(200).json({
-            'name': `Profit Maker #${tokenId}`,
-            'attributes': {
-                'color': pmColors[color].name,
-                'epoch': epoch,
-            },
+            'name': `PM #${tokenId}`,
+            'description': `Profit Maker token #${tokenId}`,
+            'attributes': [
+                {
+                    "trait_type": "Color",
+                    "value":  pmColors[color].name,
+                },
+                {
+                    "display_type": "number",
+                    "trait_type": "Epoch",
+                    "value": epoch
+                }
+            ],
             'image': `${HOST}/maker/${pmColors[color].name.toLowerCase().replace(/ /g,"-")}.mp4`
         });
     } else {
