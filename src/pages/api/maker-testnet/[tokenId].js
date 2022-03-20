@@ -3,6 +3,7 @@ import {networks} from "../../../wallet/networks";
 import addresses, {ROPSTEN,} from "@stabilitydao/addresses";
 import pmAbi from '@/src/abis/pmAbi.json'
 import {pmColors} from '@/src/wallet/pm'
+import {createClient} from 'redis'
 
 // noinspection JSUnusedGlobalSymbols
 export default async function handler(request, response) {
@@ -11,36 +12,54 @@ export default async function handler(request, response) {
     // ropsten ProfitMakerTestnet
     const pmAddress = addresses[ROPSTEN].pm;
 
+    const dbKey = `PROFIT_MAKER_TESTNET1_${tokenId}`
+
     const HOST = 'https://dev.stabilitydao.org'
 
-    // todo get from redis
+    // get from redis
+    const client = createClient({
+        url: `redis://:${process.env.UPSTASH_PASSWORD}@global-set-gnu-32194.upstash.io:32194`,
+    });
+    /*client.on("error", function(err) {
+        throw err;
+    });*/
+    await client.connect()
+    const dbMetaData = await client.get(dbKey)
 
-    const web3 = new Web3(new Web3.providers.HttpProvider(networks[3].rpc))
-    const pm = new web3.eth.Contract(pmAbi, pmAddress);
-
-    const res = await pm.methods.props(tokenId).call()
-    const { color, epoch } = res;
-
-    if (color > 0 && epoch > 0 && pmColors[color]) {
-        // todo save to redis all
-
-        response.status(200).json({
-            'name': `PM #${tokenId}`,
-            'description': `Profit Maker token #${tokenId}`,
-            'attributes': [
-                {
-                    "trait_type": "Color",
-                    "value":  pmColors[color].name,
-                },
-                {
-                    "display_type": "number",
-                    "trait_type": "Epoch",
-                    "value": epoch
-                }
-            ],
-            'image': `${HOST}/maker/${pmColors[color].name.toLowerCase().replace(/ /g,"-")}.mp4`
-        });
+    if (dbMetaData) {
+        response.status(200).json(dbMetaData);
     } else {
-        response.status(404).end(`Profit Maker #${tokenId} not minted`)
+        const web3 = new Web3(new Web3.providers.HttpProvider(networks[3].rpc))
+        const pm = new web3.eth.Contract(pmAbi, pmAddress);
+
+        const res = await pm.methods.props(tokenId).call()
+        const { color, epoch } = res;
+
+        if (color > 0 && epoch > 0 && pmColors[color]) {
+
+            const metadata = {
+                'name': `PM #${tokenId}`,
+                'description': `Profit Maker token #${tokenId}`,
+                'attributes': [
+                    {
+                        "trait_type": "Color",
+                        "value":  pmColors[color].name,
+                    },
+                    {
+                        "display_type": "number",
+                        "trait_type": "Epoch",
+                        "value": epoch
+                    }
+                ],
+                'image': `${HOST}/maker/${pmColors[color].name.toLowerCase().replace(/ /g,"-")}.mp4`
+            }
+
+            // save to redis all
+            await client.set(dbKey, JSON.stringify(metadata))
+
+            response.status(200).json(metadata);
+        } else {
+            response.status(404).end(`Profit Maker #${tokenId} not minted`)
+        }
     }
 }
