@@ -12,7 +12,7 @@ function Generation() {
                         <div className="py-4">
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-3xl sm:text-4xl font-Roboto ">Units</h2>
-                                <div className="flex items-center pr-5"><BiTime className="text-2xl mr-2" /><span className="text-2xl">Q1 2022</span></div>
+                                <div className="flex items-center pr-5"></div>
                             </div>
                             <table className="table-auto">
                                 <tbody>
@@ -28,6 +28,29 @@ function Generation() {
                                     <td className="text-lg">
                                         Multi-chain automated market maker with liquidity providing farms, staking pools and lending markets. Fork of SushiSwap.
                                     </td>
+                                    <td className="text-2xl whitespace-nowrap pl-4">
+                                        <div className="flex items-center">
+                                            <BiTime className="text-2xl mr-2" /><span className="text-2xl">Q1 2022</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="whitespace-nowrap text-2xl pr-5">
+                                        <div className="w-44 py-5 border-0 inline-flex flex-col items-center justify-center">
+                                            <div className="inline-flex bg-indigo-100 dark:bg-indigo-700 px-4 rounded-xl m-2">core unit</div>
+                                            <div className="flex font-bold text-2xl">
+                                                Bridge
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="text-lg">
+                                        Cross-chain bridge
+                                    </td>
+                                    <td className="text-2xl whitespace-nowrap pl-4">
+                                        <div className="flex items-center">
+                                            <BiTime className="text-2xl mr-2" /><span className="text-2xl">Q2 2022</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td className="whitespace-nowrap text-2xl pr-5">
@@ -41,6 +64,11 @@ function Generation() {
                                     <td className="text-lg">
                                         NFT marketplace platform.<br />
                                         Creating, selling and collecting digital items.
+                                    </td>
+                                    <td className="text-2xl whitespace-nowrap pl-4">
+                                        <div className="flex items-center">
+                                            <BiTime className="text-2xl mr-2" /><span className="text-2xl">Q2 2022</span>
+                                        </div>
                                     </td>
                                 </tr>
                                 </tbody>
