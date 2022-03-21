@@ -30,7 +30,7 @@ export default async function handler(request, response) {
     if (dbMetaData) {
         response.status(200).json(dbMetaData);
     } else {
-        const web3 = new Web3(new Web3.providers.HttpProvider(networks[3].rpc))
+        const web3 = new Web3(new Web3.providers.HttpProvider(networks[MUMBAI].rpc))
         const pm = new web3.eth.Contract(pmAbi, pmAddress);
 
         const res = await pm.methods.props(tokenId).call()
