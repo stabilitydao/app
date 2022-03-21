@@ -19,6 +19,26 @@ const pmColors = {
         name: 'Gentle Olive',
         rgb: '#00f7f7',
     },
+    6: {
+        name: 'Arctic Blue',
+        rgb: '#1e62ba',
+    },
+    7: {
+        name: 'Golden Nova',
+        rgb: '#f7cc4a',
+    },
+   8: {
+        name: 'Copper Innovation',
+        rgb: '#f7814a',
+    },
+    9: {
+        name: 'Emerald',
+        rgb: '#4af750',
+    },
+    10: {
+        name: 'Pink Rose',
+        rgb: '#f74af4',
+    },
 }
 
 export {pmColors}
