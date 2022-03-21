@@ -110,7 +110,8 @@ function ProfitMaker() {
         handleIsApproved()
     }, [network, isApproved, pm, active,])
     useEffect(() => {
-        if (Object.entries(leftNfts)[0][0]) {
+        console.log(leftNfts)
+        if (leftNfts !== null && Object.keys(leftNfts).length !== 0) {
             setSelectedNft(Object.entries(leftNfts)[0][0])
         }
     }, [leftNfts])
@@ -120,7 +121,7 @@ function ProfitMaker() {
             </div>
             <div className="container p-4 pt-24 lg:pt-4">
                 {
-                    addresses[network].pm !== undefined && pm.toMint !== 0 ?
+                    addresses[network].pm !== undefined && pm.toMint != 0 ?
                         <div className="flex flex-col md:flex-row items-center">
                             <div className="flex-1 p-4">
                                 {
@@ -148,7 +149,7 @@ function ProfitMaker() {
                                     }
                                     <div className='border-indigo-800 border-2 rounded-b-xl p-4 '>
                                         <p className='text-xl leading-normal mb-4'>
-                                            {network && addresses[network].pm && pm && pm.toMint > 0 ? pm.toMint : '-'} left
+                                            {network && addresses[network].pm && pm && pm.toMint > 0 ? pm.toMint : '0'} left
                                         </p>
                                         <p className='text-xl leading-normal '>
                                             Current price
