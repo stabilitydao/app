@@ -40,7 +40,7 @@ function Governance() {
                 contract = new rpcLib.eth.Contract(govAbi, gov[network]);
 
                 const
-                    quorumRow = await contract.methods.quorum(await web3.eth.getBlockNumber() - 1).call(),
+                    quorumRow = await contract.methods.quorum(await web3.eth.getBlockNumber() - 10).call(),
                     quorumPerc = Math.round(100* 100 * quorumRow / totalSupply ) / 100,
                     votingDelay = await contract.methods.votingDelay().call(),
                     votingDelayHours = Math.round(votingDelay * networks[network].blocktimeAvgSec / 3600),
@@ -150,7 +150,14 @@ function Governance() {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="py-1">
+                        <div>
+                            <div className="text-xl font-bold">Voting tokens</div>
+                            <div className="py-4 flex">
+                                <img src="/profit.png" title="Stability (PROFIT)" alt="PROFIT" className="w-16 h-16 mr-4" />
+                                <img src="/pm.png" title="Profit Maker (PM)" alt="PM" className="w-16 h-16 mr-4" />
+                            </div>
+                        </div>
+                        <div className="py-1 my-5">
                             <div className="dark:text-blue-800 text-2xl font-bold">Voting user interface is under active development</div>
                         </div>
                     </article>
