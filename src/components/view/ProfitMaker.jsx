@@ -80,7 +80,7 @@ function ProfitMaker() {
             showAlert("Failed")
         }
     }
-    useEffect(() => {
+    function getPm() {
         if (addresses[network].pm) {
             // ABI is ERC-721
             let contract;
@@ -98,6 +98,9 @@ function ProfitMaker() {
                 dispatch(toMint(r))
             })
         };
+    }
+    useEffect(() => {
+        getPm()
         remainingNft()
         handleIsApproved()
     }, [network])
@@ -117,10 +120,22 @@ function ProfitMaker() {
                     </div>
                     <div className="flex-1 p-4 font-Roboto">
                         <div className='flex flex-col '>
-                            <h1 className='text-2xl leading-normal border-2 border-indigo-800 p-4  rounded-t-xl'>
-                                <BsStopwatch className='inline mr-2' />
-                                Minting ends {network && addresses[network].pm && pm && pm.mintEnd > 0 ? (new Date(pm.mintEnd * 1000)).toString() : '-'}
-                            </h1>
+                            {
+                                pm &&
+                                <h1 className='text-2xl leading-normal border-2 border-indigo-800 p-4  rounded-t-xl'>
+                                    <BsStopwatch className='inline mr-2' />
+                                    {
+                                        (Math.floor((new Date()).getTime() / 1000) > pm.mintStart) ?
+                                            <>
+                                                Minting ends {network && addresses[network].pm && pm && pm.mintEnd > 0 ? (new Date(pm.mintEnd * 1000)).toString() : '-'}
+                                            </>
+                                            :
+                                            <>
+                                                Minting starts {network && addresses[network].pm && pm && pm.mintEnd > 0 ? (new Date(pm.mintEnd * 1000)).toString() : '-'}
+                                            </>
+                                    }
+                                </h1>
+                            }
                             <div className='border-indigo-800 border-2 rounded-b-xl p-4 '>
                                 <p className='text-xl leading-normal mb-8'>
                                     {network && addresses[network].pm && pm && pm.toMint > 0 ? pm.toMint : '-'} left
@@ -135,7 +150,7 @@ function ProfitMaker() {
                                     </p>
                                 </div>
                                 {
-                                    leftNfts &&
+                                    leftNfts && (pm && (Math.floor((new Date()).getTime() / 1000) > pm.mintStart)) &&
                                     <div className="relative inline-block z-0 mb-8">
                                         <button onClick={() => { setChoose(!Choose) }} className="relative btn z-10 block p-2   border border-transparent rounded-md   focus:outline-none">
                                             {leftNfts && SelectedNft ? leftNfts[SelectedNft].name : ""}
@@ -155,20 +170,23 @@ function ProfitMaker() {
                                         </div>
                                     </div>
                                 }
-                                <div className="h-16 space-y-4">
-                                    {
-                                        isApproved ?
-                                            <button className='btn w-full text-2xl rounded-md' onClick={handleMint}>MINT</button>
-                                            :
-                                            <button className='btn w-full text-2xl rounded-md' onClick={() => { handleApprove() }}>APPROVE</button>
-                                    }
-                                </div>
+                                {
+                                    (pm && (Math.floor((new Date()).getTime() / 1000) > pm.mintStart)) &&
+                                    <div div className="h-16 space-y-4">
+                                        {
+                                            isApproved ?
+                                                <button className='btn w-full text-2xl rounded-md' onClick={handleMint}>MINT</button>
+                                                :
+                                                <button className='btn w-full text-2xl rounded-md' onClick={() => { handleApprove() }}>APPROVE</button>
+                                        }
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </section >
     )
 }
 
