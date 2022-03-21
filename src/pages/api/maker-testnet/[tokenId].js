@@ -12,8 +12,8 @@ export default async function handler(request, response) {
     // MUMBAI ProfitMakerTestnet
     const pmAddress = addresses[MUMBAI].pm;
 
-    const dbKey = `PROFIT_MAKER_TESTNET2_${tokenId}`
-    const usedColorsDbKey = 'PROFIT_MAKER_TESTNET_USED_COLORS'
+    const dbKey = `PROFIT_MAKER_TESTNET3_${tokenId}`
+    const usedColorsDbKey = 'PROFIT_MAKER_TESTNET_USED_COLORS_3'
 
     const HOST = 'https://dev.stabilitydao.org'
 
@@ -25,6 +25,7 @@ export default async function handler(request, response) {
         throw err;
     });*/
     await client.connect()
+
     const dbMetaData = await client.get(dbKey)
 
     if (dbMetaData) {
@@ -59,10 +60,13 @@ export default async function handler(request, response) {
             await client.set(dbKey, JSON.stringify(metadata))
 
             let usedColors = await client.get(usedColorsDbKey)
+
             if (usedColors) {
-                usedColors.push(color)
+                usedColors = JSON.parse(usedColors)
+                usedColors[color] = true
             } else {
-                usedColors = [color]
+                usedColors = {}
+                usedColors[color] = true
             }
 
             await client.set(usedColorsDbKey, JSON.stringify(usedColors))
@@ -72,4 +76,6 @@ export default async function handler(request, response) {
             response.status(404).end(`Profit Maker #${tokenId} not minted`)
         }
     }
+
+    await client.disconnect();
 }
