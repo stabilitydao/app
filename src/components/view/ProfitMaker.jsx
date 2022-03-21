@@ -114,9 +114,12 @@ function ProfitMaker() {
         <section className=" h-calc">
             <div className="container p-4 pt-24 lg:pt-4">
                 <h1 className="mb:d-none mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-5xl font-Roboto">Profit Maker</h1>
-                <div className="flex flex-col md:flex-row ">
+                <div className="flex flex-col md:flex-row items-center">
                     <div className="flex-1 p-4">
-                        <img className='w-full' src="/pm.gif" alt="" height='200' width='200' />
+                        {
+                            leftNfts && SelectedNft &&
+                            <img className='w-full' src={`/maker/${leftNfts[SelectedNft].name.replace(' ', '-').toLowerCase()}.png`} alt="" height='200' width='200' />
+                        }
                     </div>
                     <div className="flex-1 p-4 font-Roboto">
                         <div className='flex flex-col '>
@@ -137,7 +140,7 @@ function ProfitMaker() {
                                 </h1>
                             }
                             <div className='border-indigo-800 border-2 rounded-b-xl p-4 '>
-                                <p className='text-xl leading-normal mb-8'>
+                                <p className='text-xl leading-normal mb-4'>
                                     {network && addresses[network].pm && pm && pm.toMint > 0 ? pm.toMint : '-'} left
                                 </p>
                                 <p className='text-xl leading-normal '>
