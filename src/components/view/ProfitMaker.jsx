@@ -18,6 +18,7 @@ function ProfitMaker() {
     const [SelectedNft, setSelectedNft] = useState(null)
     const [leftNfts, setleftNfts] = useState(null)
     const [isApproved, setisApproved] = useState(null)
+    const tokenBalance = useSelector(state => state.tokenBalance.value)
     const web3 = WEB3()
     const currentNetwork = useSelector(state => state.network.value)
     const { library, active, chainId, account } = useWeb3React()
@@ -33,7 +34,7 @@ function ProfitMaker() {
         if (active) {
             const tokenContract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token)
             const allowedTokens = await tokenContract.methods.allowance(account, addresses[network].pm).call()
-            if (allowedTokens >= 10000) {
+            if (allowedTokens.toString() === '10000000000000000000000') {
                 setisApproved(true)
             } else {
                 setisApproved(false)
@@ -45,14 +46,14 @@ function ProfitMaker() {
             dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const profitContract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token)
-                profitContract.methods.approve(addresses[network].pm, ethers.constants.MaxUint256).send({ from: account }).on('transactionHash', txhash => {
+                profitContract.methods.approve(addresses[network].pm, ethers.BigNumber.from('10000000000000000000000')).send({ from: account }).on('transactionHash', txhash => {
                     dispatch(updateIsWaitingForWalletTxConfirm(false))
                     dispatch(updateIsTxSubmitted(txhash))
                 }).on('receipt', r => {
                     dispatch(txConfirmedByNetwork())
                 })
                 handleIsApproved()
-            } catch (error) {
+            } catch (err) {
                 console.log(err)
                 dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
@@ -61,7 +62,7 @@ function ProfitMaker() {
         }
     }
     async function handleMint() {
-        if (active) {
+        if (active && (Math.floor(tokenBalance * 1000) / 1000 >= 10000)) {
             dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const pmContract = new rpcLib.eth.Contract(pmAbi, addresses[network].pm)
@@ -71,7 +72,6 @@ function ProfitMaker() {
                 }).on('receipt', r => {
                     dispatch(txConfirmedByNetwork())
                 })
-                remainingNft()
             } catch (error) {
                 console.log(err)
                 dispatch(updateIsWaitingForWalletTxConfirm(false))
@@ -103,17 +103,18 @@ function ProfitMaker() {
         getPm()
         remainingNft()
         handleIsApproved()
-    }, [network])
+    }, [network, isApproved, pm])
     useEffect(() => {
         if (leftNfts) {
+            console.log("RUNNING")
             setSelectedNft(Object.entries(leftNfts)[0][0])
         }
     }, [leftNfts])
-
     return (
         <section className=" h-calc">
+            <div className="flex flex-col justify-center text-center h-80 bg-makerbanner" id="parallex" >
+            </div>
             <div className="container p-4 pt-24 lg:pt-4">
-                <h1 className="mb:d-none mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-5xl font-Roboto">Profit Maker</h1>
                 <div className="flex flex-col md:flex-row items-center">
                     <div className="flex-1 p-4">
                         {
@@ -178,7 +179,7 @@ function ProfitMaker() {
                                     <div div className="h-16 space-y-4">
                                         {
                                             isApproved ?
-                                                <button className='btn w-full text-2xl rounded-md' onClick={handleMint}>MINT</button>
+                                                <button className='btn w-full text-2xl rounded-md' onClick={() => { handleMint() }}>MINT</button>
                                                 :
                                                 <button className='btn w-full text-2xl rounded-md' onClick={() => { handleApprove() }}>APPROVE</button>
                                         }
