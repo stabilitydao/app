@@ -1,6 +1,6 @@
 import Web3 from 'web3'
 import {networks} from "../../../wallet/networks";
-import addresses, {ROPSTEN,} from "@stabilitydao/addresses";
+import addresses, {MUMBAI,} from "@stabilitydao/addresses";
 import pmAbi from '@/src/abis/pmAbi.json'
 import {pmColors} from '@/src/wallet/pm'
 import {createClient} from 'redis'
@@ -9,8 +9,8 @@ import {createClient} from 'redis'
 export default async function handler(request, response) {
     const { tokenId } = request.query;
 
-    // ropsten ProfitMakerTestnet
-    const pmAddress = addresses[ROPSTEN].pm;
+    // MUMBAI ProfitMakerTestnet
+    const pmAddress = addresses[MUMBAI].pm;
 
     const dbKey = `PROFIT_MAKER_TESTNET2_${tokenId}`
     const usedColorsDbKey = 'PROFIT_MAKER_TESTNET_USED_COLORS'
