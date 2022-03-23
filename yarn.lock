@@ -943,8 +943,8 @@
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
 "@stabilitydao/addresses@stabilitydao/addresses":
-  version "0.9.4"
-  resolved "https://codeload.github.com/stabilitydao/addresses/tar.gz/e00e9bb8000bffe1afbc0c8f93ce0fbabb3b84c5"
+  version "0.12.0"
+  resolved "https://codeload.github.com/stabilitydao/addresses/tar.gz/f4feb4f2a87a0184cfdabfd6d333a0887adb3085"
 
 "@szmarczak/http-timer@^1.1.2":
   version "1.1.2"

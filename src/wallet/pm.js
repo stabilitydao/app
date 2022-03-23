@@ -1,3 +1,5 @@
+import {MUMBAI} from "./networks";
+
 const pmColors = {
     1: {
         name: 'Deep Royal Blue',
@@ -41,4 +43,10 @@ const pmColors = {
     },
 }
 
-export {pmColors}
+const pmData = {
+    [MUMBAI]: {
+        opensea: 'https://testnets.opensea.io/collection/profit-maker-testnet',
+    },
+}
+
+export {pmColors, pmData}

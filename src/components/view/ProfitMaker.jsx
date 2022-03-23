@@ -143,13 +143,16 @@ function ProfitMaker() {
             setSelectedNft(Object.entries(leftNfts)[0][0])
         }
     }, [leftNfts])
+
+    const isMintAvailable = pm && pm.mintStart * 1000 < new Date().getTime() && pm.mintEnd * 1000 > new Date().getTime() && pm.toMint > 0
+
     return (
         <section className=" h-calc">
             <div className="flex flex-col justify-center text-center h-80 bg-makerbanner" id="parallex" >
             </div>
             <div className="container p-4 pt-24 lg:pt-4">
                 {
-                    addresses[network].pm !== undefined && pm.toMint != 0 ?
+                    addresses[network].pm !== undefined && pm.mintStart > 0 ?
                         <div className="flex flex-col md:flex-row items-center">
                             <div className="flex-1 p-4">
                                 {
@@ -163,16 +166,18 @@ function ProfitMaker() {
                                         pm &&
                                         <h1 className='text-2xl leading-normal border-2 border-indigo-800 p-4  rounded-t-xl'>
                                             <BsStopwatch className='inline mr-2' />
-                                            {
-                                                (Math.floor((new Date()).getTime() / 1000) > pm.mintStart) ?
-                                                    <>
-                                                        Minting ends {network && addresses[network].pm && pm && pm.mintEnd > 0 ? (new Date(pm.mintEnd * 1000)).toString() : '-'}
-                                                    </>
-                                                    :
-                                                    <>
-                                                        Minting starts {network && addresses[network].pm && pm && pm.mintEnd > 0 ? (new Date(pm.mintEnd * 1000)).toString() : '-'}
-                                                    </>
-                                            }
+                                            <>
+                                                Minting starts {network && addresses[network].pm && pm && pm.mintEnd > 0 ? (new Date(pm.mintEnd * 1000)).toString() : '-'}
+                                            </>
+                                        </h1>
+                                    }
+                                    {
+                                        pm &&
+                                        <h1 className='text-2xl leading-normal border-2 border-indigo-800 p-4  rounded-t-xl'>
+                                            <BsStopwatch className='inline mr-2'/>
+                                            <>
+                                                Minting ends {network && addresses[network].pm && pm && pm.mintEnd > 0 ? (new Date(pm.mintEnd * 1000)).toString() : '-'}
+                                            </>
                                         </h1>
                                     }
                                     <div className='border-indigo-800 border-2 rounded-b-xl p-4 '>
@@ -180,7 +185,7 @@ function ProfitMaker() {
                                             {network && addresses[network].pm && pm && pm.toMint > 0 ? pm.toMint : '0'} left
                                         </p>
                                         <p className='text-xl leading-normal '>
-                                            Current price
+                                            Mint cost
                                         </p>
                                         <div className='flex flex-row items-center gap-x-2 text-2xl mb-8'>
                                             <Image src='/profit.png' width='25' height='25' alt="Not present" className='' />
@@ -201,7 +206,7 @@ function ProfitMaker() {
                                                 :
                                                 <>
                                                     {
-                                                        leftNfts && (pm && (Math.floor((new Date()).getTime() / 1000) > pm.mintStart)) &&
+                                                        isMintAvailable &&
                                                         <div className="relative inline-block z-0 mb-8">
                                                             <button onClick={() => { setChoose(!Choose) }} className="relative btn z-10 block p-2   border border-transparent rounded-md   focus:outline-none">
                                                                 {leftNfts && SelectedNft ? leftNfts[SelectedNft]?.name : ""}
@@ -222,8 +227,8 @@ function ProfitMaker() {
                                                         </div>
                                                     }
                                                     {
-                                                        (pm && (Math.floor((new Date()).getTime() / 1000) > pm.mintStart)) &&
-                                                        <div div className="h-16 space-y-4">
+                                                        isMintAvailable &&
+                                                        <div className="h-16 space-y-4">
                                                             {
                                                                 isApproved ?
                                                                     <button className='btn w-full text-2xl rounded-md' onClick={() => { handleMint() }}>MINT</button>
@@ -239,13 +244,18 @@ function ProfitMaker() {
                             </div>
                         </div>
                         :
-                        <h1 className="mb-10 text-3xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Mint is not available now</h1>
+                        <h1 className="mb-10 text-3xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">{pm && addresses[network].pm ? 'Mint is not available now' : 'PM not deployed to this network'}</h1>
                 }
                 {
-                    UserNfts !== null &&
-                    <div >
+                    pm && pm.mintStart > 0 && UserNfts !== null &&
+                    <div className="mt-16" >
                         <h1 className="mb-10 text-2xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Your owned NFT&apos;s</h1>
                         <div className='flex flex-row flex-wrap justify-center gap-4'>
+                            {UserNfts.length == 0 &&
+                                <div className="text-center">
+                                    You dont have PM NFTs
+                                </div>
+                            }
                             {UserNfts.map((nft, index) => {
                                 // console.log(nft)
                                 if (nft) {
@@ -262,6 +272,7 @@ function ProfitMaker() {
                             })}
                         </div>
                     </div>
+
                 }
             </div>
         </section >
