@@ -12,7 +12,7 @@ export default async function handler(request, response) {
     // MUMBAI ProfitMakerTestnet
     const pmAddress = addresses[MUMBAI].pm;
 
-    const dbKey = `PROFIT_MAKER_TESTNET4_${tokenId}`
+    const dbKey = `PROFIT_MAKER_TESTNET5_${tokenId}`
     const usedColorsDbKey = 'PROFIT_MAKER_TESTNET_USED_COLORS_3'
 
     const HOST = 'https://dev.stabilitydao.org'
