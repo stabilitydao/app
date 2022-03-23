@@ -9,6 +9,8 @@ const initialState = {
         IsWaitingForWalletTxConfirm: false,
         IsWaitingForChangeNetwork: false,
         IsTxSubmitted: false,
+        IsDelegateProfitToken: false,
+        IsDelegateMakerToken: false,
         txhash: '',
     }
 }
@@ -35,6 +37,12 @@ export const modalsSlice = createSlice({
         updateIsWaitingForChangeNetwork: (state, action) => {
             state.value.IsWaitingForChangeNetwork = action.payload
         },
+        updateDelegateProfitToken: (state, action) => {
+            state.value.IsDelegateProfitToken = action.payload
+        },
+        updateDelegateMakerToken: (state, action) => {
+            state.value.IsDelegateProfitToken = action.payload
+        },
         updateIsTxSubmitted: (state, action) => {
             state.value.txhash = action.payload
             state.value.IsTxSubmitted = true
@@ -45,5 +53,5 @@ export const modalsSlice = createSlice({
     },
 })
 
-export const { updateIsNetworkOption, updateIsProfile, updateIsWalletOption, updateIsPending, updateIsWaitingForWalletTxConfirm, updateIsWaitingForChangeNetwork, updateIsTxSubmitted, txConfirmedByNetwork } = modalsSlice.actions
+export const { updateIsNetworkOption, updateIsProfile, updateIsWalletOption, updateIsPending, updateIsWaitingForWalletTxConfirm, updateIsWaitingForChangeNetwork, updateIsTxSubmitted, txConfirmedByNetwork, updateDelegateProfitToken, updateDelegateMakerToken } = modalsSlice.actions
 export default modalsSlice.reducer

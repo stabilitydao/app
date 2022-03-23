@@ -1,14 +1,16 @@
-import React, { useEffect, useState }  from 'react'
-import {networks} from "@/src/wallet";
-import {gov, tl, splitter} from "@/src/wallet";
-import {useWeb3React} from "@web3-react/core";
-import {useSelector} from "react-redux";
+import React, { useEffect, useState } from 'react'
+import { networks } from "@/src/wallet";
+import { gov, tl, splitter } from "@/src/wallet";
+import { useWeb3React } from "@web3-react/core";
+import { useSelector, useDispatch } from "react-redux";
 import WEB3 from "@/src/functions/web3";
 import tokenAbi from "@/src/abis/tokenAbi.json";
 import govAbi from "@/src/abis/govAbi.json";
 import splitterAbi from "@/src/abis/splitterAbi.json";
 import addresses from "@stabilitydao/addresses";
-
+import {
+    updateDelegateProfitToken, updateDelegateMakerToken
+} from '@/redux/slices/modalsSlice'
 function Governance() {
     const { account, chainId, library } = useWeb3React()
     const web3 = WEB3()
@@ -19,6 +21,7 @@ function Governance() {
         gov: '-',
         dev: '-',
     })
+    const dispatch = useDispatch()
     const [treasureBalances, setTreasureBalances] = useState({})
     const [govSettings, setGovSettings] = useState({
         quorum: '-',
@@ -27,7 +30,8 @@ function Governance() {
         proposalThreshold: '-',
     })
     const [votingPower, setVotingPower] = useState(0)
-
+    const IsDelegateProfitToken = useSelector(state => state.modals.value.IsDelegateProfitToken)
+    const IsDelegateMakerToken = useSelector(state => state.modals.value.IsDelegateProfitToken)
     const rpcLib = chainId ? library : web3
 
     useEffect(async () => {
@@ -45,7 +49,7 @@ function Governance() {
 
                 const
                     quorumRow = await contract.methods.quorum(blockNumber).call(),
-                    quorumPerc = Math.round(100* 100 * quorumRow / totalSupply ) / 100,
+                    quorumPerc = Math.round(100 * 100 * quorumRow / totalSupply) / 100,
                     votingDelay = await contract.methods.votingDelay().call(),
                     votingDelayHours = Math.round(votingDelay * networks[network].blocktimeAvgSec / 3600),
                     votingDelayMins = Math.round(votingDelay * networks[network].blocktimeAvgSec / 60),
@@ -55,14 +59,14 @@ function Governance() {
                     votingPeriodMins = Math.round(votingPeriod * networks[network].blocktimeAvgSec / 60),
                     votingPeriodText = votingPeriodHours ? `${votingPeriodHours} hours` : `${votingPeriodMins} mins`,
                     proposalThreshold = await contract.methods.proposalThreshold().call(),
-                    proposalThresholdPerc = Math.round(100* 100 * proposalThreshold / totalSupply ) / 100
+                    proposalThresholdPerc = Math.round(100 * 100 * proposalThreshold / totalSupply) / 100
 
-                    setGovSettings({
-                        quorum: `${web3.utils.fromWei(quorumRow)} votes / ${quorumPerc}%`,
-                        votingDelay: `${votingDelay} blocks / ${votingDelayText}`,
-                        votingPeriod: `${votingPeriod} blocks / ${votingPeriodText}`,
-                        proposalThreshold: `${web3.utils.fromWei(proposalThreshold)} votes / ${proposalThresholdPerc}%`,
-                    })
+                setGovSettings({
+                    quorum: `${web3.utils.fromWei(quorumRow)} votes / ${quorumPerc}%`,
+                    votingDelay: `${votingDelay} blocks / ${votingDelayText}`,
+                    votingPeriod: `${votingPeriod} blocks / ${votingPeriodText}`,
+                    proposalThreshold: `${web3.utils.fromWei(proposalThreshold)} votes / ${proposalThresholdPerc}%`,
+                })
 
                 if (account) {
                     setVotingPower(Math.round(web3.utils.fromWei(await contract.methods.getVotes(account, blockNumber).call()) * 100) / 100)
@@ -124,7 +128,7 @@ function Governance() {
                             <div className="mb-4 flex justify-between items-center flex-wrap">
                                 <h2 className="text-3xl sm:text-4xl font-Roboto">Gov</h2>
                                 <a className=" flex justify-center h-9 items-center" title="View contract on blockchain explorer" target="_blank" href={`${networks[network].explorerurl}address/${gov[network]}`} rel="noopener noreferrer">
-                                    <span style={ networks[network].testnet && { color: networks[network].color }} className="flex font-bold justify-center text-xs md:text-sm self-center dark:text-teal-400">{gov[network]}</span>
+                                    <span style={networks[network].testnet && { color: networks[network].color }} className="flex font-bold justify-center text-xs md:text-sm self-center dark:text-teal-400">{gov[network]}</span>
                                 </a>
                             </div>
                             <p className="text-lg">
@@ -134,27 +138,27 @@ function Governance() {
                         <div className="mb-4">
                             <table>
                                 <thead>
-                                <tr>
-                                    <td className="pb-2 text-xl font-bold" colSpan={2}>Contract parameters</td>
-                                </tr>
+                                    <tr>
+                                        <td className="pb-2 text-xl font-bold" colSpan={2}>Contract parameters</td>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td className="w-48">Quorum</td>
-                                    <td>{govSettings.quorum}</td>
-                                </tr>
-                                <tr>
-                                    <td>Voting delay</td>
-                                    <td>{govSettings.votingDelay}</td>
-                                </tr>
-                                <tr>
-                                    <td>Voting period</td>
-                                    <td>{govSettings.votingPeriod}</td>
-                                </tr>
-                                <tr>
-                                    <td>Proposal threshold</td>
-                                    <td>{govSettings.proposalThreshold}</td>
-                                </tr>
+                                    <tr>
+                                        <td className="w-48">Quorum</td>
+                                        <td>{govSettings.quorum}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Voting delay</td>
+                                        <td>{govSettings.votingDelay}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Voting period</td>
+                                        <td>{govSettings.votingPeriod}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Proposal threshold</td>
+                                        <td>{govSettings.proposalThreshold}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -163,11 +167,11 @@ function Governance() {
                             <div className="py-4 flex">
                                 <div className="flex flex-col items-center justify-between h-28 mx-5">
                                     <img src="/profit.png" title="Stability (PROFIT)" alt="PROFIT" className="w-16 h-16" />
-                                    {chainId ? <button className="btn text-sm">delegate</button> : '' }
+                                    {chainId ? <button className="btn text-sm" onClick={() => { dispatch(updateDelegateProfitToken(!IsDelegateProfitToken)) }}>delegate</button> : ''}
                                 </div>
                                 <div className="flex flex-col items-center justify-between h-28 mx-5">
                                     <img src="/pm.png" title="Profit Maker (PM)" alt="PM" className="w-16 h-16" />
-                                    {chainId ? <button className="btn text-sm">delegate</button> : '' }
+                                    {chainId ? <button className="btn text-sm" onClick={() => { dispatch(updateDelegateMakerToken(!IsDelegateMakerToken)) }}>delegate</button> : ''}
                                 </div>
                             </div>
                         </div>
@@ -186,7 +190,7 @@ function Governance() {
                             <div className="mb-4 flex justify-between items-center flex-wrap">
                                 <h2 className="text-3xl sm:text-4xl font-Roboto ">Treasure</h2>
                                 <a className=" flex justify-center h-9 items-center" title="View contract on blockchain explorer" target="_blank" href={`${networks[network].explorerurl}address/${tl[network]}`} rel="noopener noreferrer">
-                                    <span style={ networks[network].testnet && { color: networks[network].color }} className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{tl[network]}</span>
+                                    <span style={networks[network].testnet && { color: networks[network].color }} className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{tl[network]}</span>
                                 </a>
                             </div>
                             <p className="text-lg">
@@ -198,7 +202,7 @@ function Governance() {
                                     return (
                                         <span className="mr-2" key={cur}>{treasureBalances[cur]} {cur.toUpperCase()}</span>
                                     )
-                            }) : '-'}
+                                }) : '-'}
                             </p>
                         </div>
                     </article>
@@ -208,7 +212,7 @@ function Governance() {
                                 <h2 className="text-3xl sm:text-4xl font-Roboto ">Splitter</h2>
                                 {splitter[network] &&
                                     <a className=" flex justify-center h-9 items-center" title="View contract on blockchain explorer" target="_blank" href={`${networks[network].explorerurl}address/${splitter[network]}`} rel="noopener noreferrer">
-                                        <span style={ networks[network].testnet && { color: networks[network].color }} className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{splitter[network]}</span>
+                                        <span style={networks[network].testnet && { color: networks[network].color }} className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{splitter[network]}</span>
                                     </a>
                                 }
                             </div>
@@ -217,39 +221,39 @@ function Governance() {
                             </p>
                             <table className="w-full mx-auto text-sm table-auto bg-blend-darken md:text-xl">
                                 <thead>
-                                <tr>
-                                    <th className="w-1/4 text-left">Target</th>
-                                    <th className="w-1/4">Contract</th>
-                                    <th className="w-1/4 text-center">Current share</th>
-                                    <th className="w-1/4 text-right">Limits</th>
-                                </tr>
+                                    <tr>
+                                        <th className="w-1/4 text-left">Target</th>
+                                        <th className="w-1/4">Contract</th>
+                                        <th className="w-1/4 text-center">Current share</th>
+                                        <th className="w-1/4 text-right">Limits</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td className="py-1">Dividends</td>
-                                    <td className="py-1 pl-1">EtherPayer</td>
-                                    <td className="py-1 font-bold text-center">{shares.div}</td>
-                                    <td className="py-1 text-right whitespace-nowrap">10% - 60%</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-1">Governance</td>
-                                    <td className="py-1 pl-1">Treasure</td>
-                                    <td className="py-1 font-bold text-center">{shares.gov}</td>
-                                    <td className="py-1 text-right whitespace-nowrap">10% - 60%</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-1">Builders</td>
-                                    <td className="py-1 pl-1">DevFund</td>
-                                    <td className="py-1 font-bold text-center">{shares.dev}</td>
-                                    <td className="py-1 text-right whitespace-nowrap">10% - 60%</td>
-                                </tr>
+                                    <tr>
+                                        <td className="py-1">Dividends</td>
+                                        <td className="py-1 pl-1">EtherPayer</td>
+                                        <td className="py-1 font-bold text-center">{shares.div}</td>
+                                        <td className="py-1 text-right whitespace-nowrap">10% - 60%</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-1">Governance</td>
+                                        <td className="py-1 pl-1">Treasure</td>
+                                        <td className="py-1 font-bold text-center">{shares.gov}</td>
+                                        <td className="py-1 text-right whitespace-nowrap">10% - 60%</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-1">Builders</td>
+                                        <td className="py-1 pl-1">DevFund</td>
+                                        <td className="py-1 font-bold text-center">{shares.dev}</td>
+                                        <td className="py-1 text-right whitespace-nowrap">10% - 60%</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </article>
                 </div>
-            </div>
-        </section>
+            </div >
+        </section >
     )
 }
 
