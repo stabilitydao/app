@@ -54,6 +54,7 @@ export default async function handler(request, response) {
                     }
                 ],
                 'image': `${HOST}/maker/${pmColors[color].name.toLowerCase().replace(/ /g,"-")}.png`,
+                'background_color': '000000',
                 'animation_url': `${HOST}/maker/${pmColors[color].name.toLowerCase().replace(/ /g,"-")}.mp4`
             }
 
