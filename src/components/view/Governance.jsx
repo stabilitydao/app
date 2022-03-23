@@ -10,7 +10,7 @@ import splitterAbi from "@/src/abis/splitterAbi.json";
 import addresses from "@stabilitydao/addresses";
 
 function Governance() {
-    const { chainId, library } = useWeb3React()
+    const { account, chainId, library } = useWeb3React()
     const web3 = WEB3()
     const currentNetwork = useSelector(state => state.network.value)
     const network = chainId && networks[chainId] ? chainId : currentNetwork
@@ -26,6 +26,8 @@ function Governance() {
         votingPeriod: '-',
         proposalThreshold: '-',
     })
+    const [votingPower, setVotingPower] = useState(0)
+
     const rpcLib = chainId ? library : web3
 
     useEffect(async () => {
@@ -39,8 +41,10 @@ function Governance() {
 
                 contract = new rpcLib.eth.Contract(govAbi, gov[network]);
 
+                const blockNumber = await web3.eth.getBlockNumber() - 10
+
                 const
-                    quorumRow = await contract.methods.quorum(await web3.eth.getBlockNumber() - 10).call(),
+                    quorumRow = await contract.methods.quorum(blockNumber).call(),
                     quorumPerc = Math.round(100* 100 * quorumRow / totalSupply ) / 100,
                     votingDelay = await contract.methods.votingDelay().call(),
                     votingDelayHours = Math.round(votingDelay * networks[network].blocktimeAvgSec / 3600),
@@ -54,11 +58,15 @@ function Governance() {
                     proposalThresholdPerc = Math.round(100* 100 * proposalThreshold / totalSupply ) / 100
 
                     setGovSettings({
-                    quorum: `${web3.utils.fromWei(quorumRow)} votes / ${quorumPerc}%`,
-                    votingDelay: `${votingDelay} blocks / ${votingDelayText}`,
-                    votingPeriod: `${votingPeriod} blocks / ${votingPeriodText}`,
-                    proposalThreshold: `${web3.utils.fromWei(proposalThreshold)} votes / ${proposalThresholdPerc}%`,
-                })
+                        quorum: `${web3.utils.fromWei(quorumRow)} votes / ${quorumPerc}%`,
+                        votingDelay: `${votingDelay} blocks / ${votingDelayText}`,
+                        votingPeriod: `${votingPeriod} blocks / ${votingPeriodText}`,
+                        proposalThreshold: `${web3.utils.fromWei(proposalThreshold)} votes / ${proposalThresholdPerc}%`,
+                    })
+
+                if (account) {
+                    setVotingPower(Math.round(web3.utils.fromWei(await contract.methods.getVotes(account, blockNumber).call()) * 100) / 100)
+                }
             } else {
                 setGovSettings({
                     quorum: '-',
@@ -127,7 +135,7 @@ function Governance() {
                             <table>
                                 <thead>
                                 <tr>
-                                    <td className="pb-2 text-xl font-bold" colSpan={2}>Governance settings</td>
+                                    <td className="pb-2 text-xl font-bold" colSpan={2}>Contract parameters</td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -153,10 +161,22 @@ function Governance() {
                         <div>
                             <div className="text-xl font-bold">Voting tokens</div>
                             <div className="py-4 flex">
-                                <img src="/profit.png" title="Stability (PROFIT)" alt="PROFIT" className="w-16 h-16 mr-4" />
-                                <img src="/pm.png" title="Profit Maker (PM)" alt="PM" className="w-16 h-16 mr-4" />
+                                <div className="flex flex-col items-center justify-between h-28 mx-5">
+                                    <img src="/profit.png" title="Stability (PROFIT)" alt="PROFIT" className="w-16 h-16" />
+                                    {chainId ? <button className="btn text-sm">delegate</button> : '' }
+                                </div>
+                                <div className="flex flex-col items-center justify-between h-28 mx-5">
+                                    <img src="/pm.png" title="Profit Maker (PM)" alt="PM" className="w-16 h-16" />
+                                    {chainId ? <button className="btn text-sm">delegate</button> : '' }
+                                </div>
                             </div>
                         </div>
+                        {chainId && account && (
+                            <div className="mt-3 mb-5">
+                                <div className="text-xl font-bold mb-2">Your voting power</div>
+                                <div className="text-3xl font-bold">{votingPower}</div>
+                            </div>
+                        )}
                         <div className="py-1 my-5">
                             <div className="dark:text-blue-800 text-2xl font-bold">Voting user interface is under active development</div>
                         </div>
