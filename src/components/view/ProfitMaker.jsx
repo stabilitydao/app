@@ -145,14 +145,25 @@ function ProfitMaker() {
     }, [leftNfts])
 
     const isMintAvailable = pm && pm.mintStart * 1000 < new Date().getTime() && pm.mintEnd * 1000 > new Date().getTime() && pm.toMint > 0
+    const allMinted = pm && pm.mintStart * 1000 < new Date().getTime() && pm.mintEnd * 1000 > new Date().getTime() && pm.toMint == 0
 
     return (
         <section className=" h-calc">
             <div className="flex flex-col justify-center text-center h-80 bg-makerbanner" id="parallex" >
             </div>
             <div className="container p-4 pt-24 lg:pt-4">
+                {pm && pm.mintStart == 0 &&
+                <div className="text-xl text-center text-indigo-500">
+                    Minting is not yet available
+                </div>
+                }
+                {allMinted &&
+                    <div className="text-xl text-center text-indigo-500">
+                        All available NFTs in this epoch have already been minted
+                    </div>
+                }
                 {
-                    addresses[network].pm !== undefined && pm.mintStart > 0 ?
+                    addresses[network].pm !== undefined && pm.mintStart > 0 && !allMinted &&
                         <div className="flex flex-col md:flex-row items-center">
                             <div className="flex-1 p-4">
                                 {
@@ -243,8 +254,9 @@ function ProfitMaker() {
                                 </div>
                             </div>
                         </div>
-                        :
-                        <h1 className="mb-10 text-3xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">{pm && addresses[network].pm ? 'Mint is not available now' : 'PM not deployed to this network'}</h1>
+                }
+                {!pm || !addresses[network].pm &&
+                <h1 className="mb-10 text-3xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">{'PM not deployed to this network'}</h1>
                 }
                 {
                     pm && pm.mintStart > 0 && UserNfts !== null &&
