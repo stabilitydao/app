@@ -10,13 +10,12 @@ function DelegateProfitToken() {
     const { library, active, chainId, account } = useWeb3React()
     const web3 = WEB3()
     const currentNetwork = useSelector(state => state.network.value)
-    const rpcLib = chainId ? library : web3
     const network = chainId && networks[chainId] ? chainId : currentNetwork
     async function handledelegate(address) {
         if (address !== null) {
             try {
-                const tokenContract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token);
-                await tokenContract.methods.delegate(address);
+                const tokenContract = new library.eth.Contract(tokenAbi, addresses[network].token);
+                await tokenContract.methods.delegate(address).send({ from: account })
                 setAddress(null)
             } catch (error) {
                 console.log(error)

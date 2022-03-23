@@ -41,7 +41,7 @@ export const modalsSlice = createSlice({
             state.value.IsDelegateProfitToken = action.payload
         },
         updateDelegateMakerToken: (state, action) => {
-            state.value.IsDelegateProfitToken = action.payload
+            state.value.IsDelegateMakerToken = action.payload
         },
         updateIsTxSubmitted: (state, action) => {
             state.value.txhash = action.payload

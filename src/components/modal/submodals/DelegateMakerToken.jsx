@@ -15,8 +15,8 @@ function DelegateMakerToken() {
     async function handledelegate(address) {
         if (address !== null) {
             try {
-                const nftContract = new rpcLib.eth.Contract(tokenAbi, addresses[network].pm);
-                await nftContract.methods.delegate(address);
+                const nftContract = new library.eth.Contract(tokenAbi, addresses[network].pm);
+                await nftContract.methods.delegate(address).send({ from: account })
                 setAddress(null)
             } catch (error) {
                 console.log(error)
