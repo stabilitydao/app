@@ -66,6 +66,8 @@ function ProfitMaker() {
             } catch (error) {
                 console.log(error)
             }
+        } else {
+            setUserNfts(null)
         }
     }
     async function handleApprove() {
@@ -245,16 +247,18 @@ function ProfitMaker() {
                         <h1 className="mb-10 text-2xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Your owned NFT&apos;s</h1>
                         <div className='flex flex-row flex-wrap justify-center gap-4'>
                             {UserNfts.map((nft, index) => {
-                                console.log(nft)
-                                return (
-                                    <div key={index} className="max-w-xs  overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 p-2">
-                                        <img className="object-cover w-full h-56" src={nft.image} alt="avatar" />
-                                        <div className="py-5 text-center">
-                                            <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">{nft.name}</h1>
-                                            <span className="text-sm text-gray-700 dark:text-gray-200">{nft.description}</span>
+                                // console.log(nft)
+                                if (nft) {
+                                    return (
+                                        <div key={index} className="max-w-xs  overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 p-2">
+                                            <img className="object-cover w-full h-56" src={nft.image} alt="avatar" />
+                                            <div className="py-5 text-center">
+                                                <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">{nft.name}</h1>
+                                                <span className="text-sm text-gray-700 dark:text-gray-200">{nft.description}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                )
+                                    )
+                                }
                             })}
                         </div>
                     </div>
