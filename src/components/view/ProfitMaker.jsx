@@ -17,6 +17,7 @@ function ProfitMaker() {
     const [Choose, setChoose] = useState(false)
     const [SelectedNft, setSelectedNft] = useState(null)
     const [leftNfts, setleftNfts] = useState(null)
+    const [UserNfts, setUserNfts] = useState(null)
     const [isApproved, setisApproved] = useState(null)
     const tokenBalance = useSelector(state => state.tokenBalance.value)
     const web3 = WEB3()
@@ -39,6 +40,31 @@ function ProfitMaker() {
                 setisApproved(true)
             } else {
                 setisApproved(false)
+            }
+        }
+    }
+    async function handleUserHaveNft() {
+        if (active && addresses[network].pm !== undefined) {
+            try {
+                const nftContract = new rpcLib.eth.Contract(pmAbi, addresses[network].pm)
+                const haveNft = await nftContract.methods.ownerTokenIds(account).call()
+                Promise.all(
+                    haveNft.map(async (id) => {
+                        try {
+                            const userNft = await fetch('/api/maker-testnet/' + id)
+                            const nftJson = await userNft.json()
+                            return nftJson
+                        } catch (error) {
+                            console.log(error)
+                        }
+                    })
+                ).then((nfts) => {
+                    setUserNfts(nfts)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            } catch (error) {
+                console.log(error)
             }
         }
     }
@@ -108,9 +134,9 @@ function ProfitMaker() {
         getPm()
         remainingNft()
         handleIsApproved()
+        handleUserHaveNft()
     }, [network, isApproved, pm, active,])
     useEffect(() => {
-        console.log(leftNfts)
         if (leftNfts !== null && Object.keys(leftNfts).length !== 0) {
             setSelectedNft(Object.entries(leftNfts)[0][0])
         }
@@ -211,7 +237,27 @@ function ProfitMaker() {
                             </div>
                         </div>
                         :
-                        <h1 className="mb-10 text-3xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">MInt is not available now</h1>
+                        <h1 className="mb-10 text-3xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Mint is not available now</h1>
+                }
+                {
+                    UserNfts !== null &&
+                    <div >
+                        <h1 className="mb-10 text-2xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Your owned NFT&apos;s</h1>
+                        <div className='flex flex-row flex-wrap justify-center gap-4'>
+                            {UserNfts.map((nft, index) => {
+                                console.log(nft)
+                                return (
+                                    <div key={index} className="max-w-xs  overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 p-2">
+                                        <img className="object-cover w-full h-56" src={nft.image} alt="avatar" />
+                                        <div className="py-5 text-center">
+                                            <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">{nft.name}</h1>
+                                            <span className="text-sm text-gray-700 dark:text-gray-200">{nft.description}</span>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
                 }
             </div>
         </section >
