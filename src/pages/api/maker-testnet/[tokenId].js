@@ -12,7 +12,7 @@ export default async function handler(request, response) {
     // MUMBAI ProfitMakerTestnet
     const pmAddress = addresses[MUMBAI].pm;
 
-    const dbKey = `PROFIT_MAKER_TESTNET3_${tokenId}`
+    const dbKey = `PROFIT_MAKER_TESTNET4_${tokenId}`
     const usedColorsDbKey = 'PROFIT_MAKER_TESTNET_USED_COLORS_3'
 
     const HOST = 'https://dev.stabilitydao.org'
@@ -53,7 +53,8 @@ export default async function handler(request, response) {
                         "value": epoch
                     }
                 ],
-                'image': `${HOST}/maker/${pmColors[color].name.toLowerCase().replace(/ /g,"-")}.mp4`
+                'image': `${HOST}/maker/${pmColors[color].name.toLowerCase().replace(/ /g,"-")}.png`,
+                'animation_url': `${HOST}/maker/${pmColors[color].name.toLowerCase().replace(/ /g,"-")}.mp4`
             }
 
             // save to redis all
