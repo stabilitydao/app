@@ -5,20 +5,37 @@ import addresses from '@stabilitydao/addresses'
 import WEB3 from '@/src/functions/web3'
 import { useWeb3React } from '@web3-react/core'
 import { useDispatch, useSelector } from "react-redux";
+import { updateIsWaitingForWalletTxConfirm } from '@/redux/slices/modalsSlice'
+import {
+    updateDelegateProfitToken
+} from '@/redux/slices/modalsSlice'
+import { txConfirmedByNetwork, updateIsTxSubmitted, updateIsWalletOption } from "@/redux/slices/modalsSlice";
 function DelegateProfitToken() {
     const [Address, setAddress] = useState(null)
     const { library, active, chainId, account } = useWeb3React()
     const web3 = WEB3()
+    const dispatch = useDispatch()
     const currentNetwork = useSelector(state => state.network.value)
     const network = chainId && networks[chainId] ? chainId : currentNetwork
     async function handledelegate(address) {
         if (address !== null) {
+            dispatch(updateIsWaitingForWalletTxConfirm(true))
+            dispatch(updateDelegateProfitToken(false))
             try {
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[network].token);
                 await tokenContract.methods.delegate(address).send({ from: account })
+                    .on('transactionHash', txhash => {
+                        dispatch(updateIsWaitingForWalletTxConfirm(false))
+                        dispatch(updateIsTxSubmitted(txhash))
+                    })
+                    .on('receipt', r => {
+                        dispatch(txConfirmedByNetwork())
+                    })
                 setAddress(null)
             } catch (error) {
                 console.log(error)
+                dispatch(updateDelegateProfitToken(true))
+                dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
         }
     }

@@ -5,7 +5,13 @@ import addresses from '@stabilitydao/addresses'
 import WEB3 from '@/src/functions/web3'
 import { useWeb3React } from '@web3-react/core'
 import { useDispatch, useSelector } from "react-redux";
+import { updateIsWaitingForWalletTxConfirm } from '@/redux/slices/modalsSlice'
+import {
+    updateDelegateMakerToken
+} from '@/redux/slices/modalsSlice'
+import { txConfirmedByNetwork, updateIsTxSubmitted, updateIsWalletOption } from "@/redux/slices/modalsSlice";
 function DelegateMakerToken() {
+    const dispatch = useDispatch()
     const [Address, setAddress] = useState(null)
     const { library, active, chainId, account } = useWeb3React()
     const web3 = WEB3()
@@ -14,12 +20,23 @@ function DelegateMakerToken() {
     const network = chainId && networks[chainId] ? chainId : currentNetwork
     async function handledelegate(address) {
         if (address !== null) {
+            dispatch(updateIsWaitingForWalletTxConfirm(true))
+            dispatch(updateDelegateMakerToken(false))
             try {
                 const nftContract = new library.eth.Contract(tokenAbi, addresses[network].pm);
                 await nftContract.methods.delegate(address).send({ from: account })
+                    .on('transactionHash', txhash => {
+                        dispatch(updateIsWaitingForWalletTxConfirm(false))
+                        dispatch(updateIsTxSubmitted(txhash))
+                    })
+                    .on('receipt', r => {
+                        dispatch(txConfirmedByNetwork())
+                    })
                 setAddress(null)
             } catch (error) {
                 console.log(error)
+                dispatch(updateDelegateMakerToken(true))
+                dispatch(updateIsWaitingForWalletTxConfirm(false))
             }
         }
     }
