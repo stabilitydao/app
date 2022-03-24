@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { networks } from "@/src/wallet";
-import { gov, tl, splitter } from "@/src/wallet";
+import { gov, tl, splitter, govData } from "@/src/wallet";
 import { useWeb3React } from "@web3-react/core";
 import { useSelector, useDispatch } from "react-redux";
 import WEB3 from "@/src/functions/web3";
@@ -181,9 +181,13 @@ function Governance() {
                                 <div className="text-3xl font-bold">{votingPower}</div>
                             </div>
                         )}
-                        <div className="py-1 my-5">
-                            <div className="dark:text-blue-800 text-2xl font-bold">Voting user interface is under active development</div>
-                        </div>
+                        {govData[network] && govData[network].tally &&
+                            <div className="py-1 my-5">
+                                <a className=" flex justify-start h-9 items-center" title="Go to Tally" target="_blank" href={govData[network].tally} rel="noopener noreferrer">
+                                   <button className="btn">Tally governance app</button>
+                                </a>
+                            </div>
+                        }
                     </article>
                     <article className="mb-8">
                         <div className="py-4">
