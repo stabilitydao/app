@@ -7,6 +7,7 @@ import syncReducer from './slices/syncSlice'
 import priceReducer from './slices/priceSlice'
 import tokenReducer from './slices/tokenSlice'
 import dTokenReducer from './slices/dTokenSlice'
+import pmReducer from './slices/pmSlice'
 import modalsReducer from './slices/modalsSlice'
 import sidebarReducer from './slices/sidebarSlice'
 import profitPriceReducer from './slices/profitPriceSlice'
@@ -23,6 +24,7 @@ export const store = configureStore({
     price: priceReducer,
     token: tokenReducer,
     dToken: dTokenReducer,
+    pm: pmReducer,
     modals: modalsReducer,
     sidebar: sidebarReducer,
     profitpriceIn$: profitPriceReducer,

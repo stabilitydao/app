@@ -6,7 +6,7 @@ import {
     NetworkOption,
     Pending,
     WaitingForConfirm,
-    TxSubmitted
+    TxSubmitted, DelegateProfitToken, DelegateMakerToken
 } from '@/src/components/modal/submodals'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -15,7 +15,7 @@ import {
     updateIsWalletOption,
     updateIsPending,
     updateIsWaitingForWalletTxConfirm,
-    updateIsTxSubmitted, updateIsWaitingForChangeNetwork
+    updateIsTxSubmitted, updateIsWaitingForChangeNetwork, updateDelegateProfitToken, updateDelegateMakerToken
 } from '@/redux/slices/modalsSlice'
 import WaitingForWalletChangeNetwork from "@/src/components/modal/submodals/WaitingForWalletChangeNetwork";
 
@@ -28,6 +28,8 @@ function Modals() {
     const IsWaitingForWalletTxConfirm = useSelector(state => state.modals.value.IsWaitingForWalletTxConfirm)
     const IsWaitingForChangeNetwork = useSelector(state => state.modals.value.IsWaitingForChangeNetwork)
     const IsTxSubmitted = useSelector(state => state.modals.value.IsTxSubmitted)
+    const IsDelegateProfitToken = useSelector(state => state.modals.value.IsDelegateProfitToken)
+    const IsDelegateMakerToken = useSelector(state => state.modals.value.IsDelegateMakerToken)
 
     return (
         <div>
@@ -71,6 +73,18 @@ function Modals() {
                 IsWaitingForChangeNetwork &&
                 <Modal title={''} onClose={() => dispatch(updateIsWaitingForChangeNetwork(false))} showCloseBtn>
                     <WaitingForWalletChangeNetwork onClose={() => dispatch(updateIsWaitingForChangeNetwork(false))} />
+                </Modal>
+            }
+            {
+                IsDelegateProfitToken &&
+                <Modal title={'Delegate Vote'} onClose={() => dispatch(updateDelegateProfitToken(false))} showCloseBtn>
+                    <DelegateProfitToken onClose={() => dispatch(updateDelegateProfitToken(false))} />
+                </Modal>
+            }
+            {
+                IsDelegateMakerToken &&
+                <Modal title={'Delegate Vote'} onClose={() => dispatch(updateDelegateMakerToken(false))} showCloseBtn>
+                    <DelegateMakerToken onClose={() => dispatch(updateDelegateMakerToken(false))} />
                 </Modal>
             }
         </div>

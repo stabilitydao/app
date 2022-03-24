@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { BsGithub, BsTelegram, BsTwitter, BsDiscord } from 'react-icons/bs'
+import { BsGithub, BsTelegram, BsTwitter, BsDiscord, BsPatchPlusFill } from 'react-icons/bs'
 import { AiFillHome } from 'react-icons/ai'
 import { lpv3 } from '@/src/wallet/swaps'
 import { RiGovernmentFill } from 'react-icons/ri'
@@ -136,6 +136,7 @@ function Sidebar({ Mode }) {
                     <li><Link href="/pools"><a className={`${activeRoute === "/pools" ? "bg-indigo-600  text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer className="mr-2" />Pools</a></Link></li>
                     <li><Link href="/dividends"><a className={`${activeRoute === "/dividends" ? "bg-indigo-600 text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><GiProfit className="mr-2" />Dividends</a></Link></li>
                     <li><Link href="/governance"><a className={`${activeRoute === "/governance" ? "bg-indigo-600  text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><RiGovernmentFill className="mr-2" />Governance</a></Link></li>
+                    <li><Link href="/profitmaker"><a className={`${activeRoute === "/profitmaker" ? "bg-indigo-600  text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BsPatchPlusFill className="mr-2" />Profit Maker</a></Link></li>
                 </ul>
                 <ul className="mt-5">
                     <li><Link href="/tokens"><a className={`${activeRoute === "/tokens" ? "bg-indigo-600  text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
@@ -147,14 +148,14 @@ function Sidebar({ Mode }) {
             <div className="flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
                 <table className="w-50 mb-6">
                     <tbody>
-                    <tr>
-                        <td className="w-16">
-                            {btcPrice ? 'BTC' : null}
-                        </td>
-                        <td className="text-right">
-                            {btcPrice ? `${(Math.floor(btcPrice * 100) / 100).toFixed(2).replace(/\d(?=(\d{3})+(.\d+)$)/g, '$& ')}` : null}
-                        </td>
-                    </tr>
+                        <tr>
+                            <td className="w-16">
+                                {btcPrice ? 'BTC' : null}
+                            </td>
+                            <td className="text-right">
+                                {btcPrice ? `${(Math.floor(btcPrice * 100) / 100).toFixed(2).replace(/\d(?=(\d{3})+(.\d+)$)/g, '$& ')}` : null}
+                            </td>
+                        </tr>
                         <tr>
                             <td className="w-16">
                                 {ethPrice ? 'ETH' : null}

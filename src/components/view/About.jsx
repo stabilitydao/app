@@ -60,24 +60,38 @@ function About({ membersName }) {
                                         <div className="flex flex-col text-lg items-start">
                                             <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Splitter</div>
                                             <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" /><a href="/litepaper.pdf" target="_blank" className='underline' rel="nofollow">Litepaper</a></div>
+                                            <div>RevenueRouter</div>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
                                                 <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
                                                     ReactSwap
                                                 </div>
                                             </a>
+                                            <div className="flex">
+                                                <img src="/pm.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
+                                                Profit Maker
+                                            </div>
+                                            <div>Governance</div>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col w-1/3">
+                                        <div className="flex h-12 text-2xl font-bold">
+                                            Q2 2022
+                                        </div>
+                                        <div className="flex flex-col text-lg items-start">
+                                            <div>SDIV burns</div>
+                                            <div>Bridge</div>
+                                            <div>Cross-chain router</div>
+                                            <div>Docs</div>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
                                                 <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
                                                     Rarest
                                                 </div>
                                             </a>
-                                            <div>Governance</div>
-                                            <div>Profit Maker collection</div>
-                                            <div>SDIV burns</div>
-                                            <div>Docs</div>
                                         </div>
                                     </div>
+
                                     <div className="flex flex-col w-1/3">
                                         <div className="flex h-12 text-2xl font-bold">
                                             2022+
@@ -90,7 +104,6 @@ function About({ membersName }) {
                                             <div>Algorithmic stablecoin</div>
                                             <div>NFT GameFi project</div>
                                             <div>DAO factory</div>
-                                            <div>Cross-chain bridge</div>
                                             <div>Verse projects conveyor</div>
                                             <div>DeX mechanical trading system</div>
                                             <div>Chain boilerplate</div>
