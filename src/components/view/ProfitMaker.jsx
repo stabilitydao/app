@@ -62,6 +62,7 @@ function ProfitMaker() {
                     setUserNfts(nfts)
                 }).catch((err) => {
                     console.log(err)
+                    setUserNfts(null)
                 })
             } catch (error) {
                 console.log(error)
@@ -259,7 +260,7 @@ function ProfitMaker() {
                 <h1 className="mb-10 text-3xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">{'PM not deployed to this network'}</h1>
                 }
                 {
-                    pm && pm.mintStart * 1000 > new Date().getTime() && UserNfts !== null &&
+                    pm && pm.mintStart > 0 && (pm.mintStart * 1000 < new Date().getTime()) && UserNfts !== null &&
                     <div className="mt-16" >
                         <h1 className="mb-10 text-2xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Your owned NFT&apos;s</h1>
                         <div className='flex flex-row flex-wrap justify-center gap-4'>
