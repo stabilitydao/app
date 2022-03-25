@@ -285,9 +285,31 @@ function ProfitMaker() {
                             })}
                         </div>
                     </div>
-
                 }
             </div>
+
+            <div className="container p-4 pt-24 lg:pt-4">
+                <div className="flex flex-wrap">
+                    <div className="lg:w-1/2">
+                        <p className="px-5 text-lg xl:my-8">
+                            Collection of unique Stability DAO Governance tokens. The owner of a Profit Maker token is the owner of 1% of the total voting power in the genesis DAO governance, has the ability to receive unit tokens from the initial supply and has privileges in the ecosystem. <br />
+                            <br />
+                        </p>
+                    </div>
+                    <div className="w-full lg:w-1/2 mx-auto">
+                        <p className="px-5 text-lg xl:my-8">
+                            <span className="text-xl font-bold">Features</span>
+                            <ul className="text-left">
+                                <li>Voting power: 10 000 votes</li>
+                                <li>Ecosystem tokens vesting</li>
+                                <li>Units whitelist</li>
+                                <li>Dividend limit: 1 000 000 SDIV</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
         </section >
     )
 }
