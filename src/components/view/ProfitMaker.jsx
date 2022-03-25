@@ -28,7 +28,7 @@ function ProfitMaker() {
     const pm = useSelector(state => state.pm)
     const dispatch = useDispatch();
     async function remainingNft() {
-        const res = await fetch('/api/maker-testnet/available-colors')
+        const res = await fetch(!networks[network].testnet ? '/api/maker/available-colors' : '/api/maker-testnet/available-colors')
         const inJson = await res.json()
         setleftNfts(inJson)
     }
@@ -51,7 +51,7 @@ function ProfitMaker() {
                 Promise.all(
                     haveNft.map(async (id) => {
                         try {
-                            const userNft = await fetch('/api/maker-testnet/' + id)
+                            const userNft = await fetch(!networks[network].testnet ? '/api/maker/' : '/api/maker-testnet/' + id)
                             const nftJson = await userNft.json()
                             return nftJson
                         } catch (error) {
@@ -168,7 +168,7 @@ function ProfitMaker() {
                             <div className="flex-1 p-4">
                                 {
                                     leftNfts && SelectedNft &&
-                                    <img className='w-full' src={`/maker/${leftNfts[SelectedNft]?.name.replace(' ', '-').toLowerCase()}.png`} alt="" height='200' width='200' />
+                                    <img className='w-full' src={`/maker/${leftNfts[SelectedNft]?.name.replace(/ /g, '-').toLowerCase()}.png`} alt="" height='200' width='200' />
                                 }
                             </div>
                             <div className="flex-1 p-4 font-Roboto">
@@ -217,13 +217,13 @@ function ProfitMaker() {
                                                 :
                                                 <>
                                                     {
-                                                        isMintAvailable &&
+                                                        leftNfts &&
                                                         <div className="relative inline-block z-0 mb-8">
                                                             <button onClick={() => { setChoose(!Choose) }} className="relative btn z-10 block p-2   border border-transparent rounded-md   focus:outline-none">
                                                                 {leftNfts && SelectedNft ? leftNfts[SelectedNft]?.name : ""}
                                                             </button>
                                                             <div className={`absolute z-0 right-0  w-48 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-800 ${Choose ? 'block' : 'hidden'}`}>
-                                                                {
+                                                                {leftNfts &&
                                                                     Object.entries(leftNfts).map((nft, index) => {
                                                                         return (
                                                                             <div onClick={() => { setChoose(false); setSelectedNft(nft[0]) }} key={index} className=" flex flex-row justify-between cursor-pointer px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
@@ -259,7 +259,7 @@ function ProfitMaker() {
                 <h1 className="mb-10 text-3xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">{'PM not deployed to this network'}</h1>
                 }
                 {
-                    pm && pm.mintStart > 0 && UserNfts !== null &&
+                    pm && pm.mintStart * 1000 > new Date().getTime() && UserNfts !== null &&
                     <div className="mt-16" >
                         <h1 className="mb-10 text-2xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Your owned NFT&apos;s</h1>
                         <div className='flex flex-row flex-wrap justify-center gap-4'>
