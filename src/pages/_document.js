@@ -16,7 +16,7 @@ class MyDocument extends Document {
                     <meta property="og:image:height" content="600" />
                     <meta property="og:site_name" content="Stability" />
                     <meta property="og:type" content="object" />
-                    <meta property="og:title" content="Stability Dao" />
+                    <meta property="og:title" content="Stability DAO" />
                     <meta property="og:url" content="https://stabilitydao.org" />
                     <meta property="og:description" content="Profit generating decentralized organization" />
                 </Head>
