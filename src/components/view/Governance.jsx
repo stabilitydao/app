@@ -132,7 +132,7 @@ function Governance() {
                                 </a>
                             </div>
                             <p className="text-lg">
-                                PROFIT token holders with sufficient voting power can directly participate in the governance of the Stability protocol. These will be the only investors who can collectively change the organization’s resource distribution (mentioned below) and participate in critical decision-making processes involving the direction of the entire ecosystem.
+                                Voting token holders with sufficient voting power can directly participate in the governance of the Stability protocol. These will be the only investors who can collectively change the organization’s resource distribution (mentioned below) and participate in critical decision-making processes involving the direction of the entire ecosystem.
                             </p>
                         </div>
                         <div className="mb-4">
