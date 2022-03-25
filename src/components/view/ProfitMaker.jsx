@@ -22,6 +22,7 @@ function ProfitMaker() {
     const tokenBalance = useSelector(state => state.tokenBalance.value)
     const web3 = WEB3()
     const currentNetwork = useSelector(state => state.network.value)
+    const isDark = useSelector(state => state.mode.value)
     const { library, active, chainId, account } = useWeb3React()
     const network = chainId && networks[chainId] ? chainId : currentNetwork
     const rpcLib = chainId ? library : web3
@@ -150,8 +151,11 @@ function ProfitMaker() {
 
     return (
         <section className=" h-calc">
-            <div className="flex flex-col justify-center text-center h-80 bg-makerbanner" id="parallex" >
-            </div>
+            {isDark ?
+                <div className="flex flex-col justify-center text-center h-80 bg-makerbanner" id="parallex" />
+                    :
+                <div className="flex flex-col justify-center text-center h-80 bg-makerbanner-light" id="parallex" />
+            }
             <div className="container p-4 pt-24 lg:pt-4">
                 {pm && pm.mintStart == 0 &&
                 <div className="text-xl text-center text-indigo-500">
@@ -185,7 +189,7 @@ function ProfitMaker() {
                                     }
                                     {
                                         pm &&
-                                        <h1 className='text-2xl leading-normal border-2 border-indigo-800 p-4  rounded-t-xl'>
+                                        <h1 className='text-2xl leading-normal border-2 border-indigo-800 p-4'>
                                             <BsStopwatch className='inline mr-2'/>
                                             <>
                                                 Minting ends {network && addresses[network].pm && pm && pm.mintEnd > 0 ? (new Date(pm.mintEnd * 1000)).toString() : '-'}
