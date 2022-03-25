@@ -178,7 +178,7 @@ function ProfitMaker() {
                                         <h1 className='text-2xl leading-normal border-2 border-indigo-800 p-4  rounded-t-xl'>
                                             <BsStopwatch className='inline mr-2' />
                                             <>
-                                                Minting starts {network && addresses[network].pm && pm && pm.mintEnd > 0 ? (new Date(pm.mintEnd * 1000)).toString() : '-'}
+                                                Minting starts {network && addresses[network].pm && pm && pm.mintStart > 0 ? (new Date(pm.mintStart * 1000)).toString() : '-'}
                                             </>
                                         </h1>
                                     }
