@@ -3,9 +3,9 @@ import poolAbi from '@/src/abis/poolAbi'
 import { useWeb3React } from '@web3-react/core'
 import { ethers } from 'ethers'
 import tokenAbi from '@/src/abis/tokenAbi'
-import addresses, {MUMBAI, POLYGON, ROPSTEN} from '@stabilitydao/addresses'
+import addresses, { MUMBAI, POLYGON, ROPSTEN } from '@stabilitydao/addresses'
 import { networks } from "../wallet/networks";
-import {txConfirmedByNetwork, updateIsTxSubmitted, updateIsWalletOption} from "@/redux/slices/modalsSlice";
+import { txConfirmedByNetwork, updateIsTxSubmitted, updateIsWalletOption } from "@/redux/slices/modalsSlice";
 import { useDispatch, useSelector } from 'react-redux'
 import { showAlert } from '@/src/components/alert'
 import { updateTokenbalance } from '@/redux/slices/tokenbalanceSlice'
@@ -13,7 +13,7 @@ import { updateBalance } from '@/redux/slices/balanceSlice'
 import { MdGeneratingTokens } from "react-icons/md";
 import WEB3 from '@/src/functions/web3';
 import { updateIsWaitingForWalletTxConfirm } from '@/redux/slices/modalsSlice'
-
+import { gasPrice } from '@/src/wallet'
 
 const mintingStartBlock = {
     [POLYGON]: 23100000,
@@ -53,7 +53,8 @@ function Pool({ name, pool, network }) {
             dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
-                await poolContract.methods.stake(library.utils.toWei(`${stakeNow}`, 'ether')).send({ from: account })
+                const price = await gasPrice(library)
+                await poolContract.methods.stake(library.utils.toWei(`${stakeNow}`, 'ether')).send({ from: account, gasPrice: price })
                     .on('transactionHash', txhash => {
                         dispatch(updateIsWaitingForWalletTxConfirm(false))
                         dispatch(updateIsTxSubmitted(txhash))
@@ -81,7 +82,8 @@ function Pool({ name, pool, network }) {
             dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[chainId].token);
-                await tokenContract.methods.approve(pool.contract, ethers.constants.MaxUint256).send({ from: account })
+                const price = await gasPrice(library)
+                await tokenContract.methods.approve(pool.contract, ethers.constants.MaxUint256).send({ from: account, gasPrice: price })
                     .on('transactionHash', txhash => {
                         dispatch(updateIsWaitingForWalletTxConfirm(false))
                         dispatch(updateIsTxSubmitted(txhash))
@@ -103,7 +105,8 @@ function Pool({ name, pool, network }) {
             dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
-                await poolContract.methods.unstake(library.utils.toWei(`${unStakeNow}`, 'ether')).send({ from: account })
+                const price = await gasPrice(library)
+                await poolContract.methods.unstake(library.utils.toWei(`${unStakeNow}`, 'ether')).send({ from: account, gasPrice: price })
                     .on('transactionHash', txhash => {
                         dispatch(updateIsWaitingForWalletTxConfirm(false))
                         dispatch(updateIsTxSubmitted(txhash))
@@ -126,11 +129,13 @@ function Pool({ name, pool, network }) {
             showAlert("Failed")
         }
     }
+
     async function harvest() {
         dispatch(updateIsWaitingForWalletTxConfirm(true))
         try {
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
-            await poolContract.methods.harvest().send({ from: account })
+            const price = await gasPrice(library)
+            await poolContract.methods.harvest().send({ from: account, gasPrice: price })
                 .on('transactionHash', txhash => {
                     dispatch(updateIsWaitingForWalletTxConfirm(false))
                     dispatch(updateIsTxSubmitted(txhash))

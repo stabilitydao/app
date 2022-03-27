@@ -9,6 +9,8 @@ import { updateIsWaitingForWalletTxConfirm } from '@/redux/slices/modalsSlice'
 import {
     updateDelegateMakerToken
 } from '@/redux/slices/modalsSlice'
+import { gasPrice } from '@/src/wallet'
+
 import { txConfirmedByNetwork, updateIsTxSubmitted, updateIsWalletOption } from "@/redux/slices/modalsSlice";
 function DelegateMakerToken() {
     const dispatch = useDispatch()
@@ -24,7 +26,8 @@ function DelegateMakerToken() {
             dispatch(updateDelegateMakerToken(false))
             try {
                 const nftContract = new library.eth.Contract(tokenAbi, addresses[network].pm);
-                await nftContract.methods.delegate(address).send({ from: account })
+                const price = await gasPrice(library)
+                await nftContract.methods.delegate(address).send({ from: account, gasPrice: price })
                     .on('transactionHash', txhash => {
                         dispatch(updateIsWaitingForWalletTxConfirm(false))
                         dispatch(updateIsTxSubmitted(txhash))

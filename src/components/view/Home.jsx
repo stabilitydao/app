@@ -20,6 +20,7 @@ import {
     updateIsWalletOption
 } from "@/redux/slices/modalsSlice";
 import { tl } from "@/src/wallet";
+import { gasPrice } from '@/src/wallet'
 const appEnabled = {
     [POLYGON]: true,
     [ROPSTEN]: true,
@@ -177,7 +178,8 @@ function Home() {
         try {
             const pool = pools[network][Object.keys(pools[network])[0]]
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
-            await poolContract.methods.harvest().send({ from: account })
+            const price = await gasPrice(library)
+            await poolContract.methods.harvest().send({ from: account, gasPrice: price })
                 .on('transactionHash', txhash => {
                     dispatch(updateIsWaitingForWalletTxConfirm(false))
                     dispatch(updateIsTxSubmitted(txhash))
@@ -200,7 +202,8 @@ function Home() {
             dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const contract = new library.eth.Contract(dividendAbi, dividendAddress)
-                await contract.methods.releasePayment().send({ from: account })
+                const price = await gasPrice(library)
+                await contract.methods.releasePayment().send({ from: account, gasPrice: price })
                     .on('transactionHash', txhash => {
                         dispatch(updateIsWaitingForWalletTxConfirm(false))
                         dispatch(updateIsTxSubmitted(txhash))

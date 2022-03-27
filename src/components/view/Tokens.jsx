@@ -3,7 +3,7 @@ import Link from 'next/link'
 import addresses from '@stabilitydao/addresses'
 import { networks } from '../../wallet'
 import { buyLinks, lpv3 } from '../../wallet/swaps'
-import {pmData} from '../../wallet/pm'
+import { pmData } from '../../wallet/pm'
 import { useDispatch, useSelector } from "react-redux";
 import { useWeb3React } from '@web3-react/core'
 import tokenAbi from '@/src/abis/tokenAbi'
@@ -13,7 +13,6 @@ import WEB3 from '@/src/functions/web3'
 import { symbol, name, totalSupply } from "@/redux/slices/tokenSlice";
 import { dsymbol, dname, dtotalSupply } from "@/redux/slices/dTokenSlice";
 import { pmtotalSupply, mintStart, mintEnd, toMint } from "@/redux/slices/pmSlice";
-
 function Tokens() {
     const web3 = WEB3()
     const dispatch = useDispatch()
@@ -29,7 +28,6 @@ function Tokens() {
 
     // todo get theme
     const isDark = mode
-
     useEffect(() => {
         if (rpcLib) {
             if (addresses[network].token) {
@@ -124,7 +122,6 @@ function Tokens() {
         });
     }
 
-    console.log(new Date().getTime())
     return (
         <section className=" h-calc">
             <div className="container p-4 pt-24 lg:pt-4">
@@ -174,10 +171,10 @@ function Tokens() {
                                 <div className="flex justify-center">
                                     <table className="w-full text-sm table-auto bg-blend-darken md:text-xl" style={{ maxWidth: '540px' }}>
                                         <tbody>
-                                        <tr>
-                                            <td className="py-1 pr-10">Standard</td>
-                                            <td className="py-1 text-right">ERC20</td>
-                                        </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Standard</td>
+                                                <td className="py-1 text-right">ERC20</td>
+                                            </tr>
                                             <tr>
                                                 <td className="py-1 pr-10">Contract</td>
                                                 <td className="py-1 text-right">{network ? (
@@ -233,8 +230,8 @@ function Tokens() {
                         </div>
                     </div>
                 </article>
-                <br/>
-                <br/>
+                <br />
+                <br />
                 <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">SDIV</h1>
                 <article className="mb-10">
                     <div className="lg:w-3/5 xl:w-4/5 mx-auto">
@@ -270,10 +267,10 @@ function Tokens() {
                                 <div className="flex justify-center">
                                     <table className="w-full text-sm table-auto bg-blend-darken md:text-xl" style={{ maxWidth: '540px' }}>
                                         <tbody>
-                                        <tr>
-                                            <td className="py-1 pr-10">Standard</td>
-                                            <td className="py-1 text-right">ERC20</td>
-                                        </tr>
+                                            <tr>
+                                                <td className="py-1 pr-10">Standard</td>
+                                                <td className="py-1 text-right">ERC20</td>
+                                            </tr>
                                             <tr>
                                                 <td className="py-1 pr-10">Contract</td>
                                                 <td className="py-1 text-right">{network && addresses[network].dToken ? (
@@ -314,8 +311,8 @@ function Tokens() {
                         </div>
                     </div>
                 </article>
-                <br/>
-                <br/>
+                <br />
+                <br />
                 {network && addresses[network].pm &&
                     <div>
                         <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">PM</h1>
@@ -330,7 +327,7 @@ function Tokens() {
                                                     {pm && pm.mintStart * 1000 < new Date().getTime() && pm.mintEnd * 1000 > new Date().getTime() && pm.toMint > 0 &&
                                                         <Link href="/profitmaker">
                                                             <a className="mx-3">
-                                                            <button className="btn bg-teal-700 rounded-md text-lg py-1">MINT</button>
+                                                                <button className="btn bg-teal-700 rounded-md text-lg py-1">MINT</button>
                                                             </a>
                                                         </Link>
                                                     }
@@ -349,52 +346,52 @@ function Tokens() {
                                         <div className="flex-row justify-center">
                                             <table className="w-full text-sm table-auto bg-blend-darken md:text-xl" style={{ maxWidth: '540px' }}>
                                                 <tbody>
-                                                <tr>
-                                                    <td className="py-1 pr-10">Standard</td>
-                                                    <td className="py-1 text-right">ERC721</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1 pr-10">Contract</td>
-                                                    <td className="py-1 text-right">
-                                                        <a title="View Asset on Etherscan" target="_blank" href={`${networks[network].explorerurl}token/${addresses[network].pm}`} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].pm.slice(0, -36)}...{addresses[network].pm.substring(38)}</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1 pr-10">Token name</td>
-                                                    <td className="py-1 text-right">Profit Maker</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1 pr-10">Symbol</td>
-                                                    <td className="py-1 text-right">PM</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1 whitespace-nowrap pr-10">Total supply</td>
-                                                    <td className="py-1 text-right">{pm ? pm.totalSupply : '-'}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1 whitespace-nowrap pr-10">Max supply</td>
-                                                    <td className="py-1 text-right">80</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1 pr-10">Type</td>
-                                                    <td className="py-1 text-right">utility</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1 pr-10">Mint price</td>
-                                                    <td className="py-1 text-right">10 000 PROFIT</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1 pr-10">Mint start</td>
-                                                    <td className="py-1 text-right">{pm && pm.mintStart > 0 ? (new Date(pm.mintStart * 1000)).toString() : '-'}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1 pr-10">Mint end</td>
-                                                    <td className="py-1 text-right">{pm && pm.mintEnd > 0 ? (new Date(pm.mintEnd * 1000)).toString() : '-'}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="py-1 pr-10">To mint</td>
-                                                    <td className="py-1 text-right">{pm && pm.toMint ? pm.toMint : '-'}</td>
-                                                </tr>
+                                                    <tr>
+                                                        <td className="py-1 pr-10">Standard</td>
+                                                        <td className="py-1 text-right">ERC721</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1 pr-10">Contract</td>
+                                                        <td className="py-1 text-right">
+                                                            <a title="View Asset on Etherscan" target="_blank" href={`${networks[network].explorerurl}token/${addresses[network].pm}`} rel="noopener noreferrer"><span style={{ color: networks[network].color }} className="text-sm">{networks[network].name}</span> {addresses[network].pm.slice(0, -36)}...{addresses[network].pm.substring(38)}</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1 pr-10">Token name</td>
+                                                        <td className="py-1 text-right">Profit Maker</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1 pr-10">Symbol</td>
+                                                        <td className="py-1 text-right">PM</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1 whitespace-nowrap pr-10">Total supply</td>
+                                                        <td className="py-1 text-right">{pm ? pm.totalSupply : '-'}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1 whitespace-nowrap pr-10">Max supply</td>
+                                                        <td className="py-1 text-right">80</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1 pr-10">Type</td>
+                                                        <td className="py-1 text-right">utility</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1 pr-10">Mint price</td>
+                                                        <td className="py-1 text-right">10 000 PROFIT</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1 pr-10">Mint start</td>
+                                                        <td className="py-1 text-right">{pm && pm.mintStart > 0 ? (new Date(pm.mintStart * 1000)).toString() : '-'}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1 pr-10">Mint end</td>
+                                                        <td className="py-1 text-right">{pm && pm.mintEnd > 0 ? (new Date(pm.mintEnd * 1000)).toString() : '-'}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="py-1 pr-10">To mint</td>
+                                                        <td className="py-1 text-right">{pm && pm.toMint ? pm.toMint : '-'}</td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>

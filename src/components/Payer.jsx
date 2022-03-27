@@ -11,8 +11,8 @@ import {
     updateIsWaitingForWalletTxConfirm,
     updateIsWalletOption
 } from "@/redux/slices/modalsSlice";
-import {networks} from "../wallet/networks";
-
+import { networks } from "../wallet/networks";
+import { gasPrice } from '@/src/wallet'
 function Payer({ name, address, rewardTokenAddress, rewardTokenSymbol, color, network }) {
     const web3 = WEB3()
     const dispatch = useDispatch()
@@ -22,7 +22,7 @@ function Payer({ name, address, rewardTokenAddress, rewardTokenSymbol, color, ne
     const [paidTo, setpaidTo] = useState(null)
     const { library, chainId, active, account } = useWeb3React()
     const rpcLib = chainId ? library : web3
-    
+
     useEffect(() => {
         if (active) {
             const contract = new library.eth.Contract(dividendAbi, address)
@@ -48,7 +48,8 @@ function Payer({ name, address, rewardTokenAddress, rewardTokenSymbol, color, ne
             dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const contract = new library.eth.Contract(dividendAbi, address)
-                await contract.methods.releasePayment().send({ from: account })
+                const price = await gasPrice(library)
+                await contract.methods.releasePayment().send({ from: account, gasPrice: price })
                     .on('transactionHash', txhash => {
                         dispatch(updateIsWaitingForWalletTxConfirm(false))
                         dispatch(updateIsTxSubmitted(txhash))
@@ -103,44 +104,44 @@ function Payer({ name, address, rewardTokenAddress, rewardTokenSymbol, color, ne
                 <div className="p-5 pt-1 space-y-4">
                     <table className="table-auto  w-full">
                         <tbody>
-                        <tr>
-                            <td className="">Total paid</td>
-                            <td className="pl-4 text-right">
-                                {totalPaid ? (
-                                    <span>{totalPaid ? Math.floor(totalPaid * 10000) / 10000 : "-"} {rewardTokenSymbol}</span>
-                                ) : '-'}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="">Total pending</td>
-                            <td className="pl-8 text-right">
-                                {totalPending ? (
-                                    <span>{totalPending ? Math.floor(totalPending * 10000) / 10000 : "-"} {rewardTokenSymbol}</span>
-                                ) : '-'}
-                            </td>
-                        </tr>
-                        {active &&
-                            <>
-                                <tr>
-                                    <td className="">Total paid to you</td>
-                                    <td className="pl-8 text-right">
-                                        {paidTo ? (
-                                            <span>{paidTo ? Math.floor(paidTo * 10000) / 10000 : "-"} {rewardTokenSymbol}</span>
-                                        ) : '-'}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Your pending payment
-                                    </td>
-                                    <td className="pl-8 text-right">
-                                        {pendingPayment ? (
-                                            <span>{Math.floor(pendingPayment * 10000) / 10000} {rewardTokenSymbol}</span>
-                                        ) : "-"}
-                                    </td>
-                                </tr>
-                            </>
-                        }
+                            <tr>
+                                <td className="">Total paid</td>
+                                <td className="pl-4 text-right">
+                                    {totalPaid ? (
+                                        <span>{totalPaid ? Math.floor(totalPaid * 10000) / 10000 : "-"} {rewardTokenSymbol}</span>
+                                    ) : '-'}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="">Total pending</td>
+                                <td className="pl-8 text-right">
+                                    {totalPending ? (
+                                        <span>{totalPending ? Math.floor(totalPending * 10000) / 10000 : "-"} {rewardTokenSymbol}</span>
+                                    ) : '-'}
+                                </td>
+                            </tr>
+                            {active &&
+                                <>
+                                    <tr>
+                                        <td className="">Total paid to you</td>
+                                        <td className="pl-8 text-right">
+                                            {paidTo ? (
+                                                <span>{paidTo ? Math.floor(paidTo * 10000) / 10000 : "-"} {rewardTokenSymbol}</span>
+                                            ) : '-'}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Your pending payment
+                                        </td>
+                                        <td className="pl-8 text-right">
+                                            {pendingPayment ? (
+                                                <span>{Math.floor(pendingPayment * 10000) / 10000} {rewardTokenSymbol}</span>
+                                            ) : "-"}
+                                        </td>
+                                    </tr>
+                                </>
+                            }
                         </tbody>
                     </table>
                     {!active && <button
