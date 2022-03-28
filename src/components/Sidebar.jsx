@@ -127,7 +127,7 @@ function Sidebar({ Mode }) {
             <div className="flex flex-col mb-8">
                 <Link href="/">
                     <div style={{ height: 72, paddingLeft: 18 }} className="flex items-center py-2 cursor-pointer" onClick={() => { dispatch(updateSidebar(false)) }}>
-                        <img src="/logo_nolines_256.png" alt="Stability" className="h-10" />
+                        <img src="/logo40z.png" alt="Stability" className="h-10" />
                         <span className="ml-3.5 text-xl font-bold">STABILITY</span>
                     </div>
                 </Link>

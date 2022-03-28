@@ -92,7 +92,7 @@ function Layout({ children }) {
             <main className={Mode ? "dark" : ""} >
                 <Head>
                     <title>{Title ? `${Title} - ` : ""}Stability</title>
-                    <link rel="icon" href="/logo_nolines_256.png" />
+                    <link rel="icon" href="/logo40.png" />
                     <meta name="description" content="Profit generating DeFi protocol" />
                 </Head>
                 <div className="flex flex-row">
