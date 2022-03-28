@@ -1,4 +1,4 @@
-import {MUMBAI} from "./networks";
+import {MUMBAI, POLYGON} from "./networks";
 
 const pmColors = {
     1: {
@@ -44,6 +44,9 @@ const pmColors = {
 }
 
 const pmData = {
+    [POLYGON]: {
+        opensea: 'https://opensea.io/collection/profit-maker',
+    },
     [MUMBAI]: {
         opensea: 'https://testnets.opensea.io/collection/profit-maker-testnet',
     },

@@ -192,7 +192,7 @@ function Governance() {
                     <article className="mb-8">
                         <div className="py-4">
                             <div className="mb-4 flex justify-between items-center flex-wrap">
-                                <h2 className="text-3xl sm:text-4xl font-Roboto ">Treasure</h2>
+                                <h2 className="text-3xl sm:text-4xl font-Roboto ">Treasury</h2>
                                 <a className=" flex justify-center h-9 items-center" title="View contract on blockchain explorer" target="_blank" href={`${networks[network].explorerurl}address/${tl[network]}`} rel="noopener noreferrer">
                                     <span style={networks[network].testnet && { color: networks[network].color }} className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{tl[network]}</span>
                                 </a>
@@ -235,13 +235,13 @@ function Governance() {
                                 <tbody>
                                     <tr>
                                         <td className="py-1">Dividends</td>
-                                        <td className="py-1 pl-1">EtherPayer</td>
+                                        <td className="py-1 pl-1">EtherPayer, ProfitPayer</td>
                                         <td className="py-1 font-bold text-center">{shares.div}</td>
                                         <td className="py-1 text-right whitespace-nowrap">10% - 60%</td>
                                     </tr>
                                     <tr>
                                         <td className="py-1">Governance</td>
-                                        <td className="py-1 pl-1">Treasure</td>
+                                        <td className="py-1 pl-1">Treasury</td>
                                         <td className="py-1 font-bold text-center">{shares.gov}</td>
                                         <td className="py-1 text-right whitespace-nowrap">10% - 60%</td>
                                     </tr>
@@ -249,7 +249,7 @@ function Governance() {
                                         <td className="py-1">Builders</td>
                                         <td className="py-1 pl-1">DevFund</td>
                                         <td className="py-1 font-bold text-center">{shares.dev}</td>
-                                        <td className="py-1 text-right whitespace-nowrap">10% - 60%</td>
+                                        <td className="py-1 text-right whitespace-nowrap">20% - 60%</td>
                                     </tr>
                                 </tbody>
                             </table>

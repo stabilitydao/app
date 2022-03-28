@@ -9,6 +9,8 @@ import { updateIsWaitingForWalletTxConfirm } from '@/redux/slices/modalsSlice'
 import {
     updateDelegateProfitToken
 } from '@/redux/slices/modalsSlice'
+import { gasPrice } from '@/src/wallet'
+
 import { txConfirmedByNetwork, updateIsTxSubmitted, updateIsWalletOption } from "@/redux/slices/modalsSlice";
 function DelegateProfitToken() {
     const [Address, setAddress] = useState(null)
@@ -23,7 +25,8 @@ function DelegateProfitToken() {
             dispatch(updateDelegateProfitToken(false))
             try {
                 const tokenContract = new library.eth.Contract(tokenAbi, addresses[network].token);
-                await tokenContract.methods.delegate(address).send({ from: account })
+                const price = await gasPrice(library)
+                await tokenContract.methods.delegate(address).send({ from: account, gasPrice: price })
                     .on('transactionHash', txhash => {
                         dispatch(updateIsWaitingForWalletTxConfirm(false))
                         dispatch(updateIsTxSubmitted(txhash))

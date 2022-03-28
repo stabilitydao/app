@@ -12,7 +12,8 @@ import { pmtotalSupply, mintStart, mintEnd, toMint } from "@/redux/slices/pmSlic
 import { useWeb3React } from '@web3-react/core'
 import { txConfirmedByNetwork, updateIsTxSubmitted, updateIsWaitingForWalletTxConfirm, updateIsWalletOption } from "@/redux/slices/modalsSlice";
 import { showAlert } from '@/src/components/alert'
-
+import { gasPrice } from '@/src/wallet'
+import {pmData} from "@/src/wallet/pm";
 function ProfitMaker() {
     const [Choose, setChoose] = useState(false)
     const [SelectedNft, setSelectedNft] = useState(null)
@@ -52,7 +53,7 @@ function ProfitMaker() {
                 Promise.all(
                     haveNft.map(async (id) => {
                         try {
-                            const userNft = await fetch(!networks[network].testnet ? '/api/maker/' : '/api/maker-testnet/' + id)
+                            const userNft = await fetch(!networks[network].testnet ? '/api/maker/' + id : '/api/maker-testnet/' + id)
                             const nftJson = await userNft.json()
                             return nftJson
                         } catch (error) {
@@ -77,7 +78,8 @@ function ProfitMaker() {
             dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const profitContract = new rpcLib.eth.Contract(tokenAbi, addresses[network].token)
-                profitContract.methods.approve(addresses[network].pm, ethers.BigNumber.from('10000000000000000000000')).send({ from: account }).on('transactionHash', txhash => {
+                const price = await gasPrice(rpcLib)
+                profitContract.methods.approve(addresses[network].pm, ethers.BigNumber.from('10000000000000000000000')).send({ from: account, gasPrice: price }).on('transactionHash', txhash => {
                     dispatch(updateIsWaitingForWalletTxConfirm(false))
                     dispatch(updateIsTxSubmitted(txhash))
                 }).on('receipt', r => {
@@ -97,7 +99,8 @@ function ProfitMaker() {
             dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const pmContract = new rpcLib.eth.Contract(pmAbi, addresses[network].pm)
-                pmContract.methods.safeMint(account, SelectedNft).send({ from: account }).on('transactionHash', txhash => {
+                const price = await gasPrice(rpcLib)
+                pmContract.methods.safeMint(account, SelectedNft).send({ from: account, gasPrice: price }).on('transactionHash', txhash => {
                     dispatch(updateIsWaitingForWalletTxConfirm(false))
                     dispatch(updateIsTxSubmitted(txhash))
                 }).on('receipt', r => {
@@ -158,9 +161,9 @@ function ProfitMaker() {
             }
             <div className="container p-4 pt-24 lg:pt-4">
                 {pm && pm.mintStart == 0 &&
-                <div className="text-xl text-center text-indigo-500">
-                    Minting is not yet available
-                </div>
+                    <div className="text-xl text-center text-indigo-500">
+                        Minting is not yet available
+                    </div>
                 }
                 {allMinted &&
                     <div className="text-xl text-center text-indigo-500">
@@ -260,8 +263,20 @@ function ProfitMaker() {
                             </div>
                         </div>
                 }
+                {pmData[network] && pmData[network].opensea && (
+                    <div className="text-center w-full flex mt-5">
+                        <a className="mx-auto" href={pmData[network].opensea} target="_blank" rel="noopener noreferrer">
+                            {isDark ?
+                                <img style={{width:220, boxShadow: '0px 1px 6px rgba(0, 0, 0, 0.25)'}} src="https://storage.googleapis.com/opensea-static/Logomark/Badge%20-%20Available%20On%20-%20Dark.png" alt="Available on OpenSea" />
+                            :
+                                <img style={{width:220, boxShadow: '0px 1px 6px rgba(0, 0, 0, 0.25)'}} src="https://storage.googleapis.com/opensea-static/Logomark/Badge%20-%20Available%20On%20-%20Light.png" alt="Available on OpenSea" />
+                            }
+
+                        </a>
+                    </div>
+                )}
                 {!pm || !addresses[network].pm &&
-                <h1 className="mb-10 text-3xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">{'PM not deployed to this network'}</h1>
+                    <h1 className="mb-10 text-3xl  font-semibold  tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">{'PM not deployed to this network'}</h1>
                 }
                 {
                     pm && pm.mintStart > 0 && (pm.mintStart * 1000 < new Date().getTime()) && UserNfts !== null &&
@@ -313,7 +328,6 @@ function ProfitMaker() {
                     </div>
                 </div>
             </div>
-
         </section >
     )
 }

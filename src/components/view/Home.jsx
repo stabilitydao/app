@@ -21,6 +21,7 @@ import {
     updateIsWalletOption
 } from "@/redux/slices/modalsSlice";
 import { tl } from "@/src/wallet";
+import { gasPrice } from '@/src/wallet'
 const appEnabled = {
     [POLYGON]: true,
     [ROPSTEN]: true,
@@ -178,7 +179,8 @@ function Home() {
         try {
             const pool = pools[network][Object.keys(pools[network])[0]]
             const poolContract = new library.eth.Contract(poolAbi, library.utils.toChecksumAddress(pool.contract));
-            await poolContract.methods.harvest().send({ from: account })
+            const price = await gasPrice(library)
+            await poolContract.methods.harvest().send({ from: account, gasPrice: price })
                 .on('transactionHash', txhash => {
                     dispatch(updateIsWaitingForWalletTxConfirm(false))
                     dispatch(updateIsTxSubmitted(txhash))
@@ -201,7 +203,8 @@ function Home() {
             dispatch(updateIsWaitingForWalletTxConfirm(true))
             try {
                 const contract = new library.eth.Contract(dividendAbi, dividendAddress)
-                await contract.methods.releasePayment().send({ from: account })
+                const price = await gasPrice(library)
+                await contract.methods.releasePayment().send({ from: account, gasPrice: price })
                     .on('transactionHash', txhash => {
                         dispatch(updateIsWaitingForWalletTxConfirm(false))
                         dispatch(updateIsTxSubmitted(txhash))
@@ -220,14 +223,14 @@ function Home() {
             <div className="container p-4 pt-20 lg:pt-0">
                 {appEnabled[network] ? (
                     <div className="flex flex-col max-w-6xl mx-auto">
-                        <div className="flex flex-wrap">
+                        <div className="flex flex-wrap lg:pt-1">
                             <div className="flex w-full md:w-1/2 justify-center md:justify-end md:pr-6">
                                 <div className="flex w-96 justify-center">
-                                    <img src="/logo.svg" alt="logo" width={256} height={256} />
+                                    <img src="/logo512.png" alt="logo" width={180} height={180} className="mx-5 my-5" />
                                 </div>
                             </div>
                             <div className="flex flex-col w-full md:w-1/2 justify-center md:items-start md:pl-6">
-                                <div className="flex flex-col w-full md:w-80 lg:w-96 items-center md:items-start">
+                                <div className="flex flex-col w-full md:w-80 lg:w-96 items-center md:items-start md:mt-8">
                                     <h1 className="text-4xl sm:text-5xl font-bold mb-2">
                                         Stability
                                     </h1>
@@ -406,7 +409,7 @@ function Home() {
                                         <table className="table-auto w-72">
                                             <tbody>
                                                 <tr>
-                                                    <td>Treasure</td>
+                                                    <td>Treasury</td>
                                                     <td className="text-right">{Object.keys(treasureBalances).length ? Object.keys(treasureBalances).map(cur => {
                                                         return (
                                                             <span className="ml-2" key={cur}>{treasureBalances[cur]} {cur.toUpperCase()}</span>

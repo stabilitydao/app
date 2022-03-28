@@ -26,7 +26,7 @@
 }
 
 .bg-makerbanner-light {
-  background-image: url("/maker/makerbanner-light.png");
+  background-image: url("/maker/makerbanner-light-plain.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
