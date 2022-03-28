@@ -10,6 +10,7 @@ import addresses from '@stabilitydao/addresses'
 import { buyLinks } from "@/src/wallet/swaps";
 import { pools } from '@/src/wallet/pools';
 import { payers } from '@/src/wallet/payers';
+import { govData } from '@/src/wallet';
 import { useWeb3React } from '@web3-react/core'
 import tokenAbi from '@/src/abis/tokenAbi'
 import poolAbi from '@/src/abis/poolAbi'
@@ -417,11 +418,7 @@ function Home() {
                                                 </tr>
                                                 <tr>
                                                     <td>Proposals</td>
-                                                    <td className="text-right">-</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Engagement</td>
-                                                    <td className="text-right">-</td>
+                                                    <td className="text-right">{network && govData[network] && govData[network].tally ? <a href={govData[network].tally} target="_blank" rel="noopener noreferrer">Tally</a> : '-'}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

@@ -401,7 +401,7 @@ function Tokens() {
                                 <div className="flex flex-wrap">
                                     <div className="xl:w-1/2">
                                         <p className="p-0 text-lg my-8">
-                                            Collection of unique Stability DAO Governance tokens. The owner of the Profit Maker token is the owner of 1% of the total voting power in the genesis DAO governance, has the ability to receive unit tokens from the initial supply and has privileges in the ecosystem. <br />
+                                            Collection of unique Stability DAO Governance tokens. The owner of a Profit Maker token is the owner of 1% of the total voting power in the genesis DAO governance, has the ability to receive unit tokens from the initial supply and has privileges in the ecosystem. <br />
                                             <br />
                                         </p>
                                     </div>
