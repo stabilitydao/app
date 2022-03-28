@@ -52,7 +52,7 @@ function ProfitMaker() {
                 Promise.all(
                     haveNft.map(async (id) => {
                         try {
-                            const userNft = await fetch(!networks[network].testnet ? '/api/maker/' : '/api/maker-testnet/' + id)
+                            const userNft = await fetch(!networks[network].testnet ? '/api/maker/' + id : '/api/maker-testnet/' + id)
                             const nftJson = await userNft.json()
                             return nftJson
                         } catch (error) {
