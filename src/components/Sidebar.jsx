@@ -10,7 +10,7 @@ import { updateSidebar } from '@/redux/slices/sidebarSlice'
 import { GiRegeneration } from "react-icons/gi";
 import { GiProfit } from "react-icons/gi";
 import { useWeb3React } from '@web3-react/core'
-import { updateProfitPrice } from "@/redux/slices/priceSlice";
+import { updateProfitPrice, updateEthPrice } from "@/redux/slices/priceSlice";
 import univ3prices from '@thanpolas/univ3prices';
 import uniV3PoolAbi from '@/src/abis/uniV3PoolAbi'
 import WEB3 from '@/src/functions/web3'
@@ -20,7 +20,7 @@ function Sidebar({ Mode }) {
     const { pathname } = useRouter();
     const [activeRoute, setactiveRoute] = useState(null)
     const web3 = WEB3()
-    const [ethPrice, setethPrice] = useState()
+    const ethPrice = useSelector(state => state.price.ethPrice)
     const [btcethPrice, setbtcethPrice] = useState()
     const [btcPrice, setbtcPrice] = useState()
     const [maticPrice, setmaticPrice] = useState()
@@ -65,19 +65,19 @@ function Sidebar({ Mode }) {
             if (lpv3[network].DAIETH) {
                 const ethPriceContract = new rpcLib.eth.Contract(uniV3PoolAbi, lpv3[network].DAIETH);
                 ethPriceContract.methods.slot0().call().then((price) => {
-                    setethPrice(2 ** 192 / price[0] ** 2)
+                    dispatch(updateEthPrice(2 ** 192 / price[0] ** 2))
                 }).catch((err) => {
                     console.log(err)
                 })
             } else if (lpv3[network].USDCETH) {
                 const ethPriceContract = new rpcLib.eth.Contract(uniV3PoolAbi, lpv3[network].USDCETH);
                 ethPriceContract.methods.slot0().call().then((price) => {
-                    setethPrice(univ3prices([6, 18], price[0]).toAuto({ reverse: false, decimalPlaces: 8, }))
+                    dispatch(updateEthPrice(univ3prices([6, 18], price[0]).toAuto({ reverse: false, decimalPlaces: 8, })))
                 }).catch((err) => {
                     console.log(err)
                 })
             } else {
-                setethPrice(null)
+                dispatch(updateEthPrice(null))
             }
 
             if (lpv3[network].MATICUSDC) {
@@ -105,7 +105,7 @@ function Sidebar({ Mode }) {
             dispatch(updateProfitPrice([
                 0, ''
             ]))
-            setethPrice(null)
+            dispatch(updateEthPrice(null))
         }
 
         if (profitPrice && ethPrice) {
