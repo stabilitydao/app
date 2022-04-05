@@ -151,6 +151,7 @@ function ProfitMaker() {
 
     const isMintAvailable = pm && pm.mintStart * 1000 < new Date().getTime() && pm.mintEnd * 1000 > new Date().getTime() && pm.toMint > 0
     const allMinted = pm && pm.mintStart * 1000 < new Date().getTime() && pm.mintEnd * 1000 > new Date().getTime() && pm.toMint == 0
+    const mintEnded =  pm && pm.mintEnd && pm.mintEnd * 1000 < new Date().getTime()
 
     return (
         <section className=" h-calc">
@@ -165,13 +166,18 @@ function ProfitMaker() {
                         Minting is not yet available
                     </div>
                 }
+                {mintEnded &&
+                <div className="text-xl text-center text-indigo-500">
+                    The mint time for this epoch is over
+                </div>
+                }
                 {allMinted &&
                     <div className="text-xl text-center text-indigo-500">
                         All available NFTs in this epoch have already been minted
                     </div>
                 }
                 {
-                    addresses[network].pm !== undefined && pm.mintStart > 0 && !allMinted &&
+                    addresses[network].pm !== undefined && pm.mintStart > 0 && !allMinted && !mintEnded &&
                         <div className="flex flex-col md:flex-row items-center">
                             <div className="flex-1 p-4">
                                 {
