@@ -66,14 +66,15 @@ function About({ membersName }) {
                                                 Profit Maker
                                             </div>
                                             <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Governance</div>
-                                            <div>RevenueRouter</div>
-                                            <a className="w-44 border-0 inline-flex justify-start" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
-                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
-                                                <div className="flex font-bold">
-                                                    ReactSwap
-                                                </div>
-                                            </a>
-
+                                            <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Treasury</div>
+                                            <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />
+                                                <a className="w-44 border-0 inline-flex justify-start" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
+                                                    <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
+                                                    <div className="flex font-bold">
+                                                        ReactSwap V0
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-1/3">
@@ -82,15 +83,23 @@ function About({ membersName }) {
                                         </div>
                                         <div className="flex flex-col text-lg items-start">
                                             <div>SDIV burns</div>
+                                            <div>RevenueRouter</div>
+                                            <div>MetaRouter</div>
+                                            <div>DeX SDK</div>
+                                            <div className="relative flex">
+                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
+                                                <div className="flex font-bold">
+                                                    MVP-1
+                                                </div>
+                                            </div>
                                             <div>Bridge</div>
-                                            <div>Cross-chain router</div>
-                                            <div>Docs</div>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
                                                 <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
                                                     Rarest
                                                 </div>
                                             </a>
+                                            <div>Docs</div>
                                         </div>
                                     </div>
 
@@ -99,6 +108,18 @@ function About({ membersName }) {
                                             2022+
                                         </div>
                                         <div className="flex flex-col text-lg">
+                                            <div className="relative flex">
+                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
+                                                <div className="flex font-bold">
+                                                    MVP-2
+                                                </div>
+                                            </div>
+                                            <div className="relative flex">
+                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
+                                                <div className="flex font-bold">
+                                                    MVP-3
+                                                </div>
+                                            </div>
                                             <div>Incubator construction</div>
                                             <div>Development matrix</div>
                                             <div>Analytical resource</div>
