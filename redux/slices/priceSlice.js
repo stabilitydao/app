@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     value: null,
     in: null,
+    ethPrice: null,
 }
 
 export const priceSlice = createSlice({
@@ -13,8 +14,11 @@ export const priceSlice = createSlice({
             state.value = action.payload[0]
             state.in = action.payload[1]
         },
+        updateEthPrice: (state, action) => {
+            state.ethPrice = action.payload
+        },
     },
 })
 
-export const { updateProfitPrice } = priceSlice.actions
+export const { updateProfitPrice, updateEthPrice } = priceSlice.actions
 export default priceSlice.reducer

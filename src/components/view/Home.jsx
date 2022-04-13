@@ -37,6 +37,7 @@ function Home() {
     const [pendingPayments, setpendingPayments] = useState({})
     const currentNetwork = useSelector(state => state.network.value)
     const profitpriceIn$ = useSelector(state => state.profitpriceIn$.value)
+    const ethPrice = useSelector(state => state.price.ethPrice)
     const tvl = useSelector(state => state.tvl.value)
     const network = chainId ? chainId : currentNetwork
     const [stakedBalance, setstakedBalance] = useState(null)
@@ -44,12 +45,14 @@ function Home() {
     const IsWaitingForWalletTxConfirm = useSelector(state => state.modals.value.IsWaitingForWalletTxConfirm)
     const IsTxSubmitted = useSelector(state => state.modals.value.IsTxSubmitted)
     const [treasureBalances, setTreasureBalances] = useState({})
+    const [treasureTotal, setTreasureTotal] = useState(null)
     const rpcLib = chainId ? library : web3
 
     const dividends = payers;
 
     useEffect(async () => {
         const balances = {}
+        let total = 0
 
         if (rpcLib) {
             let contract
@@ -58,6 +61,9 @@ function Home() {
                 const wethBal = await contract.methods.balanceOf(tl[network]).call()
                 if (wethBal > 0) {
                     balances.weth = web3.utils.fromWei(wethBal)
+                    if (ethPrice) {
+                        total += ethPrice * balances.weth
+                    }
                 }
 
                 if (addresses[network].token) {
@@ -65,13 +71,17 @@ function Home() {
                     const profitBal = await contract.methods.balanceOf(tl[network]).call()
                     if (profitBal > 0) {
                         balances.profit = web3.utils.fromWei(profitBal)
+                        if (profitpriceIn$) {
+                            total += profitpriceIn$ * web3.utils.fromWei(profitBal)
+                        }
                     }
                 }
             }
 
             setTreasureBalances(balances)
+            setTreasureTotal(Math.round(total))
         }
-    }, [network])
+    }, [network, profitpriceIn$])
 
     useEffect(() => {
         if (web3 && web3.eth.net.isListening() && network) {
@@ -371,7 +381,8 @@ function Home() {
                                         <span>
                                             {buyLinks && buyLinks[network] ? (
                                                 <a className="mt-2" href={buyLinks[network]} target="_blank" rel="noopener noreferrer">
-                                                    <button title="Swap ETH to PROFIT" className="h-8 p-0 w-24 text-md rounded-xl btn my-0.5">
+                                                    <button title="Swap ETH to PROFIT on Uniswap" className="h-8 p-0 w-24 text-md rounded-xl b-xl border-indigo-900 my-0.5 flex items-center">
+                                                        <img src="/uniswap.png" alt="logo" width={40} height={40} className="mx-1" />
                                                         Swap
                                                     </button>
                                                 </a>
@@ -404,21 +415,37 @@ function Home() {
                             </div>
                             <div className="flex flex-col w-full m-5 md:m-0 md:w-1/2 items-center md:items-start md:px-3 xl:pl-6">
                                 <div className="shadow-2xl h-48 flex w-full sm:w-96 md:w-80 lg:w-96 flex-col  py-7 px-10 md:px-6 lg:px-10 dark:bg-[rgba(0,0,0,0.5)] rounded-2xl">
-                                    <div className="flex text-3xl">Governance</div>
+                                    <div className="flex w-full justify-between">
+                                        <span className="text-3xl ">Governance</span>
+                                        <span>
+                                            {network && govData[network] && govData[network].tally ? (
+                                                <a className="mt-2" href={govData[network].tally} target="_blank" rel="noopener noreferrer">
+                                                    <button title="Tally proposals and voting UI" className="h-8 p-0 w-24 text-md rounded-xl b-xl border-indigo-900 my-0.5 flex items-center">
+                                                        <img src="/tally.png" alt="logo" width={30} height={30} className="mx-1" />
+                                                        Tally
+                                                    </button>
+                                                </a>
+                                            ) : (
+                                                <div className="mt-1">
+                                                    <div className="h-8" />
+                                                </div>
+                                            )}
+                                        </span>
+                                    </div>
                                     <div className="flex mt-3">
                                         <table className="table-auto w-72">
                                             <tbody>
                                                 <tr>
-                                                    <td>Treasury</td>
-                                                    <td className="text-right">{Object.keys(treasureBalances).length ? Object.keys(treasureBalances).map(cur => {
-                                                        return (
-                                                            <span className="ml-2" key={cur}>{treasureBalances[cur]} {cur.toUpperCase()}</span>
-                                                        )
-                                                    }) : '-'}</td>
+                                                    <td>Treasury balance</td>
+                                                    <td className="text-right">{treasureTotal > 0 ? '$' + treasureTotal.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ') : '-'}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Proposals</td>
-                                                    <td className="text-right">{network && govData[network] && govData[network].tally ? <a href={govData[network].tally} target="_blank" rel="noopener noreferrer">Tally</a> : '-'}</td>
+                                                    <td>Treasury assets</td>
+                                                    <td className="text-right">{Object.keys(treasureBalances).length ? Object.keys(treasureBalances).map(cur => {
+                                                        return (
+                                                            <span className="ml-2" key={cur}>{Math.round(treasureBalances[cur]).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$& ')} {cur.toUpperCase()}</span>
+                                                        )
+                                                    }) : '-'}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
