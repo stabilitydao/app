@@ -89,16 +89,10 @@ function About({ membersName }) {
                                             <div className="relative flex">
                                                 <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
-                                                    MVP-1
+                                                    MVP-1 / DeX aggregator
                                                 </div>
                                             </div>
                                             <div>Bridge</div>
-                                            <a className="w-44 border-0 inline-flex justify-start" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
-                                                <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
-                                                <div className="flex font-bold">
-                                                    Rarest
-                                                </div>
-                                            </a>
                                             <div>Docs</div>
                                         </div>
                                     </div>
@@ -120,16 +114,20 @@ function About({ membersName }) {
                                                     MVP-3
                                                 </div>
                                             </div>
+                                            <a className="w-44 border-0 inline-flex justify-start" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
+                                                <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
+                                                <div className="flex font-bold">
+                                                    Rarest
+                                                </div>
+                                            </a>
                                             <div>Incubator construction</div>
                                             <div>Development matrix</div>
                                             <div>Analytical resource</div>
-                                            <div>DeX aggregator</div>
                                             <div>Algorithmic stablecoin</div>
-                                            <div>NFT GameFi project</div>
+                                            <div>GameFi platform</div>
                                             <div>DAO factory</div>
-                                            <div>Verse projects conveyor</div>
                                             <div>DeX mechanical trading system</div>
-                                            <div>Chain boilerplate</div>
+                                            <div>EVM chain</div>
                                             <div>Building Generators in accordance with Matrix</div>
                                             <div>Improvement Fund (decentralized non-profit fund)</div>
                                             <div>Development of xUnits (offline business managed by DAO through validators)</div>
