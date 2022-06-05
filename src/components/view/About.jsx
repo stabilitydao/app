@@ -67,14 +67,6 @@ function About({ membersName }) {
                                             </div>
                                             <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Governance</div>
                                             <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Treasury</div>
-                                            <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />
-                                                <a className="w-44 border-0 inline-flex justify-start" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
-                                                    <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
-                                                    <div className="flex font-bold">
-                                                        ReactSwap V0
-                                                    </div>
-                                                </a>
-                                            </div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-1/3">
@@ -82,18 +74,15 @@ function About({ membersName }) {
                                             Q2 2022
                                         </div>
                                         <div className="flex flex-col text-lg items-start">
-                                            <div>SDIV burns</div>
-                                            <div>RevenueRouter</div>
-                                            <div>MetaRouter</div>
-                                            <div>DeX SDK</div>
+                                            <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />RevenueRouter</div>
                                             <div className="relative flex">
                                                 <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
-                                                    MVP-1 / DeX aggregator
+                                                    MVP-1
                                                 </div>
                                             </div>
-                                            <div>Bridge</div>
-                                            <div>Docs</div>
+                                            <div>Farm</div>
+                                            <div>SDIV burns</div>
                                         </div>
                                     </div>
 
@@ -114,18 +103,30 @@ function About({ membersName }) {
                                                     MVP-3
                                                 </div>
                                             </div>
+                                            <div className="relative flex">
+                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
+                                                <div className="flex font-bold">
+                                                    MVP-4
+                                                </div>
+                                            </div>
+                                            <div className="relative flex">
+                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
+                                                <div className="flex font-bold">
+                                                    MVP-5
+                                                </div>
+                                            </div>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
                                                 <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
                                                     Rarest
                                                 </div>
                                             </a>
-                                            <div>Incubator construction</div>
+                                            <div>Docs</div>
                                             <div>Development matrix</div>
-                                            <div>Analytical resource</div>
                                             <div>Algorithmic stablecoin</div>
                                             <div>GameFi platform</div>
                                             <div>DAO factory</div>
+                                            <div>Bridge</div>
                                             <div>DeX mechanical trading system</div>
                                             <div>EVM chain</div>
                                             <div>Building Generators in accordance with Matrix</div>

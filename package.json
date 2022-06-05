@@ -1,6 +1,6 @@
 {
   "name": "@stabilitydao/app",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Stability DAO App",
   "main": "index.js",
   "scripts": {
