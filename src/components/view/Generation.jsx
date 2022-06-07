@@ -23,7 +23,7 @@ function Generation() {
                 const contract = new rpcLib.eth.Contract(revenurRouterAbi, addresses[currentNetwork].revenueRouter)
 
                 contract.methods.estimateProfit().call().then(r => {
-                    setEstimateProfit(web3.utils.fromWei(r) * 50)
+                    setEstimateProfit(web3.utils.fromWei(r))
                 })
             }
 
