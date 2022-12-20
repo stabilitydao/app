@@ -55,7 +55,7 @@ function About({ membersName }) {
                                     </div>
                                     <div className="flex flex-col w-1/3">
                                         <div className="flex h-12 text-2xl font-bold">
-                                            Q1 2022
+                                            2022
                                         </div>
                                         <div className="flex flex-col text-lg items-start">
                                             <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Splitter</div>
@@ -67,73 +67,38 @@ function About({ membersName }) {
                                             </div>
                                             <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Governance</div>
                                             <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Treasury</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col w-1/3">
-                                        <div className="flex h-12 text-2xl font-bold">
-                                            Q2 2022
-                                        </div>
-                                        <div className="flex flex-col text-lg items-start">
                                             <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />RevenueRouter</div>
                                             <div className="relative flex">
+                                                <BsCheck className="absolute -left-6 text-2xl text-teal-400" />
                                                 <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
-                                                    MVP-1
+                                                    ReactSwap
                                                 </div>
                                             </div>
-                                            <div>Farm</div>
-                                            <div>SDIV burns</div>
+
                                         </div>
                                     </div>
 
                                     <div className="flex flex-col w-1/3">
                                         <div className="flex h-12 text-2xl font-bold">
-                                            2022+
+                                            2023+
                                         </div>
                                         <div className="flex flex-col text-lg">
-                                            <div className="relative flex">
-                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
-                                                <div className="flex font-bold">
-                                                    MVP-2
-                                                </div>
-                                            </div>
-                                            <div className="relative flex">
-                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
-                                                <div className="flex font-bold">
-                                                    MVP-3
-                                                </div>
-                                            </div>
-                                            <div className="relative flex">
-                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
-                                                <div className="flex font-bold">
-                                                    MVP-4
-                                                </div>
-                                            </div>
-                                            <div className="relative flex">
-                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
-                                                <div className="flex font-bold">
-                                                    MVP-5
-                                                </div>
-                                            </div>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
                                                 <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
                                                     Rarest
                                                 </div>
                                             </a>
-                                            <div>Docs</div>
-                                            <div>Development matrix</div>
-                                            <div>Algorithmic stablecoin</div>
-                                            <div>GameFi platform</div>
+                                            <a className="w-44 border-0 inline-flex justify-start" href="https://purecube.io" target="_blank" rel="noopener noreferrer">
+                                                <img src="https://purecube.io/logo.svg" alt="Rarest" className="self-center w-5 h-5 mr-2" />
+                                                <div className="flex font-bold">
+                                                    PureCube
+                                                </div>
+                                            </a>
+                                            <div>Vaults</div>
                                             <div>DAO factory</div>
-                                            <div>Bridge</div>
-                                            <div>DeX mechanical trading system</div>
-                                            <div>EVM chain</div>
-                                            <div>Building Generators in accordance with Matrix</div>
-                                            <div>Improvement Fund (decentralized non-profit fund)</div>
-                                            <div>Development of xUnits (offline business managed by DAO through validators)</div>
-                                            <div>TaxPayer company boilerplate</div>
-                                            <div>Improvement network</div>
+                                            <div>DeX</div>
                                         </div>
                                     </div>
                                 </div>

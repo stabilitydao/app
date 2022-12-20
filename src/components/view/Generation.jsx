@@ -84,7 +84,7 @@ function Generation() {
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td className="whitespace-nowrap text-2xl pr-5">
+                                    <td className="whitespace-nowrap text-2xl pr-5 text-center">
                                         <a className="py-5 border-0 inline-flex flex-col items-center justify-center" href="https://reactswap.com" target="_blank" rel="noopener noreferrer">
                                             <img src="/reactswap.png" alt="ReactSwap" className="w-16 h-16 mb-2"/>
                                             <div className="flex font-bold text-2xl whitespace-nowrap">
@@ -97,7 +97,7 @@ function Generation() {
                                     </td>
                                     <td className="text-md">
                                         <div className="flex flex-col">
-                                            <div className="flex items-center">
+                                            <div className="flex items-center w-full justify-between">
                                                 <div className="flex font-bold text-lg pr-4 whitespace-nowrap">
                                                     MVP-1
                                                 </div>
@@ -108,48 +108,29 @@ function Generation() {
                                                     <GiRegeneration className="text-3xl mr-2" /><span className="text-lg">v0</span>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center">
-                                                <div className="flex font-bold text-lg pr-4 whitespace-nowrap">
-                                                    MVP-2
-                                                </div>
-                                                <div className="flex w-44">
-                                                    Crypto trading
-                                                </div>
-                                                <div className="flex items-center whitespace-nowrap">
-                                                    <BiTime className="ml-1.5 text-xl mr-3" /><span className="text-lg">Q3 2022</span>
-                                                </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="whitespace-nowrap text-2xl pr-5 text-center">
+                                        <a className="py-5 border-0 inline-flex flex-col items-center justify-center" href="https://purecube.io" target="_blank" rel="noopener noreferrer">
+                                            <img src="https://purecube.io/logo.svg" alt="PureCube" className="w-20 h-20 mb-0"/>
+                                            <div className="flex font-bold text-2xl whitespace-nowrap">
+                                                PureCube
                                             </div>
-                                            <div className="flex items-center">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span className="flex w-16">10%</span>
+                                    </td>
+                                    <td className="text-md">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center w-full justify-between">
                                                 <div className="flex font-bold text-lg pr-4 whitespace-nowrap">
-                                                    MVP-3
-                                                </div>
-                                                <div className="flex w-44">
-                                                    Cross-chain swap
+                                                    GameFi platform
                                                 </div>
                                                 <div className="flex items-center whitespace-nowrap">
-                                                    <BiTime className="ml-1.5 text-xl mr-3" /><span className="text-lg">Q4 2022</span>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <div className="flex font-bold text-lg pr-4 whitespace-nowrap">
-                                                    MVP-4
-                                                </div>
-                                                <div className="flex w-44">
-                                                    Order book
-                                                </div>
-                                                <div className="flex items-center whitespace-nowrap">
-                                                    <BiTime className="ml-1.5 text-xl mr-3" /><span className="text-lg">2023</span>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <div className="flex font-bold text-lg pr-4 whitespace-nowrap">
-                                                    MVP-5
-                                                </div>
-                                                <div className="flex w-44">
-                                                    AMM
-                                                </div>
-                                                <div className="flex items-center whitespace-nowrap">
-                                                    <BiTime className="ml-1.5 text-xl mr-3" /><span className="text-lg">2023</span>
+                                                    <BiTime className="ml-1.5 text-xl mr-3" /><span className="text-lg">dev</span>
                                                 </div>
                                             </div>
                                         </div>
