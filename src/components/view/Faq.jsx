@@ -58,7 +58,7 @@ function Faq() {
                         <details open="" className="font-Roboto">
                             <summary className="py-2 outline-none cursor-pointer   text-xl">How does staking work?</summary>
                             <div className="px-4 pb-4 text-gray-800 dark:text-gray-200">
-                                <p className="text-lg">Stake PROFIT @<Link href='/pools'><a className="underline">https://stabilitydao.org/pools</a></Link> to Harvest SDIV</p>
+                                <p className="text-lg">Stake PROFIT @<Link href='/dividends'><a className="underline">https://stabilitydao.org/dividends</a></Link> to Harvest SDIV</p>
                             </div>
                         </details>
                         <details open="" className="font-Roboto">
@@ -68,7 +68,7 @@ function Faq() {
                             </div>
                         </details>
                         <details open="" className="font-Roboto">
-                            <summary className="py-2 outline-none cursor-pointer   text-xl">Do I have to &quot;Harvest&quot; @<Link href='/pools'><a className="underline">https://stabilitydao.org/pools</a></Link> to Harvest SDIV into my wallet in order to get the dividends?</summary>
+                            <summary className="py-2 outline-none cursor-pointer   text-xl">Do I have to &quot;Harvest&quot; @<Link href='/dividends'><a className="underline">https://stabilitydao.org/dividends</a></Link> to Harvest SDIV into my wallet in order to get the dividends?</summary>
                             <div className="px-4 pb-4 text-gray-800 dark:text-gray-200">
                                 <p className="text-lg">Yes</p>
                             </div>

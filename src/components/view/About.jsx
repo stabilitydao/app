@@ -25,7 +25,6 @@ function About({ membersName }) {
                                 <h2 className="text-5xl mb-5">Revenue generation</h2>
                                 <p className="mt-0 mb-4 text-lg leading-normal text-left">
                                     Stability is profit generating and distributing decentralized organization.<br />
-                                    The main source of revenue is working Units - DeFi projects that generate income in blockchain networks.
                                 </p>
                             </div>
                             <div className='mb-10 text-center'>
@@ -47,10 +46,16 @@ function About({ membersName }) {
                                             Q4 2021
                                         </div>
                                         <div className="flex flex-col text-lg">
-                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Tokens</div>
-                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Staking</div>
-                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Dividends</div>
-                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />App</div>
+                                            <div className="flex relative">
+                                                <BsCheck className="absolute -left-6 text-2xl text-teal-400" />
+                                                <img src="/profit.png" alt="Profit" className="self-center w-5 h-5 mr-2" />
+                                                PROFIT
+                                            </div>
+                                            <div className="flex relative">
+                                                <BsCheck className="absolute -left-6 text-2xl text-teal-400" />
+                                                <img src="/SDIV200x200.png" alt="SDIV" className="self-center w-5 h-5 mr-2" />
+                                                Dividends
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col w-1/3">
@@ -58,16 +63,12 @@ function About({ membersName }) {
                                             2022
                                         </div>
                                         <div className="flex flex-col text-lg items-start">
-                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Splitter</div>
-                                            <div className="relative flex items-center"><BsCheck className="absolute -left-6 text-2xl text-teal-400" /><a href="/litepaper.pdf" target="_blank" className='underline' rel="nofollow">Litepaper</a></div>
                                             <div className="flex relative">
                                                 <BsCheck className="absolute -left-6 text-2xl text-teal-400" />
                                                 <img src="/pm.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 Profit Maker
                                             </div>
-                                            <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Governance</div>
-                                            <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />Treasury</div>
-                                            <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />RevenueRouter</div>
+                                            <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />On-chain governance</div>
                                             <div className="relative flex">
                                                 <BsCheck className="absolute -left-6 text-2xl text-teal-400" />
                                                 <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
@@ -84,21 +85,13 @@ function About({ membersName }) {
                                             2023+
                                         </div>
                                         <div className="flex flex-col text-lg">
-                                            <a className="w-44 border-0 inline-flex justify-start" href="https://rarest.market" target="_blank" rel="noopener noreferrer">
-                                                <img src="/rarest.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
-                                                <div className="flex font-bold">
-                                                    Rarest
-                                                </div>
-                                            </a>
+                                            <div>V2 (vaults, ve)</div>
                                             <a className="w-44 border-0 inline-flex justify-start" href="https://purecube.io" target="_blank" rel="noopener noreferrer">
                                                 <img src="https://purecube.io/logo.svg" alt="Rarest" className="self-center w-5 h-5 mr-2" />
                                                 <div className="flex font-bold">
                                                     PureCube
                                                 </div>
                                             </a>
-                                            <div>Vaults</div>
-                                            <div>DAO factory</div>
-                                            <div>DeX</div>
                                         </div>
                                     </div>
                                 </div>

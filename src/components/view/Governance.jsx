@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { networks } from "@/src/wallet";
+import {gasPrice, networks} from "@/src/wallet";
 import { gov, tl, splitter, govData } from "@/src/wallet";
 import { useWeb3React } from "@web3-react/core";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,6 +11,9 @@ import addresses from "@stabilitydao/addresses";
 import {
     updateDelegateProfitToken, updateDelegateMakerToken
 } from '@/redux/slices/modalsSlice'
+import revenurRouterAbi from "@/src/abis/revenueRouterAbi.json";
+import {GiRegeneration} from "react-icons/gi";
+import {BiTime} from "react-icons/bi";
 function Governance() {
     const { account, chainId, library } = useWeb3React()
     const web3 = WEB3()
@@ -118,11 +121,61 @@ function Governance() {
         }
     }, [network]);
 
+    const [estimateProfit, setEstimateProfit] = useState(0)
+    const [generating, setGenerating] = useState(false)
+
+    useEffect(
+        () => {
+            if (rpcLib && addresses[currentNetwork].revenueRouter) {
+                const contract = new rpcLib.eth.Contract(revenurRouterAbi, addresses[currentNetwork].revenueRouter)
+
+                contract.methods.estimateProfit().call().then(r => {
+                    setEstimateProfit(web3.utils.fromWei(r))
+                })
+            }
+
+        },
+        [rpcLib, generating]
+    )
+
+    async function handleGenerate() {
+        if (account && addresses[currentNetwork].revenueRouter) {
+            const contract = new rpcLib.eth.Contract(revenurRouterAbi, addresses[currentNetwork].revenueRouter)
+            const price = await gasPrice(library)
+            contract.methods.run().send({ from: account, gasPrice: price }).on('transactionHash', txhash => {
+                setGenerating(true)
+            }).on('receipt', r => {
+                setGenerating(false)
+            })
+        }
+    }
+
     return (
         <section className=" h-calc">
             <div className="container p-4 pt-24 lg:pt-0">
                 <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Governance</h1>
                 <div className="max-w-2xl mx-auto">
+                    <article className="mb-8">
+                        <div className="py-4">
+                            <div className="mb-4 flex justify-between items-center flex-wrap">
+                                <h2 className="text-3xl sm:text-4xl font-Roboto ">Treasury</h2>
+                                <a className=" flex justify-center h-9 items-center" title="View contract on blockchain explorer" target="_blank" href={`${networks[network].explorerurl}address/${tl[network]}`} rel="noopener noreferrer">
+                                    <span style={networks[network].testnet && { color: networks[network].color }} className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{tl[network]}</span>
+                                </a>
+                            </div>
+                            <p className="text-lg">
+                                Treasure assets are balances of tokens on governance timelock contract address. <br />
+                                Governance timelock controller adds execution delay to each successed proposal, manages DAO assets and protocol access rights.
+                            </p>
+                            <p className="text-xl mt-2">
+                                <span className="mr-2">Treasure balance:</span> {Object.keys(treasureBalances).length ? Object.keys(treasureBalances).map(cur => {
+                                return (
+                                    <span className="mr-2" key={cur}>{treasureBalances[cur]} {cur.toUpperCase()}</span>
+                                )
+                            }) : '-'}
+                            </p>
+                        </div>
+                    </article>
                     <article className="mb-8">
                         <div className="py-4 mb-2">
                             <div className="mb-4 flex justify-between items-center flex-wrap">
@@ -192,27 +245,6 @@ function Governance() {
                     <article className="mb-8">
                         <div className="py-4">
                             <div className="mb-4 flex justify-between items-center flex-wrap">
-                                <h2 className="text-3xl sm:text-4xl font-Roboto ">Treasury</h2>
-                                <a className=" flex justify-center h-9 items-center" title="View contract on blockchain explorer" target="_blank" href={`${networks[network].explorerurl}address/${tl[network]}`} rel="noopener noreferrer">
-                                    <span style={networks[network].testnet && { color: networks[network].color }} className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{tl[network]}</span>
-                                </a>
-                            </div>
-                            <p className="text-lg">
-                                Treasure assets are balances of tokens on governance timelock contract address. <br />
-                                Governance timelock controller adds execution delay to each successed proposal, manages DAO assets and protocol access rights.
-                            </p>
-                            <p className="text-xl mt-2">
-                                <span className="mr-2">Treasure balance:</span> {Object.keys(treasureBalances).length ? Object.keys(treasureBalances).map(cur => {
-                                    return (
-                                        <span className="mr-2" key={cur}>{treasureBalances[cur]} {cur.toUpperCase()}</span>
-                                    )
-                                }) : '-'}
-                            </p>
-                        </div>
-                    </article>
-                    <article className="mb-8">
-                        <div className="py-4">
-                            <div className="mb-4 flex justify-between items-center flex-wrap">
                                 <h2 className="text-3xl sm:text-4xl font-Roboto ">Splitter</h2>
                                 {splitter[network] &&
                                     <a className=" flex justify-center h-9 items-center" title="View contract on blockchain explorer" target="_blank" href={`${networks[network].explorerurl}address/${splitter[network]}`} rel="noopener noreferrer">
@@ -257,6 +289,30 @@ function Governance() {
                     </article>
                 </div>
             </div >
+            <div className="container p-4 pt-24 lg:pt-0">
+                <div className="max-w-2xl mx-auto">
+                    <article className="mb-10">
+                        <div className="mb-4 flex justify-between items-center flex-wrap">
+                            <h2 className="text-3xl sm:text-4xl font-Roboto ">RevenueRouter</h2>
+                            {addresses[network].revenueRouter &&
+                                <a className=" flex justify-center h-9 items-center" title="View contract on blockchain explorer" target="_blank" href={`${networks[network].explorerurl}address/${addresses[network].revenueRouter}`} rel="noopener noreferrer">
+                                    <span style={networks[network].testnet && { color: networks[network].color }} className="flex justify-center text-xs md:text-sm self-center dark:text-teal-400">{addresses[network].revenueRouter}</span>
+                                </a>
+                            }
+                        </div>
+                        {addresses[network].revenueRouter &&
+                            <div className="flex items-center justify-between">
+                                <div>Estimated PROFIT to generate: {estimateProfit}</div>
+                                <div>
+                                    {account && estimateProfit > 0 && !generating &&
+                                        <button className="btn" onClick={handleGenerate}>Generate</button>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </article>
+                </div>
+            </div>
         </section >
     )
 }

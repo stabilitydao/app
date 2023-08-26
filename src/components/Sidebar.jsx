@@ -127,17 +127,15 @@ function Sidebar({ Mode }) {
             <div className="flex flex-col mb-8">
                 <Link href="/">
                     <div style={{ height: 72, paddingLeft: 18 }} className="flex items-center py-2 cursor-pointer" onClick={() => { dispatch(updateSidebar(false)) }}>
-                        <img src="/logo40z.png" alt="Stability" className="h-10" />
-                        <span className="ml-3.5 text-xl font-bold">STABILITY</span>
+                        {/*<img src="/logo40z.png" alt="Stability" className="h-10" />*/}
+                        <span className="ml-3.5 text-xl font-bold">STABILITY V1</span>
                     </div>
                 </Link>
                 <ul className="mt-1">
                     <li><Link href="/"><a className={`${activeRoute === "/" ? "bg-indigo-600  text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><AiFillHome className="mr-2" />Home</a></Link></li>
-                    <li><Link href="/pools"><a className={`${activeRoute === "/pools" ? "bg-indigo-600  text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiServer className="mr-2" />Pools</a></Link></li>
                     <li><Link href="/dividends"><a className={`${activeRoute === "/dividends" ? "bg-indigo-600 text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><GiProfit className="mr-2" />Dividends</a></Link></li>
                     <li><Link href="/governance"><a className={`${activeRoute === "/governance" ? "bg-indigo-600  text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><RiGovernmentFill className="mr-2" />Governance</a></Link></li>
                     {/*<li><Link href="/profitmaker"><a className={`${activeRoute === "/profitmaker" ? "bg-indigo-600  text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BsPatchPlusFill className="mr-2" />Profit Maker</a></Link></li>*/}
-                    <li><Link href="/generation"><a className={`${activeRoute === "/generation" ? "bg-indigo-600  text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><GiRegeneration className="mr-2" />Generation</a></Link></li>
                 </ul>
                 <ul className="mt-5">
                     <li><Link href="/tokens"><a className={`${activeRoute === "/tokens" ? "bg-indigo-600  text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>

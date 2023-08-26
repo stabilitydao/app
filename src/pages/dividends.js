@@ -1,4 +1,4 @@
-import { Dividends } from '../components/view'
+import {Dividends} from '../components/view'
 function dividends() {
     return <Dividends />
 

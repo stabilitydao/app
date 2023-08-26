@@ -241,7 +241,7 @@ function Tokens() {
                                     <img src="/SDIV.svg" alt="profit" width="150" className="float-left my-2 ml-3 mr-7" />
                                     <div className="flex flex-col justify-between mt-1.5 pb-4">
                                         <div>
-                                            <Link href="/pools">
+                                            <Link href="/dividends">
                                                 <button title="Earn PROFIT token" className="w-24 py-1 text-xl rounded-md btn dark:bg-teal-700 dark:border-teal-600">
                                                     Earn
                                                 </button>
@@ -300,7 +300,7 @@ function Tokens() {
                                             <tr>
                                                 <td className="py-1 pr-10">Distribution</td>
                                                 <td className="py-1 text-right">
-                                                    <Link href="/pools">Minting pool</Link>
+                                                    <Link href="/dividends">Minting pool</Link>
                                                 </td>
                                             </tr>
                                         </tbody>
