@@ -8,7 +8,7 @@ function UserData(name) {
     return data
 }
 
-function About({ membersName }) {
+function Team({ membersName }) {
     const membersData = membersName.map((name) => {
         return UserData(name)
     })
@@ -16,108 +16,8 @@ function About({ membersName }) {
     return (
         <section className=" h-calc">
             <div className="container p-4 pt-24 lg:pt-0">
-                <h1 className="mb-4 text-4xl font-semibold leading-10 tracking-wide text-center text-indigo-500 sm:text-6xl font-Roboto">Meet StabilityDAO</h1>
                 <div className="">
                     <div>
-                        <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
-                            <img src="/logo.svg" alt="logo" width={512} height={512} />
-                            <div className="text-center mb-10">
-                                <h2 className="text-5xl mb-5">Revenue generation</h2>
-                                <p className="mt-0 mb-4 text-lg leading-normal text-left">
-                                    Stability is profit generating and distributing decentralized organization.<br />
-                                </p>
-                            </div>
-                            <div className='mb-10 text-center'>
-                                <h2 className="text-5xl mb-5">How it works?</h2>
-                                <img src="/revenue.png" alt="revenue" className='w-full h-auto' />
-                                <a href="/litepaper.pdf" target="_blank" rel="nofollow" className="">
-                                    <div className="w-60  my-8 h-10 dark:bg-indigo-800 dark:text-white dark:border-[#4e1173] py-0.5 px-4 rounded-xl cursor-pointer flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mx-auto">
-                                        Litepaper
-                                    </div>
-                                </a>
-                            </div>
-                        </article>
-                        <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
-                            <div className="container mb-10">
-                                <h2 className="text-center text-5xl mb-10">Roadmap</h2>
-                                <div className="flex md:px-6 max-w-5xl mx-auto text-left">
-                                    <div className="flex flex-col w-1/3">
-                                        <div className="flex h-12 text-2xl font-bold">
-                                            Q4 2021
-                                        </div>
-                                        <div className="flex flex-col text-lg">
-                                            <div className="flex relative">
-                                                <BsCheck className="absolute -left-6 text-2xl text-teal-400" />
-                                                <img src="/profit.png" alt="Profit" className="self-center w-5 h-5 mr-2" />
-                                                PROFIT
-                                            </div>
-                                            <div className="flex relative">
-                                                <BsCheck className="absolute -left-6 text-2xl text-teal-400" />
-                                                <img src="/SDIV200x200.png" alt="SDIV" className="self-center w-5 h-5 mr-2" />
-                                                Dividends
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col w-1/3">
-                                        <div className="flex h-12 text-2xl font-bold">
-                                            2022
-                                        </div>
-                                        <div className="flex flex-col text-lg items-start">
-                                            <div className="flex relative">
-                                                <BsCheck className="absolute -left-6 text-2xl text-teal-400" />
-                                                <img src="/pm.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
-                                                Profit Maker
-                                            </div>
-                                            <div className="relative"><BsCheck className="absolute -left-6 text-2xl text-teal-400" />On-chain governance</div>
-                                            <div className="relative flex">
-                                                <BsCheck className="absolute -left-6 text-2xl text-teal-400" />
-                                                <img src="/reactswap.png" alt="Rarest" className="self-center w-5 h-5 mr-2" />
-                                                <div className="flex font-bold">
-                                                    ReactSwap
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div className="flex flex-col w-1/3">
-                                        <div className="flex h-12 text-2xl font-bold">
-                                            2023+
-                                        </div>
-                                        <div className="flex flex-col text-lg">
-                                            <div>V2 (vaults, ve)</div>
-                                            <a className="w-44 border-0 inline-flex justify-start" href="https://purecube.io" target="_blank" rel="noopener noreferrer">
-                                                <img src="https://purecube.io/logo.svg" alt="Rarest" className="self-center w-5 h-5 mr-2" />
-                                                <div className="flex font-bold">
-                                                    PureCube
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </article>
-                        <article className="flex flex-col items-center mb-10 max-w-3xl mx-auto text-center">
-                            <div className="text-center mb-10">
-                                <h2 className="text-5xl mb-5">Tokenomics</h2>
-                                <p className="mt-0 mb-4 text-lg leading-normal text-left">
-                                    We base native $PROFIT token on fair tokenomics and launch model without pre-sale, initial offering and funding.
-                                    All entire supply goes to liquidity pools for public sale by Development Fund.
-                                </p>
-                                <div className="flex flex-col mt-0 mb-4 text-lg leading-normal text-center w-full">
-
-                                    <h3 className="flex text-2xl font-bold mx-auto">Token distribution</h3>
-                                    <ul className="text-left text-lg mx-auto py-2 font-bold">
-                                        <li><span className="inline-flex w-16 justify-end mr-6">100%</span> in circulation</li>
-                                        <li><span className="inline-flex w-16 justify-end mr-6">0%</span> team</li>
-                                        <li><span className="inline-flex w-16 justify-end mr-6">0%</span> infrastructure</li>
-                                        <li><span className="inline-flex w-16 justify-end mr-6">0%</span> partnership</li>
-                                        <li><span className="inline-flex w-16 justify-end mr-6">0%</span> VC investors</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </article>
                         <article className="mb-10 max-w-3xl mx-auto text-center">
                             <h2 className="text-5xl mb-5">Team</h2>
                             <div className="relative py-4 overflow-hidden rounded-xl text-left px-8">
@@ -188,4 +88,4 @@ function About({ membersName }) {
     )
 }
 
-export default About
+export default Team

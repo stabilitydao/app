@@ -245,17 +245,12 @@ function Home() {
                                         Stability
                                     </h1>
                                     <div className="text-xl font-medium leading-normal sm:text-2xl mb-4">
-                                        Profit generating decentralized organization
+                                        Asset management platform
                                     </div>
                                     <div className="flex w-full flex-wrap justify-center md:justify-start">
-                                        <Link href="/about">
+                                        <a href="https://book.stabilitydao.org" target="_blank" rel="nofollow">
                                             <div className="h-10 dark:bg-indigo-800 dark:text-white dark:border-[#4e1173] py-0.5 px-4 rounded-xl cursor-pointer flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mr-5 mb-5">
-                                                About
-                                            </div>
-                                        </Link>
-                                        <a href="/litepaper.pdf" target="_blank" rel="nofollow">
-                                            <div className="h-10 dark:bg-indigo-800 dark:text-white dark:border-[#4e1173] py-0.5 px-4 rounded-xl cursor-pointer flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mr-5 mb-5">
-                                                Litepaper
+                                                Stability Book
                                             </div>
                                         </a>
                                     </div>

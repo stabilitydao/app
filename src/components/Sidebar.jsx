@@ -128,7 +128,7 @@ function Sidebar({ Mode }) {
                 <Link href="/">
                     <div style={{ height: 72, paddingLeft: 18 }} className="flex items-center py-2 cursor-pointer" onClick={() => { dispatch(updateSidebar(false)) }}>
                         {/*<img src="/logo40z.png" alt="Stability" className="h-10" />*/}
-                        <span className="ml-3.5 text-xl font-bold">STABILITY V1</span>
+                        <span className="ml-3.5 text-xl font-bold">STABILITY DAO</span>
                     </div>
                 </Link>
                 <ul className="mt-1">
@@ -139,8 +139,8 @@ function Sidebar({ Mode }) {
                 </ul>
                 <ul className="mt-5">
                     <li><Link href="/tokens"><a className={`${activeRoute === "/tokens" ? "bg-indigo-600  text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiCoin className="mr-2" />Tokens</a></Link></li>
-                    <li><Link href="/about"><a className={`${activeRoute === "/about" ? "bg-indigo-600 text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />About</a></Link></li>
-                    <li><Link href="/faq"><a className={`${activeRoute === "/faq" ? "bg-indigo-600 text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Faq</a></Link></li>
+                    <li><Link href="/team"><a className={`${activeRoute === "/team" ? "bg-indigo-600 text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Team</a></Link></li>
+                    {/* <li><Link href="/faq"><a className={`${activeRoute === "/faq" ? "bg-indigo-600 text-white " : "text-black dark:text-white"} flex items-center py-2.5 text-xl pl-7 gap-x-2 `} onClick={() => { dispatch(updateSidebar(false)) }} ><BiGroup className="mr-2" />Faq</a></Link></li> */}
                 </ul>
             </div>
             <div className="flex flex-col items-center w-72 md:w-56 xl:w-60 bottom-2 gap-y-1">
@@ -187,7 +187,7 @@ function Sidebar({ Mode }) {
                     <li><a href="https://discord.gg/R3nnetWzC9" target="_blank" rel="noopener noreferrer" ><BsDiscord className="text-3xl cursor-pointer dark:text-white text-black" /></a></li>
                 </ul>
                 <div className="my-1 text-sm mb-4 dark:text-gray-300">
-                    © 2022 Stability
+                    © 2023 Stability DAO
                 </div>
             </div>
         </aside>
