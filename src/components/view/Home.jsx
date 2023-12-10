@@ -248,9 +248,14 @@ function Home() {
                                         Asset management platform
                                     </div>
                                     <div className="flex w-full flex-wrap justify-center md:justify-start">
+                                        <a href="https://stability.farm" target="_blank" rel="noreferrer">
+                                            <div className="h-10 dark:bg-indigo-800 dark:text-white dark:border-[#4e1173] py-0.5 px-4 rounded-xl cursor-pointer flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mr-5 mb-5">
+                                                Platform Alpha App
+                                            </div>
+                                        </a>
                                         <a href="https://book.stabilitydao.org" target="_blank" rel="noreferrer">
                                             <div className="h-10 dark:bg-indigo-800 dark:text-white dark:border-[#4e1173] py-0.5 px-4 rounded-xl cursor-pointer flex items-center justify-center mb-1 text-center text-indigo-700 text-lg font-Roboto mr-5 mb-5">
-                                                Stability Book
+                                                Book
                                             </div>
                                         </a>
                                     </div>
